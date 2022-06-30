@@ -1,18 +1,17 @@
-import GameRoom from "./pages/GameRoom";
-import Lobby from "./pages/Lobby";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+
 import { Route, Routes } from "react-router-dom";
-import Result from "./pages/Result";
+import Detail from "./pages/Detail";
+import Main from "./pages/Main";
+import MyPage from "./pages/Mypage";
+import Write from "./pages/Write";
 
 const Router = () => {
     return (
        <Routes>
-         <Route path="/" element={<Login />} />
-         <Route path="/register" element={<Register />} />
-         <Route path="/lobby" element={<Lobby />} />
-         <Route path="/room/:roomID" element={<GameRoom />} />
-         <Route path="/result" element={<Result />} />
+         <Route path="/" element={<Main />} />
+         <Route path="/detail/:id" element={<Detail />} />
+         <Route path="/write/:id" element={<Write />} />
+         <Route path="/mypage/*" element={<MyPage />} />
        </Routes>
     )
    }
