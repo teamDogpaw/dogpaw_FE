@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { useQuery } from "react-query";
 import React, { useState } from "react";
@@ -55,6 +56,7 @@ const Main = () => {
 
   return (
     <Wrap>
+    <Link to="/write">글쓰러 가기</Link>
       {data.data.map((list) => {
         return (
           <div
