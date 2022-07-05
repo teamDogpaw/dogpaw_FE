@@ -7,14 +7,23 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import store from './redux/configStore';
 import { Provider } from 'react-redux';
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+
+const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <Provider store={store}>
+
+  <QueryClientProvider client={queryClient}>
+  {/* <Provider store={store}> */}
     <BrowserRouter>
+    <ReactQueryDevtools initialIsOpen={true} />
       <App />
     </BrowserRouter>
-  // </Provider>
+  {/* </Provider> */}
+  </QueryClientProvider>
+
 
 
 );
