@@ -1,6 +1,10 @@
+import { Link } from "react-router-dom";
+
 const Main = () => {
     return (
-       null
+       <>
+       <Link to="/write">글쓰러 가기</Link>
+       </>
     )
    }
    
