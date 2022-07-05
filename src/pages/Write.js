@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import { useState } from "react";
 import { ko } from "date-fns/esm/locale"
 import Select from "react-select";
+import { MainBody } from "../styles/style";
 
 
 const Write = () => {
@@ -55,7 +56,7 @@ const Write = () => {
 
          <span onClick={() => navigate(-1)}> ⬅️ </span>
          <br />
-         <div>
+         <MainBody style={{marginBottom:"40px"}}>
 
             <input placeholder="컨텐츠 제목을 작성해주세요" required />
 
@@ -77,13 +78,16 @@ const Write = () => {
 
             <Select options={period}
                placeholder="기간을 선택해주세요." />
-         </div>
+         </MainBody>
 
+      <MainBody>
 
          <h3>프로젝트 소개</h3>
          <textarea placeholder="컨텐츠에 대한 설명을 작성해주세요." />
 
          <button type="submit">작성하기</button>
+      </MainBody>
+         
       </>
 
    )

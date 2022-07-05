@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 
 //전역 스타일링
 export const GlobalStyle = createGlobalStyle`
@@ -33,6 +33,7 @@ footer, header, hgroup, main, menu, nav, section {
 }
 body {
   line-height: 1;
+  background-color: #fff8e5;
 }
 menu, ol, ul {
   list-style: none;
@@ -53,5 +54,30 @@ table {
   box-sizing: border-box;
 }
 
+h1{
+  font-size: 40px;
+  font-weight: bold;
+}
+
+h3{
+  font-size: 24px;
+  font-weight: bold;
+}
+
+h4{
+ font-size : 20px;
+ font-weight: bold;
+}
 `;
 
+export const MainBody = styled.div`
+background-color: white;
+max-width: 996px;
+margin: auto;
+border-radius: 16px;
+padding: 32px;
+
+@media screen and (max-width: 996px){
+  margin: 0px 40px;
+}
+`;
