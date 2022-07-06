@@ -34,6 +34,7 @@ footer, header, hgroup, main, menu, nav, section {
 body {
   line-height: 1;
   background-color: #fff8e5;
+  font-size:16px;
 }
 menu, ol, ul {
   list-style: none;
@@ -80,4 +81,27 @@ padding: 32px;
 @media screen and (max-width: 996px){
   margin: 0px 40px;
 }
+`;
+
+export const Btn = styled.button`
+background-color: #ffb673;
+border-radius: 8px;
+padding: 12px 16px;
+border: 0px transparent;
+color: white;
+font-weight: bold;
+:hover {
+   background-color: #FF891C;
+}
+:active{
+   background-color: #D26500;
+}
+`;
+
+export const LineBtn = styled.button`
+background-color: transparent;
+border: 1px solid #777777;
+color: #777777;
+padding: 12px 16px;
+border-radius: 8px;
 `;
