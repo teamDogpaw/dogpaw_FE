@@ -8,6 +8,7 @@ import Select from "react-select";
 import { MainBody, Btn, LineBtn } from "../styles/style";
 import styled from "styled-components";
 import "../styles/style.css"
+import { MainBody } from "../styles/style";
 
 
 const Write = () => {
@@ -185,11 +186,44 @@ font-size: 16px;
 }
 `;
 
+         <MainBody style={{marginBottom:"40px"}}>
+
+            <input placeholder="컨텐츠 제목을 작성해주세요" required />
+
+            <DatePicker
+               locale={ko}
+               dateFormat="yyyy년MM월dd일"
+               selected={startDate} onChange={date => setStartDate(date)} />
+
+
+
+
+
+            <Select options={online}
+               onChange={setSelectOnline}
+               defaultValue={online[0]} />
+
+            <Select options={capacity}
+               placeholder="모집 인원을 선택해주세요." />
+
+            <Select options={period}
+               placeholder="기간을 선택해주세요." />
+         </MainBody>
+
+      <MainBody>
+
+
 const InputBtn = styled(Btn)`
 display: flex;
 margin-left: auto;
 
 `;
+
+         <button type="submit">작성하기</button>
+      </MainBody>
+         
+      </>
+
 
 const Publish = styled.div`
 display: flex;
