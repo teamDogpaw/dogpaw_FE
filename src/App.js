@@ -7,15 +7,18 @@ import { lightTheme, darkTheme } from './styles/theme';
 import { useRecoilValue } from 'recoil';
 import { DarkThemeAtom } from './atom/theme';
 
+
 function App() {
   const isDark = useRecoilValue(DarkThemeAtom)
   return (
 
 <<<<<<< Updated upstream
     <div className="App">
+      
       <GlobalStyle />
       <Header />
       <Router />
+      
     </div>
 =======
     <>
