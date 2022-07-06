@@ -12,7 +12,8 @@ import { ReactComponent as BookmarkFill } from "../styles/icon/Vector 33.svg";
 const Main = () => {
   const navigate = useNavigate();
   const [mark, setMark] = useState(false); 
-  const [toggle, setToggle] = useState(true);
+  const [toggle, setToggle] = useState(true); 
+
 
   const getPostList = () => {
     return axios.get("http://localhost:5001/allpost");
@@ -24,7 +25,7 @@ const Main = () => {
     {
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
-        console.log(data);
+        //console.log(data);
       },
       onError: (e) => {
         console.log(e.message);
@@ -39,7 +40,19 @@ const Main = () => {
     return <span>Error:{error.message}</span>;
   }
 
-  //console.log(data.data);
+  // console.log(data.data);
+
+//   const test = data.data.filter(item => item.deadline === toggle) // deadline :모집 마감 => true, 모집중 => false
+//  console.log(test)
+
+ const all = data.data
+ //console.log(all)
+
+ const mojib = toggle ? (all.filter(post => post.deadline === false)) : all;
+ console.log(mojib)
+ 
+
+  //toggle true : 모집중, false : 모두보기 
 
   const bookMark = () => {
     if (mark === false) {
@@ -54,6 +67,7 @@ const Main = () => {
     setToggle((prev) => !prev);
   };
 
+
   return (
     <>
       <Link to="/write">글쓰러 가기</Link>
@@ -62,10 +76,12 @@ const Main = () => {
         <ToggleBtn onClick={clickedToggle} toggle={toggle}>
           <Circle toggle={toggle} />
         </ToggleBtn>
-        {/* <h3>Toggle Switch {toggle ? "ON" : "OFF"}</h3> */}
+        {/* <h3>{toggle ? "모집중만" : "모두보기"}</h3> */}
       </ToggleWrap>
+
       <Wrap>
-        {data.data.map((list) => {
+        <ul style={{gap:"35px",flexWrap:"wrap"}}>
+        {mojib.map((list) => {
           return (
             <Article
               key={list.id}
@@ -112,6 +128,7 @@ const Main = () => {
             </Article>
           );
         })}
+        </ul>
       </Wrap>
     </>
   );
@@ -121,7 +138,7 @@ const Wrap = styled.div`
   height: 100vh;
   margin: auto;
   display: flex;
-  justify-content: space-evenly;
+  //justify-content: space-evenly;
   flex-wrap: wrap;
   gap: 30px;
   box-sizing: border-box;
@@ -129,10 +146,7 @@ const Wrap = styled.div`
   ul {
     display: flex;
   }
-  li {
-    margin-right: 5px;
-    color: #ffb673;
-  }
+  
   h1 {
     font-size: 25px;
   }
@@ -174,14 +188,14 @@ const Circle = styled.div`
     `}
 `;
 // 
-const Article = styled.div`
+const Article = styled.li`
   flex-wrap: wrap;
-  background-color: #fff;
+  background-color: ${(props)=> props.theme.divBackGroundColor};
   padding: 16px 20px;
   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.08);
   border-radius: 16px;
-  width: 30%;
-  height: 320px;
+  width: 300px;
+  height: 350px;
   position: relative;
 `;
 
@@ -202,6 +216,10 @@ padding-bottom:20px;
 const Hashtag = styled.div`
 position:absolute;
 bottom:70px;
+li {
+    margin-right: 5px;
+    color: #ffb673;
+  }
 
 `;
 const Footer = styled.div`
