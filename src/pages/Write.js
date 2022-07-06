@@ -167,6 +167,8 @@ border:1px solid #ddd;
 border-radius: 8px;
 font-size: 16px;
 -webkit-appearance: none;
+background-color: ${(props) => props.theme.inputBoxBackground};
+
 `;
 
 const ProjectTextarea = styled.textarea`
@@ -185,15 +187,10 @@ font-size: 16px;
 }
 `;
 
-
-
 const InputBtn = styled(Btn)`
 display: flex;
 margin-left: auto;
-
 `;
-
-
 
 
 const Publish = styled.div`
