@@ -10,6 +10,7 @@ import { useState } from "react";
 
 const Detail = () => {
   const [mark, setMark] = useState(false);
+  const [apply, setApply] = useState(false);
 
   const params = useParams();
   const id = params.id;
@@ -31,12 +32,19 @@ const Detail = () => {
 
   const bookMark = () => {
     //  북마크 체크
-    if (mark === false) {
-      setMark(true);
-    } else {
-      setMark(false);
-    }
+    // if (mark === false) {
+    //   setMark(true);
+    // } else {
+    //   setMark(false);
+    // }
+    setMark((mark)=>!mark)
   };
+
+  const applyBtn = () =>{
+   setApply((apply)=>!apply)
+  }
+
+ // console.log(mark)
   const content = detailQuery.data.data;
   //console.log(content);
   return (
@@ -76,7 +84,7 @@ const Detail = () => {
             <p> {content.startAt}</p>
             <p> {content.capacity} 명</p>
           </Content>
-          <Button>프로젝트 지원하기</Button>
+          { !apply ? (<Button onClick={applyBtn}>프로젝트 지원하기</Button>) :(<Button onClick={applyBtn}>지원 취소하기</Button>)}
         </ContentWrap>
       </ArticleTop>
 
@@ -93,7 +101,6 @@ const Wrap = styled.div`
   max-width: 996px;
   //height:100vh;
   margin: auto;
-
   box-sizing: border-box;
   h1 {
     font-size: 25px;
@@ -108,7 +115,7 @@ const Wrap = styled.div`
   }
 `;
 const ArticleTop = styled.article`
-  background-color: white;
+  background-color: ${(props)=> props.theme.divBackGroundColor};
   margin: auto;
   border-radius: 16px;
   padding: 32px;
@@ -159,6 +166,7 @@ const Stack = styled.div`
     border-radius: 24px;
     margin-right: 10px;
     text-align: center;
+    color:black;
     
   }
 `;
