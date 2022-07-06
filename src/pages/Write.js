@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ReactDatePicker from "react-datepicker";
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ko } from "date-fns/esm/locale"
 import Select from "react-select";
 import { MainBody, Btn, LineBtn } from "../styles/style";
@@ -13,103 +13,110 @@ import "../styles/style.css"
 const Write = () => {
    const title = React.useRef();
    const navigate = useNavigate();
-   const [selectCapacity, setSelectCapacity] = useState(null);
+   const [capacity, setCapacity] = useState("1명");
    const [startDate, setStartDate] = useState(new Date());
    console.log(startDate)
 
+   const [process, setProcess] = useState("온라인")
+   const [stack, setStack] = useState("스택을 선택해주세요")
+   const [period, setPeriod] = useState("예상 진행 기간")
 
-   const online = [
-      { value: "online", label: "온라인" },
-      { value: "offlone", label: "오프라인" }
-   ]
-
-   const [selectOnline, setSelectOnline] = useState(online[0]);
-
-   const capacity = [
-      { value: "tbd", label: "미정" },
-      { value: 1, label: "1명" },
-      { value: 2, label: "2명" },
-      { value: 3, label: "3명" },
-      { value: 4, label: "4명" },
-      { value: 5, label: "5명" },
-      { value: 6, label: "6명" },
-      { value: 7, label: "7명" },
-      { value: "10+", label: "10명 이상" }
-   ]
-
-   const period = [
-      { value: "tbd", label: "기간 미정" },
-      { value: "1개월", label: "1개월" },
-      { value: "2개월", label: "2개월" },
-      { value: "3개월", label: "3개월" },
-      { value: "4개월", label: "4개월" },
-      { value: "5개월", label: "5개월" },
-      { value: "6개월", label: "6개월" },
-   ]
-
-   console.log(selectOnline?.value)
-
-   const stack = [
-      {}
-   ]
-
+   useEffect(() => {
+      console.log(title.current.value)
+   }, [title])
 
    return (
       <>
-
          <span onClick={() => navigate(-1)}> ⬅️ </span>
          <br />
          <WriteBody>
 
-            <TitleInput placeholder="컨텐츠 제목을 작성해주세요" required />
+            <TitleInput placeholder="컨텐츠 제목을 작성해주세요" required ref={title} />
             <hr style={{ border: "1px solid #e2e2e2" }} />
-            <div style={{ display: "grid", gridTemplateColumns: "0.4fr 1fr", gridTemplateRows:"1fr 1fr 1fr 1fr 1fr"}}>
+            <div style={{ display: "grid", gridTemplateColumns: "150px auto", gridTemplateRows: "repeat(5, 1fr)", gap: "16px 0px", marginTop: "32px" }}>
 
-         
-                  <div>진행방식</div>
-                  <details>
-                     <summary
-                     
-                     > 온라인</summary>
-                        <span>선택해주세요!</span>
-                  </details>
-              
-                  {/* <SelectBox name="online">
+
+               <SelectTitle>진행방식</SelectTitle>
+               <details style={{ height: "40px" }}>
+                  <SelectBox>{process}</SelectBox>
+                  <SelectBoxOpen>
+                     <Option>온라인</Option>
+                     <Option>오프라인</Option>
+                  </SelectBoxOpen>
+
+               </details>
+
+               {/* <SelectBox name="online">
                      <option value="online">온라인</option>
                      <option value="online">오프라인</option>
                   </SelectBox> */}
-                  <div>구인스택</div>
-                  <SelectBox name="stack" placeholder="스택을 선택해주세요">
+               <SelectTitle>구인스택</SelectTitle>
+               <details style={{ height: "40px" }}>
+
+                  <SelectBox>{stack}</SelectBox>
+                  <SelectBoxOpen>
+                     <Option onClick={()=>setStack("Java")}>Java</Option>
+                     <Option>Javascript</Option>
+                     <Option>TypeScript</Option>
+                     <Option>React</Option>
+                     <Option>Vue</Option>
+                  </SelectBoxOpen>
+               </details>
+               {/* <SelectBox name="stack" placeholder="스택을 선택해주세요">
                      <option value="java">JAVA</option>
-                  </SelectBox>
-                  <div>예상 진행 기간</div>
-                  <SelectBox name="stack" placeholder="스택을 선택해주세요">
-                     <option value="java">JAVA</option>
-                  </SelectBox>
-                  <div>시작 예정일</div>
-                  <DatePicker
-                     showPopperArrow={false}
-                     fixedHeight
-                     locale={ko}
-                     dateFormat="yyyy.MM.dd (eee)"
-                     selected={startDate}
-                     minDate={new Date()}
-                     onChange={date => setStartDate(date)}/>
-                  <div>모집인원</div>
-                  <SelectBox name="stack" placeholder="스택을 선택해주세요">
-                     <option value="java">JAVA</option>
-                  </SelectBox>
+                  </SelectBox> */}
+               <SelectTitle>예상 진행 기간</SelectTitle>
+               <details style={{ height: "40px" }}>
+
+                  <SelectBox>{period}</SelectBox>
+                  <SelectBoxOpen>
+                     <Option>1개월 미만</Option>
+                     <Option>1개월</Option>
+                     <Option>2개월</Option>
+                     <Option>3개월</Option>
+                     <Option>4개월</Option>
+                     <Option>5개월</Option>
+                     <Option>6개월</Option>
+                     <Option>6개월 이상</Option>
+                     <Option>미정</Option>
+                  </SelectBoxOpen>
+               </details>
+               <SelectTitle>시작 예정일</SelectTitle>
+               <DateInput
+                  showPopperArrow={false}
+                  fixedHeight
+                  locale={ko}
+                  dateFormat="yyyy.MM.dd (eee)"
+                  selected={startDate}
+                  minDate={new Date()}
+                  onChange={date => setStartDate(date)} />
+               <SelectTitle>모집인원</SelectTitle>
+               <details style={{ height: "40px" }}>
+
+                  <SelectBox>{capacity}</SelectBox>
+                  <SelectBoxOpen>
+                     <Option>1명</Option>
+                     <Option>2명</Option>
+
+                     <Option>3명</Option>
+                     <Option>4명</Option>
+                     <Option>5명</Option>
+                     <Option>6명</Option>
+                     <Option>6명 이상</Option>
+                     <Option>미정</Option>
+                  </SelectBoxOpen>
+               </details>
 
 
-                 
 
 
-                
 
-                  
-             
 
-   
+
+
+
+
+
             </div>
          </WriteBody>
 
@@ -141,29 +148,48 @@ background-color: transparent;
    outline: none;
 }
 
+
+
 ::placeholder{
    color:#e2e2e2;
 }
 `;
 
-const DateInput = styled.input`
-max-width: 193px;
+const SelectTitle = styled.div`
+display: flex;
+align-items: center;
+`;
+
+const DateInput = styled(DatePicker)`
+background-color: ${(props) => props.theme.inputBoxBackground};
 height: 37px;
 padding: 5px 10px;
-border:1px solid #ddd;
+border: ${(props) => props.theme.border};
 border-radius: 8px;
 font-size: 16px;
--webkit-appearance: none;
 ::placeholder{
    color:#e2e2e2;
 }
 `;
 
-const SelectBox = styled.select`
-max-width:111x;
+// const SelectBox = styled.select`
+// max-width:111x;
+// height: 37px;
+// padding: 5px 10px;
+// border: ${(props) => props.theme.border};
+// border-radius: 8px;
+// font-size: 16px;
+// -webkit-appearance: none;
+// background-color: ${(props) => props.theme.inputBoxBackground};
+
+// `;
+
+const SelectBox = styled.summary`
+line-height: 25px;
+width: 200px;
 height: 37px;
 padding: 5px 10px;
-border:1px solid #ddd;
+border: ${(props) => props.theme.border};
 border-radius: 8px;
 font-size: 16px;
 -webkit-appearance: none;
@@ -173,8 +199,8 @@ background-color: ${(props) => props.theme.inputBoxBackground};
 
 const ProjectTextarea = styled.textarea`
 margin: 24px 0px;
-border: 1px solid #e2e2e2;
-background-color: #fbfbfb;
+border: ${(props) => props.theme.border};
+background-color: ${(props) => props.theme.textareaBackground};
 resize: none;
 width:100%;
 height: 160px;
@@ -192,6 +218,29 @@ display: flex;
 margin-left: auto;
 `;
 
+const SelectBoxOpen = styled.ul`
+max-height: 200px;
+
+z-index: 10;
+border-radius: 8px;
+position: absolute;
+width: 200px;
+border: ${(props) => props.theme.border};
+background-color: ${(props) => props.theme.inputBoxBackground};
+box-shadow: 0px 4px 4px 0px rgb(0,0,0,0.1);
+overflow: scroll;
+margin-top: 4px;
+
+`;
+
+const Option = styled.li`
+cursor: pointer;
+padding: 8px 12px;
+:hover{
+   background-color:${(props) => props.theme.keyColor};
+}
+
+`;
 
 const Publish = styled.div`
 display: flex;

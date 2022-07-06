@@ -33,7 +33,6 @@ footer, header, hgroup, main, menu, nav, section {
 }
 body {
   line-height: 1;
-  color:${(props)=>props.theme.TextColor};
   background-color: ${(props)=>props.theme.backgroundColor};
 }
 menu, ol, ul {
@@ -53,20 +52,27 @@ table {
 }
 * {
   box-sizing: border-box;
-  color:${(props)=>props.theme.textColor};
+  color:${(props)=>props.theme.textColor_sub};
+
 }
 
 h1{
+  color:${(props)=>props.theme.textColor};
+
   font-size: 40px;
   font-weight: bold;
 }
 
 h3{
+  color:${(props)=>props.theme.textColor};
+
   font-size: 24px;
   font-weight: bold;
 }
 
 h4{
+  color:${(props)=>props.theme.textColor};
+
  font-size : 20px;
  font-weight: bold;
 }
