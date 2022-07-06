@@ -12,15 +12,6 @@ function App() {
   const isDark = useRecoilValue(DarkThemeAtom)
   return (
 
-<<<<<<< Updated upstream
-    <div className="App">
-      
-      <GlobalStyle />
-      <Header />
-      <Router />
-      
-    </div>
-=======
     <>
           <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
 
@@ -30,7 +21,6 @@ function App() {
       </ThemeProvider>
       
     </>
->>>>>>> Stashed changes
   );
 }
 
