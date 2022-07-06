@@ -33,8 +33,13 @@ footer, header, hgroup, main, menu, nav, section {
 }
 body {
   line-height: 1;
+<<<<<<< Updated upstream
   background-color: #fff8e5;
   font-size:16px;
+=======
+  color:${(props)=>props.theme.TextColor};
+  background-color: ${(props)=>props.theme.backgroundColor};
+>>>>>>> Stashed changes
 }
 menu, ol, ul {
   list-style: none;
@@ -53,6 +58,7 @@ table {
 }
 * {
   box-sizing: border-box;
+  color:${(props)=>props.theme.textColor};
 }
 
 h1{
@@ -72,7 +78,7 @@ h4{
 `;
 
 export const MainBody = styled.div`
-background-color: white;
+background-color: ${(props)=> props.theme.divBackGroundColor};
 max-width: 996px;
 margin: auto;
 border-radius: 16px;
@@ -84,7 +90,11 @@ padding: 32px;
 `;
 
 export const Btn = styled.button`
+<<<<<<< Updated upstream
 background-color: #ffb673;
+=======
+background-color: ${(props)=> props.theme.keyColor};
+>>>>>>> Stashed changes
 border-radius: 8px;
 padding: 12px 16px;
 border: 0px transparent;
@@ -104,4 +114,8 @@ border: 1px solid #777777;
 color: #777777;
 padding: 12px 16px;
 border-radius: 8px;
+<<<<<<< Updated upstream
 `;
+=======
+`;
+>>>>>>> Stashed changes

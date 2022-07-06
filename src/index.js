@@ -9,6 +9,10 @@ import store from './redux/configStore';
 import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { RecoilRoot } from 'recoil';
+
+
+
 
 const queryClient = new QueryClient();
 
@@ -16,12 +20,19 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 
   <QueryClientProvider client={queryClient}>
-  {/* <Provider store={store}> */}
+    {/* <Provider store={store}> */}
+    <RecoilRoot>
     <BrowserRouter>
-    <ReactQueryDevtools initialIsOpen={true} />
-      <App />
+      <ReactQueryDevtools initialIsOpen={true} />
+    
+        <App />
+   
+
+
+
     </BrowserRouter>
-  {/* </Provider> */}
+    </RecoilRoot>
+    {/* </Provider> */}
   </QueryClientProvider>
 
 

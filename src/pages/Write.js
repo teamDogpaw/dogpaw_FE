@@ -67,18 +67,73 @@ const Write = () => {
 
 
 
+<<<<<<< Updated upstream
+=======
+::placeholder{
+   color:#e2e2e2;
+}
+`;
+
+
+const DateInput = styled.input`
+max-width: 193px;
+height: 37px;
+padding: 5px 10px;
+border:1px solid #ddd;
+border-radius: 8px;
+font-size: 16px;
+-webkit-appearance: none;
+::placeholder{
+   color:#e2e2e2;
+}
+`;
+
+const SelectBox = styled.select`
+max-width:111x;
+height: 37px;
+padding: 5px 10px;
+border:1px solid #ddd;
+border-radius: 8px;
+font-size: 16px;
+-webkit-appearance: none;
+background-color: ${(props) => props.theme.inputBoxBackground};
+`;
+
+const ProjectTextarea = styled.textarea`
+margin: 24px 0px;
+border: 1px solid #e2e2e2;
+background-color: #fbfbfb;
+resize: none;
+width:100%;
+height: 160px;
+border-radius: 8px;
+padding: 12px;
+font-size: 16px;
+
+:focus{
+   outline: none;
+}
+`;
+>>>>>>> Stashed changes
 
 
             <Select options={online}
                onChange={setSelectOnline}
                defaultValue={online[0]} />
 
+<<<<<<< Updated upstream
             <Select options={capacity}
                placeholder="모집 인원을 선택해주세요." />
 
             <Select options={period}
                placeholder="기간을 선택해주세요." />
          </MainBody>
+=======
+const InputBtn = styled(Btn)`
+display: flex;
+margin-left: auto;
+`;
+>>>>>>> Stashed changes
 
       <MainBody>
 
