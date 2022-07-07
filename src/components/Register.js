@@ -1,23 +1,24 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
-
 import axios from "axios";
+import Stack from "./Stack";
 
 const Register = () => {
-  //아이디, 이메일, 비밀번호, 비밀번호 확인
-  const [id, setId] = useState("");
+  //아이디, 이메일, 비밀번호, 비밀번호 확인, 스택
+  const [nickName, setNickName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [stacks, setStacks] = useState([]);
 
   //오류메시지 상태저장
-  const [idMessage, setIdMessage] = useState("");
+  const [nickMessage, setNickMessage] = useState("");
   const [emailMessage, setEmailMessage] = useState("");
   const [passwordMessage, setPasswordMessage] = useState("");
   const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("");
 
   // 유효성 검사
-  const [isId, setIsId] = useState(false);
+  const [isNick, setIsNick] = useState(false);
   const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
@@ -25,35 +26,46 @@ const Register = () => {
   // 회원가입 정보
   const onSubmit = async () => {
     let data = {
-      userId: id,
+      nickname: nickName,
       password,
-      email,
-      confirmPassword: passwordConfirm,
+      username: email,
+      stacks: ["java", "javascript"],
     };
     //console.log(data);
     try {
-      await axios
-        .post("http://13.124.188.218/users/signup", data)
-        .then((res) => {
-          console.log(res, "회원가입");
-          window.alert("회원가입 성공 :)");
-          window.location.replace("/login");
-        });
+      await axios.post("http://13.125.213.81/user/signup", data).then((res) => {
+        console.log(res, "회원가입");
+        window.alert("회원가입 성공 :)");
+        window.location.replace("/login");
+      });
     } catch (err) {
       console.log(err);
       window.alert(err.request.response);
     }
   };
 
+  // 닉네임 중복 확인
+  const nickCheck = async () => {
+    let data = {
+      nickname: nickName,
+    };
+    try {
+      await axios
+        .post("http://13.125.213.81/user/nickname", data)
+        .then((res) => console.log(res, "닉네임 중복확인"));
+    } catch (err) {
+      console.log(err);
+    }
+  };
   // 아이디
   const onChangeId = useCallback((e) => {
-    setId(e.target.value);
+    setNickName(e.target.value);
     if (e.target.value.length < 3 || e.target.value.length > 10) {
-      setIdMessage("3글자 이상, 10글자 미만으로 입력해주세요.");
-      setIsId(false);
+      setNickMessage("3글자 이상, 10글자 미만으로 입력해주세요.");
+      setIsNick(false);
     } else {
-      setIdMessage("알맞게 작성되었습니다 :)");
-      setIsId(true);
+      setNickMessage("알맞게 작성되었습니다 :)");
+      setIsNick(true);
     }
   }, []);
 
@@ -118,6 +130,7 @@ const Register = () => {
           type="email"
           typeName="email"
           onChange={onChangeEmail}
+          placeholder="이메일을 입력해주세요."
         />
         <Pone>
           {email.length > 0 && (
@@ -132,13 +145,14 @@ const Register = () => {
           type="text"
           typeName="id"
           onChange={onChangeId}
-          style={{ width: "320px" }}
+          placeholder="닉네임을 입력해주세요."
+          style={{ width: "380px" }}
         />
-        <NICK_BTN>중복확인</NICK_BTN>
+        <NICK_BTN onClick={nickCheck}>중복확인</NICK_BTN>
         <Pone>
-          {id.length > 0 && (
-            <span className={`message ${isId ? "success" : "error"}`}>
-              {idMessage}
+          {nickName.length > 0 && (
+            <span className={`message ${isNick ? "success" : "error"}`}>
+              {nickMessage}
             </span>
           )}
         </Pone>
@@ -149,6 +163,7 @@ const Register = () => {
           title="비밀번호"
           typeTitle="password"
           type="password"
+          placeholder="비밀번호를 입력해주세요."
         />
         <Pone>
           {password.length > 0 && (
@@ -163,6 +178,7 @@ const Register = () => {
           title="비밀번호 확인"
           typeTitle="passwordConfirm"
           type="password"
+          placeholder="비밀번호를 다시 한번 입력해주세요."
         />
         <Pone>
           {passwordConfirm.length > 0 && (
@@ -174,15 +190,16 @@ const Register = () => {
           )}
         </Pone>
       </Comments>
+      <Stack />
       <SignUpBtn
         type="submit"
         disabled={
           !(
-            isId &&
+            isNick &&
             isEmail &&
             isPassword &&
             isPasswordConfirm &&
-            id &&
+            nickName &&
             email &&
             password &&
             passwordConfirm
@@ -242,7 +259,7 @@ const NICK_BTN = styled.button`
   margin: 0 0 0 1rem;
   border: none;
   border-radius: 12px;
-  width: 160px;
+  width: 100px;
   height: 3rem;
   font-size: 16px;
 `;
