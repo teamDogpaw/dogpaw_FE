@@ -11,19 +11,39 @@ import "../styles/style.css"
 
 
 const Write = () => {
+   const [selectedData, setSelectedData] = useState({
+      title:"",
+      capacity:1,
+      period:0,
+      stack:[],
+      process:"",
+      startDate:useState(new Date())
+   })
    const title = React.useRef();
    const navigate = useNavigate();
    const [capacity, setCapacity] = useState("1명");
    const [startDate, setStartDate] = useState(new Date());
    console.log(startDate)
 
+   const handleTitle = title => {
+      setSelectedData(prev => ({...prev,title}));
+   }
+
+   const period = [1,2,3,4,5,6]
+
+   const handleCapacity = capacity => {
+      setSelectedData(prev => ({...prev,capacity}));
+   }
+
+
+   
    const [process, setProcess] = useState("온라인")
    const [stack, setStack] = useState("스택을 선택해주세요")
-   const [period, setPeriod] = useState("예상 진행 기간")
+   const [selectperiod, setSelectPeriod] = useState("예상 진행 기간")
 
    useEffect(() => {
-      console.log(title.current.value)
-   }, [title])
+      console.log(selectedData.title.target?.value)
+   }, [selectedData])
 
    return (
       <>
@@ -31,13 +51,19 @@ const Write = () => {
          <br />
          <WriteBody>
 
-            <TitleInput placeholder="컨텐츠 제목을 작성해주세요" required ref={title} />
+            <TitleInput placeholder="컨텐츠 제목을 작성해주세요" 
+            required onChange={handleTitle} maxLength={20}/>
+
             <hr style={{ border: "1px solid #e2e2e2" }} />
-            <div style={{ display: "grid", gridTemplateColumns: "150px auto", gridTemplateRows: "repeat(5, 1fr)", gap: "16px 0px", marginTop: "32px" }}>
+
+            <div style={{ display: "grid", 
+            gridTemplateColumns: "150px auto", 
+            gridTemplateRows: "repeat(5, 1fr)", 
+            gap: "16px 0px", marginTop: "32px" }}>
 
 
                <SelectTitle>진행방식</SelectTitle>
-               <details style={{ height: "40px" }}>
+               <details style={{ height: "40px"}}>
                   <SelectBox>{process}</SelectBox>
                   <SelectBoxOpen>
                      <Option>온라인</Option>
@@ -68,17 +94,13 @@ const Write = () => {
                <SelectTitle>예상 진행 기간</SelectTitle>
                <details style={{ height: "40px" }}>
 
-                  <SelectBox>{period}</SelectBox>
+                  <SelectBox>{selectperiod}</SelectBox>
                   <SelectBoxOpen>
-                     <Option>1개월 미만</Option>
-                     <Option>1개월</Option>
-                     <Option>2개월</Option>
-                     <Option>3개월</Option>
-                     <Option>4개월</Option>
-                     <Option>5개월</Option>
-                     <Option>6개월</Option>
-                     <Option>6개월 이상</Option>
-                     <Option>미정</Option>
+                     {period.map(month => (
+                        <Option key={month}
+                        onClick={()=>{setSelectPeriod(`${month}개월`)}}>{month}개월</Option>
+                     ))}
+            
                   </SelectBoxOpen>
                </details>
                <SelectTitle>시작 예정일</SelectTitle>
@@ -91,10 +113,10 @@ const Write = () => {
                   minDate={new Date()}
                   onChange={date => setStartDate(date)} />
                <SelectTitle>모집인원</SelectTitle>
-               <details style={{ height: "40px" }}>
+               <details style={{ height: "40px" }} >
 
-                  <SelectBox>{capacity}</SelectBox>
-                  <SelectBoxOpen>
+                  <SelectBox onChange={handleCapacity}>{selectedData.capacity}명</SelectBox>
+                  <SelectBoxOpen >
                      <Option>1명</Option>
                      <Option>2명</Option>
 
@@ -106,16 +128,6 @@ const Write = () => {
                      <Option>미정</Option>
                   </SelectBoxOpen>
                </details>
-
-
-
-
-
-
-
-
-
-
 
             </div>
          </WriteBody>
