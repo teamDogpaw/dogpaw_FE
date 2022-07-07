@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { Btn, ListProfilePic, ListStack } from "../styles/style";
 
 const Bookmark = () => {
+
   const GetMyBookmark = () => {
     return axios.get(`http://localhost:5000/mybookmark`)
   }
@@ -58,7 +59,6 @@ const Bookmark = () => {
 
   );
 };
-
 
 
 export default Bookmark;
