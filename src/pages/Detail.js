@@ -189,9 +189,15 @@ const Button = styled.button`
   font-size: 20px;
   font-weight: 700;
   position: absolute;
-  right: 10px;
+  right: 0px;
   bottom: 0px;
   cursor: pointer;
+  :hover {
+   background-color: #FF891C;
+}
+:active{
+   background-color: #D26500;
+}
 `;
 
 export default Detail;

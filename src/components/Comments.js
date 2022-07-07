@@ -105,6 +105,7 @@ const CommentBox = styled.div`
   flex-direction: column;
   position: relative;
   height: 140px;
+  
 `;
 const Input = styled.input`
   width: 100%;
@@ -113,6 +114,7 @@ const Input = styled.input`
   border: 1px solid #e2e2e2;
   border-radius: 8px;
   outline: none;
+  background-color: ${(props)=> props.theme.inputBoxBackground};
 `;
 
 const Button = styled.button`
@@ -126,6 +128,12 @@ const Button = styled.button`
   right: 0;
   bottom: 0;
   cursor: pointer;
+  :hover {
+   background-color: #FF891C;
+}
+:active{
+   background-color: #D26500;
+}
 `;
 
 const CommentList = styled.div`

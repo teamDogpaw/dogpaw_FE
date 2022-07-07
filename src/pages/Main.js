@@ -5,15 +5,14 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import styled, { css } from "styled-components";
-import {ReactComponent as CommentIcon} from "../styles/icon/u_comment-alt-lines.svg";
+import { ReactComponent as CommentIcon } from "../styles/icon/u_comment-alt-lines.svg";
 import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/Vector 33.svg";
 
 const Main = () => {
   const navigate = useNavigate();
-  const [mark, setMark] = useState(false); 
-  const [toggle, setToggle] = useState(true); 
-
+  const [mark, setMark] = useState(false);
+  const [toggle, setToggle] = useState(true);
 
   const getPostList = () => {
     return axios.get("http://localhost:5001/allpost");
@@ -42,17 +41,16 @@ const Main = () => {
 
   // console.log(data.data);
 
-//   const test = data.data.filter(item => item.deadline === toggle) // deadline :모집 마감 => true, 모집중 => false
-//  console.log(test)
+  //   const test = data.data.filter(item => item.deadline === toggle) // deadline :모집 마감 => true, 모집중 => false
+  //  console.log(test)
 
- const all = data.data
- //console.log(all)
+  const all = data.data;
+  //console.log(all)
 
- const mojib = toggle ? (all.filter(post => post.deadline === false)) : all;
- console.log(mojib)
- 
+  const mojib = toggle ? all.filter((post) => post.deadline === false) : all;
+  console.log(mojib);
 
-  //toggle true : 모집중, false : 모두보기 
+  //toggle true : 모집중, false : 모두보기
 
   const bookMark = () => {
     if (mark === false) {
@@ -67,20 +65,18 @@ const Main = () => {
     setToggle((prev) => !prev);
   };
 
-
   return (
-    <>
+    <Wrap>
       <Link to="/write">글쓰러 가기</Link>
       <ToggleWrap>
-        <h3>모집중만 보기</h3>
+        <h3>모집중</h3>
         <ToggleBtn onClick={clickedToggle} toggle={toggle}>
           <Circle toggle={toggle} />
         </ToggleBtn>
         {/* <h3>{toggle ? "모집중만" : "모두보기"}</h3> */}
       </ToggleWrap>
-
-      <Wrap>
-        <ul style={{gap:"35px",flexWrap:"wrap"}}>
+      <ArticleWrap>
+        
         {mojib.map((list) => {
           return (
             <Article
@@ -89,6 +85,8 @@ const Main = () => {
                 navigate("/detail/" + list.id);
               }}
             >
+            
+              {/* <div>{list.deadline? (<Deadline><p>마감</p></Deadline>):""}</div>   */}
               {list.bookmark ? (
                 <BookmarkFill onClick={bookMark} />
               ) : (
@@ -108,7 +106,7 @@ const Main = () => {
                   <p style={{ color: "#ffb673" }}>#{list.online}</p>
                 </Hashtag>
               </Content>
-
+                    
               <Footer>
                 <User>
                   <img src={list.profileImg} alt="profileImg" />
@@ -128,25 +126,32 @@ const Main = () => {
             </Article>
           );
         })}
-        </ul>
-      </Wrap>
-    </>
+      </ArticleWrap>
+    </Wrap>
   );
 };
 const Wrap = styled.div`
-  max-width: 996px;
+  /* max-width: 996px;
   height: 100vh;
   margin: auto;
   display: flex;
   //justify-content: space-evenly;
   flex-wrap: wrap;
   gap: 30px;
-  box-sizing: border-box;
+  box-sizing: border-box; */
 
+  max-width: 996px;
+  margin: auto;
+  border-radius: 16px;
+  padding: 32px;
+
+  @media screen and (max-width: 996px) {
+    margin: 0px 40px;
+  }
   ul {
     display: flex;
   }
-  
+
   h1 {
     font-size: 25px;
   }
@@ -156,8 +161,9 @@ const Wrap = styled.div`
 `;
 // 토글 스위치
 const ToggleWrap = styled.div`
-display:flex;
-align-items:center;
+  display: flex;
+  align-items: center;
+  margin-bottom:20px;
 `;
 const ToggleBtn = styled.button`
   width: 60px;
@@ -166,6 +172,7 @@ const ToggleBtn = styled.button`
   border: none;
   cursor: pointer;
   background-color: ${(props) => (props.toggle ? "#ffb673" : "none")};
+  margin-left:10px;
   position: relative;
   display: flex;
   justify-content: center;
@@ -187,48 +194,60 @@ const Circle = styled.div`
       transition: all 0.5s ease-in-out;
     `}
 `;
-// 
-const Article = styled.li`
+//
+
+const ArticleWrap = styled.ul`
+  gap: 35px;
+  display: flex;
   flex-wrap: wrap;
-  background-color: ${(props)=> props.theme.divBackGroundColor};
+`;
+const Article = styled.li`
+  background-color: ${(props) => props.theme.divBackGroundColor};
   padding: 16px 20px;
   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.08);
   border-radius: 16px;
-  width: 300px;
+  width: calc((100% - (35px * 2)) / 3);
   height: 350px;
   position: relative;
+  flex-wrap: wrap;
 `;
 
 const Date = styled.p`
- color: #8B8B8B;
- display:flex;
- justify-content:flex-end;
-
+  color: #8b8b8b;
+  display: flex;
+  justify-content: flex-end;
 `;
 const Content = styled.div`
-margin :20px 0;
-h1{
-padding-bottom:20px;
-
-}
+  margin: 20px 0;
+  h1 {
+    padding-bottom: 20px;
+  }
 `;
 
 const Hashtag = styled.div`
-position:absolute;
-bottom:70px;
-li {
+  position: absolute;
+  bottom: 70px;
+  li {
     margin-right: 5px;
     color: #ffb673;
   }
+`;
 
+const Deadline = styled.div`
+  padding: 15px;
+ 
+  border-radius:8px;
+  font-weight: bold;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.3);
 `;
 const Footer = styled.div`
   display: flex;
   width: 85%;
   justify-content: space-between;
   align-items: center;
-  position:absolute;
-  bottom:20px;
+  position: absolute;
+  bottom: 20px;
 
   svg {
     margin-right: 5px;
@@ -257,7 +276,5 @@ const Bookmark = styled.div`
 const Info = styled.div`
   display: flex;
 `;
-
-
 
 export default Main;
