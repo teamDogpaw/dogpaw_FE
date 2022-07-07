@@ -10,12 +10,14 @@ import { useState } from "react";
 
 const Detail = () => {
   const [mark, setMark] = useState(false);
+  const [apply, setApply] = useState(false);
 
   const params = useParams();
-  const id = params.id;
+  const postId = params
 
   const getPostList = () => {
-    return axios.get(`http://localhost:5001/allpost/${id}`);
+    //return axios.get(`http://localhost:5001/allpost/${id}`);
+    return axios.get(`http://13.125.213.81/api/post/detail/${postId}`);
   };
 
   const detailQuery = useQuery("detailList", getPostList, {
@@ -23,20 +25,31 @@ const Detail = () => {
     onSuccess: (data) => {
       //console.log("성공", data);
     },
+    onError: (e) => {
+      console.log(e.message);
+    },
   });
 
   if (detailQuery.isLoading) {
-    return null;
+    return <span>Loding...</span>;
   }
+ 
 
   const bookMark = () => {
     //  북마크 체크
-    if (mark === false) {
-      setMark(true);
-    } else {
-      setMark(false);
-    }
+    // if (mark === false) {
+    //   setMark(true);
+    // } else {
+    //   setMark(false);
+    // }
+    setMark((mark)=>!mark)
   };
+
+  const applyBtn = () =>{
+   setApply((apply)=>!apply)
+  }
+
+ // console.log(mark)
   const content = detailQuery.data.data;
   //console.log(content);
   return (
@@ -76,7 +89,7 @@ const Detail = () => {
             <p> {content.startAt}</p>
             <p> {content.capacity} 명</p>
           </Content>
-          <Button>프로젝트 지원하기</Button>
+          { !apply ? (<Button onClick={applyBtn}>프로젝트 지원하기</Button>) :(<Button onClick={applyBtn}>지원 취소하기</Button>)}
         </ContentWrap>
       </ArticleTop>
 
@@ -93,7 +106,6 @@ const Wrap = styled.div`
   max-width: 996px;
   //height:100vh;
   margin: auto;
-
   box-sizing: border-box;
   h1 {
     font-size: 25px;
@@ -108,7 +120,7 @@ const Wrap = styled.div`
   }
 `;
 const ArticleTop = styled.article`
-  background-color: white;
+  background-color: ${(props)=> props.theme.divBackGroundColor};
   margin: auto;
   border-radius: 16px;
   padding: 32px;
@@ -159,6 +171,7 @@ const Stack = styled.div`
     border-radius: 24px;
     margin-right: 10px;
     text-align: center;
+    color:black;
     
   }
 `;
@@ -171,7 +184,7 @@ const Article = styled(ArticleTop)`
 `;
 
 const Button = styled.button`
-  height: 53px;
+  height: 50px;
   width: 200px;
   background-color: #ffb673;
   border: none;
@@ -180,10 +193,20 @@ const Button = styled.button`
   padding: 16px 24px;
   font-size: 20px;
   font-weight: 700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   position: absolute;
-  right: 10px;
+  right: 0px;
   bottom: 0px;
   cursor: pointer;
+  
+  :hover {
+    background-color: #ff891c;
+  }
+  :active {
+    background-color: #d26500;
+  }
 `;
 
 export default Detail;
