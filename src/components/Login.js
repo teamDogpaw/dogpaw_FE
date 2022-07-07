@@ -8,38 +8,39 @@ function Login() {
   const navigate = useNavigate();
 
   //아이디, 비밀번호
-  const [id, setId] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   //오류메시지 상태저장
-  const [idMessage, setIdMessage] = useState("");
+  const [emailMessage, setEmailMessage] = useState("");
   const [passwordMessage, setPasswordMessage] = useState("");
 
   // 유효성 검사
-  const [isId, setIsId] = useState(false);
+  const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
 
   // 로그인 정보를 보내면 토큰을 받음.
   const onSubmit = async (e) => {
     let data = {
-      userId: id,
+      username: email,
       password,
     };
     //console.log(data);
 
     try {
-      await axios
-        .post("http://13.124.188.218/users/login", data)
-        .then((res) => {
-          const accessToken = res.data.token;
-          if (accessToken !== null) {
-            localStorage.setItem("token", accessToken);
-            localStorage.setItem("id", res.data.userId);
-            console.log(res, "로그인");
-            window.alert(res.data.message);
-            window.location.replace("/main");
-          }
-        });
+      await axios.post("http://13.125.213.81/user/login", data).then((res) => {
+        const accessToken = res.data.data.token.accessToken;
+        const refreshToken = res.data.data.token.refreshToken;
+        const id = res.data.data.userId;
+        if (accessToken !== null) {
+          localStorage.setItem("token", accessToken);
+          localStorage.setItem("retoken", refreshToken);
+          localStorage.setItem("id", id);
+          console.log(res, "로그인");
+          window.alert(res.data.message);
+          window.location.replace("/main");
+        }
+      });
     } catch (err) {
       console.log(err);
       window.alert(err.response.data);
@@ -48,13 +49,17 @@ function Login() {
 
   // 아이디
   const onChangeId = useCallback((e) => {
-    setId(e.target.value);
-    if (e.target.value.length < 3 || e.target.value.length > 10) {
-      setIdMessage("3글자 이상, 10글자 미만으로 입력해주세요.");
-      setIsId(false);
+    const emailRegex =
+      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    const emailCurrent = e.target.value;
+    setEmail(emailCurrent);
+
+    if (!emailRegex.test(emailCurrent)) {
+      setEmailMessage("이메일 형식을 다시 한번 확인해 주세요.");
+      setIsEmail(false);
     } else {
-      setIdMessage("알맞게 작성되었습니다 :)");
-      setIsId(true);
+      setEmailMessage("알맞게 작성되었습니다 :)");
+      setIsEmail(true);
     }
   }, []);
 
@@ -90,9 +95,9 @@ function Login() {
           placeholder="이메일을 입력해주세요."
         />
         <Pone>
-          {id.length > 0 && (
-            <span className={`message ${isId ? "success" : "error"}`}>
-              {idMessage}
+          {email.length > 0 && (
+            <span className={`message ${isEmail ? "success" : "error"}`}>
+              {emailMessage}
             </span>
           )}
         </Pone>
@@ -115,7 +120,7 @@ function Login() {
 
       <SignInBtn
         type="submit"
-        disabled={!(isId && isPassword && id && password)}
+        disabled={!(isEmail && isPassword && email && password)}
         onClick={onSubmit}
       >
         로그인
