@@ -13,10 +13,11 @@ const Detail = () => {
   const [apply, setApply] = useState(false);
 
   const params = useParams();
-  const id = params.id;
+  const postId = params
 
   const getPostList = () => {
-    return axios.get(`http://localhost:5001/allpost/${id}`);
+    //return axios.get(`http://localhost:5001/allpost/${id}`);
+    return axios.get(`http://13.125.213.81/api/post/detail/${postId}`);
   };
 
   const detailQuery = useQuery("detailList", getPostList, {
@@ -24,11 +25,15 @@ const Detail = () => {
     onSuccess: (data) => {
       //console.log("성공", data);
     },
+    onError: (e) => {
+      console.log(e.message);
+    },
   });
 
   if (detailQuery.isLoading) {
-    return null;
+    return <span>Loding...</span>;
   }
+ 
 
   const bookMark = () => {
     //  북마크 체크
@@ -179,7 +184,7 @@ const Article = styled(ArticleTop)`
 `;
 
 const Button = styled.button`
-  height: 53px;
+  height: 50px;
   width: 200px;
   background-color: #ffb673;
   border: none;
@@ -188,16 +193,20 @@ const Button = styled.button`
   padding: 16px 24px;
   font-size: 20px;
   font-weight: 700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   position: absolute;
   right: 0px;
   bottom: 0px;
   cursor: pointer;
+  
   :hover {
-   background-color: #FF891C;
-}
-:active{
-   background-color: #D26500;
-}
+    background-color: #ff891c;
+  }
+  :active {
+    background-color: #d26500;
+  }
 `;
 
 export default Detail;

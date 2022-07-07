@@ -1,5 +1,4 @@
-import axios from "axios";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import {
@@ -9,12 +8,13 @@ import {
 } from "../hook/CommentData";
 
 
-
 const Comments = () => {
+  const [isEdit,setIsEdit] = useState(false);
   const params = useParams();
   const comment_ref = useRef("");
 
   const id = params.id;
+  //console.log(id)
 
   const onSuccess = (data) => {
     console.log(data);
@@ -42,11 +42,13 @@ const Comments = () => {
   };
 
   const handleAddCommentClick = () => {
-    const data = { comment: comment_ref.current.value };
+    const comment = { comment: comment_ref.current.value };
     comment_ref.current.value = "";
-    addComments(data);
+    addComments(comment);
   };
-  const handleDeleteComment = () => {};
+  const handleDeleteComment = (id) => {
+    deleteComments(id)
+  };
 
   if (isLoading) {
     return <span>Loding...</span>;
@@ -56,9 +58,14 @@ const Comments = () => {
     return <span>Error:{error.message}</span>;
   }
 
-  //console.log(data.data);
+  const openEdit = () => {
+    setIsEdit(true)
+}
+
+
   return (
     <Wrap>
+      <h3>댓글 {data.data.length}개</h3>
       <CommentBox>
         <Input
           type="text"
@@ -78,11 +85,11 @@ const Comments = () => {
                 <p>{list.nickname}</p>
               </User>
               <Comment>
-                <p>{list.comment}</p>
+               {isEdit ? (<input type="text" defaultValue={list.comment}/>) : (<p>{list.comment}</p>)}
                 <p>{list.modifedAt}</p>
               </Comment>
-              <button>삭제</button>
-              <button>수정</button>
+              <button onClick={handleDeleteComment}>삭제</button>
+              <button onClick={openEdit}>수정</button>
               <hr style={{ color: "#e2e2e2" }} />
             </div>
           );
@@ -105,6 +112,7 @@ const CommentBox = styled.div`
   flex-direction: column;
   position: relative;
   height: 140px;
+  margin-top:10px;
   
 `;
 const Input = styled.input`
@@ -120,13 +128,14 @@ const Input = styled.input`
 const Button = styled.button`
   background: #ffb673;
   color: #fff;
-  font-weight: 700;
+  font-weight: 600;
   border-radius: 8px;
   border: none;
   padding: 8px 12px;
   position: absolute;
   right: 0;
   bottom: 0;
+  
   cursor: pointer;
   :hover {
    background-color: #FF891C;
