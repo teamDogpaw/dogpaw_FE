@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import React, { useEffect, useState } from "react";
 import { ko } from "date-fns/esm/locale"
 import Select from "react-select";
-import { MainBody, Btn, LineBtn } from "../styles/style";
+import { MainBody, Btn, LineBtn, MyStack } from "../styles/style";
 import styled from "styled-components";
 import "../styles/style.css"
 
@@ -38,12 +38,23 @@ const Write = () => {
 
    
    const [process, setProcess] = useState("온라인")
-   const [stack, setStack] = useState("스택을 선택해주세요")
+   const [stack, setStack] = useState([])
    const [selectperiod, setSelectPeriod] = useState("예상 진행 기간")
 
    useEffect(() => {
       console.log(selectedData.title.target?.value)
    }, [selectedData])
+
+   const addStack = (newStack) => {
+      setStack([...stack, newStack])
+   }
+
+   const removeStack = (selectedStack) => {
+      console.log(stack)
+   console.log(selectedStack)
+    const newStacks = stack.filter((selectedStack) => !selectedStack)
+    setStack(newStacks)
+   }
 
    return (
       <>
@@ -52,7 +63,7 @@ const Write = () => {
          <WriteBody>
 
             <TitleInput placeholder="컨텐츠 제목을 작성해주세요" 
-            required onChange={handleTitle} maxLength={20}/>
+            required onChange={handleTitle} maxLength={25}/>
 
             <hr style={{ border: "1px solid #e2e2e2" }} />
 
@@ -77,17 +88,32 @@ const Write = () => {
                      <option value="online">오프라인</option>
                   </SelectBox> */}
                <SelectTitle>구인스택</SelectTitle>
-               <details style={{ height: "40px" }}>
-
-                  <SelectBox>{stack}</SelectBox>
+               <div>
+                    <details style={{ height: "40px" }}>
+                  <SelectBox>스택을 선택하세요</SelectBox>
                   <SelectBoxOpen>
-                     <Option onClick={()=>setStack("Java")}>Java</Option>
-                     <Option>Javascript</Option>
-                     <Option>TypeScript</Option>
-                     <Option>React</Option>
-                     <Option>Vue</Option>
+                     <Option onClick={()=> addStack("Java")}>Java</Option>
+                     <Option onClick={()=> addStack("Javascript")}>Javascript</Option>
+                     <Option onClick={()=> addStack("TypeScript")}>TypeScript</Option>
+                     <Option onClick={()=> addStack("React")}>React</Option>
+                     <Option onClick={()=> addStack("Vue")}>Vue</Option>
                   </SelectBoxOpen>
                </details>
+               <div style={{display:"flex", flexWrap:"wrap", marginTop:"10px"}}>
+                  {stack.map((stack,index) => {
+                  return(
+                        <MyStack style={{margin:"0px 10px 10px 0px"}} key={stack[index]}>#{stack} <svg onClick={()=>{removeStack(stack[index])}} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.99996 18.3327C14.6023 18.3327 18.3333 14.6017 18.3333 9.99935C18.3333 5.39698 14.6023 1.66602 9.99996 1.66602C5.39759 1.66602 1.66663 5.39698 1.66663 9.99935C1.66663 14.6017 5.39759 18.3327 9.99996 18.3327Z" stroke="#FFB673" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12.5 7.5L7.5 12.5" stroke="#FFB673" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M7.5 7.5L12.5 12.5" stroke="#FFB673" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        </MyStack>
+                  )
+               })}
+               </div>
+               
+               </div>
+             
                {/* <SelectBox name="stack" placeholder="스택을 선택해주세요">
                      <option value="java">JAVA</option>
                   </SelectBox> */}
@@ -119,7 +145,6 @@ const Write = () => {
                   <SelectBoxOpen >
                      <Option>1명</Option>
                      <Option>2명</Option>
-
                      <Option>3명</Option>
                      <Option>4명</Option>
                      <Option>5명</Option>

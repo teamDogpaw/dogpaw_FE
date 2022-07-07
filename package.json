@@ -61,6 +61,11 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
-    ]
+    ],
+    "proxy":"http://13.125.213.81"
   }
+  
+    
+  
+  
 }

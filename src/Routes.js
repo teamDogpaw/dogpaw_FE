@@ -4,17 +4,23 @@ import Detail from "./pages/Detail";
 import Main from "./pages/Main";
 import MyPage from "./pages/Mypage";
 import Write from "./pages/Write";
+import Login from "./components/Login"
+import Register from "./components/Register"
 
-const Router = () => {
-    return (
-       <Routes>
-         <Route path="/" element={<Main />} />
-         <Route path="/detail/:id" element={<Detail />} />
-         <Route path="/write" element={<Write />} />
-         <Route path="/write/:id" element={<Write />} />
-         <Route path="/mypage/*" element={<MyPage />} />
-       </Routes>
-    )
-   }
-   
-   export default Router;
+const Router = (props) => {
+
+  console.log(props.userInfo)
+  return (
+    <Routes>
+      <Route path="/" element={<Main />} />
+      <Route path="/detail/:id" element={<Detail />} />
+      <Route path="/write" element={<Write />} />
+      <Route path="/write/:id" element={<Write />} />
+      <Route path="/mypage/*" element={<MyPage />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+    </Routes>
+  );
+};
+
+export default Router;

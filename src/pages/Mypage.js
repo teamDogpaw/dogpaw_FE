@@ -1,20 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Bookmark from "../components/Bookmark"
 import MyProject from "../components/MyProject";
 import JoinProject from "../components/JoinProject"
 import { useMatch } from "react-router-dom";
-import { MainBody } from "../styles/style"
+import { Btn, MainBody, MyStack } from "../styles/style"
 import styled from "styled-components";
+import axios from "axios";
+import { useQuery } from "react-query";
+import { useRecoilState } from "recoil";
+import { UserInfoAtom } from "../atom/userQuery";
 
 const MyPage = () => {
    const [tab, setTab] = useState(<Bookmark />);
+   const [userInfo, setUserInfo] = useRecoilState(UserInfoAtom)
 
+
+   const GetUserInfo = async () => {
+      return await axios.get(`http://13.125.213.81/userinfo`)
+   }
+
+   const ReaduserInfo = useQuery('userinfo', GetUserInfo)
+
+   useEffect(() => {
+      setUserInfo(ReaduserInfo?.data?.data[0])
+   }, [ReaduserInfo])
+
+
+   if (ReaduserInfo.isLoading) {
+      return (
+         <h1>loading...</h1>
+      )
+   }
    return (
       <>
          <MainBody>
-            <Profilepic />
-            닉네임 <br />
-            <button>편집</button> <br />
+            <Profilepic src={userInfo?.profileImg} />
+            {userInfo?.nickname} <br />
+            {userInfo?.username}
+            <div style={{ display: "flex" }}>
+               {userInfo?.stacks?.map((stack) => {
+                  return (
+                     <MyStack># {stack}</MyStack>
+                  )
+               })}
+            </div>
+            <Btn>프로필 편집</Btn> <br />
          </MainBody>
 
 
@@ -40,7 +70,7 @@ const MyPage = () => {
    )
 }
 
-const Profilepic = styled.div`
+const Profilepic = styled.img`
 background-color: lightgray;
 width: 160px;
 height: 160px;
@@ -80,5 +110,7 @@ border-radius: 16px;
 padding: 32px 24px;
 
 `;
+
+
 
 export default MyPage;
