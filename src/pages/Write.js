@@ -10,23 +10,42 @@ import styled from "styled-components";
 import "../styles/style.css"
 import { ReactComponent as CapacityArrowDown } from "../styles/icon/capacityArrowDown.svg"
 import { ReactComponent as CapacityArrowUp } from "../styles/icon/capacityArrowUp.svg"
-
+import dayjs from "dayjs";
+import axios from "axios";
+import { instance } from "../atom/userQuery";
 
 const Write = () => {
    const [selectedData, setSelectedData] = useState({
       title: "",
-      capacity: 1,
+      maxCapacity: 1,
       period: 0,
-      stack: [],
-      process: "온라인",
+      stacks: [],
+      online: true,
       content: "",
-      startDate: 0
+      startAt: 0
    })
+
+const PostPublish = async () => {
+   try {
+      const response = await instance.post(`/api/post`, selectedData)
+      return response.data
+   }
+   catch(error){
+      console.log(error)
+   }
+}
+
+
+   const handleStartDate = startDate => {
+      setStartDate(startDate)
+      setSelectedData(prev => ({ ...prev, startAt: Number(dayjs(startDate).format("YYYYMMDD")) }))
+   }
+
 
 
    const navigate = useNavigate();
    const [startDate, setStartDate] = useState(new Date());
-   console.log(startDate)
+
 
    const handleTitle = title => {
       setSelectedData(prev => ({ ...prev, title }));
@@ -35,19 +54,19 @@ const Write = () => {
       setSelectedData(prev => ({ ...prev, content }));
    }
 
-   const period = [1, 2, 3, 4, 5, 6];
+   const period = ["1", "2", "3", "4", "5", "6"];
    const capacity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
    const handleCapacity = capacity => {
-      setSelectedData({ capacity: capacity });
+      setSelectedData(prev => ({ ...prev, maxCapacity : capacity }));
    }
 
    const setPeriod = period => {
-      setSelectedData({ period: period })
+      setSelectedData(prev => ({ ...prev, period }))
    }
 
    const handleProcess = (selectedProcess) => {
-      setSelectedData({ process: selectedProcess })
+      setSelectedData(prev => ({ ...prev, online: selectedProcess }))
    }
 
 
@@ -59,7 +78,7 @@ const Write = () => {
 
    const addStack = (newStack) => {
       setStack([...stack, newStack])
-      setSelectedData({stack:stack})
+      setSelectedData(prev => ({ ...prev, stacks: stack }))
    }
 
    const removeStack = (selectedStack) => {
@@ -68,10 +87,9 @@ const Write = () => {
       const newStacks = stack.filter((stack) => stack !== selectedStack)
       console.log(newStacks)
       setStack(newStacks)
-      setSelectedData({stack:newStacks})
+      setSelectedData({ stacks: newStacks })
    }
-   console.log(selectedData.process)
-   console.log(selectedData)
+
    return (
       <>
          <span onClick={() => navigate(-1)}> ⬅️ </span>
@@ -93,10 +111,10 @@ const Write = () => {
 
                <SelectTitle>진행방식</SelectTitle>
                <details style={{ height: "40px" }}>
-                  <SelectBox>{selectedData.process}</SelectBox>
+                  <SelectBox>{selectedData.online}</SelectBox>
                   <SelectBoxOpen>
-                     <Option onClick={() => handleProcess("온라인")}>온라인</Option>
-                     <Option onClick={() => handleProcess("오프라인")}>오프라인</Option>
+                     <Option onClick={() => handleProcess(true)}>온라인</Option>
+                     <Option onClick={() => handleProcess(false)}>오프라인</Option>
                   </SelectBoxOpen>
 
                </details>
@@ -152,15 +170,15 @@ const Write = () => {
                   showPopperArrow={false}
                   fixedHeight
                   locale={ko}
-                  dateFormat="yyyy.MM.dd (eee)"
+                  dateFormat="yyyy/MM/dd (eee)"
                   selected={startDate}
                   minDate={new Date()}
-                  onChange={date => setStartDate(date)} />
+                  onChange={date => handleStartDate(date)} />
                <SelectTitle>모집인원</SelectTitle>
 
                <details style={{ height: "40px" }}>
 
-                  <SelectBox>{selectedData.capacity}명 <CapacityArrowDown /></SelectBox>
+                  <SelectBox>{selectedData.maxCapacity}명 <CapacityArrowDown /></SelectBox>
                   <SelectBoxOpen>
                      {capacity.map(member => (
                         <Option key={member}
@@ -175,12 +193,12 @@ const Write = () => {
          <MainBody>
             <h3>프로젝트 소개</h3>
             <ProjectTextarea placeholder="컨텐츠에 대한 설명을 작성해주세요."
-            onChange={(event)=>{handleContent(event.target.value)}}/>
+               onChange={(event) => { handleContent(event.target.value) }} />
          </MainBody>
 
          <Publish>
             <LineBtn style={{ marginRight: "26px" }}>전체 삭제</LineBtn>
-            <Btn type="submit">프로젝트 등록하기</Btn>
+            <Btn type="submit" onClick={PostPublish}>프로젝트 등록하기</Btn>
          </Publish>
       </>
    )

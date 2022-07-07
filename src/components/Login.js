@@ -173,7 +173,8 @@ const IdPut = styled.input`
   font-weight: bold;
   font-family: Jalnan;
   color: black;
-  :: placeholder {
+
+  ::placeholder {
     font-weight: bold;
     font-size: 16px;
     color: #9f9f9f;
@@ -198,7 +199,7 @@ background-color: ${(props) => (props.disabled ? "#f8cbac" : "#ee8548")};
   font-size: large;
   font-family: Jalnan;
   &:hover {
-    background-color: ${(props) => (props.disabled ? "#f8cbac" : "#c64d07;")}
+    background-color: ${(props) => (props.disabled ? "#f8cbac" : "#c64d07;")};
     cursor: pointer;
   }
 `;
