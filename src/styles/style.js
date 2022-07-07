@@ -112,3 +112,27 @@ color: #777777;
 padding: 12px 16px;
 border-radius: 8px;
 `;
+
+export const ListProfilePic = styled.img`
+width: 40px;
+height: 40px;
+border-radius: 20px;
+`;
+
+export const ListTitle = styled.span`
+font-size: 20px;
+font-weight: bold;
+`;
+
+export const ListStack = styled.span`
+color: ${(props) => props.theme.keyColor};
+margin-right: 10px;
+`;
+
+export const MyStack = styled.div`
+background-color: ${(props)=>props.theme.stackBackground};
+padding: 8px 12px;
+border-radius: 30px;
+margin-right: 16px;
+color: ${(props)=>props.theme.stackColor}
+`;
