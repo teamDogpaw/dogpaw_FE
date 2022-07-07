@@ -4,8 +4,8 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 const getCommentList = () => {
   return axios.get("http://localhost:5001/comment/");
 };
-const addComment = (data) => {
-  return axios.post("http://localhost:5001/comment/", data);
+const addComment = (comment) => {
+  return axios.post("http://localhost:5001/comment/", comment);
 };
 const removeComment = (id) => {
     return axios.delete("http://localhost:5001/comment", id);
@@ -16,6 +16,7 @@ const editComment = (id) => {
 
 export const useCommentData = (onSuccess, onError) => {
   return useQuery("commentList", getCommentList, {
+    refetchOnWindowFocus: false,
     onSuccess,
     onError,
   });
@@ -35,5 +36,5 @@ export const useDeleteCommentData = () => {
 };
 
 export const useEditCommentData = () => {
-    return useMutation(editComment);
+    return useMutation(removeComment);
   };

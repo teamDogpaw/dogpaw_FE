@@ -15,7 +15,8 @@ const Main = () => {
   const [toggle, setToggle] = useState(true);
 
   const getPostList = () => {
-    return axios.get("http://localhost:5001/allpost");
+    //return axios.get("http://localhost:5001/allpost");
+    return axios.get("http://13.125.213.81/api/allpost");
   };
 
   const { isLoading, isError, data, error } = useQuery(
@@ -24,7 +25,7 @@ const Main = () => {
     {
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
-        //console.log(data);
+        console.log(data);
       },
       onError: (e) => {
         console.log(e.message);
@@ -48,7 +49,7 @@ const Main = () => {
   //console.log(all)
 
   const mojib = toggle ? all.filter((post) => post.deadline === false) : all;
-  console.log(mojib);
+  //console.log(mojib);
 
   //toggle true : 모집중, false : 모두보기
 
@@ -80,20 +81,11 @@ const Main = () => {
         {mojib.map((list) => {
           return (
             <Article
-              key={list.id}
+              key={list.postid}
               onClick={() => {
-                navigate("/detail/" + list.id);
+                navigate("/detail/" + list.postId);
               }}
             >
-            
-              {/* <div>{list.deadline? (<Deadline><p>마감</p></Deadline>):""}</div>   */}
-              {list.bookmark ? (
-                <BookmarkFill onClick={bookMark} />
-              ) : (
-                <BookmarkIcon onClick={bookMark} />
-              )}
-              {/* <img src={u_bookmark} alt="bookmark" style={{ width: "30px" }} onClick={bookMark}/> */}
-              <Date>시작예정일 | {list.startAt}</Date>
               <Content>
                 <h1>{list.title}</h1>
                 <p>{list.content}</p>
@@ -106,22 +98,29 @@ const Main = () => {
                   <p style={{ color: "#ffb673" }}>#{list.online}</p>
                 </Hashtag>
               </Content>
-                    
+
+              <Info>
+                <Comment>
+                  <CommentIcon />
+                  <p>{list.commentCnt}</p>
+                </Comment>
+                <Bookmark>
+                  <BookmarkIcon style={{ width: "10", height: "14" }} />
+                  <p>{list.bookmarkCnt}</p>
+                </Bookmark>
+                <Date>시작예정일 | {list.startAt}</Date>
+              </Info>
               <Footer>
                 <User>
                   <img src={list.profileImg} alt="profileImg" />
                   <p>{list.nickname}</p>
                 </User>
-                <Info>
-                  <Comment>
-                    <CommentIcon />
-                    <p>{list.commentCnt}</p>
-                  </Comment>
-                  <Bookmark>
-                    <BookmarkIcon />
-                    <p>{list.bookmarkCnt}</p>
-                  </Bookmark>
-                </Info>
+
+                {list.bookmark ? (
+                  <BookmarkFill onClick={bookMark} />
+                ) : (
+                  <BookmarkIcon onClick={bookMark} />
+                )}
               </Footer>
             </Article>
           );
@@ -140,10 +139,15 @@ const Wrap = styled.div`
   gap: 30px;
   box-sizing: border-box; */
 
-  max-width: 996px;
+  //max-width: 996px;
+  max-width: 1240px;
   margin: auto;
   border-radius: 16px;
   padding: 32px;
+  /* display:flex;
+  flex-wrap: wrap; */
+
+ 
 
   @media screen and (max-width: 996px) {
     margin: 0px 40px;
@@ -197,7 +201,7 @@ const Circle = styled.div`
 //
 
 const ArticleWrap = styled.ul`
-  gap: 35px;
+  gap: 20px;
   display: flex;
   flex-wrap: wrap;
 `;
@@ -206,17 +210,12 @@ const Article = styled.li`
   padding: 16px 20px;
   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.08);
   border-radius: 16px;
-  width: calc((100% - (35px * 2)) / 3);
+  width: calc((100% - (35px * 2)) / 4);
   height: 350px;
   position: relative;
-  flex-wrap: wrap;
 `;
 
-const Date = styled.p`
-  color: #8b8b8b;
-  display: flex;
-  justify-content: flex-end;
-`;
+
 const Content = styled.div`
   margin: 20px 0;
   h1 {
@@ -225,8 +224,7 @@ const Content = styled.div`
 `;
 
 const Hashtag = styled.div`
-  position: absolute;
-  bottom: 70px;
+ 
   li {
     margin-right: 5px;
     color: #ffb673;
@@ -263,7 +261,14 @@ const User = styled.div`
     margin-right: 10px;
   }
 `;
-
+const Info = styled.div`
+  display: flex;
+   position: absolute;
+  bottom: 70px;
+  svg {
+    margin-right:5px;
+  }
+`;
 const Comment = styled.div`
   display: flex;
   margin-right: 10px;
@@ -271,10 +276,15 @@ const Comment = styled.div`
 
 const Bookmark = styled.div`
   display: flex;
+  
+`;
+const Date = styled.p`
+  color: #8b8b8b;
+  margin-left:25px;
+ 
+  
 `;
 
-const Info = styled.div`
-  display: flex;
-`;
+
 
 export default Main;
