@@ -8,12 +8,15 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { DarkThemeAtom } from './atom/theme';
 import axios from 'axios';
 import { useQuery } from 'react-query';
+
 import { instance, UserInfoAtom } from './atom/userQuery';
+
 
 
 function App() {
   const isDark = useRecoilValue(DarkThemeAtom)
   const [userInfo, setUserInfo] = useRecoilState(UserInfoAtom)
+
 
   const { isLoading, error, data } = useQuery('userinfo', () =>
     instance.get(`http://13.125.213.81/user/userinfo`))
@@ -21,6 +24,7 @@ function App() {
   useEffect(() => {
     setUserInfo(data?.data)
   }, [data, userInfo])
+
 
   return (
 

@@ -15,6 +15,8 @@ import axios from "axios";
 import { instance } from "../atom/userQuery";
 
 const Write = () => {
+const navigate = useNavigate()
+
    const [selectedData, setSelectedData] = useState({
       title: "",
       maxCapacity: 1,
@@ -28,7 +30,7 @@ const Write = () => {
 const PostPublish = async () => {
    try {
       const response = await instance.post(`/api/post`, selectedData)
-      return response.data
+      navigate("/")
    }
    catch(error){
       console.log(error)
@@ -43,7 +45,6 @@ const PostPublish = async () => {
 
 
 
-   const navigate = useNavigate();
    const [startDate, setStartDate] = useState(new Date());
 
 

@@ -8,7 +8,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useQuery } from "react-query";
 import { useRecoilState } from "recoil";
-import { UserInfoAtom } from "../atom/userQuery";
+import { instance, UserInfoAtom } from "../atom/userQuery";
 
 const MyPage = () => {
    const [tab, setTab] = useState(<Bookmark />);
@@ -16,17 +16,26 @@ const MyPage = () => {
 
 
    const GetUserInfo = async () => {
-      return await axios.get(`http://13.125.213.81/userinfo`)
+      try {
+         const response = await instance.get(`/user/userinfo`)
+         console.log(response.data)
+         const axiosData = response.data
+         return axiosData
+      } catch(error){
+         console.log(error)
+      }
+     
    }
 
-   const ReaduserInfo = useQuery('userinfo', GetUserInfo)
+   const {isLoading, error, data} = useQuery('userinfo', GetUserInfo)
 
    useEffect(() => {
-      setUserInfo(ReaduserInfo?.data?.data[0])
-   }, [ReaduserInfo])
+      setUserInfo(data)
+      console.log(userInfo)
+   }, [data])
 
 
-   if (ReaduserInfo.isLoading) {
+   if (isLoading) {
       return (
          <h1>loading...</h1>
       )
@@ -35,12 +44,12 @@ const MyPage = () => {
       <>
          <MainBody>
             <Profilepic src={userInfo?.profileImg} />
-            {userInfo?.nickname} <br />
-            {userInfo?.username}
+            {data?.nickname} <br />
+            {data?.username}
             <div style={{ display: "flex" }}>
-               {userInfo?.stacks?.map((stack) => {
+               {data?.stacks.map((mystack) => {
                   return (
-                     <MyStack># {stack}</MyStack>
+                     <MyStack key={mystack.id}># {mystack.stack}</MyStack>
                   )
                })}
             </div>
