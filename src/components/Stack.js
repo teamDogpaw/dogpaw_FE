@@ -4,8 +4,27 @@ import styled from "styled-components";
 const Stack = () => {
   const [stack, setStack] = useState([]);
 
+  const [selectedData, setSelectedData] = useState({
+    title: "",
+    maxCapacity: 1,
+    period: 0,
+    stacks: [],
+    online: true,
+    content: "",
+    startAt: 0,
+  });
+
   const addStack = (newStack) => {
     setStack([...stack, newStack]);
+  };
+
+  const removeStack = (selectedStack) => {
+    console.log(stack);
+    console.log(selectedStack);
+    const newStacks = stack.filter((stack) => stack !== selectedStack);
+    console.log(newStacks);
+    setStack(newStacks);
+    setSelectedData({ stacks: newStacks });
   };
 
   return (
@@ -22,9 +41,43 @@ const Stack = () => {
             <Option onClick={() => addStack("Vue")}>Vue</Option>
           </SelectBoxOpen>
         </details>
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", marginTop: "10px" }}>
           {stack.map((stack, index) => {
-            return <MyStack key={index}># {stack}</MyStack>;
+            return (
+              <MyStack style={{ margin: "0px 10px 10px 0px" }}>
+                #{stack}{" "}
+                <svg
+                  onClick={() => removeStack(stack)}
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.99996 18.3327C14.6023 18.3327 18.3333 14.6017 18.3333 9.99935C18.3333 5.39698 14.6023 1.66602 9.99996 1.66602C5.39759 1.66602 1.66663 5.39698 1.66663 9.99935C1.66663 14.6017 5.39759 18.3327 9.99996 18.3327Z"
+                    stroke="#FFB673"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M12.5 7.5L7.5 12.5"
+                    stroke="#FFB673"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M7.5 7.5L12.5 12.5"
+                    stroke="#FFB673"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </MyStack>
+            );
           })}
         </div>
       </div>
@@ -76,4 +129,5 @@ const Option = styled.li`
     background-color: ${(props) => props.theme.keyColor};
   }
 `;
+
 export default Stack;

@@ -38,7 +38,7 @@ function Login() {
           localStorage.setItem("id", id);
           console.log(res, "로그인");
           window.alert(res.data.message);
-          window.location.replace("/main");
+          window.location.replace("/");
         }
       });
     } catch (err) {
@@ -188,8 +188,8 @@ const Pone = styled.p`
 `;
 
 const SignInBtn = styled.button`
-color: ${(props) => (props.disabled ? "black" : "white")};
-background-color: ${(props) => (props.disabled ? "#f8cbac" : "#ee8548")};
+  color: ${(props) => (props.disabled ? "black" : "white")};
+  background-color: ${(props) => (props.disabled ? "#f8cbac" : "#ee8548")};
   border: none;
   padding: 18px;
   width: 500px;
