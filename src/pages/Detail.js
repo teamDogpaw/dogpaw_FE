@@ -50,9 +50,9 @@ const Detail = () => {
 
 
   const bookMark = () => {
+   
     
-    const markToggle =  setMark((mark) => !mark);
-    mutate(markToggle)
+    mutate()
   };
 
   const applyBtn = () => {
