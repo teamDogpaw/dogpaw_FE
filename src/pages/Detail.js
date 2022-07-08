@@ -2,54 +2,64 @@ import styled from "styled-components";
 import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/Vector 33.svg";
 
-import axios from "axios";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import Comments from "../components/Comments";
 import { useState } from "react";
+import { instance } from "../shared/axios";
 
 const Detail = () => {
   const [mark, setMark] = useState(false);
   const [apply, setApply] = useState(false);
 
   const params = useParams();
-  const postId = params
+  const id = params.postId;
 
   const getPostList = () => {
     //return axios.get(`http://localhost:5001/allpost/${id}`);
-    return axios.get(`http://13.125.213.81/api/post/detail/${postId}`);
+    return instance.get(`http://13.125.213.81/api/post/detail/${id}`);
   };
+
+  const bookmarkData = () =>{
+    return instance.post(`http://13.125.213.81/api/bookMark/${id}`)
+  }
+
 
   const detailQuery = useQuery("detailList", getPostList, {
     refetchOnWindowFocus: false, // 사용자가 다른 곳에 갔다가 돌아올시 함수 재실행 여부
     onSuccess: (data) => {
-      //console.log("성공", data);
+      console.log("성공", data);
     },
     onError: (e) => {
       console.log(e.message);
     },
   });
 
+ // const queryClient = useQueryClient();
+  
+  const {mutate} = useMutation(bookmarkData,{
+    onSuccess:(data)=>{
+      console.log(data)
+    }
+  })
+
   if (detailQuery.isLoading) {
     return <span>Loding...</span>;
   }
- 
+
+
 
   const bookMark = () => {
-    //  북마크 체크
-    // if (mark === false) {
-    //   setMark(true);
-    // } else {
-    //   setMark(false);
-    // }
-    setMark((mark)=>!mark)
+    
+    const markToggle =  setMark((mark) => !mark);
+    mutate(markToggle)
   };
 
-  const applyBtn = () =>{
-   setApply((apply)=>!apply)
-  }
+  const applyBtn = () => {
+    setApply((apply) => !apply);
+  };
 
- // console.log(mark)
+  // console.log(mark)
   const content = detailQuery.data.data;
   //console.log(content);
   return (
@@ -70,26 +80,35 @@ const Detail = () => {
 
         <hr style={{ width: "100%", color: "#E2E2E2" }} />
         <ContentWrap>
-          <Title>
-            <p>진행방식</p>
-            <p>구인스택</p>
-            <p>예상 진행 기간</p>
-            <p>시작 예정일</p>
-            <p>모집 인원</p>
-          </Title>
-          <Content>
-            <p> {content.online}</p>
-            <Stack>
-              {content.stacks.map((lang, idx) => (
-                <p key={idx}> #{lang}</p>
-              ))}
-            </Stack>
-
-            <p>{content.period}</p>
-            <p> {content.startAt}</p>
-            <p> {content.capacity} 명</p>
-          </Content>
-          { !apply ? (<Button onClick={applyBtn}>프로젝트 지원하기</Button>) :(<Button onClick={applyBtn}>지원 취소하기</Button>)}
+          <div>
+            <Online>
+              <p>진행방식</p>
+              <p> {content.onLine ? "온라인" : "오프라인"}</p>
+            </Online>
+            <div>
+            <Stacks>
+              <p>구인스택</p>
+              <Stack>
+                {content.stacks.map((lang, idx) => (
+                  <div key={idx}> #{lang}</div>
+                ))}
+              </Stack>
+            </Stacks>
+            </div>
+            <Date>
+              <p>시작 예정일</p>
+              <p> {content.startAt}</p>
+            </Date>
+            <Maxcapacity>
+              <p>모집 인원</p>
+              <p> {content.maxCapacity} 명</p>
+            </Maxcapacity>
+          </div>
+          {!apply ? (
+            <Button onClick={applyBtn}>프로젝트 지원하기</Button>
+          ) : (
+            <Button onClick={applyBtn}>지원 취소하기</Button>
+          )}
         </ContentWrap>
       </ArticleTop>
 
@@ -120,7 +139,7 @@ const Wrap = styled.div`
   }
 `;
 const ArticleTop = styled.article`
-  background-color: ${(props)=> props.theme.divBackGroundColor};
+  background-color: ${(props) => props.theme.divBackGroundColor};
   margin: auto;
   border-radius: 16px;
   padding: 32px;
@@ -154,7 +173,22 @@ const ContentWrap = styled.div`
   // background-color:olive;
 `;
 
-const Title = styled.div``;
+const Online = styled.div`
+  display: flex;
+
+
+
+  p:first-child {
+    
+    width:90px;
+  }
+`;
+
+const Stacks = styled(Online)``;
+
+const Date = styled(Online)``;
+
+const Maxcapacity = styled(Online)``;
 
 const Content = styled.div`
   margin-left: 15px;
@@ -163,16 +197,13 @@ const Content = styled.div`
 const Stack = styled.div`
   display: flex;
   align-items: center;
-  
 
-  p {
+  div {
+    background-color: ${(props) => props.theme.stackBackground};
     padding: 0px 15px;
-    background: #fff6c6;
     border-radius: 24px;
-    margin-right: 10px;
-    text-align: center;
-    color:black;
-    
+    margin-right: 16px;
+    color: ${(props) => props.theme.stackColor};
   }
 `;
 
@@ -193,14 +224,14 @@ const Button = styled.button`
   padding: 16px 24px;
   font-size: 20px;
   font-weight: 700;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
   right: 0px;
   bottom: 0px;
   cursor: pointer;
-  
+
   :hover {
     background-color: #ff891c;
   }

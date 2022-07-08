@@ -33,7 +33,15 @@ footer, header, hgroup, main, menu, nav, section {
 }
 body {
   line-height: 1;
-  background-color: ${(props)=>props.theme.backgroundColor};
+  background-color: ${(props) => props.theme.backgroundColor};
+  max-width: 996px;
+  margin: auto;
+  border-radius: 16px;
+  padding: 32px;
+
+  @media screen and (max-width: 996px){
+    margin: 0px 40px;
+}
 }
 menu, ol, ul {
   list-style: none;
@@ -52,26 +60,26 @@ table {
 }
 * {
   box-sizing: border-box;
-  color:${(props)=>props.theme.textColor_sub};
+  color:${(props) => props.theme.textColor_sub};
 
 }
 
 h1{
-  color:${(props)=>props.theme.textColor};
+  color:${(props) => props.theme.textColor};
 
   font-size: 40px;
   font-weight: bold;
 }
 
 h3{
-  color:${(props)=>props.theme.textColor};
+  color:${(props) => props.theme.textColor};
 
   font-size: 24px;
   font-weight: bold;
 }
 
 h4{
-  color:${(props)=>props.theme.textColor};
+  color:${(props) => props.theme.textColor};
 
  font-size : 20px;
  font-weight: bold;
