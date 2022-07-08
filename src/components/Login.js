@@ -38,7 +38,7 @@ function Login() {
           localStorage.setItem("id", id);
           console.log(res, "로그인");
           window.alert(res.data.message);
-          window.location.replace("/main");
+          window.location.replace("/");
         }
       });
     } catch (err) {

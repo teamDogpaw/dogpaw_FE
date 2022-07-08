@@ -75,13 +75,13 @@ const Main = () => {
         <ToggleBtn onClick={clickedToggle} toggle={toggle}>
           <Circle toggle={toggle} />
         </ToggleBtn>
-        {/* <h3>{toggle ? "모집중만" : "모두보기"}</h3> */}
+        <h3>{toggle ? "모집중만" : "모두보기"}</h3>
       </ToggleWrap>
       <ArticleWrap>
-        {mojib.map((list, idx) => {
+        {mojib.map((list) => {
           return (
             <Article
-              key={idx}
+              key={list.postId}
               onClick={() => {
                 navigate("/detail/" + list.postId);
               }}
@@ -120,7 +120,7 @@ const Main = () => {
                   <p>{list.nickname}</p>
                 </User>
 
-                {list.bookmark ? (
+                {list.bookMarkStatus ? (
                   <BookmarkFill onClick={bookMark} />
                 ) : (
                   <BookmarkIcon onClick={bookMark} />

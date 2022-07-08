@@ -19,7 +19,11 @@ function App() {
 
 
   const { isLoading, error, data } = useQuery('userinfo', () =>
-    instance.get(`http://13.125.213.81/user/userinfo`))
+    instance.get(`http://13.125.213.81/user/userinfo`),{
+      onSuccess :(data)=>{
+        console.log(data)
+      }
+    })
 
   useEffect(() => {
     setUserInfo(data?.data)
