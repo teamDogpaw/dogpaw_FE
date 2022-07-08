@@ -17,13 +17,16 @@ const Detail = () => {
 
   const getPostList = () => {
     //return axios.get(`http://localhost:5001/allpost/${id}`);
-    return instance.get(`http://13.125.213.81/api/post/detail/${id}`);
+    return instance.get(`api/post/detail/${id}`);
   };
 
   const bookmarkData = () =>{
-    return instance.post(`http://13.125.213.81/api/bookMark/${id}`)
+    return instance.post(`api/bookMark/${id}`)
   }
 
+  const applyData = () =>{
+    return instance.post(`api/apply/${id}`)
+  }
 
   const detailQuery = useQuery("detailList", getPostList, {
     refetchOnWindowFocus: false, // 사용자가 다른 곳에 갔다가 돌아올시 함수 재실행 여부
@@ -35,11 +38,18 @@ const Detail = () => {
     },
   });
 
- // const queryClient = useQueryClient();
+ const queryClient = useQueryClient();
   
-  const {mutate} = useMutation(bookmarkData,{
+  const {mutate:bookmark} = useMutation(bookmarkData,{
     onSuccess:(data)=>{
       console.log(data)
+      queryClient.invalidateQueries("detailList");
+    }
+  })
+  const {mutate:applymark} = useMutation(applyData,{
+    onSuccess:(data)=>{
+      console.log(data)
+      queryClient.invalidateQueries("detailList");
     }
   })
 
@@ -50,13 +60,12 @@ const Detail = () => {
 
 
   const bookMark = () => {
-   
-    
-    mutate()
+  
+    bookmark()
   };
 
   const applyBtn = () => {
-    setApply((apply) => !apply);
+    applymark()
   };
 
   // console.log(mark)
@@ -71,11 +80,12 @@ const Detail = () => {
           <p>{content.nickname}</p>
         </User>
         <Mark>
-          {mark ? (
+          {content.bookMarkStatus ? (
             <BookmarkFill onClick={bookMark} />
           ) : (
             <BookmarkIcon onClick={bookMark} />
           )}
+          
         </Mark>
 
         <hr style={{ width: "100%", color: "#E2E2E2" }} />
