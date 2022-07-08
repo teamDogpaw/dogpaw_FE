@@ -2,12 +2,20 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
+import { instance } from "../atom/userQuery";
 import { Btn, ListProfilePic, ListStack } from "../styles/style";
 
 const Bookmark = () => {
 
-  const GetMyBookmark = () => {
-    return axios.get(`http://localhost:5000/mybookmark`)
+  const GetMyBookmark = async () => {
+    try{
+      const response = await instance.get(`/api/user/mypage/bookmark`)
+      console.log(response.data)
+      return response.data
+    }
+   catch(error){
+    console.log(error)
+   }
   }
 
   const myBookmark = useQuery('mybookmark', GetMyBookmark)
@@ -16,7 +24,8 @@ const Bookmark = () => {
   }, [])
 
   const addBookmark = async (postId) => {
-    const response = await axios.post(`http://localhost:5000/mybookmark/${postId}`)
+    const response = await axios.post(`/api/bookMark/${postId}`)
+ 
     return response.data
   }
 
@@ -27,7 +36,7 @@ const Bookmark = () => {
   }
   return (
     <div>
-      {myBookmark?.data.data.map((content) => {
+      {myBookmark?.data.map((content) => {
         return (
           <div>
             <ListProfilePic src={content.profileImg} />

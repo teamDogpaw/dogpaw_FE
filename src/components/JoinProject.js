@@ -1,14 +1,29 @@
 import axios from "axios"
+import { useEffect } from "react"
 import { useQuery } from "react-query"
+import { instance } from "../atom/userQuery"
 import { Btn, ListProfilePic, ListStack } from "../styles/style"
 
 const JoinProject = () => {
 
-  const GetJoinProject = () => {
-    return axios.get(`http://localhost:5000/mybookmark`)
+  const GetJoinProject = async () => {
+    try{
+      const response = await instance.get(`/api/user/mypage/apply`)
+      console.log(response.data)
+      return response.data
+    }catch(error){
+      console.log(error)
+    }
+
   }
 
   const joinproject = useQuery('joinproject', GetJoinProject)
+
+
+  useEffect(()=>{
+    console.log(joinproject)
+      },[joinproject])
+    
 
   if (joinproject.isLoading) {
     return (
@@ -17,7 +32,7 @@ const JoinProject = () => {
   }
   return (
     <div>
-      {joinproject?.data.data.map((content) => {
+      {joinproject?.data.map((content) => {
         return (
           <div>
             <ListProfilePic src={content.profileImg} />
@@ -31,7 +46,7 @@ const JoinProject = () => {
 
             {content.title}<br />
             {content.content}<br />
-            {content.stacks.map((stack) => {
+            {content?.stacks?.map((stack) => {
                      return (
                         <ListStack>#{stack}</ListStack>
                      )
