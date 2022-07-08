@@ -16,9 +16,10 @@ const Main = () => {
   const [toggle, setToggle] = useState(true);
 
   const getPostList = () => {
-    //return axios.get("http://localhost:5001/allpost");
     return instance.get("api/allpost");
   };
+
+
 
   const { isLoading, isError, data, error } = useQuery(
     "postList",
