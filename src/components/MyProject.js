@@ -2,7 +2,7 @@ import axios from "axios"
 import { useEffect } from "react"
 import { useQuery } from "react-query"
 import styled from "styled-components"
-import { instance } from "../atom/userQuery"
+import instance from "../shared/axios"
 import { Btn, ListProfilePic, ListStack, ListTitle } from "../styles/style"
 
 const MyProject = () => {

@@ -12,7 +12,7 @@ import { ReactComponent as CapacityArrowDown } from "../styles/icon/capacityArro
 import { ReactComponent as CapacityArrowUp } from "../styles/icon/capacityArrowUp.svg"
 import dayjs from "dayjs";
 import axios from "axios";
-import { instance } from "../atom/userQuery";
+import instance from "../shared/axios";
 
 const Write = () => {
 const navigate = useNavigate()

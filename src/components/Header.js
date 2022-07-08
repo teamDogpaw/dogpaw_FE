@@ -9,7 +9,10 @@ const Header = () => {
 
   const logout = async () => {
     localStorage.removeItem("token"); 
-    localStorage.removeItem("retoken"); 
+
+    localStorage.removeItem("retoken");
+    localStorage.removeItem("id");
+
     // const data = {
     //   userId: localStorage.getItem("id"),
     // };
@@ -17,7 +20,8 @@ const Header = () => {
     //   await axios
     //     .post("http://13.125.213.81/user/signup/addInfo", data)
     //     .then((res) => console.log(res, "로그아웃"));
-    //   localStorage.removeItem("token", "retoken");
+
+
     // } catch (err) {
     //   console.log(err);
     // }
