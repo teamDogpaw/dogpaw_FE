@@ -134,12 +134,21 @@ const Main = () => {
   );
 };
 const Wrap = styled.div`
- // background-color: gold;
+ /* // background-color: gold;
   display: flex;
   flex-direction: column;
   margin: auto;
   //align-items:center;
-  flex-wrap: wrap;
+  flex-wrap: wrap; */
+
+  max-width: 1310px;
+  margin: auto;
+  border-radius: 16px;
+  padding: 32px;
+
+  @media screen and (max-width: 996px){
+    margin: 0px 40px;
+}
 
   ul {
     display: flex;
