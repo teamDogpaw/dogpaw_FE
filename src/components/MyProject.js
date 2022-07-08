@@ -1,17 +1,29 @@
 import axios from "axios"
+import { useEffect } from "react"
 import { useQuery } from "react-query"
 import styled from "styled-components"
+import { instance } from "../atom/userQuery"
 import { Btn, ListProfilePic, ListStack, ListTitle } from "../styles/style"
 
 const MyProject = () => {
 
 
    const GetMyProject = () => {
-      return axios.get(`http://localhost:5000/mybookmark`)
+      try{
+         const response = instance.get(`/api/user/mypage/post`)
+         console.log(response)
+         return response
+      } catch(error){
+         console.log(error)
+      }
    }
 
    const myprojects = useQuery('joinproject', GetMyProject)
 
+
+   useEffect(()=>{
+console.log(myprojects)
+   },[myprojects])
    if (myprojects.isLoading) {
       return (
          <h1>loading...</h1>
