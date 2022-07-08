@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useEffect } from "react"
 import { useQuery } from "react-query"
-import { instance } from "../atom/userQuery"
+import instance from "../shared/axios"
 import { Btn, ListProfilePic, ListStack } from "../styles/style"
 
 const JoinProject = () => {

@@ -8,7 +8,8 @@ import styled from "styled-components";
 import axios from "axios";
 import { useQuery } from "react-query";
 import { useRecoilState } from "recoil";
-import { instance, UserInfoAtom } from "../atom/userQuery";
+import instance from "../shared/axios";
+import { UserInfoAtom } from "../atom/userQuery";
 
 const MyPage = () => {
    const [tab, setTab] = useState(<Bookmark />);
