@@ -8,6 +8,7 @@ import styled, { css } from "styled-components";
 import { ReactComponent as CommentIcon } from "../styles/icon/u_comment-alt-lines.svg";
 import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/Vector 33.svg";
+import instance from "../shared/axios";
 
 const Main = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const Main = () => {
 
   const getPostList = () => {
     //return axios.get("http://localhost:5001/allpost");
-    return axios.get("http://13.125.213.81/api/allpost");
+    return instance.get("api/allpost");
   };
 
   const { isLoading, isError, data, error } = useQuery(
@@ -77,11 +78,10 @@ const Main = () => {
         {/* <h3>{toggle ? "모집중만" : "모두보기"}</h3> */}
       </ToggleWrap>
       <ArticleWrap>
-        
-        {mojib.map((list) => {
+        {mojib.map((list, idx) => {
           return (
             <Article
-              key={list.postid}
+              key={idx}
               onClick={() => {
                 navigate("/detail/" + list.postId);
               }}
@@ -89,17 +89,21 @@ const Main = () => {
               <Content>
                 <h1>{list.title}</h1>
                 <p>{list.content}</p>
-                <Hashtag>
+                
+              </Content>
+
+              <Hashtag>
                   <ul>
                     {list.stacks.map((lang, idx) => (
                       <li key={idx}>#{lang}</li>
                     ))}
                   </ul>
-                  <p style={{ color: "#ffb673" }}>#{list.online}</p>
+                  <p style={{ color: "#ffb673" }}>
+                    #{list.online ? "온라인" : "오프라인"}
+                  </p>
                 </Hashtag>
-              </Content>
-
               <Info>
+                
                 <Comment>
                   <CommentIcon />
                   <p>{list.commentCnt}</p>
@@ -130,28 +134,13 @@ const Main = () => {
   );
 };
 const Wrap = styled.div`
-  /* max-width: 996px;
-  height: 100vh;
-  margin: auto;
+ // background-color: gold;
   display: flex;
-  //justify-content: space-evenly;
-  flex-wrap: wrap;
-  gap: 30px;
-  box-sizing: border-box; */
-
-  //max-width: 996px;
-  max-width: 1240px;
+  flex-direction: column;
   margin: auto;
-  border-radius: 16px;
-  padding: 32px;
-  /* display:flex;
-  flex-wrap: wrap; */
+  //align-items:center;
+  flex-wrap: wrap;
 
- 
-
-  @media screen and (max-width: 996px) {
-    margin: 0px 40px;
-  }
   ul {
     display: flex;
   }
@@ -167,7 +156,7 @@ const Wrap = styled.div`
 const ToggleWrap = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom:20px;
+  margin-bottom: 20px;
 `;
 const ToggleBtn = styled.button`
   width: 60px;
@@ -176,7 +165,7 @@ const ToggleBtn = styled.button`
   border: none;
   cursor: pointer;
   background-color: ${(props) => (props.toggle ? "#ffb673" : "none")};
-  margin-left:10px;
+  margin-left: 10px;
   position: relative;
   display: flex;
   justify-content: center;
@@ -198,33 +187,39 @@ const Circle = styled.div`
       transition: all 0.5s ease-in-out;
     `}
 `;
-//
+// 토글 스위치
 
 const ArticleWrap = styled.ul`
-  gap: 20px;
+  gap: 10px;
   display: flex;
   flex-wrap: wrap;
+  
 `;
 const Article = styled.li`
   background-color: ${(props) => props.theme.divBackGroundColor};
   padding: 16px 20px;
   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.08);
   border-radius: 16px;
-  width: calc((100% - (35px * 2)) / 4);
+  width: 304px;
   height: 350px;
   position: relative;
-`;
+  
+ 
 
+  
+`;
 
 const Content = styled.div`
   margin: 20px 0;
+  
   h1 {
     padding-bottom: 20px;
   }
 `;
 
 const Hashtag = styled.div`
- 
+
+
   li {
     margin-right: 5px;
     color: #ffb673;
@@ -233,15 +228,15 @@ const Hashtag = styled.div`
 
 const Deadline = styled.div`
   padding: 15px;
- 
-  border-radius:8px;
+
+  border-radius: 8px;
   font-weight: bold;
   text-align: center;
   background-color: rgba(0, 0, 0, 0.3);
 `;
 const Footer = styled.div`
   display: flex;
-  width: 85%;
+  width: 88%;
   justify-content: space-between;
   align-items: center;
   position: absolute;
@@ -263,10 +258,12 @@ const User = styled.div`
 `;
 const Info = styled.div`
   display: flex;
-   position: absolute;
+  width:100%;
+  background-color:gold;
+  position: absolute;
   bottom: 70px;
   svg {
-    margin-right:5px;
+    margin-right: 5px;
   }
 `;
 const Comment = styled.div`
@@ -276,15 +273,10 @@ const Comment = styled.div`
 
 const Bookmark = styled.div`
   display: flex;
-  
 `;
 const Date = styled.p`
   color: #8b8b8b;
-  margin-left:25px;
- 
-  
+  //margin-left: 25px;
 `;
-
-
 
 export default Main;

@@ -9,6 +9,7 @@ import { DarkThemeAtom } from './atom/theme';
 import axios from 'axios';
 import { useQuery } from 'react-query';
 import { UserInfoAtom } from './atom/userQuery';
+import { instance } from './shared/axios';
 
 
 function App() {
@@ -16,14 +17,14 @@ function App() {
   const [userInfo, setUserInfo] = useRecoilState(UserInfoAtom)
 
   const GetUserInfo = async () => {
-    return await axios.get(`http://localhost:5000/userinfo`)
+    return await instance.get("http://13.125.213.81/user/userinfo")
  }
 
  const ReaduserInfo = useQuery('userinfo', GetUserInfo)
 
  useEffect(()=>{
   setUserInfo(ReaduserInfo.data?.data[0])
-},[ReaduserInfo])
+},[])
 
   return (
 

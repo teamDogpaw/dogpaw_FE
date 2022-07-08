@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import {
@@ -6,30 +7,61 @@ import {
   useAddCommentData,
   useCommentData,
 } from "../hook/CommentData";
+import instance from "../shared/axios";
 
 
 const Comments = () => {
   const [isEdit,setIsEdit] = useState(false);
   const params = useParams();
   const comment_ref = useRef("");
+ const id = params.postId
 
-  const id = params.id;
-  //console.log(id)
+ const getCommentList = () => {
+  return instance.get("http://localhost:5001/comment/");
+  //return instance.get("http://localhost:5001/comment/");
+};
 
-  const onSuccess = (data) => {
-    console.log(data);
-  };
+ const addComment = (data) => {
+  return instance.post(`api/posts/${id}/comments`,data);
+  //return instance.post("http://localhost:5001/comment/",data);
+};
 
-  const onError = (err) => {
-    console.log(err);
-  };
+// const CommentPost = async () => {
+//   try {
+//     const res = await instance.post(`http://13.125.213.81/api/posts/${id}/comments`, { comment: comment_ref.current.value });
+//     return res.data;
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
-  const { isLoading, isError, data, error } = useCommentData(
-    onSuccess,
-    onError
+
+  // const { isLoading, isError, data, error } = useCommentData(
+  //   onSuccess,
+  //   onError
+  // );
+ 
+  const { isLoading, isError, data, error } = useQuery(
+    "commentList",
+    getCommentList,
+    {
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => {
+        //console.log(data);
+      },
+      onError: (e) => {
+        console.log(e.message);
+      },
+    }
   );
-
-  const { mutate: addComments } = useAddCommentData();
+  
+  const queryClient = useQueryClient();
+  //const { mutate: addComments } = useAddCommentData(id);
+  const {mutate :addComments} = useMutation(addComment,{
+    onSuccess: () => {
+      queryClient.invalidateQueries("commentList"); 
+    },
+    })
 
   const { mutate: deleteComments } = useDeleteCommentData();
 

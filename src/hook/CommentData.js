@@ -1,11 +1,14 @@
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
+import instance from "../shared/axios";
+
+
 const getCommentList = () => {
   return axios.get("http://localhost:5001/comment/");
 };
-const addComment = (comment) => {
-  return axios.post("http://localhost:5001/comment/", comment);
+const addComment = () => {
+  return instance.post("http://13.125.213.81/api/posts/3/comments");
 };
 const removeComment = (id) => {
     return axios.delete("http://localhost:5001/comment", id);
