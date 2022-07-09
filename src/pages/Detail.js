@@ -3,7 +3,7 @@ import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/Vector 33.svg";
 
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Comments from "../components/Comments";
 import { useState } from "react";
 import { instance } from "../shared/axios";
@@ -73,8 +73,12 @@ const Detail = () => {
   //console.log(content);
   return (
     <Wrap>
+      
       <ArticleTop>
         <h1>{content.title}</h1>
+
+        <Link to={`/write/${id}`} content={content}> 수정하기 </Link>
+        삭제하기
         <User>
           <Img src={content.profileImg} alt="profile" />
           <p>{content.nickname}</p>

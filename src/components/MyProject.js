@@ -8,10 +8,11 @@ import { Btn, ListProfilePic, ListStack, ListTitle } from "../styles/style"
 const MyProject = () => {
 
 
-   const GetMyProject = () => {
+   const GetMyProject = async () => {
       try{
-         const response = instance.get(`/api/user/mypage/post`)
+         const response = await instance.get(`/api/user/mypage/post`)
          console.log(response)
+         console.log(response.data)
          return response
       } catch(error){
          console.log(error)
@@ -21,9 +22,8 @@ const MyProject = () => {
    const myprojects = useQuery('joinproject', GetMyProject)
 
 
-   useEffect(()=>{
-console.log(myprojects)
-   },[myprojects])
+
+
    if (myprojects.isLoading) {
       return (
          <h1>loading...</h1>
@@ -32,7 +32,7 @@ console.log(myprojects)
    return (
       <div>
 
-         {myprojects?.data.data.map((content) => {
+         {myprojects?.data?.data?.map((content) => {
             return (
                <div key={content.id}>
                   <ListProfilePic src={content.profileImg} />
@@ -47,9 +47,9 @@ console.log(myprojects)
                   <ListTitle> {content.title}</ListTitle><br />
                   {content.content}<br />
 
-                  {content.stacks.map((stack) => {
+                  {content.stacks.map((stack, index) => {
                      return (
-                        <ListStack key={stack}>#{stack}</ListStack>
+                        <ListStack key={index}>#{stack}</ListStack>
                      )
                   })}<br />
                   {content.startAt}

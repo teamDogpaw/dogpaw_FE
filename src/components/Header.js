@@ -3,6 +3,7 @@ import { DarkThemeAtom } from "../atom/theme";
 import React, { useState } from "react";
 import ModalOpen from "./Modal";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const isDarkTheme = useSetRecoilState(DarkThemeAtom);
@@ -28,9 +29,13 @@ const Header = () => {
   };
   return (
     <>
+    <Link to="/">메인</Link>
+    
       <button onClick={() => isDarkTheme((prev) => !prev)}>모드 바꾸기</button>
       <ModalOpen />
+
       <button onClick={logout}>로그아웃</button>
+      <Link to="/mypage">마이페이지</Link>
     </>
   );
 };

@@ -10,6 +10,7 @@ import { useQuery } from "react-query";
 import { useRecoilState } from "recoil";
 import instance from "../shared/axios";
 import { UserInfoAtom } from "../atom/userQuery";
+import profilepic from  "../styles/icon/defaultProfile.svg";
 
 const MyPage = () => {
    const [tab, setTab] = useState(<Bookmark />);
@@ -25,7 +26,7 @@ const MyPage = () => {
       } catch(error){
          console.log(error)
       }
-     
+
    }
 
    const {isLoading, error, data} = useQuery('userinfo', GetUserInfo)
@@ -44,7 +45,10 @@ const MyPage = () => {
    return (
       <>
          <MainBody>
-            <Profilepic src={userInfo?.profileImg} />
+            
+           
+
+            {userInfo?.profileImg === null ? <Profilepic src={profilepic} /> : <Profilepic src={userInfo?.profileImg} />} 
             {data?.nickname} <br />
             {data?.username}
             <div style={{ display: "flex" }}>
