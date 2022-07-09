@@ -7,10 +7,12 @@ import { useParams } from "react-router-dom";
 import Comments from "../components/Comments";
 import { useState } from "react";
 import { instance } from "../shared/axios";
+import { useRecoilValue } from "recoil";
+import { UserInfoAtom } from "../atom/userQuery";
 
 const Detail = () => {
-  const [mark, setMark] = useState(false);
-  const [apply, setApply] = useState(false);
+  const user = useRecoilValue(UserInfoAtom);
+  //console.log(user)
 
   const params = useParams();
   const id = params.postId;
@@ -31,7 +33,7 @@ const Detail = () => {
   const detailQuery = useQuery("detailList", getPostList, {
     refetchOnWindowFocus: false, // 사용자가 다른 곳에 갔다가 돌아올시 함수 재실행 여부
     onSuccess: (data) => {
-      console.log("성공", data);
+      console.log("데이터 조회", data);
     },
     onError: (e) => {
       console.log(e.message);
@@ -42,7 +44,7 @@ const Detail = () => {
   
   const {mutate:bookmark} = useMutation(bookmarkData,{
     onSuccess:(data)=>{
-      console.log(data)
+      console.log("북마크 res",data)
       queryClient.invalidateQueries("detailList");
     }
   })
@@ -50,12 +52,18 @@ const Detail = () => {
     onSuccess:(data)=>{
       console.log(data)
       queryClient.invalidateQueries("detailList");
+    },
+    onError:(e)=>{
+      console.log(e.message)
     }
   })
+
+
 
   if (detailQuery.isLoading) {
     return <span>Loding...</span>;
   }
+
 
 
 
@@ -70,6 +78,11 @@ const Detail = () => {
 
   // console.log(mark)
   const content = detailQuery.data.data;
+  const author = detailQuery.data.data.nickname
+  const userId = user.nickname
+
+  
+  //console.log(userId)
   //console.log(content);
   return (
     <Wrap>
@@ -88,7 +101,7 @@ const Detail = () => {
           
         </Mark>
 
-        <hr style={{ width: "100%", color: "#E2E2E2" }} />
+        <hr/>
         <ContentWrap>
           <div>
             <Online>
@@ -114,17 +127,20 @@ const Detail = () => {
               <p> {content.maxCapacity} 명</p>
             </Maxcapacity>
           </div>
-          {!apply ? (
+          {author === userId ? (<Button>지원자 보기</Button>):
+          (!content.applyStatus ? (
             <Button onClick={applyBtn}>프로젝트 지원하기</Button>
           ) : (
             <Button onClick={applyBtn}>지원 취소하기</Button>
-          )}
+          ))}
+          
         </ContentWrap>
       </ArticleTop>
 
       <Article>
         <h1>프로젝트 소개</h1>
-        <div>{content.content}</div>
+        <hr/>
+        <pre><div>{content.content}</div></pre>
       </Article>
 
       <Comments />
@@ -142,6 +158,10 @@ const Wrap = styled.div`
 
   p {
     font-size: 16px;
+  }
+
+  hr {
+    color: #E2E2E2;
   }
 
   @media screen and (max-width: 996px) {
@@ -218,9 +238,18 @@ const Stack = styled.div`
 `;
 
 const Article = styled(ArticleTop)`
+ //margin-top: 132px;
+  font-size: 1.125rem;
+  word-break: break-all;
+  line-height: 1.7;
+  letter-spacing: -0.004em;
   margin-top: 30px;
   div {
     padding-top: 20px;
+    width: 100%;
+  margin: 40px auto 0;
+ 
+
   }
 `;
 

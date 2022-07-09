@@ -34,14 +34,6 @@ footer, header, hgroup, main, menu, nav, section {
 body {
   line-height: 1;
   background-color: ${(props) => props.theme.backgroundColor};
-  /* max-width: 996px;
-  margin: auto;
-  border-radius: 16px;
-  padding: 32px;
-
-  @media screen and (max-width: 996px){
-    margin: 0px 40px;
-} */
 }
 menu, ol, ul {
   list-style: none;

@@ -1,11 +1,11 @@
 export const darkTheme = {
     textColor: "#fff",
     textColor_sub: "#e2e2e2",
-    backgroundColor: "#000000",
-    divBackGroundColor: "#131313",
+    backgroundColor: "#1B1A20",
+    divBackGroundColor: "#25252A",
     keyColor: "#FFB673",
-    inputBoxBackground: "#131313",
-    textareaBackground: "#131313",
+    inputBoxBackground: "#25252A",
+    textareaBackground: "#25252A",
     border: "1px solid #777777",
     stackBackground: "#fff6c6",
     stackColor: "#292929"
