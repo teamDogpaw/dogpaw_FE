@@ -8,10 +8,10 @@ import {
   useCommentData,
 } from "../hook/CommentData";
 import instance from "../shared/axios";
+import Comment from "./Comment";
 
 
 const Comments = () => {
-  const [isEdit,setIsEdit] = useState(false);
 
   const params = useParams();
   const comment_ref = useRef("");
@@ -27,9 +27,7 @@ const Comments = () => {
   return instance.post(`api/posts/${id}/comments`,data);
   //return instance.post("http://localhost:5001/comment/",data);
 };
-const removeComment = (commentId) => {
-  return instance.delete(`api/posts/${id}/comments/${commentId}`);
-};
+
 
 
 
@@ -60,11 +58,7 @@ const removeComment = (commentId) => {
     },
     })
 
-  const { mutate: deleteComments } = useMutation(removeComment,{
-    onSuccess:(data)=>{
-      queryClient.invalidateQueries("commentList"); 
-    }
-  });
+
 
   const onCheckEnter = (e) => {
     if (e.key === "Enter") {
@@ -79,9 +73,7 @@ const removeComment = (commentId) => {
     comment_ref.current.value = "";
     addComments(comment);
   };
-  const DeleteComment = (commentId) => {
-    deleteComments(commentId)
-  };
+
 
   if (isLoading) {
     return <span>Loding...</span>;
@@ -106,24 +98,8 @@ const removeComment = (commentId) => {
       </CommentBox>
 
       <CommentList>
-        {data.data.map((list) => {
-          return (
-            <div key={list.commentId}>
-              <User>
-                <Img src={list.profileImg} alt="프로필사진" />
-                <p>{list.nickname}</p>
-              </User>
-              <Comment>
-               {isEdit ? (<input type="text" defaultValue={list.comment}/>) : (<p>{list.comment}</p>)}
-                <p>{list.modifedAt}</p>
-              </Comment>
-              <button onClick={()=>{DeleteComment(list.commentId)}}>삭제</button>
-              <button >수정</button>
-              <button >완료</button>
-              <hr style={{ color: "#e2e2e2" }} />
-            </div>
-          );
-        })}
+       
+        <Comment data={data}/>
       </CommentList>
     </Wrap>
   );
@@ -178,24 +154,24 @@ const Button = styled.button`
 const CommentList = styled.div`
   //background-color:olive;
 `;
-const User = styled.div`
-  display: flex;
-  align-items: center;
-  margin: 10px 0;
-`;
+// const User = styled.div`
+//   display: flex;
+//   align-items: center;
+//   margin: 10px 0;
+// `;
 
-const Img = styled.img`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
-`;
-const Comment = styled.div`
-  margin-top: 10px;
-  & p:last-child {
-    color: #777777;
-    padding-top: 10px;
-  }
-`;
+// const Img = styled.img`
+//   width: 40px;
+//   height: 40px;
+//   border-radius: 50%;
+//   margin-right: 10px;
+// `;
+// const Comment = styled.div`
+//   margin-top: 10px;
+//   & p:last-child {
+//     color: #777777;
+//     padding-top: 10px;
+//   }
+// `;
 
 export default Comments;
