@@ -38,7 +38,7 @@ const Bookmark = () => {
     <div>
       {myBookmark?.data.map((content) => {
         return (
-          <div>
+          <div key={content.id}>
             <ListProfilePic src={content.profileImg} />
             {content.nickname}<br />
             <svg width="19" height="27" viewBox="0 0 19 27" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -50,9 +50,9 @@ const Bookmark = () => {
 
             {content.title}<br />
             {content.content}<br />
-            {content.stacks.map((stack) => {
+            {content.stacks.map((stack, index) => {
               return (
-                <ListStack>#{stack}</ListStack>
+                <ListStack key={index}>#{stack}</ListStack>
               )
             })}
             {content.startAt}

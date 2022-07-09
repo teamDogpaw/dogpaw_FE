@@ -32,7 +32,7 @@ const JoinProject = () => {
   }
   return (
     <div>
-      {joinproject?.data.map((content) => {
+      {joinproject?.data?.map((content) => {
         return (
           <div>
             <ListProfilePic src={content.profileImg} />

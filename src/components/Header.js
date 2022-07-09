@@ -3,6 +3,7 @@ import { DarkThemeAtom } from "../atom/theme";
 import React, { useState } from "react";
 import ModalOpen from "./Modal";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 import { ReactComponent as Logo } from "../styles/icon/icon.svg";
 import lightMode  from "../styles/icon/toggleLight.svg";
@@ -45,6 +46,9 @@ const Header = () => {
 
   return (
     <>
+
+      <Link to="/mypage">마이페이지</Link>
+
     <div>
       <ModeBtn onClick={() => setIsDark((prev) => !prev)} isDark={isDark}>
         <ModeCircle isDark={isDark}/>
@@ -54,6 +58,7 @@ const Header = () => {
       <ModalOpen/>
       <button onClick={logout}>로그아웃</button>
       <Logo onClick={()=>{navigate("/")}}/>
+
     </>
   );
 };

@@ -10,7 +10,7 @@ import Register from "./components/Register"
 const Router = () => {
   return (
     <Routes>
-      <Route path="/" element={<Main />} />
+      <Route path="/" element={<Main />}/>
       <Route path="/detail/:postId" element={<Detail />} />
       <Route path="/write" element={<Write />} />
       <Route path="/write/:id" element={<Write />} />
