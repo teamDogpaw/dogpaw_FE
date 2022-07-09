@@ -1,8 +1,9 @@
 import axios from "axios";
 
 export const instance = axios.create({
-  baseURL: "http://13.125.213.81"
+  baseURL: "http://3.35.22.190"
 });
+
 
 const token = localStorage.getItem("token");
 
