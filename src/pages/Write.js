@@ -35,10 +35,11 @@ const Write = ({content}) => {
 
    const PostPublish = async () => {
       try {
-         const response = await instance.post(`/api/post`, selectedData)
+         await instance.post(`/api/post`, selectedData)
+         navigate("/")
       }
       catch (error) {
-         console.log(error)
+         alert(error)
       }
    }
 

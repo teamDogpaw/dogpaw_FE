@@ -14,51 +14,25 @@ import profilepic from  "../styles/icon/defaultProfile.svg";
 
 const MyPage = () => {
    const [tab, setTab] = useState(<Bookmark />);
-   const [userInfo, setUserInfo] = useRecoilState(UserInfoAtom)
+   const [isEdit, setIsEdit] = useState(false);
+   const [userInfo, setUserInfo] = useRecoilState(UserInfoAtom);
 
 
-   const GetUserInfo = async () => {
-      try {
-         const response = await instance.get(`/user/userinfo`)
-         console.log(response.data)
-         const axiosData = response.data
-         return axiosData
-      } catch(error){
-         console.log(error)
-      }
 
-   }
-
-   const {isLoading, error, data} = useQuery('userinfo', GetUserInfo)
-
-   useEffect(() => {
-      setUserInfo(data)
-      console.log(userInfo)
-   }, [data])
-
-
-   if (isLoading) {
-      return (
-         <h1>loading...</h1>
-      )
-   }
    return (
       <>
          <MainBody>
-            
-           
-
             {userInfo?.profileImg === null ? <Profilepic src={profilepic} /> : <Profilepic src={userInfo?.profileImg} />} 
-            {data?.nickname} <br />
-            {data?.username}
+            {userInfo?.nickname} <br />
+            {userInfo?.username}
             <div style={{ display: "flex" }}>
-               {data?.stacks.map((mystack) => {
+               {userInfo?.stacks.map((mystack) => {
                   return (
                      <MyStack key={mystack.id}># {mystack.stack}</MyStack>
                   )
                })}
             </div>
-            <Btn>프로필 편집</Btn> <br />
+            <Btn onClick={()=>setIsEdit(true)}>프로필 편집</Btn> <br />
          </MainBody>
 
 
