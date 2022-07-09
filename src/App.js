@@ -17,20 +17,29 @@ function App() {
 //console.log(isLogin)
 
 useEffect(()=>{
-  const token = localStorage.getItem("accesToken");
-  if(token){
-    instance.defaults.headers.common["Authorization"] =  `Bearer ${token}`
-  }
+  const token = localStorage.getItem("token");
+  console.log(isLogin)
+  // if(token){
+  //   instance.defaults.headers.common["Authorization"] =  `Bearer ${token}`
+  // }
+
+  // if(token){
+  //   setIsLogin(true);
+  // } else {
+  //   setIsLogin(false)
+  // }
 },[])
 
-  const { isLoading, error, data } = useQuery('userinfo', () =>
-  instance.get(`http://3.35.22.190/user/userinfo`),{
-    refetchOnWindowFocus: false,
-    onSuccess:(data)=>{
-      setIsLogin(data.data)
-    }
-  }
-)
+//   const { isLoading, error, data } = useQuery('userinfo', () =>
+//     instance.get(`http://3.35.22.190/user/userinfo`),{
+//     refetchOnWindowFocus: false,
+//     onSuccess:(data)=>{
+//       setIsLogin(data.data)
+//     }
+//   }
+// )
+
+
 
   return (
 
