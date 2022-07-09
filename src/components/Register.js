@@ -2,6 +2,7 @@ import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import Stack from "./Stack";
+import instance from "../shared/axios";
 
 const Register = () => {
   //아이디, 이메일, 비밀번호, 비밀번호 확인, 스택
@@ -33,7 +34,7 @@ const Register = () => {
     };
     //console.log(data);
     try {
-      await axios.post("http://13.125.213.81/user/signup", data).then((res) => {
+      await instance.post("/user/signup", data).then((res) => {
         console.log(res, "회원가입");
         window.alert("회원가입 성공 :)");
         window.location.replace("/login");
@@ -50,8 +51,8 @@ const Register = () => {
       nickname: nickName,
     };
     try {
-      await axios
-        .post("http://13.125.213.81/user/nickname", data)
+      await instance
+        .post("/user/nickname", data)
         .then((res) => console.log(res, "닉네임 중복확인"));
     } catch (err) {
       console.log(err);
@@ -245,7 +246,7 @@ const IdPut = styled.input`
   font-weight: bold;
   font-family: Jalnan;
   color: black;
-  :: placeholder {
+  ::placeholder {
     font-weight: bold;
     font-size: 16px;
     color: #9f9f9f;
@@ -281,7 +282,7 @@ background-color: ${(props) => (props.disabled ? "#f8cbac" : "#ee8548")};
   font-size: large;
   font-family: Jalnan;
   &:hover {
-    background-color: ${(props) => (props.disabled ? "#f8cbac" : "#c64d07;")}
+    background-color: ${(props) => (props.disabled ? "#f8cbac" : "#c64d07;")};
     cursor: pointer;
   }
 `;
