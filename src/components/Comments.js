@@ -9,38 +9,36 @@ import {
 } from "../hook/CommentData";
 import instance from "../shared/axios";
 
-
 const Comments = () => {
-  const [isEdit,setIsEdit] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
   const params = useParams();
   const comment_ref = useRef("");
- const id = params.postId
+  const id = params.postId;
 
- const getCommentList = () => {
-  return instance.get("http://localhost:5001/comment/");
-  //return instance.get("http://localhost:5001/comment/");
-};
+  const getCommentList = () => {
+    return instance.get("http://localhost:5001/comment/");
+    //return instance.get("http://localhost:5001/comment/");
+  };
 
- const addComment = (data) => {
-  return instance.post(`api/posts/${id}/comments`,data);
-  //return instance.post("http://localhost:5001/comment/",data);
-};
+  const addComment = (data) => {
+    return instance.post(`api/posts/${id}/comments`, data);
+    //return instance.post("http://localhost:5001/comment/",data);
+  };
 
-// const CommentPost = async () => {
-//   try {
-//     const res = await instance.post(`http://13.125.213.81/api/posts/${id}/comments`, { comment: comment_ref.current.value });
-//     return res.data;
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
-
+  // const CommentPost = async () => {
+  //   try {
+  //     const res = await instance.post(`http://13.125.213.81/api/posts/${id}/comments`, { comment: comment_ref.current.value });
+  //     return res.data;
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   // const { isLoading, isError, data, error } = useCommentData(
   //   onSuccess,
   //   onError
   // );
- 
+
   const { isLoading, isError, data, error } = useQuery(
     "commentList",
     getCommentList,
@@ -54,14 +52,14 @@ const Comments = () => {
       },
     }
   );
-  
+
   const queryClient = useQueryClient();
   //const { mutate: addComments } = useAddCommentData(id);
-  const {mutate :addComments} = useMutation(addComment,{
+  const { mutate: addComments } = useMutation(addComment, {
     onSuccess: () => {
-      queryClient.invalidateQueries("commentList"); 
+      queryClient.invalidateQueries("commentList");
     },
-    })
+  });
 
   const { mutate: deleteComments } = useDeleteCommentData();
 
@@ -79,7 +77,7 @@ const Comments = () => {
     addComments(comment);
   };
   const handleDeleteComment = (id) => {
-    deleteComments(id)
+    deleteComments(id);
   };
 
   if (isLoading) {
@@ -91,9 +89,8 @@ const Comments = () => {
   }
 
   const openEdit = () => {
-    setIsEdit(true)
-}
-
+    setIsEdit(true);
+  };
 
   return (
     <Wrap>
@@ -117,7 +114,11 @@ const Comments = () => {
                 <p>{list.nickname}</p>
               </User>
               <Comment>
-               {isEdit ? (<input type="text" defaultValue={list.comment}/>) : (<p>{list.comment}</p>)}
+                {isEdit ? (
+                  <input type="text" defaultValue={list.comment} />
+                ) : (
+                  <p>{list.comment}</p>
+                )}
                 <p>{list.modifedAt}</p>
               </Comment>
               <button onClick={handleDeleteComment}>삭제</button>
@@ -144,8 +145,7 @@ const CommentBox = styled.div`
   flex-direction: column;
   position: relative;
   height: 140px;
-  margin-top:10px;
-  
+  margin-top: 10px;
 `;
 const Input = styled.input`
   width: 100%;
@@ -154,7 +154,7 @@ const Input = styled.input`
   border: 1px solid #e2e2e2;
   border-radius: 8px;
   outline: none;
-  background-color: ${(props)=> props.theme.inputBoxBackground};
+  background-color: ${(props) => props.theme.inputBoxBackground};
 `;
 
 const Button = styled.button`
@@ -167,14 +167,14 @@ const Button = styled.button`
   position: absolute;
   right: 0;
   bottom: 0;
-  
+
   cursor: pointer;
   :hover {
-   background-color: #FF891C;
-}
-:active{
-   background-color: #D26500;
-}
+    background-color: #ff891c;
+  }
+  :active {
+    background-color: #d26500;
+  }
 `;
 
 const CommentList = styled.div`

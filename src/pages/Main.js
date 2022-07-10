@@ -89,21 +89,19 @@ const Main = () => {
               <Content>
                 <h1>{list.title}</h1>
                 <p>{list.content}</p>
-                
               </Content>
 
               <Hashtag>
-                  <ul>
-                    {list.stacks.map((lang, idx) => (
-                      <li key={idx}>#{lang}</li>
-                    ))}
-                  </ul>
-                  <p style={{ color: "#ffb673" }}>
-                    #{list.online ? "온라인" : "오프라인"}
-                  </p>
-                </Hashtag>
+                <ul>
+                  {list.stacks.map((lang, idx) => (
+                    <li key={idx}>#{lang}</li>
+                  ))}
+                </ul>
+                <p style={{ color: "#ffb673" }}>
+                  #{list.online ? "온라인" : "오프라인"}
+                </p>
+              </Hashtag>
               <Info>
-                
                 <Comment>
                   <CommentIcon />
                   <p>{list.commentCnt}</p>
@@ -134,7 +132,7 @@ const Main = () => {
   );
 };
 const Wrap = styled.div`
- /* // background-color: gold;
+  /* // background-color: gold;
   display: flex;
   flex-direction: column;
   margin: auto;
@@ -146,9 +144,9 @@ const Wrap = styled.div`
   border-radius: 16px;
   padding: 32px;
 
-  @media screen and (max-width: 996px){
+  @media screen and (max-width: 996px) {
     margin: 0px 40px;
-}
+  }
 
   ul {
     display: flex;
@@ -202,7 +200,6 @@ const ArticleWrap = styled.ul`
   gap: 10px;
   display: flex;
   flex-wrap: wrap;
-  
 `;
 const Article = styled.li`
   background-color: ${(props) => props.theme.divBackGroundColor};
@@ -212,23 +209,17 @@ const Article = styled.li`
   width: 304px;
   height: 350px;
   position: relative;
-  
- 
-
-  
 `;
 
 const Content = styled.div`
   margin: 20px 0;
-  
+
   h1 {
     padding-bottom: 20px;
   }
 `;
 
 const Hashtag = styled.div`
-
-
   li {
     margin-right: 5px;
     color: #ffb673;
@@ -267,8 +258,8 @@ const User = styled.div`
 `;
 const Info = styled.div`
   display: flex;
-  width:100%;
-  background-color:gold;
+  width: 100%;
+  background-color: gold;
   position: absolute;
   bottom: 70px;
   svg {

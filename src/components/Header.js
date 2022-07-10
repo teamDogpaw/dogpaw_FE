@@ -7,8 +7,11 @@ import axios from "axios";
 const Header = () => {
   const isDarkTheme = useSetRecoilState(DarkThemeAtom);
 
-  const logout = async () => {
-    const data = {
+  // 로그아웃
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("retoken");
+    /* const data = {
       userId: localStorage.getItem("id"),
     };
     try {
@@ -18,7 +21,7 @@ const Header = () => {
       localStorage.removeItem("token", "retoken");
     } catch (err) {
       console.log(err);
-    }
+    } */
   };
   return (
     <>

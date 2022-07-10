@@ -4,16 +4,6 @@ import styled from "styled-components";
 const Stack = () => {
   const [stack, setStack] = useState([]);
 
-  const [selectedData, setSelectedData] = useState({
-    title: "",
-    maxCapacity: 1,
-    period: 0,
-    stacks: [],
-    online: true,
-    content: "",
-    startAt: 0,
-  });
-
   const addStack = (newStack) => {
     setStack([...stack, newStack]);
   };
@@ -24,15 +14,14 @@ const Stack = () => {
     const newStacks = stack.filter((stack) => stack !== selectedStack);
     console.log(newStacks);
     setStack(newStacks);
-    setSelectedData({ stacks: newStacks });
   };
 
   return (
     <>
       <SelectTitle>구인스택</SelectTitle>
       <div>
-        <details style={{ height: "40px" }}>
-          <SelectBox>스택을 선택하세요</SelectBox>
+        <details>
+          <SelectBox>해당하는 기술 스텍을 선택해주세요. (중복 가능)</SelectBox>
           <SelectBoxOpen>
             <Option onClick={() => addStack("Java")}>Java</Option>
             <Option onClick={() => addStack("Javascript")}>Javascript</Option>
@@ -95,10 +84,26 @@ const MyStack = styled.div`
 
 const SelectTitle = styled.p`
   font-size: 26px;
+  font-weight: bold;
+  margin-left: -110px;
+  padding: 1rem 0;
 `;
 
 const SelectBox = styled.summary`
-  line-height: 25px;
+  line-height: 5px;
+  padding: 1.3rem 0.5rem;
+  background-color: #fff;
+  border: 2px solid #eee;
+  border-radius: 8px;
+  width: 500px;
+  height: 30px;
+  margin-left: -115px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #9f9f9f;
+  list-style: none;
+`;
+/* line-height: 25px;
   width: 200px;
   height: 37px;
   padding: 5px 10px;
@@ -106,16 +111,14 @@ const SelectBox = styled.summary`
   border-radius: 8px;
   font-size: 16px;
   -webkit-appearance: none;
-  background-color: ${(props) => props.theme.inputBoxBackground};
-`;
+  background-color: ${(props) => props.theme.inputBoxBackground}; */
 
 const SelectBoxOpen = styled.ul`
-  max-height: 200px;
-
   z-index: 10;
   border-radius: 8px;
   position: absolute;
-  width: 200px;
+  margin-left: -115px;
+  width: 500px;
   border: ${(props) => props.theme.border};
   background-color: ${(props) => props.theme.inputBoxBackground};
   box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.1);
