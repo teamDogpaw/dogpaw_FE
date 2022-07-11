@@ -1,9 +1,6 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
-import axios from "axios";
-
 import arrow from "../assets/stack_arrow.png";
-import Stack from "./Stack";
 import instance from "../shared/axios";
 
 const Register = () => {
@@ -36,7 +33,6 @@ const Register = () => {
     };
     //console.log(data);
     try {
-
       await instance.post("/user/signup", data).then((res) => {
         console.log(res, "회원가입");
         window.alert("회원가입 성공 :)");
@@ -54,11 +50,9 @@ const Register = () => {
       nickname: nickName,
     };
     try {
-
       await instance
         .post("/user/nickname", data)
         .then((res) => console.log(res, "닉네임 중복확인"));
-
     } catch (err) {
       console.log(err);
     }
@@ -413,8 +407,8 @@ const Option = styled.li`
 `;
 
 const SignUpBtn = styled.button`
-color: ${(props) => (props.disabled ? "black" : "white")};
-background-color: ${(props) => (props.disabled ? "#f8cbac" : "#ee8548")};
+  color: ${(props) => (props.disabled ? "black" : "white")};
+  background-color: ${(props) => (props.disabled ? "#f8cbac" : "#ee8548")};
   border: none;
   padding: 1rem;
   width: 500px;
