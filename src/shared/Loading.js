@@ -1,11 +1,11 @@
 import Lottie from "lottie-react";
-import lodingimg from "../styles/icon/lodingimg.json"
+import loadingimg from "../styles/icon/loadingimg.json"
 
 const Loading = ()=>{
 
     return (
         <div>
-            <Lottie animationData={lodingimg}/>
+            <Lottie animationData={loadingimg}/>
         </div>
     )
 }
