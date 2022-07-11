@@ -1,34 +1,35 @@
 import styled from "styled-components";
 import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/Vector 33.svg";
+import person from "../styles/icon/person.png"
 
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Comments from "../components/Comments";
-import { useState } from "react";
 import { instance } from "../shared/axios";
 import { useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/userQuery";
 
-const Detail = () => {
-  const user = useRecoilValue(UserInfoAtom);
-  //console.log(user)
 
+const Detail = () => {
+  const navigate = useNavigate();
+  const user = useRecoilValue(UserInfoAtom);
   const params = useParams();
   const id = params.postId;
 
+
+
   const getPostList = () => {
-    //return axios.get(`http://localhost:5001/allpost/${id}`);
     return instance.get(`api/post/detail/${id}`);
   };
 
-  const bookmarkData = () =>{
-    return instance.post(`api/bookMark/${id}`)
-  }
+  const bookmarkData = () => {
+    return instance.post(`api/bookMark/${id}`);
+  };
 
-  const applyData = () =>{
-    return instance.post(`api/apply/${id}`)
-  }
+  const applyData = () => {
+    return instance.post(`api/apply/${id}`);
+  };
 
   const detailQuery = useQuery("detailList", getPostList, {
     refetchOnWindowFocus: false, // 사용자가 다른 곳에 갔다가 돌아올시 함수 재실행 여부
@@ -40,61 +41,59 @@ const Detail = () => {
     },
   });
 
- const queryClient = useQueryClient();
-  
-  const {mutate:bookmark} = useMutation(bookmarkData,{
-    onSuccess:(data)=>{
-      console.log("북마크 res",data)
-      queryClient.invalidateQueries("detailList");
-    }
-  })
-  const {mutate:applymark} = useMutation(applyData,{
-    onSuccess:(data)=>{
-      console.log(data)
+  // 뮤테이션
+  const queryClient = useQueryClient();
+
+  const { mutate: bookmark } = useMutation(bookmarkData, {
+    onSuccess: (data) => {
+      console.log(data);
       queryClient.invalidateQueries("detailList");
     },
-    onError:(e)=>{
-      console.log(e.message)
-    }
-  })
-
-
+    onError: (e) => {
+      console.log(e.message);
+    },
+  });
+  const { mutate: applymark } = useMutation(applyData, {
+    onSuccess: (data) => {
+      console.log(data);
+      queryClient.invalidateQueries("detailList");
+    },
+    onError: (e) => {
+      console.log(e.message);
+    },
+  });
 
   if (detailQuery.isLoading) {
     return <span>Loding...</span>;
   }
 
-
-
-
   const bookMark = () => {
-  
-    bookmark()
+    bookmark();
   };
 
   const applyBtn = () => {
-    applymark()
+    applymark();
   };
 
   // console.log(mark)
   const content = detailQuery.data.data;
-  const author = detailQuery.data.data.nickname
-  const userId = user.nickname
+  const author = detailQuery.data.data.nickname;
+  const userId = user.nickname;
 
-  
   //console.log(userId)
   //console.log(content);
   return (
     <Wrap>
-      
       <ArticleTop>
         <h1>{content.title}</h1>
-
-        <Link to={`/write/${id}`} content={content}> 수정하기 </Link>
+        <Link to={`/write/${id}`} content={content}>
+          {" "}
+          수정하기{" "}
+        </Link>
         삭제하기
         <User>
-          <Img src={content.profileImg} alt="profile" />
-          <p>{content.nickname}</p>
+          <Img src={content.profileImg || person} alt="profile" />
+          <span>{content.nickname}</span>
         </User>
         <Mark>
           {content.bookMarkStatus ? (
@@ -102,51 +101,47 @@ const Detail = () => {
           ) : (
             <BookmarkIcon onClick={bookMark} />
           )}
-          
         </Mark>
-
-        <hr/>
+        <hr />
         <ContentWrap>
           <div>
             <Online>
               <p>진행방식</p>
-              <p> {content.onLine ? "온라인" : "오프라인"}</p>
+              <span> {content.onLine ? "온라인" : "오프라인"}</span>
             </Online>
             <div>
-            <Stacks>
-              <p>구인스택</p>
-              <Stack>
-                {content.stacks.map((lang, idx) => (
-                  <div key={idx}> #{lang}</div>
-                ))}
-              </Stack>
-            </Stacks>
+              <Stacks>
+                <p>구인스택</p>
+                <Stack>
+                  {content.stacks.map((lang, idx) => (
+                    <span key={idx}> #{lang}</span>
+                  ))}
+                </Stack>
+              </Stacks>
             </div>
             <Date>
               <p>시작 예정일</p>
-              <p> {content.startAt}</p>
+              <span> {content.startAt}</span>
             </Date>
             <Maxcapacity>
               <p>모집 인원</p>
-              <p> {content.maxCapacity} 명</p>
+              <span> {content.maxCapacity} 명</span>
             </Maxcapacity>
           </div>
-          {author === userId ? (<Button>지원자 보기</Button>):
-          (!content.applyStatus ? (
+          {author === userId ? (
+            <Button>지원자 보기</Button>
+          ) : !content.applyStatus ? (
             <Button onClick={applyBtn}>프로젝트 지원하기</Button>
           ) : (
             <Button onClick={applyBtn}>지원 취소하기</Button>
-          ))}
-          
+          )}
         </ContentWrap>
       </ArticleTop>
-
       <Article>
         <h1>프로젝트 소개</h1>
-        <hr/>
-        <pre><div>{content.content}</div></pre>
+        <hr />
+        <pre>{content.content}</pre>
       </Article>
-
       <Comments />
     </Wrap>
   );
@@ -165,7 +160,11 @@ const Wrap = styled.div`
   }
 
   hr {
-    color: #E2E2E2;
+    color: #e2e2e2;
+  }
+
+  span {
+    font-weight:500;
   }
 
   @media screen and (max-width: 996px) {
@@ -204,17 +203,13 @@ const ContentWrap = styled.div`
   padding-top: 10px;
   line-height: 48px;
   position: relative;
-  // background-color:olive;
 `;
 
 const Online = styled.div`
   display: flex;
 
-
-
   p:first-child {
-    
-    width:90px;
+    width: 90px;
   }
 `;
 
@@ -232,8 +227,11 @@ const Stack = styled.div`
   display: flex;
   align-items: center;
 
-  div {
+  span {
     background-color: ${(props) => props.theme.stackBackground};
+    height: 38px;
+    display: flex;
+    align-items: center;
     padding: 0px 15px;
     border-radius: 24px;
     margin-right: 16px;
@@ -242,30 +240,24 @@ const Stack = styled.div`
 `;
 
 const Article = styled(ArticleTop)`
- //margin-top: 132px;
-  font-size: 1.125rem;
-  word-break: break-all;
-  line-height: 1.7;
+  line-height: 1.5;
   letter-spacing: -0.004em;
   margin-top: 30px;
-  div {
-    padding-top: 20px;
-    width: 100%;
-  margin: 40px auto 0;
- 
 
+  pre {
+    white-space: pre-wrap;
   }
 `;
 
 const Button = styled.button`
-  height: 50px;
-  width: 200px;
+  height: 52px;
+  width: 180px;
   background-color: #ffb673;
   border: none;
   border-radius: 8px;
   color: #fff;
   padding: 16px 24px;
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 700;
   display: flex;
   align-items: center;
