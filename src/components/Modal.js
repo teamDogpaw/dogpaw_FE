@@ -37,11 +37,14 @@ import React, { useState } from "react";
 import Modal from "react-modal";
 import Login from "./Login";
 import Register from "./Register";
+import { useRecoilValue, useRecoilState } from "recoil";
+import { modalChange } from "../atom/userQuery";
 
 Modal.setAppElement("#root");
 const ModalOpen = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [change, setChange] = useState(<Login />);
+  const onModal = useRecoilValue(modalChange);
+
   return (
     <div>
       <button onClick={() => setModalIsOpen(true)}>로그인</button>
@@ -58,7 +61,7 @@ const ModalOpen = () => {
           },
         }}
       >
-        {change}
+        {onModal}
         <div>
           <button onClick={() => setModalIsOpen(false)}>닫기</button>
         </div>

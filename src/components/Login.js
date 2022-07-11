@@ -1,12 +1,14 @@
 import React, { useState, useCallback } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
 import styled from "styled-components";
-import instance from "../shared/axios";
+import kakaoBTN from "../assets/카카오.png";
+import { useSetRecoilState } from "recoil";
+import { modalChange } from "../atom/userQuery";
+import Register from "./Register";
 
 function Login() {
-  const navigate = useNavigate();
+  const setOnModal = useSetRecoilState(modalChange);
 
   //아이디, 비밀번호
   const [email, setEmail] = useState("");
@@ -29,8 +31,7 @@ function Login() {
     //console.log(data);
 
     try {
-
-      await instance.post("/user/login", data).then((res) => {
+      await axios.post("http://3.35.22.190/user/login", data).then((res) => {
         const accessToken = res.data.data.token.accessToken;
         const refreshToken = res.data.data.token.refreshToken;
         const id = res.data.data.userId;
@@ -130,12 +131,14 @@ function Login() {
       >
         로그인
       </SignInBtn>
-      <a href={KAKAO_AUTH_URL}> 카카오 로그인</a>
+      <a href={KAKAO_AUTH_URL}>
+        <IMG src={kakaoBTN} alt="" />
+      </a>
       <Log>
         아직 계정이 없으신가요?
         <RegisterBtn
           onClick={() => {
-            navigate("/register");
+            setOnModal(<Register />);
           }}
         >
           회원가입
@@ -211,6 +214,14 @@ const SignInBtn = styled.button`
     background-color: ${(props) => (props.disabled ? "#f8cbac" : "#c64d07;")};
     cursor: pointer;
   }
+`;
+
+const IMG = styled.img`
+  position: absolute;
+  left: 90%;
+  bottom: 1%;
+  width: 60px;
+  height: 60px;
 `;
 
 const Log = styled.p`

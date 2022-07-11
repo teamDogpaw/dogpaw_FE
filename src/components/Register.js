@@ -1,9 +1,15 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import arrow from "../assets/stack_arrow.png";
-import instance from "../shared/axios";
+
+import { useSetRecoilState } from "recoil";
+import { modalChange } from "../atom/userQuery";
+import Login from "./Login";
 
 const Register = () => {
+  const setOnModal = useSetRecoilState(modalChange);
+
   //아이디, 이메일, 비밀번호, 비밀번호 확인, 스택
   const [nickName, setNickName] = useState("");
   const [email, setEmail] = useState("");
@@ -33,7 +39,7 @@ const Register = () => {
     };
     //console.log(data);
     try {
-      await instance.post("/user/signup", data).then((res) => {
+      await axios.post("http://3.35.22.190/user/signup", data).then((res) => {
         console.log(res, "회원가입");
         window.alert("회원가입 성공 :)");
         window.location.replace("/login");
@@ -50,9 +56,11 @@ const Register = () => {
       nickname: nickName,
     };
     try {
-      await instance
-        .post("/user/nickname", data)
-        .then((res) => console.log(res, "닉네임 중복확인"));
+      await axios.post("http://3.35.22.190/user/nickname", data).then(
+        (
+          res //console.log(res, "닉네임 중복확인")
+        ) => window.alert(res.data.msg)
+      );
     } catch (err) {
       console.log(err);
     }
@@ -284,6 +292,17 @@ const Register = () => {
       >
         회원가입하기
       </SignUpBtn>
+      <Log>
+        계정이 있으셨나요?
+        <RegisterBtn
+          onClick={() => {
+            setOnModal(<Login />);
+          }}
+        >
+          로그인
+        </RegisterBtn>
+        하러가기
+      </Log>
     </All>
   );
 };
@@ -320,7 +339,7 @@ const IdPut = styled.input`
   font-weight: bold;
   font-family: Jalnan;
   color: black;
-  ::placeholder {
+  :: placeholder {
     font-weight: bold;
     font-size: 16px;
     color: #9f9f9f;
@@ -407,8 +426,8 @@ const Option = styled.li`
 `;
 
 const SignUpBtn = styled.button`
-  color: ${(props) => (props.disabled ? "black" : "white")};
-  background-color: ${(props) => (props.disabled ? "#f8cbac" : "#ee8548")};
+color: ${(props) => (props.disabled ? "black" : "white")};
+background-color: ${(props) => (props.disabled ? "#f8cbac" : "#ee8548")};
   border: none;
   padding: 1rem;
   width: 500px;
@@ -417,7 +436,22 @@ const SignUpBtn = styled.button`
   font-size: large;
   font-family: Jalnan;
   &:hover {
-    background-color: ${(props) => (props.disabled ? "#f8cbac" : "#c64d07;")};
+    background-color: ${(props) => (props.disabled ? "#f8cbac" : "#c64d07;")}
+    cursor: pointer;
+  }
+`;
+
+const Log = styled.p`
+  margin-top: 30px;
+  color: #a3a3a3;
+  margin-left: -45px;
+`;
+
+const RegisterBtn = styled.span`
+  color: #9f9f9f;
+  &:hover {
+    font-weight: bold;
+    color: #5b5b5b;
     cursor: pointer;
   }
 `;
