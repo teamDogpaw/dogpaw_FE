@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { useQuery } from "react-query";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import styled, { css } from "styled-components";
@@ -9,9 +8,11 @@ import { ReactComponent as CommentIcon } from "../styles/icon/u_comment-alt-line
 import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/Vector 33.svg";
 
+import person from "../styles/icon/person.png"
+
 import instance from "../shared/axios";
-import { useRecoilValue } from "recoil";
-import { UserInfoAtom } from "../atom/userQuery";
+import Loading from "../shared/Loading";
+
 
 const Main = () => {
   const navigate = useNavigate();
@@ -19,9 +20,10 @@ const Main = () => {
   const [mark, setMark] = useState(false);
   const [toggle, setToggle] = useState(true);
 
+  const isLogin = localStorage.getItem("token");
+
   const getPostList = () => {
     return instance.get("http://3.35.22.190/api/allpost");
-    //return axios.get("http://localhost:5001/allpost");
   };
 
   const { isLoading, isError, data, error } = useQuery(
@@ -34,29 +36,21 @@ const Main = () => {
       },
       onError: (e) => {
         console.log(e.message);
-      },
+      }
     }
   );
   if (isLoading) {
-    return <span>Loding...</span>;
+    return <h1>로딩중!</h1>;
   }
 
   if (isError) {
     return <span>Error:{error.message}</span>;
   }
 
-  // console.log(data.data);
-
-  //   const test = data.data.filter(item => item.deadline === toggle) // deadline :모집 마감 => true, 모집중 => false
-  //  console.log(test)
-
-  const all = data.data;
-  //console.log(all)
-
-  const mojib = toggle ? all.filter((post) => post.deadline === false) : all;
-  //console.log(mojib);
-
+  // deadline :모집 마감 => true, 모집중 => false
   //toggle true : 모집중, false : 모두보기
+  const all = data.data;
+  const mojib = toggle ? all.filter((post) => post.deadline === false) : all;
 
   const bookMark = () => {
     if (mark === false) {
@@ -91,6 +85,10 @@ const Main = () => {
             <Article
               key={list.postId}
               onClick={() => {
+                if (!isLogin) {
+                  window.alert("로그인이 필요한 서비스입니다!");
+                  return;
+                }
                 navigate("/detail/" + list.postId);
               }}
             >
@@ -122,7 +120,7 @@ const Main = () => {
               </Info>
               <Footer>
                 <User>
-                  <img src={list.profileImg} alt="profileImg" />
+                  <img src={list.profileImg || person} alt="profileImg" />
                   <p>{list.nickname}</p>
                 </User>
 
@@ -140,17 +138,11 @@ const Main = () => {
   );
 };
 const Wrap = styled.div`
-  /* // background-color: gold;
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  //align-items:center;
-  flex-wrap: wrap; */
-
   max-width: 1310px;
   margin: auto;
   border-radius: 16px;
   padding: 32px;
+  
 
   @media screen and (max-width: 996px) {
     margin: 0px 40px;

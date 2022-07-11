@@ -1,365 +1,177 @@
 import { Link, useNavigate } from "react-router-dom";
 import ReactDatePicker from "react-datepicker";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import React, { useEffect, useState } from "react";
-import { ko } from "date-fns/esm/locale";
+
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css"
+import React, { useEffect, useRef, useState } from "react";
 import Select from "react-select";
 import { MainBody, Btn, LineBtn, MyStack } from "../styles/style";
 import styled from "styled-components";
-import "../styles/style.css";
-import { ReactComponent as CapacityArrowDown } from "../styles/icon/capacityArrowDown.svg";
-import { ReactComponent as CapacityArrowUp } from "../styles/icon/capacityArrowUp.svg";
+import "../styles/style.css"
+
 import dayjs from "dayjs";
 import axios from "axios";
 import instance from "../shared/axios";
+import WriteSelect from "../components/WriteSelect";
 
-const Write = () => {
-  const navigate = useNavigate();
+const Write = ({content}) => {
+   const navigate = useNavigate()
 
-  const [selectedData, setSelectedData] = useState({
-    title: "",
-    maxCapacity: 1,
-    period: 0,
-    stacks: [],
-    online: true,
-    content: "",
-    startAt: 0,
-  });
+   const processdetailsRef = useRef(null);
+   const stackdetailsRef = useRef(null);
+   const perioddetailsRef = useRef(null);
+   const capacitydetailsRef = useRef(null);
 
-  const PostPublish = async () => {
-    try {
-      const response = await instance.post(`/api/post`, selectedData);
-      navigate("/");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+   const [startDate, setStartDate] = useState(new Date());
+   const [stack, setStack] = useState([])
+   const [selectedData, setSelectedData] = useState({
+      title: "",
+      maxCapacity: 1,
+      period: "예상 진행 기간",
+      stacks: [],
+      online: "온라인",
+      content: "",
+      startAt: dayjs(new Date()).format("YYYY/MM/DD")
+   })
 
-  const handleStartDate = (startDate) => {
-    setStartDate(startDate);
-    setSelectedData((prev) => ({
-      ...prev,
-      startAt: Number(dayjs(startDate).format("YYYYMMDD")),
-    }));
-  };
+   const PostPublish = async () => {
+      try {
+         await instance.post(`/api/post`, selectedData)
+         navigate("/")
+      }
+      catch (error) {
+         alert(error)
+      }
+   }
 
-  const [startDate, setStartDate] = useState(new Date());
+   const handleStartDate = startDate => {
+      setStartDate(startDate)
+      setSelectedData(prev => ({ ...prev, startAt: dayjs(startDate).format("YYYY/MM/DD") }))
+   }
 
-  const handleTitle = (title) => {
-    setSelectedData((prev) => ({ ...prev, title }));
-  };
-  const handleContent = (content) => {
-    setSelectedData((prev) => ({ ...prev, content }));
-  };
+   const handleTitle = title => {
+      setSelectedData(prev => ({ ...prev, title }));
+   }
 
-  const period = ["1", "2", "3", "4", "5", "6"];
-  const capacity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+   const handleContent = content => {
+      setSelectedData(prev => ({ ...prev, content }));
+   }
 
-  const handleCapacity = (capacity) => {
-    setSelectedData((prev) => ({ ...prev, maxCapacity: capacity }));
-  };
+   const handleCapacity = capacity => {
+      setSelectedData(prev => ({ ...prev, maxCapacity: capacity }));
+      const details = capacitydetailsRef.current;
+      if(details) {
+         details.open = false;
+      }
+   }
 
-  const setPeriod = (period) => {
-    setSelectedData((prev) => ({ ...prev, period }));
-  };
+   const setPeriod = period => {
+      setSelectedData(prev => ({ ...prev, period }))
+      const details = perioddetailsRef.current;
+      if(details) {
+         details.open = false;
+      }
+   }
 
-  const handleProcess = (selectedProcess) => {
-    setSelectedData((prev) => ({ ...prev, online: selectedProcess }));
-  };
+   const handleProcess = (selectedProcess) => {
+      setSelectedData(prev => ({ ...prev, online: selectedProcess }))
+      const details = processdetailsRef.current;
+      if(details) {
+         details.open = false;
+      }
+   }
 
-  const [stack, setStack] = useState([]);
 
-  useEffect(() => {
-    console.log(selectedData);
-  }, [selectedData]);
 
-  const addStack = (newStack) => {
-    setStack([...stack, newStack]);
-    setSelectedData((prev) => ({ ...prev, stacks: stack }));
-  };
+   useEffect(() => {
+      console.log(selectedData)
+      console.log(content)
+   }, [selectedData])
 
-  const removeStack = (selectedStack) => {
-    console.log(stack);
-    console.log(selectedStack);
-    const newStacks = stack.filter((stack) => stack !== selectedStack);
-    console.log(newStacks);
-    setStack(newStacks);
-    setSelectedData({ stacks: newStacks });
-  };
+   const addStack = (newStack) => {
+      
+      if(!stack.includes(newStack)){
+         setStack([...stack, newStack])
+         setSelectedData(prev => ({ ...prev, stacks: stack }))
+      }else{
+         return null
+      }
+      const details = stackdetailsRef.current;
+      if(details) {
+         details.open = false;
+      }
 
-  return (
-    <>
-      <span onClick={() => navigate(-1)}> ⬅️ </span>
-      <br />
-      <WriteBody>
-        <TitleInput
-          placeholder="컨텐츠 제목을 작성해주세요"
-          required
-          onChange={(event) => handleTitle(event.target.value)}
-          maxLength={25}
-        />
+   }
 
-        <hr style={{ border: "1px solid #e2e2e2" }} />
+   const removeStack = (selectedStack) => {
+      console.log(stack)
+      console.log(selectedStack)
+      const newStacks = stack.filter((stack) => stack !== selectedStack)
+      console.log(newStacks)
+      setStack(newStacks)
+      setSelectedData(prev => ({ ...prev, stacks: newStacks }))
+   }
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "150px auto",
-            gridTemplateRows: "repeat(5, 1fr)",
-            gap: "16px 0px",
-            marginTop: "32px",
-          }}
-        >
-          <SelectTitle>진행방식</SelectTitle>
-          <details style={{ height: "40px" }}>
-            <SelectBox>{selectedData.online}</SelectBox>
-            <SelectBoxOpen>
-              <Option onClick={() => handleProcess(true)}>온라인</Option>
-              <Option onClick={() => handleProcess(false)}>오프라인</Option>
-            </SelectBoxOpen>
-          </details>
+   return (
+      <>
+         <span onClick={() => navigate(-1)}> ⬅️ </span>
+         <br />
+         <WriteBody>
+            <WriteSelect
+               selectedData={selectedData}
+               handleTitle={handleTitle}
+               handleCapacity={handleCapacity}
+               addStack={addStack}
+               removeStack={removeStack}
+               handleProcess={handleProcess}
+               handleStartDate={handleStartDate}
+               setPeriod={setPeriod}
+               stack={stack}
+               startDate={startDate}
+               processdetailsRef={processdetailsRef}
+               capacitydetailsRef={capacitydetailsRef}
+               stackdetailsRef={stackdetailsRef}
+               perioddetailsRef={perioddetailsRef}
+               content={content}
+            />
+         </WriteBody>
 
-          {/* <SelectBox name="online">
-                     <option value="online">온라인</option>
-                     <option value="online">오프라인</option>
-                  </SelectBox> */}
-          <SelectTitle>구인스택</SelectTitle>
-          <div>
-            <details style={{ height: "40px" }}>
-              <SelectBox>스택을 선택하세요</SelectBox>
-              <SelectBoxOpen>
-                <Option onClick={() => addStack("Java")}>Java</Option>
-                <Option onClick={() => addStack("Javascript")}>
-                  Javascript
-                </Option>
-                <Option onClick={() => addStack("TypeScript")}>
-                  TypeScript
-                </Option>
-                <Option onClick={() => addStack("React")}>React</Option>
-                <Option onClick={() => addStack("Vue")}>Vue</Option>
-              </SelectBoxOpen>
-            </details>
-            <div
-              style={{ display: "flex", flexWrap: "wrap", marginTop: "10px" }}
-            >
-              {stack.map((stack, index) => {
-                return (
-                  <MyStack style={{ margin: "0px 10px 10px 0px" }}>
-                    #{stack}{" "}
-                    <svg
-                      onClick={() => removeStack(stack)}
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M9.99996 18.3327C14.6023 18.3327 18.3333 14.6017 18.3333 9.99935C18.3333 5.39698 14.6023 1.66602 9.99996 1.66602C5.39759 1.66602 1.66663 5.39698 1.66663 9.99935C1.66663 14.6017 5.39759 18.3327 9.99996 18.3327Z"
-                        stroke="#FFB673"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M12.5 7.5L7.5 12.5"
-                        stroke="#FFB673"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M7.5 7.5L12.5 12.5"
-                        stroke="#FFB673"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </MyStack>
-                );
-              })}
-            </div>
-          </div>
+         <MainBody>
+            <h3>프로젝트 소개</h3>
+            <ProjectTextarea placeholder="컨텐츠에 대한 설명을 작성해주세요."
+               onChange={(event) => { handleContent(event.target.value) }} />
+         </MainBody>
 
-          {/* <SelectBox name="stack" placeholder="스택을 선택해주세요">
-                     <option value="java">JAVA</option>
-                  </SelectBox> */}
-          <SelectTitle>예상 진행 기간</SelectTitle>
-          <details style={{ height: "40px" }}>
-            <SelectBox>
-              {selectedData.period}개월 <CapacityArrowDown />
-            </SelectBox>
-            <SelectBoxOpen>
-              {period.map((month) => (
-                <Option
-                  key={month}
-                  onClick={() => {
-                    setPeriod(month);
-                  }}
-                >
-                  {month}개월
-                </Option>
-              ))}
-            </SelectBoxOpen>
-          </details>
-          <SelectTitle>시작 예정일 </SelectTitle>
-          <DateInput
-            showPopperArrow={false}
-            fixedHeight
-            locale={ko}
-            dateFormat="yyyy/MM/dd (eee)"
-            selected={startDate}
-            minDate={new Date()}
-            onChange={(date) => handleStartDate(date)}
-          />
-          <SelectTitle>모집인원</SelectTitle>
+         <Publish>
+            <LineBtn style={{ marginRight: "26px" }}>전체 삭제</LineBtn>
+            <Btn type="submit" onClick={PostPublish}>프로젝트 등록하기</Btn>
+         </Publish>
+      </>
+   )
+}
 
-          <details style={{ height: "40px" }}>
-            <SelectBox>
-              {selectedData.maxCapacity}명 <CapacityArrowDown />
-            </SelectBox>
-            <SelectBoxOpen>
-              {capacity.map((member) => (
-                <Option
-                  key={member}
-                  onClick={() => {
-                    handleCapacity(member);
-                  }}
-                >
-                  {member}명
-                </Option>
-              ))}
-            </SelectBoxOpen>
-          </details>
-        </div>
-      </WriteBody>
-
-      <MainBody>
-        <h3>프로젝트 소개</h3>
-        <ProjectTextarea
-          placeholder="컨텐츠에 대한 설명을 작성해주세요."
-          onChange={(event) => {
-            handleContent(event.target.value);
-          }}
-        />
-      </MainBody>
-
-      <Publish>
-        <LineBtn style={{ marginRight: "26px" }}>전체 삭제</LineBtn>
-        <Btn type="submit" onClick={PostPublish}>
-          프로젝트 등록하기
-        </Btn>
-      </Publish>
-    </>
-  );
-};
 
 const WriteBody = styled(MainBody)`
   margin-bottom: 40px;
   margin-top: 143px;
 `;
 
-const TitleInput = styled.input`
-  font-size: 40px;
-  font-weight: bold;
-  border: 0px transparent;
-  background-color: transparent;
-  :focus {
-    outline: none;
-  }
-
-  ::placeholder {
-    color: #e2e2e2;
-  }
-`;
-
-const SelectTitle = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const DateInput = styled(DatePicker)`
-  background-color: ${(props) => props.theme.inputBoxBackground};
-  height: 37px;
-  padding: 5px 10px;
-  border: ${(props) => props.theme.border};
-  border-radius: 8px;
-  font-size: 16px;
-  ::placeholder {
-    color: #e2e2e2;
-  }
-`;
-
-// const SelectBox = styled.select`
-// max-width:111x;
-// height: 37px;
-// padding: 5px 10px;
-// border: ${(props) => props.theme.border};
-// border-radius: 8px;
-// font-size: 16px;
-// -webkit-appearance: none;
-// background-color: ${(props) => props.theme.inputBoxBackground};
-
-// `;
-
-const SelectBox = styled.summary`
-  line-height: 25px;
-  width: 200px;
-  height: 37px;
-  padding: 5px 10px;
-  border: ${(props) => props.theme.border};
-  border-radius: 8px;
-  font-size: 16px;
-  -webkit-appearance: none;
-  background-color: ${(props) => props.theme.inputBoxBackground};
-`;
 
 const ProjectTextarea = styled.textarea`
-  margin: 24px 0px;
-  border: ${(props) => props.theme.border};
-  background-color: ${(props) => props.theme.textareaBackground};
-  resize: none;
-  width: 100%;
-  height: 160px;
-  border-radius: 8px;
-  padding: 12px;
-  font-size: 16px;
-
-  :focus {
-    outline: none;
-  }
+margin: 24px 0px;
+border: ${(props) => props.theme.border};
+background-color: ${(props) => props.theme.textareaBackground};
+resize: none;
+width:100%;
+height: 160px;
+border-radius: 8px;
+padding: 12px;
+font-size: 16px;
+:focus{
+   outline: none;
+}
 `;
 
-const InputBtn = styled(Btn)`
-  display: flex;
-  margin-left: auto;
-`;
-
-const SelectBoxOpen = styled.ul`
-  max-height: 200px;
-
-  z-index: 10;
-  border-radius: 8px;
-  position: absolute;
-  width: 200px;
-  border: ${(props) => props.theme.border};
-  background-color: ${(props) => props.theme.inputBoxBackground};
-  box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.1);
-  overflow: scroll;
-  margin-top: 4px;
-`;
-
-const Option = styled.li`
-  cursor: pointer;
-  padding: 8px 12px;
-
-  :hover {
-    background-color: ${(props) => props.theme.keyColor};
-    color: ${(props) => props.theme.stackColor};
-  }
-`;
 
 const Publish = styled.div`
   display: flex;
@@ -367,4 +179,7 @@ const Publish = styled.div`
   margin: 80px;
 `;
 
+
+
 export default Write;
+

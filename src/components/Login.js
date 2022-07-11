@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import styled from "styled-components";
+import instance from "../shared/axios";
 
 function Login() {
   const navigate = useNavigate();
@@ -28,7 +29,8 @@ function Login() {
     //console.log(data);
 
     try {
-      await axios.post("http://3.35.22.190/user/login", data).then((res) => {
+
+      await instance.post("/user/login", data).then((res) => {
         const accessToken = res.data.data.token.accessToken;
         const refreshToken = res.data.data.token.refreshToken;
         const id = res.data.data.userId;

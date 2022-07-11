@@ -8,80 +8,57 @@ import styled from "styled-components";
 import axios from "axios";
 import { useQuery } from "react-query";
 import { useRecoilState } from "recoil";
-import { UserInfoAtom } from "../atom/userQuery";
+
 import instance from "../shared/axios";
+import { UserInfoAtom } from "../atom/userQuery";
+import profilepic from  "../styles/icon/defaultProfile.svg";
 
 const MyPage = () => {
-  const [tab, setTab] = useState(<Bookmark />);
-  const [userInfo, setUserInfo] = useRecoilState(UserInfoAtom);
+   const [tab, setTab] = useState(<Bookmark />);
+   const [isEdit, setIsEdit] = useState(false);
+   const [userInfo, setUserInfo] = useRecoilState(UserInfoAtom);
 
-  const GetUserInfo = async () => {
-    try {
-      const response = await instance.get(`/user/userinfo`);
-      console.log(response.data);
-      const axiosData = response.data;
-      return axiosData;
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  const { isLoading, error, data } = useQuery("userinfo", GetUserInfo);
 
-  useEffect(() => {
-    setUserInfo(data);
-    console.log(userInfo);
-  }, [data]);
+   return (
+      <>
+         <MainBody>
+            {userInfo?.profileImg === null ? <Profilepic src={profilepic} /> : <Profilepic src={userInfo?.profileImg} />} 
+            {userInfo?.nickname} <br />
+            {userInfo?.username}
+            <div style={{ display: "flex" }}>
+               {userInfo?.stacks.map((mystack) => {
+                  return (
+                     <MyStack key={mystack.id}># {mystack.stack}</MyStack>
+                  )
+               })}
+            </div>
+            <Btn onClick={()=>setIsEdit(true)}>프로필 편집</Btn> <br />
+         </MainBody>
 
-  if (isLoading) {
-    return <h1>loading...</h1>;
-  }
-  return (
-    <>
-      <MainBody>
-        <Profilepic src={userInfo?.profileImg} />
-        {data?.nickname} <br />
-        {data?.username}
-        <div style={{ display: "flex" }}>
-          {data?.stacks.map((mystack) => {
-            return <MyStack key={mystack.id}># {mystack.stack}</MyStack>;
-          })}
-        </div>
-        <Btn>프로필 편집</Btn> <br />
-      </MainBody>
 
-      <WholeBody>
-        <TabBody>
-          <Tab
-            onClick={() => {
-              setTab(<Bookmark />);
-            }}
-          >
-            {" "}
-            관심 프로젝트{" "}
-          </Tab>
-          <Tab
-            onClick={() => {
-              setTab(<JoinProject />);
-            }}
-          >
-            {" "}
-            참여한 프로젝트{" "}
-          </Tab>
-          <Tab
-            onClick={() => {
-              setTab(<MyProject />);
-            }}
-          >
-            {" "}
-            내가 쓴 프로젝트{" "}
-          </Tab>
-        </TabBody>
-        <PostBody>{tab}</PostBody>
-      </WholeBody>
-    </>
-  );
-};
+
+         <WholeBody>
+            <TabBody>
+               <Tab onClick={() => { setTab(<Bookmark />) }}> 관심 프로젝트 </Tab>
+               <Tab onClick={() => { setTab(<JoinProject />) }}> 참여한 프로젝트 </Tab>
+               <Tab onClick={() => { setTab(<MyProject />) }}> 내가 쓴 프로젝트 </Tab>
+
+            </TabBody>
+            <PostBody>
+
+               {tab}
+            </PostBody>
+
+         </WholeBody>
+
+
+
+
+      </>
+   )
+}
+
 
 const Profilepic = styled.img`
   background-color: lightgray;

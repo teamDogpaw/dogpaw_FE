@@ -33,15 +33,7 @@ footer, header, hgroup, main, menu, nav, section {
 }
 body {
   line-height: 1;
-  background-color: ${(props) => props.theme.backgroundColor};
-  /* max-width: 996px;
-  margin: auto;
-  border-radius: 16px;
-  padding: 32px;
-
-  @media screen and (max-width: 996px){
-    margin: 0px 40px;
-} */
+ background-color: ${(props) => props.theme.backgroundColor} ;
 }
 menu, ol, ul {
   list-style: none;
@@ -143,4 +135,34 @@ padding: 8px 12px;
 border-radius: 30px;
 margin-right: 16px;
 color: ${(props)=>props.theme.stackColor}
+`;
+
+export const SelectTitle = styled.div`
+display: flex;
+align-items: center;
+`;
+
+export const Option = styled.li`
+cursor: pointer;
+padding: 8px 12px;
+
+:hover{
+   background-color:${(props) => props.theme.keyColor};
+   color:${(props) => props.theme.stackColor}
+}
+`;
+
+export const SelectBoxOpen = styled.ul`
+max-height: 200px;
+
+z-index: 10;
+border-radius: 8px;
+position: absolute;
+width: 200px;
+border: ${(props) => props.theme.border};
+background-color: ${(props) => props.theme.inputBoxBackground};
+box-shadow: 0px 4px 4px 0px rgb(0,0,0,0.1);
+overflow: scroll;
+margin-top: 4px;
+
 `;

@@ -1,43 +1,28 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import {
-  useDeleteCommentData,
-  useAddCommentData,
-  useCommentData,
-} from "../hook/CommentData";
 import instance from "../shared/axios";
 
+import Comment from "./Comment";
+
 const Comments = () => {
-  const [isEdit, setIsEdit] = useState(false);
+
   const params = useParams();
   const comment_ref = useRef("");
   const id = params.postId;
 
+
+  // 댓글 조회
   const getCommentList = () => {
-    return instance.get("http://localhost:5001/comment/");
-    //return instance.get("http://localhost:5001/comment/");
+    return instance.get(`api/posts/${id}/comments`);
   };
 
+  // 댓글 작성
   const addComment = (data) => {
     return instance.post(`api/posts/${id}/comments`, data);
-    //return instance.post("http://localhost:5001/comment/",data);
   };
 
-  // const CommentPost = async () => {
-  //   try {
-  //     const res = await instance.post(`http://13.125.213.81/api/posts/${id}/comments`, { comment: comment_ref.current.value });
-  //     return res.data;
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  // const { isLoading, isError, data, error } = useCommentData(
-  //   onSuccess,
-  //   onError
-  // );
 
   const { isLoading, isError, data, error } = useQuery(
     "commentList",
@@ -45,7 +30,7 @@ const Comments = () => {
     {
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
-        //console.log(data);
+        console.log(data);
       },
       onError: (e) => {
         console.log(e.message);
@@ -54,14 +39,13 @@ const Comments = () => {
   );
 
   const queryClient = useQueryClient();
-  //const { mutate: addComments } = useAddCommentData(id);
+
   const { mutate: addComments } = useMutation(addComment, {
     onSuccess: () => {
       queryClient.invalidateQueries("commentList");
     },
   });
 
-  const { mutate: deleteComments } = useDeleteCommentData();
 
   const onCheckEnter = (e) => {
     if (e.key === "Enter") {
@@ -76,9 +60,7 @@ const Comments = () => {
     comment_ref.current.value = "";
     addComments(comment);
   };
-  const handleDeleteComment = (id) => {
-    deleteComments(id);
-  };
+
 
   if (isLoading) {
     return <span>Loding...</span>;
@@ -88,9 +70,8 @@ const Comments = () => {
     return <span>Error:{error.message}</span>;
   }
 
-  const openEdit = () => {
-    setIsEdit(true);
-  };
+  //console.log(data.data)
+
 
   return (
     <Wrap>
@@ -106,27 +87,11 @@ const Comments = () => {
       </CommentBox>
 
       <CommentList>
-        {data.data.map((list) => {
-          return (
-            <div key={list.id}>
-              <User>
-                <Img src={list.profileImg} alt="프로필사진" />
-                <p>{list.nickname}</p>
-              </User>
-              <Comment>
-                {isEdit ? (
-                  <input type="text" defaultValue={list.comment} />
-                ) : (
-                  <p>{list.comment}</p>
-                )}
-                <p>{list.modifedAt}</p>
-              </Comment>
-              <button onClick={handleDeleteComment}>삭제</button>
-              <button onClick={openEdit}>수정</button>
-              <hr style={{ color: "#e2e2e2" }} />
-            </div>
-          );
-        })}
+
+        {data.data.map((data) => (
+          <Comment key={data.commentId} data={data}></Comment>
+        ))}
+
       </CommentList>
     </Wrap>
   );
@@ -160,13 +125,18 @@ const Input = styled.input`
 const Button = styled.button`
   background: #ffb673;
   color: #fff;
-  font-weight: 600;
+  width: 92px;
+  height: 40px;
+  font-weight: 700;
   border-radius: 8px;
   border: none;
   padding: 8px 12px;
   position: absolute;
   right: 0;
   bottom: 0;
+
+  font-size: 15px;
+
 
   cursor: pointer;
   :hover {
@@ -180,24 +150,24 @@ const Button = styled.button`
 const CommentList = styled.div`
   //background-color:olive;
 `;
-const User = styled.div`
-  display: flex;
-  align-items: center;
-  margin: 10px 0;
-`;
+// const User = styled.div`
+//   display: flex;
+//   align-items: center;
+//   margin: 10px 0;
+// `;
 
-const Img = styled.img`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
-`;
-const Comment = styled.div`
-  margin-top: 10px;
-  & p:last-child {
-    color: #777777;
-    padding-top: 10px;
-  }
-`;
+// const Img = styled.img`
+//   width: 40px;
+//   height: 40px;
+//   border-radius: 50%;
+//   margin-right: 10px;
+// `;
+// const Comment = styled.div`
+//   margin-top: 10px;
+//   & p:last-child {
+//     color: #777777;
+//     padding-top: 10px;
+//   }
+// `;
 
 export default Comments;

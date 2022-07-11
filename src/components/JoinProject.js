@@ -1,8 +1,10 @@
-import axios from "axios";
-import { useEffect } from "react";
-import { useQuery } from "react-query";
-import instance from "../shared/axios";
-import { Btn, ListProfilePic, ListStack } from "../styles/style";
+
+import axios from "axios"
+import { useEffect } from "react"
+import { useQuery } from "react-query"
+import instance from "../shared/axios"
+import { Btn, ListProfilePic, ListStack } from "../styles/style"
+
 
 const JoinProject = () => {
   const GetJoinProject = async () => {
@@ -26,7 +28,7 @@ const JoinProject = () => {
   }
   return (
     <div>
-      {joinproject?.data.map((content) => {
+      {joinproject?.data?.map((content) => {
         return (
           <div>
             <ListProfilePic src={content.profileImg} />
