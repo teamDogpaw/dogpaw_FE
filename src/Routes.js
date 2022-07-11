@@ -10,14 +10,14 @@ import KakaoLoginRedirect from "./shared/kakaoLoginRedirect";
 const Router = () => {
   return (
     <Routes>
-      <Route path="/" element={<Main />}/>
+      <Route path="/" element={<Main />} />
       <Route path="/detail/:postId" element={<Detail />} />
       <Route path="/write" element={<Write />} />
       <Route path="/write/:id" element={<Write />} />
       <Route path="/mypage/*" element={<MyPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/oauth" element={<KakaoLoginRedirect />}></Route>
+      <Route path="/user/kakao/login" element={<KakaoLoginRedirect />} />
     </Routes>
   );
 };

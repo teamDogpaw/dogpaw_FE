@@ -1,7 +1,15 @@
-import React, { useEffect } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import ModalOpen from "../components/Modal";
+import Modal from "react-modal";
+import SocialModal from "../components/SocialModal";
+import Login from "../components/Login";
 
 const KakaoLoginRedirect = () => {
-  useEffect(() => {
+  const [modalIsOpen, setModalIsOpen] = useState(true);
+  const handleOpen = () => setModalIsOpen(true);
+
+  /*   useEffect(() => {
     // 토큰 get
     const accessToken = new URL(window.location.href).searchParams.get(
       "Authorization"
@@ -31,8 +39,43 @@ const KakaoLoginRedirect = () => {
 
     //메인으로 보내기
     window.location.replace("/");
+  }, []); */
+  useEffect(() => {
+    let code = new URL(window.location.href).searchParams.get("code");
+    console.log(code);
+
+    //window.location.replace("/");
   }, []);
-  return <></>;
+
+  const code = new URL(window.location.href).searchParams.get("code");
+
+  useEffect(() => {
+    handleOpen();
+    console.log(modalIsOpen);
+  }, []);
+
+  return (
+    <>
+      <Modal
+        isOpen={modalIsOpen}
+        shouldCloseOnOverlayClick={false}
+        onRequestClose={() => setModalIsOpen(false)}
+        style={{
+          overlay: {
+            backgroundColor: "rgb(0,0,0,0.3)",
+          },
+          content: {
+            color: "orange",
+          },
+        }}
+      >
+        <SocialModal element={code} />
+        <div>
+          <button onClick={() => setModalIsOpen(false)}>닫기</button>
+        </div>
+      </Modal>
+    </>
+  );
 };
 
 export default KakaoLoginRedirect;
