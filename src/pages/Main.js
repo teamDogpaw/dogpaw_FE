@@ -8,16 +8,20 @@ import styled, { css } from "styled-components";
 import { ReactComponent as CommentIcon } from "../styles/icon/u_comment-alt-lines.svg";
 import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/Vector 33.svg";
+
 import instance from "../shared/axios";
+import { useRecoilValue } from "recoil";
+import { UserInfoAtom } from "../atom/userQuery";
 
 const Main = () => {
   const navigate = useNavigate();
+
   const [mark, setMark] = useState(false);
   const [toggle, setToggle] = useState(true);
 
   const getPostList = () => {
+    return instance.get("http://3.35.22.190/api/allpost");
     //return axios.get("http://localhost:5001/allpost");
-    return instance.get("api/allpost");
   };
 
   const { isLoading, isError, data, error } = useQuery(
@@ -71,17 +75,21 @@ const Main = () => {
     <Wrap>
       <Link to="/write">글쓰러 가기</Link>
       <ToggleWrap>
-        <h3>모집중</h3>
         <ToggleBtn onClick={clickedToggle} toggle={toggle}>
-          <Circle toggle={toggle} />
+          <p style={{ display: "flex" }}>
+            <All>ALL</All>
+            <Ing>모집중</Ing>
+          </p>
+          <Circle toggle={toggle}>
+            <p>{toggle ? "모집중" : "ALL"}</p>
+          </Circle>
         </ToggleBtn>
-        {/* <h3>{toggle ? "모집중만" : "모두보기"}</h3> */}
       </ToggleWrap>
       <ArticleWrap>
-        {mojib.map((list, idx) => {
+        {mojib.map((list) => {
           return (
             <Article
-              key={idx}
+              key={list.postId}
               onClick={() => {
                 navigate("/detail/" + list.postId);
               }}
@@ -110,7 +118,7 @@ const Main = () => {
                   <BookmarkIcon style={{ width: "10", height: "14" }} />
                   <p>{list.bookmarkCnt}</p>
                 </Bookmark>
-                <Date>시작예정일 | {list.startAt}</Date>
+                <Date>시작예정일 {list.startAt}</Date>
               </Info>
               <Footer>
                 <User>
@@ -118,7 +126,7 @@ const Main = () => {
                   <p>{list.nickname}</p>
                 </User>
 
-                {list.bookmark ? (
+                {list.bookMarkStatus ? (
                   <BookmarkFill onClick={bookMark} />
                 ) : (
                   <BookmarkIcon onClick={bookMark} />
@@ -166,33 +174,56 @@ const ToggleWrap = styled.div`
   margin-bottom: 20px;
 `;
 const ToggleBtn = styled.button`
-  width: 60px;
-  height: 30px;
+  width: 100px;
+  height: 38px;
   border-radius: 30px;
-  border: none;
+  border: 2px solid #ffb673;
   cursor: pointer;
-  background-color: ${(props) => (props.toggle ? "#ffb673" : "none")};
+  background-color: ${(props) => props.theme.divBackGroundColor};
   margin-left: 10px;
   position: relative;
   display: flex;
-  justify-content: center;
   align-items: center;
   transition: all 0.5s ease-in-out;
 `;
+
+const All = styled.span`
+  width: 35px;
+  font-weight: 700;
+  color: #ffb673;
+  opacity: 0.5;
+  display: flex;
+  align-items: center;
+  padding-left: 6px;
+`;
+const Ing = styled(All)`
+  width: 50px;
+  flex-direction: row-reverse;
+`;
+
 const Circle = styled.div`
-  background-color: white;
-  width: 26px;
-  height: 26px;
+  display: flex;
+  flex-direction: center;
+  align-items: center;
+  background-color: #ffb673;
+  width: 48px;
+  height: 32px;
   border-radius: 50px;
   position: absolute;
-  left: 5%;
-  transition: all 0.5s ease-in-out;
+  left: 2%;
+  transition: all 0.4s ease-in-out;
   ${(props) =>
     props.toggle &&
     css`
-      transform: translate(30px, 0);
-      transition: all 0.5s ease-in-out;
+      transform: translate(44px, 0);
+      transition: all 0.4s ease-in-out;
     `}
+
+  p {
+    width: 100%;
+    color: white;
+    font-weight: 700;
+  }
 `;
 // 토글 스위치
 
@@ -207,7 +238,7 @@ const Article = styled.li`
   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.08);
   border-radius: 16px;
   width: 304px;
-  height: 350px;
+  height: 380px;
   position: relative;
 `;
 
@@ -217,9 +248,21 @@ const Content = styled.div`
   h1 {
     padding-bottom: 20px;
   }
+
+  p {
+    line-height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
 `;
 
 const Hashtag = styled.div`
+  position: absolute;
+  bottom: 100px;
+
   li {
     margin-right: 5px;
     color: #ffb673;
@@ -228,7 +271,6 @@ const Hashtag = styled.div`
 
 const Deadline = styled.div`
   padding: 15px;
-
   border-radius: 8px;
   font-weight: bold;
   text-align: center;
@@ -258,8 +300,7 @@ const User = styled.div`
 `;
 const Info = styled.div`
   display: flex;
-  width: 100%;
-  background-color: gold;
+  width: 87%;
   position: absolute;
   bottom: 70px;
   svg {
@@ -276,7 +317,9 @@ const Bookmark = styled.div`
 `;
 const Date = styled.p`
   color: #8b8b8b;
-  //margin-left: 25px;
+  width: 203px;
+  display: flex;
+  justify-content: flex-end;
 `;
 
 export default Main;

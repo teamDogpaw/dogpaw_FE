@@ -1,18 +1,21 @@
-/*import axios from "axios";
+import axios from "axios";
 import { atom } from "recoil";
+import instance from "../shared/axios";
 
-export const token = localStorage.getItem("token");
+const token = localStorage.getItem("token");
 
-export const instance = axios.create({
-  baseURL: "http://13.125.213.81/",
-  headers: { Authorization: `Bearer ${token}` },
-});
-
- const GetUserInfo = async () => {
-  return await instance.get(`http://13.125.213.81/user/userinfo`);
+const GetUserInfo = async () => {
+  if (token) {
+    try {
+      const response = await instance.get("/user/userinfo");
+      const userData = response.data;
+      return userData;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 };
-
 export const UserInfoAtom = atom({
   key: "UserInfo",
   default: GetUserInfo(),
-}); */
+});

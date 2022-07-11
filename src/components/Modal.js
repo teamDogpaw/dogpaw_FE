@@ -41,6 +41,7 @@ import Register from "./Register";
 Modal.setAppElement("#root");
 const ModalOpen = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [change, setChange] = useState(<Login />);
   return (
     <div>
       <button onClick={() => setModalIsOpen(true)}>로그인</button>
@@ -57,8 +58,7 @@ const ModalOpen = () => {
           },
         }}
       >
-        <Login />
-
+        {change}
         <div>
           <button onClick={() => setModalIsOpen(false)}>닫기</button>
         </div>
