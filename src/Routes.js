@@ -3,9 +3,9 @@ import Detail from "./pages/Detail";
 import Main from "./pages/Main";
 import MyPage from "./pages/Mypage";
 import Write from "./pages/Write";
-import Login from "./components/Login"
-import Register from "./components/Register"
-
+import Login from "./components/Login";
+import Register from "./components/Register";
+import KakaoLoginRedirect from "./shared/kakaoLoginRedirect";
 
 const Router = () => {
   return (
@@ -17,6 +17,7 @@ const Router = () => {
       <Route path="/mypage/*" element={<MyPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/oauth" element={<KakaoLoginRedirect />}></Route>
     </Routes>
   );
 };

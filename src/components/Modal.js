@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+/* import React, { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./Login";
@@ -28,6 +28,42 @@ const ModalOpen = () => {
         </Modal.Body>
       </Modal>
     </>
+  );
+};
+
+export default ModalOpen; */
+
+import React, { useState } from "react";
+import Modal from "react-modal";
+import Login from "./Login";
+import Register from "./Register";
+
+Modal.setAppElement("#root");
+const ModalOpen = () => {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [change, setChange] = useState(<Login />);
+  return (
+    <div>
+      <button onClick={() => setModalIsOpen(true)}>로그인</button>
+      <Modal
+        isOpen={modalIsOpen}
+        shouldCloseOnOverlayClick={false}
+        onRequestClose={() => setModalIsOpen(false)}
+        style={{
+          overlay: {
+            backgroundColor: "rgb(0,0,0,0.3)",
+          },
+          content: {
+            color: "orange",
+          },
+        }}
+      >
+        {change}
+        <div>
+          <button onClick={() => setModalIsOpen(false)}>닫기</button>
+        </div>
+      </Modal>
+    </div>
   );
 };
 

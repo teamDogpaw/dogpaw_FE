@@ -29,6 +29,7 @@ function Login() {
     //console.log(data);
 
     try {
+
       await instance.post("/user/login", data).then((res) => {
         const accessToken = res.data.data.token.accessToken;
         const refreshToken = res.data.data.token.refreshToken;
@@ -44,7 +45,7 @@ function Login() {
       });
     } catch (err) {
       console.log(err);
-      window.alert(err.response.data);
+      window.alert(err.response.data.errorMessage);
     }
   };
 
@@ -78,6 +79,9 @@ function Login() {
       setIsPassword(true);
     }
   }, []);
+
+  const KAKAO_AUTH_URL =
+    "https://kauth.kakao.com/oauth/authorize?client_id=3e848df062d2efe2be2266e171f3443c&redirect_uri=http://3.35.22.190/user/kakao/login&response_type=code";
 
   return (
     <All>
@@ -126,7 +130,7 @@ function Login() {
       >
         로그인
       </SignInBtn>
-
+      <a href={KAKAO_AUTH_URL}> 카카오 로그인</a>
       <Log>
         아직 계정이 없으신가요?
         <RegisterBtn
@@ -141,7 +145,10 @@ function Login() {
     </All>
   );
 }
-
+/* display: flex;
+  flex-direction: column; or row;
+  justify-content: center;
+  align-item: center */
 const All = styled.div`
   position: absolute;
   top: 50%;
@@ -158,7 +165,8 @@ const Comments = styled.div`
 
 const Title = styled.p`
   font-size: 26px;
-  margin-left: -110px;
+  font-weight: bold;
+  margin-left: -140px;
   padding: 1rem 0;
 `;
 
@@ -167,14 +175,13 @@ const IdPut = styled.input`
   background-color: #fff;
   border: 2px solid #eee;
   border-radius: 8px;
-  width: 400px;
+  width: 500px;
   height: 30px;
-  margin-left: -115px;
+  margin-left: -150px;
   font-size: large;
   font-weight: bold;
   font-family: Jalnan;
   color: black;
-
   ::placeholder {
     font-weight: bold;
     font-size: 16px;
@@ -184,13 +191,14 @@ const IdPut = styled.input`
 
 const Pone = styled.p`
   color: #ffb470;
-  margin-left: -105px;
-  font-size: 13px;
+  margin-left: -140px;
+  font-size: 14px;
+  margin-top: 10px;
 `;
 
 const SignInBtn = styled.button`
-color: ${(props) => (props.disabled ? "black" : "white")};
-background-color: ${(props) => (props.disabled ? "#f8cbac" : "#ee8548")};
+  color: ${(props) => (props.disabled ? "black" : "white")};
+  background-color: ${(props) => (props.disabled ? "#f8cbac" : "#ee8548")};
   border: none;
   padding: 18px;
   width: 500px;

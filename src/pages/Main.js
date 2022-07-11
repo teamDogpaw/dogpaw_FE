@@ -7,10 +7,12 @@ import styled, { css } from "styled-components";
 import { ReactComponent as CommentIcon } from "../styles/icon/u_comment-alt-lines.svg";
 import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/Vector 33.svg";
+
 import person from "../styles/icon/person.png"
 
 import instance from "../shared/axios";
 import Loading from "../shared/Loading";
+
 
 const Main = () => {
   const navigate = useNavigate();

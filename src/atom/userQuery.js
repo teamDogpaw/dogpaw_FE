@@ -5,6 +5,7 @@ import instance from "../shared/axios";
 const token = localStorage.getItem("token");
 
 const GetUserInfo = async () => {
+
     if (token) {
         try {
             const response = await instance.get("/user/userinfo")

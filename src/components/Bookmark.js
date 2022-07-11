@@ -6,33 +6,28 @@ import instance from "../shared/axios";
 import { Btn, ListProfilePic, ListStack } from "../styles/style";
 
 const Bookmark = () => {
-
   const GetMyBookmark = async () => {
-    try{
-      const response = await instance.get(`/api/user/mypage/bookmark`)
-      console.log(response.data)
-      return response.data
+    try {
+      const response = await instance.get(`/api/user/mypage/bookmark`);
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
     }
-   catch(error){
-    console.log(error)
-   }
-  }
+  };
 
-  const myBookmark = useQuery('mybookmark', GetMyBookmark)
+  const myBookmark = useQuery("mybookmark", GetMyBookmark);
 
-  useEffect(() => {
-  }, [])
+  useEffect(() => {}, []);
 
   const addBookmark = async (postId) => {
-    const response = await axios.post(`/api/bookMark/${postId}`)
- 
-    return response.data
-  }
+    const response = await axios.post(`/api/bookMark/${postId}`);
+
+    return response.data;
+  };
 
   if (myBookmark.isLoading) {
-    return (
-      <h1>loading...</h1>
-    )
+    return <h1>loading...</h1>;
   }
   return (
     <div>
@@ -46,28 +41,21 @@ const Bookmark = () => {
               <path d="M1.01807 4.02539V22.5947C1.01807 24.1899 2.79387 25.1431 4.1233 24.2616L8.59419 21.2971C9.26627 20.8515 10.1402 20.8531 10.8107 21.3012L15.0473 24.1324C16.408 25.0417 18.2253 24.0209 18.1568 22.3858L17.384 3.94167C17.3392 2.87061 16.4578 2.02539 15.3858 2.02539H3.01807C1.9135 2.02539 1.01807 2.92082 1.01807 4.02539Z" fill="#FFB673" stroke="#FFB673" />
             </svg> 
 
-
-
             {content.title}<br />
             {content.content}<br />
             {content.stacks.map((stack, index) => {
               return (
                 <ListStack key={index}>#{stack}</ListStack>
               )
+
             })}
             {content.startAt}
             <Btn>참여자 보기</Btn>
-
           </div>
-
-        )
+        );
       })}
-
     </div>
-
-
   );
 };
-
 
 export default Bookmark;

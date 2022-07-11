@@ -3,12 +3,15 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import instance from "../shared/axios";
+
 import Comment from "./Comment";
 
 const Comments = () => {
+
   const params = useParams();
   const comment_ref = useRef("");
   const id = params.postId;
+
 
   // 댓글 조회
   const getCommentList = () => {
@@ -19,6 +22,7 @@ const Comments = () => {
   const addComment = (data) => {
     return instance.post(`api/posts/${id}/comments`, data);
   };
+
 
   const { isLoading, isError, data, error } = useQuery(
     "commentList",
@@ -42,6 +46,7 @@ const Comments = () => {
     },
   });
 
+
   const onCheckEnter = (e) => {
     if (e.key === "Enter") {
       const commentData = { comment: comment_ref.current.value };
@@ -56,6 +61,7 @@ const Comments = () => {
     addComments(comment);
   };
 
+
   if (isLoading) {
     return <span>Loding...</span>;
   }
@@ -63,7 +69,9 @@ const Comments = () => {
   if (isError) {
     return <span>Error:{error.message}</span>;
   }
+
   //console.log(data.data)
+
 
   return (
     <Wrap>
@@ -79,9 +87,11 @@ const Comments = () => {
       </CommentBox>
 
       <CommentList>
+
         {data.data.map((data) => (
           <Comment key={data.commentId} data={data}></Comment>
         ))}
+
       </CommentList>
     </Wrap>
   );
@@ -124,7 +134,9 @@ const Button = styled.button`
   position: absolute;
   right: 0;
   bottom: 0;
+
   font-size: 15px;
+
 
   cursor: pointer;
   :hover {
