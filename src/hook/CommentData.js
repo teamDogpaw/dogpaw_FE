@@ -8,7 +8,7 @@ const getCommentList = () => {
   return axios.get("http://localhost:5001/comment/");
 };
 const addComment = () => {
-  return instance.post("http://13.125.213.81/api/posts/3/comments");
+  return instance.post("http://13.125.213.81/api/posts/comments");
 };
 const removeComment = (id) => {
     return axios.delete("http://localhost:5001/comment", id);

@@ -33,7 +33,7 @@ footer, header, hgroup, main, menu, nav, section {
 }
 body {
   line-height: 1;
-  background-color: ${(props) => props.theme.backgroundColor} ;
+ background-color: ${(props) => props.theme.backgroundColor} ;
 }
 menu, ol, ul {
   list-style: none;

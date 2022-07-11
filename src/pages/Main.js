@@ -1,17 +1,16 @@
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { useQuery } from "react-query";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import styled, { css } from "styled-components";
 import { ReactComponent as CommentIcon } from "../styles/icon/u_comment-alt-lines.svg";
 import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/Vector 33.svg";
+import person from "../styles/icon/person.png"
 
 import instance from "../shared/axios";
-import { useRecoilValue } from "recoil";
-import { UserInfoAtom } from "../atom/userQuery";
+import Loading from "../shared/Loading";
 
 const Main = () => {
   const navigate = useNavigate();
@@ -19,10 +18,10 @@ const Main = () => {
   const [mark, setMark] = useState(false);
   const [toggle, setToggle] = useState(true);
 
+  const isLogin = localStorage.getItem("token");
 
   const getPostList = () => {
     return instance.get("http://3.35.22.190/api/allpost");
-    //return axios.get("http://localhost:5001/allpost");
   };
 
   const { isLoading, isError, data, error } = useQuery(
@@ -35,29 +34,21 @@ const Main = () => {
       },
       onError: (e) => {
         console.log(e.message);
-      },
+      }
     }
   );
   if (isLoading) {
-    return <span>Loding...</span>;
+    return <h1>로딩중!</h1>;
   }
 
   if (isError) {
     return <span>Error:{error.message}</span>;
   }
 
-  // console.log(data.data);
-
-  //   const test = data.data.filter(item => item.deadline === toggle) // deadline :모집 마감 => true, 모집중 => false
-  //  console.log(test)
-
-  const all = data.data;
-  //console.log(all)
-
-  const mojib = toggle ? all.filter((post) => post.deadline === false) : all;
-  //console.log(mojib);
-
+  // deadline :모집 마감 => true, 모집중 => false
   //toggle true : 모집중, false : 모두보기
+  const all = data.data;
+  const mojib = toggle ? all.filter((post) => post.deadline === false) : all;
 
   const bookMark = () => {
     if (mark === false) {
@@ -72,19 +63,19 @@ const Main = () => {
     setToggle((prev) => !prev);
   };
 
-
-
   return (
     <Wrap>
       <Link to="/write">글쓰러 가기</Link>
       <ToggleWrap>
         <ToggleBtn onClick={clickedToggle} toggle={toggle}>
-        <p style={{display:"flex"}}><All>ALL</All><Ing>모집중</Ing></p>
-          <Circle toggle={toggle} >
+          <p style={{ display: "flex" }}>
+            <All>ALL</All>
+            <Ing>모집중</Ing>
+          </p>
+          <Circle toggle={toggle}>
             <p>{toggle ? "모집중" : "ALL"}</p>
           </Circle>
         </ToggleBtn>
-     
       </ToggleWrap>
       <ArticleWrap>
         {mojib.map((list) => {
@@ -92,29 +83,29 @@ const Main = () => {
             <Article
               key={list.postId}
               onClick={() => {
-                
+                if (!isLogin) {
+                  window.alert("로그인이 필요한 서비스입니다!");
+                  return;
+                }
                 navigate("/detail/" + list.postId);
-                
               }}
             >
               <Content>
                 <h1>{list.title}</h1>
                 <p>{list.content}</p>
-                
               </Content>
 
               <Hashtag>
-                  <ul>
-                    {list.stacks.map((lang, idx) => (
-                      <li key={idx}>#{lang}</li>
-                    ))}
-                  </ul>
-                  <p style={{ color: "#ffb673" }}>
-                    #{list.online ? "온라인" : "오프라인"}
-                  </p>
-                </Hashtag>
+                <ul>
+                  {list.stacks.map((lang, idx) => (
+                    <li key={idx}>#{lang}</li>
+                  ))}
+                </ul>
+                <p style={{ color: "#ffb673" }}>
+                  #{list.online ? "온라인" : "오프라인"}
+                </p>
+              </Hashtag>
               <Info>
-                
                 <Comment>
                   <CommentIcon />
                   <p>{list.commentCnt}</p>
@@ -127,7 +118,7 @@ const Main = () => {
               </Info>
               <Footer>
                 <User>
-                  <img src={list.profileImg} alt="profileImg" />
+                  <img src={list.profileImg || person} alt="profileImg" />
                   <p>{list.nickname}</p>
                 </User>
 
@@ -145,21 +136,15 @@ const Main = () => {
   );
 };
 const Wrap = styled.div`
- /* // background-color: gold;
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  //align-items:center;
-  flex-wrap: wrap; */
-
   max-width: 1310px;
   margin: auto;
   border-radius: 16px;
   padding: 32px;
+  
 
-  @media screen and (max-width: 996px){
+  @media screen and (max-width: 996px) {
     margin: 0px 40px;
-}
+  }
 
   ul {
     display: flex;
@@ -179,11 +164,10 @@ const ToggleWrap = styled.div`
   margin-bottom: 20px;
 `;
 const ToggleBtn = styled.button`
-
   width: 100px;
   height: 38px;
   border-radius: 30px;
-  border: 2px solid #FFB673;
+  border: 2px solid #ffb673;
   cursor: pointer;
   background-color: ${(props) => props.theme.divBackGroundColor};
   margin-left: 10px;
@@ -194,20 +178,18 @@ const ToggleBtn = styled.button`
 `;
 
 const All = styled.span`
-width:35px;
-font-weight: 700;
-color: #FFB673 ;
-opacity: 0.5;
-display:flex;
-align-items:center;
-padding-left:6px;
-
+  width: 35px;
+  font-weight: 700;
+  color: #ffb673;
+  opacity: 0.5;
+  display: flex;
+  align-items: center;
+  padding-left: 6px;
 `;
 const Ing = styled(All)`
-width:50px;
-flex-direction:row-reverse;
+  width: 50px;
+  flex-direction: row-reverse;
 `;
-
 
 const Circle = styled.div`
   display: flex;
@@ -239,7 +221,6 @@ const ArticleWrap = styled.ul`
   gap: 10px;
   display: flex;
   flex-wrap: wrap;
-  
 `;
 const Article = styled.li`
   background-color: ${(props) => props.theme.divBackGroundColor};
@@ -249,7 +230,6 @@ const Article = styled.li`
   width: 304px;
   height: 380px;
   position: relative;
-  
 `;
 
 const Content = styled.div`
@@ -260,18 +240,18 @@ const Content = styled.div`
   }
 
   p {
-    line-height:20px;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    display:-webkit-box;
-    -webkit-line-clamp:3;
-    -webkit-box-orient:vertical;
+    line-height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
   }
 `;
 
 const Hashtag = styled.div`
-position:absolute;
-bottom: 100px;
+  position: absolute;
+  bottom: 100px;
 
   li {
     margin-right: 5px;
@@ -310,7 +290,7 @@ const User = styled.div`
 `;
 const Info = styled.div`
   display: flex;
-  width:87%;
+  width: 87%;
   position: absolute;
   bottom: 70px;
   svg {
@@ -320,7 +300,6 @@ const Info = styled.div`
 const Comment = styled.div`
   display: flex;
   margin-right: 10px;
-
 `;
 
 const Bookmark = styled.div`
@@ -328,9 +307,9 @@ const Bookmark = styled.div`
 `;
 const Date = styled.p`
   color: #8b8b8b;
-  width:203px;
-  display:flex;
-  justify-content:flex-end;
+  width: 203px;
+  display: flex;
+  justify-content: flex-end;
 `;
 
 export default Main;
