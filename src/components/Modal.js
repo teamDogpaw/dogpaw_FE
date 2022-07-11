@@ -51,7 +51,7 @@ const ModalOpen = () => {
         onRequestClose={() => setModalIsOpen(false)}
         style={{
           overlay: {
-            backgroundColor: "grey",
+            backgroundColor: "rgb(0,0,0,0.3)",
           },
           content: {
             color: "orange",
