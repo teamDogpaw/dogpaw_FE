@@ -19,39 +19,6 @@ const MyProject = () => {
 
   const myprojects = useQuery("joinproject", GetMyProject);
 
-
-   const GetMyProject = async () => {
-      try{
-         const response = await instance.get(`/api/user/mypage/post`)
-         console.log(response)
-         console.log(response.data)
-         return response
-      } catch(error){
-         console.log(error)
-      }
-   }
-
-
-            <ListTitle> {content.title}</ListTitle>
-            <br />
-            {content.content}
-            <br />
-
-            {content.stacks.map((stack) => {
-              return <ListStack key={stack}>#{stack}</ListStack>;
-            })}
-            <br />
-            {content.startAt}
-            <Btn>참여자 보기</Btn>
-          </div>
-        );
-      })}
-    </div>
-  );
-};
-
-
-
    if (myprojects.isLoading) {
       return (
          <h1>loading...</h1>
