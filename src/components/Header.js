@@ -5,7 +5,10 @@ import ModalOpen from "./Modal";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
+
 import logo from "../styles/images/logo.png";
+
+
 import lightMode  from "../styles/icon/toggleLight.svg";
 import darkMode  from "../styles/icon/toggleDark.svg";
 import sun  from "../styles/icon/sun.svg";
@@ -25,6 +28,7 @@ const Header = () => {
   const logout = async () => {
     localStorage.removeItem("token"); 
 
+
     localStorage.removeItem("retoken");
     localStorage.removeItem("id");
 
@@ -35,15 +39,10 @@ const Header = () => {
     //   await axios
     //     .post("http://13.125.213.81/user/signup/addInfo", data)
     //     .then((res) => console.log(res, "로그아웃"));
-
-
     // } catch (err) {
     //   console.log(err);
     // }
   };
-
-  
-
   return (
     <Wrap>
       <div>
@@ -119,6 +118,7 @@ const ModeBtn = styled.button`
   transition: all 0.5s ease-in-out;
 `;
 
+
 const ModeCircle = styled.div`
   display: flex;
   flex-direction: center;
@@ -141,8 +141,10 @@ const ModeCircle = styled.div`
       transform: translate(-35px, 0);
       transition: all 0.4s ease-in-out;
     `}
+
 `;
 
+ 
 const UserInfo = styled.div`
 display:flex;
 `;
@@ -154,5 +156,7 @@ border-radius:50%;
 background-color:gold;
 
 `;
+
+
 
 export default Header;

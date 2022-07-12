@@ -8,8 +8,10 @@ import styled, { css } from "styled-components";
 import { ReactComponent as CommentIcon } from "../styles/icon/u_comment-alt-lines.svg";
 import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/Vector 33.svg";
+
 import person from "../styles/icon/person.png"
 import banner from "../styles/images/main_banner.png";
+
 
 
 
