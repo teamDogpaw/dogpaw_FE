@@ -7,9 +7,16 @@ import { ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme } from './styles/theme';
 import { useRecoilValue } from 'recoil';
 import { DarkThemeAtom } from './atom/theme';
-
 import Loading from './shared/Loading';
+import axios from 'axios';
+import { useQuery } from 'react-query';
+import instance from './shared/axios';
+import { UserInfoAtom } from './atom/userQuery';
 
+function App() {
+  const isDark = useRecoilValue(DarkThemeAtom)
+  const [isLogin,setIsLogin] = useRecoilState(UserInfoAtom)
+  
 function App() {
   const isDark = useRecoilValue(DarkThemeAtom);
 

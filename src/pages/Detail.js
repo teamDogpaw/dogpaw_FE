@@ -14,6 +14,7 @@ import { useState } from "react";
 import Loading from "../shared/Loading";
 
 const Detail = () => {
+
   const navigate = useNavigate();
   const user = useRecoilValue(UserInfoAtom);
 
@@ -21,6 +22,11 @@ const Detail = () => {
   const id = params.postId;
   const [isHover, setIsHover] = useState(false);
   const [dataSet, setDataset] = useState([]);
+
+  const PostDelete = useMutation(() => {
+    instance.delete(`/api/post/${id}`)
+    navigate("/")
+ })
 
   const getPostList = () => {
     return instance.get(`api/post/detail/${id}`);
@@ -103,6 +109,7 @@ const Detail = () => {
     applymark();
   };
 
+
   return (
     <>
       <Leftarrow
@@ -113,11 +120,11 @@ const Detail = () => {
       <Wrap>
         <ArticleTop>
           <h1>{title}</h1>
-          <Link to={`/write/${id}`} content={content}>
+          <Link to={`/write/${id}`}>
             {" "}
             수정하기{" "}
           </Link>
-          삭제하기
+           <span onClick={()=>PostDelete.mutate()}> 삭제하기 </span>
           <User>
             <Img src={profileImg || person} alt="profile" />
             <span>{author}</span>
@@ -131,6 +138,7 @@ const Detail = () => {
           </Mark>
           <hr />
           <ContentWrap>
+
             <div>
               <Title>
                 <p>진행방식</p>
