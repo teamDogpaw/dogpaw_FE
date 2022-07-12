@@ -7,7 +7,7 @@ import { Route, Routes } from "react-router-dom";
 // import Login from "./components/Login"
 // import Register from "./components/Register"
 import { lazy } from "react";
-import KakaoLoginRedirect from "./shared/kakaoLoginRedirect";
+
 
 const Detail = lazy(()=> import("./pages/Detail"));
 const Main = lazy(()=> import("./pages/Main"));
