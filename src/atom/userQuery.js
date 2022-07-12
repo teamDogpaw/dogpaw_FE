@@ -21,7 +21,7 @@ export const UserInfoAtom = atom({
   default: GetUserInfo(),
 });
 
-export const modalChange = atom({
-  key: "modalChange",
-  default: <Login />,
-});
+// export const modalChange = atom({
+//   key: "modalChange",
+//   default: <Login />,
+// });

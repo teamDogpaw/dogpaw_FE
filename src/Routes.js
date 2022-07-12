@@ -7,6 +7,7 @@ import { Route, Routes } from "react-router-dom";
 // import Login from "./components/Login"
 // import Register from "./components/Register"
 import { lazy } from "react";
+import KakaoLoginRedirect from "./shared/kakaoLoginRedirect";
 
 const Detail = lazy(()=> import("./pages/Detail"));
 const Main = lazy(()=> import("./pages/Main"));
@@ -27,7 +28,7 @@ const Router = () => {
       <Route path="/mypage/*" element={<MyPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/oauth" element={<KakaoLoginRedirect />}></Route>
+      <Route path="/oauth" element={<KakaoLoginRedirect />} />
     </Routes>
   );
 };
