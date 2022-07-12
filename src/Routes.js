@@ -15,7 +15,7 @@ const MyPage = lazy(()=> import("./pages/Mypage"));
 const Write = lazy(()=> import("./pages/Write"));
 const Login = lazy(()=> import("./components/Login"));
 const Register = lazy(()=> import("./components/Register"));
-
+const KakaoLoginRedirect = lazy(()=> import ("./shared/kakaoLoginRedirect"))
 
 
 const Router = () => {

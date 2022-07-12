@@ -1,18 +1,23 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import instance from "../shared/axios";
 import { Btn, ListProfilePic, ListStack } from "../styles/style";
-
+import Bookmarkfill from "../styles/icon/u_bookmark.svg"
 const Bookmark = () => {
+
+  const [isMyBookmark, setIsMyBookmark] = useState(true);
+
   const GetMyBookmark = async () => {
-    try {
-      const response = await instance.get(`/api/user/mypage/bookmark`);
-      console.log(response.data);
-      return response.data;
-    } catch (error) {
-      console.log(error);
+    const navigate = useNavigate()
+    try{
+      const response = await instance.get(`/api/user/mypage/bookmark`)
+      console.log(response.data)
+      return response.data
+    } catch(error){
+      alert(error)
     }
   };
 
@@ -20,11 +25,12 @@ const Bookmark = () => {
 
   useEffect(() => {}, []);
 
-  const addBookmark = async (postId) => {
-    const response = await axios.post(`/api/bookMark/${postId}`);
 
-    return response.data;
-  };
+  const DoBookmark = async (postId) => {
+    const response = await axios.post(`/api/bookMark/${postId}`)
+    return response.data
+  }
+
 
   if (myBookmark.isLoading) {
     return <h1>loading...</h1>;
@@ -33,7 +39,7 @@ const Bookmark = () => {
     <div>
       {myBookmark?.data.map((content) => {
         return (
-          <div key={content.id}>
+             <div key={content.postId} navigate={`/detail/${content.postId}`}>
             <ListProfilePic src={content.profileImg} />
             {content.nickname}<br />
             <svg width="19" height="27" viewBox="0 0 19 27" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -50,9 +56,14 @@ const Bookmark = () => {
 
             })}
             {content.startAt}
-            <Btn>참여자 보기</Btn>
+
+          
+
           </div>
-        );
+         
+
+        )
+
       })}
     </div>
   );
