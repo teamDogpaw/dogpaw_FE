@@ -7,11 +7,11 @@ import instance from "../shared/axios";
 import { Btn, ListProfilePic, ListStack } from "../styles/style";
 import Bookmarkfill from "../styles/icon/u_bookmark.svg"
 const Bookmark = () => {
-
+  const navigate = useNavigate()
   const [isMyBookmark, setIsMyBookmark] = useState(true);
 
   const GetMyBookmark = async () => {
-    const navigate = useNavigate()
+   
     try{
       const response = await instance.get(`/api/user/mypage/bookmark`)
       console.log(response.data)
@@ -22,12 +22,11 @@ const Bookmark = () => {
   };
 
   const myBookmark = useQuery("mybookmark", GetMyBookmark);
-
-  useEffect(() => {}, []);
+console.log(myBookmark)
 
 
   const DoBookmark = async (postId) => {
-    const response = await axios.post(`/api/bookMark/${postId}`)
+    const response = await instance.post(`/api/bookMark/${postId}`)
     return response.data
   }
 
@@ -37,7 +36,7 @@ const Bookmark = () => {
   }
   return (
     <div>
-      {myBookmark?.data.map((content) => {
+      {myBookmark?.data?.map((content) => {
         return (
              <div key={content.postId} navigate={`/detail/${content.postId}`}>
             <ListProfilePic src={content.profileImg} />

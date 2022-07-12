@@ -15,9 +15,7 @@ import Loading from "./shared/Loading";
 
 function App() {
 
-  const isDark = useRecoilValue(DarkThemeAtom);
-
-
+  const isDark = useRecoilValue(DarkThemeAtom)
 
   return (
     <>

@@ -1,15 +1,10 @@
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { DarkThemeAtom } from "../atom/theme";
 import React, { useState } from "react";
-import ModalOpen from "./Modal";
+// import ModalOpen from "./Modal";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
-
-
 import logo from "../styles/images/logo.png";
-
-
 
 import lightMode from "../styles/icon/toggleLight.svg";
 import darkMode from "../styles/icon/toggleDark.svg";
@@ -25,8 +20,7 @@ const Header = () => {
 
 
   const logout = async () => {
-    localStorage.removeItem("token");
-
+    localStorage.removeItem("token"); 
     localStorage.removeItem("retoken");
     localStorage.removeItem("id");
 
@@ -41,6 +35,8 @@ const Header = () => {
     //   console.log(err);
     // }
   };
+
+  
   return (
     <Wrap>
 
@@ -59,6 +55,7 @@ const Header = () => {
         </ModeBtn>
         <Link to="/write">게시글 작성</Link>
         <Link to="/mypage">마이페이지</Link>
+
 
         <ModalOpen />
         <button onClick={logout}>로그아웃</button>
