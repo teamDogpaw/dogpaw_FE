@@ -1,16 +1,11 @@
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { DarkThemeAtom } from "../atom/theme";
+
 import React, { useEffect, useState } from "react";
-import ModalOpen from "./Modal";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
-
-
 import logo from "../styles/images/logo.png";
-
-
-
+import ModalOpen from "./Modal";
 import lightMode from "../styles/icon/toggleLight.svg";
 import darkMode from "../styles/icon/toggleDark.svg";
 import sun from "../styles/icon/sun.svg";
@@ -30,8 +25,7 @@ const Header = () => {
 
 
   const logout = async () => {
-    localStorage.removeItem("token");
-
+    localStorage.removeItem("token"); 
     localStorage.removeItem("retoken");
     localStorage.removeItem("id");
 
@@ -46,6 +40,8 @@ const Header = () => {
     //   console.log(err);
     // }
   };
+
+  
   return (
     <Wrap>
 
@@ -78,6 +74,7 @@ const Header = () => {
         </details>
         
 
+
         <ModalOpen />
         <button onClick={logout}>로그아웃</button>
       </UserInfo>
@@ -104,7 +101,8 @@ img{
 `;
 
 const ModeBtn = styled.button`
-  background-image: url(${(props) =>props.isDark ? `${darkMode}` : `${lightMode}`});
+
+  background-image: url(${(props) => props.isDark ? `${darkMode}` : `${lightMode}`});
   background-repeat: no-repeat;
   background-size: cover;
 

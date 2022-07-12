@@ -16,13 +16,13 @@ import profilepic from "../styles/icon/defaultProfile.svg";
 import { SelectBox } from "../components/WriteSelect";
 
 const MyPage = () => {
+   const [userInfo, setUserInfo] = useRecoilState(UserInfoAtom);
    const navigate = useNavigate();
    const [tab, setTab] = useState(<Bookmark />);
    const [isEdit, setIsEdit] = useState(false);
-   const [userInfo, setUserInfo] = useRecoilState(UserInfoAtom);
    const stackdetailsRef = useRef(null);
-   const [newNickname, setNewNickname] = useState(null);
    const imageRef = useRef();
+   console.log(userInfo)
 
    const formData = new FormData()
 
@@ -37,11 +37,8 @@ const MyPage = () => {
       setIsEdit(false)
       console.log(myData.profileImg)
       try {
-         await instance.post(`/api/user/info/${myData.profileImg.name}`, formData,{
-            headers:{
-               'Content-Type': 'multipart/form-data'
-            }
-         })
+         await instance.put(`/api/user/info`, formData
+         )
          navigate("/")
       }
       catch (error) {
@@ -49,14 +46,19 @@ const MyPage = () => {
       }
    }
 
-
-
-
-
    const addStack = (newStack) => {
       if (!myData.stacks.includes(newStack)) {
          setMyData(prev => ({ ...prev, stacks: [...myData.stacks, newStack] }))
-         formData.append('stacks', myData.stacks);
+
+         const stack = JSON.stringify(myData.stacks)//(배열)
+         console.log(stack)
+         console.log([stack])
+         const blob = new Blob([stack], {
+            type: 'application/JSON'
+          })
+         formData.append('body', blob)
+
+         // formData.append('stacks', {stacks: JSON.stringify(myData.stacks)});
          console.log(formData)
          for (const value of formData) console.log(value);
          console.log(myData)
@@ -74,7 +76,7 @@ const MyPage = () => {
    const editImg = (e) =>{
       console.log(e)
       const img = e.target.files[0]
-      formData.append('profileImg', img);
+      formData.append('image', img);
       console.log(img)
       console.log(formData)
       // console.log(preview.readAsDataURL(img));
@@ -85,7 +87,13 @@ const MyPage = () => {
    const editNickname = (e)=>{
       const newNickname = e.target.value
       setMyData((prev)=> ({...prev, nickname:newNickname}))
-      formData.append('nickname',newNickname)
+      const nickname = JSON.stringify(newNickname)
+      console.log([nickname])
+      const blob = new Blob([nickname], {
+         type: 'application/JSON'
+       })
+      formData.append('body', blob)
+      console.log(blob)
       for (const value of formData) console.log(value);
    }
 
