@@ -49,21 +49,21 @@ const Comments = () => {
 
   const onCheckEnter = (e) => {
     if (e.key === "Enter") {
-      const commentData = { comment: comment_ref.current.value };
+      const commentData = { content: comment_ref.current.value };
       comment_ref.current.value = "";
       addComments(commentData);
     }
   };
 
   const handleAddCommentClick = () => {
-    const comment = { comment: comment_ref.current.value };
+    const comment = { content: comment_ref.current.value };
     comment_ref.current.value = "";
     addComments(comment);
   };
 
 
   if (isLoading) {
-    return null;
+    return <h1>로딩중</h1>;
   }
 
   if (isError) {

@@ -42,13 +42,13 @@ import { modalChange } from "../atom/userQuery";
 
 Modal.setAppElement("#root");
 const ModalOpen = () => {
-  // const [modalIsOpen, setModalIsOpen] = useState(false);
-  // const onModal = useRecoilValue(modalChange);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const onModal = useRecoilValue(modalChange);
 
   return (
     <div>
-      {/* <button onClick={() => setModalIsOpen(true)}>로그인</button> */}
-      {/* <Modal
+      <button onClick={() => setModalIsOpen(true)}>로그인</button>
+      <Modal
         isOpen={modalIsOpen}
         shouldCloseOnOverlayClick={false}
         onRequestClose={() => setModalIsOpen(false)}
@@ -65,7 +65,7 @@ const ModalOpen = () => {
         <div>
           <button onClick={() => setModalIsOpen(false)}>닫기</button>
         </div>
-      </Modal> */}
+      </Modal>
     </div>
   );
 };

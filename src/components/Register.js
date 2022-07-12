@@ -8,7 +8,7 @@ import { modalChange } from "../atom/userQuery";
 import Login from "./Login";
 
 const Register = () => {
-  // const setOnModal = useSetRecoilState(modalChange);
+  const setOnModal = useSetRecoilState(modalChange);
 
   //닉네임, 이메일, 비밀번호, 비밀번호 확인, 스택
   const [nickName, setNickName] = useState("");
@@ -294,13 +294,13 @@ const Register = () => {
       </SignUpBtn>
       <Log>
         계정이 있으셨나요?
-        {/* <RegisterBtn
+        <RegisterBtn
           onClick={() => {
             setOnModal(<Login />);
           }}
-        > */}
+        >
           로그인
-        {/* </RegisterBtn> */}
+        </RegisterBtn>
         하러가기
       </Log>
     </All>

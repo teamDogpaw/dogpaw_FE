@@ -1,6 +1,6 @@
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { DarkThemeAtom } from "../atom/theme";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ModalOpen from "./Modal";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -17,11 +17,16 @@ import sun from "../styles/icon/sun.svg";
 import moon from "../styles/icon/moon.svg";
 import styled, { css } from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { UserInfoAtom } from "../atom/userQuery";
 
 const Header = () => {
   const navigate = useNavigate();
 
   const [isDark, setIsDark] = useRecoilState(DarkThemeAtom);
+  // const isLogin = useRecoilValue(UserInfoAtom);
+  // console.log(isLogin)
+  
+  
 
 
   const logout = async () => {
@@ -58,7 +63,20 @@ const Header = () => {
           <ModeCircle isDark={isDark} />
         </ModeBtn>
         <Link to="/write">게시글 작성</Link>
-        <Link to="/mypage">마이페이지</Link>
+        <details>
+          <summary>
+            <Profile>
+            </Profile>
+            </summary>
+            <ol>
+              <li> </li>
+              <li><Link to="/mypage">마이페이지</Link></li>
+             
+        
+            </ol>
+          
+        </details>
+        
 
         <ModalOpen />
         <button onClick={logout}>로그아웃</button>
@@ -71,7 +89,7 @@ const Header = () => {
 const Wrap = styled.div`
 box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
 width:100%;
-height:70px;
+height:75px;
 margin-bottom:50px;
 display: flex;
 justify-content:space-between;
@@ -86,8 +104,7 @@ img{
 `;
 
 const ModeBtn = styled.button`
-  background-image: url(${(props) =>
-    props.isDark ? `${darkMode}` : `${lightMode}`});
+  background-image: url(${(props) =>props.isDark ? `${darkMode}` : `${lightMode}`});
   background-repeat: no-repeat;
   background-size: cover;
 
@@ -128,6 +145,9 @@ const ModeCircle = styled.div`
     `}
 `;
 
+const Detail = styled.details`
+display:none
+`;
 
  
 const UserInfo = styled.div`
