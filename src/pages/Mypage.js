@@ -11,18 +11,17 @@ import { useQuery } from "react-query";
 import { useRecoilState } from "recoil";
 
 import instance from "../shared/axios";
-import { UserInfoAtom } from "../atom/userQuery";
+import { UserInfoAtom } from "../atom/atom";
 import profilepic from "../styles/icon/defaultProfile.svg";
 import { SelectBox } from "../components/WriteSelect";
 
 const MyPage = () => {
+   const [tab, setTab] = useState(<Bookmark />);
    const [userInfo, setUserInfo] = useRecoilState(UserInfoAtom);
    const navigate = useNavigate();
-   const [tab, setTab] = useState(<Bookmark />);
    const [isEdit, setIsEdit] = useState(false);
    const stackdetailsRef = useRef(null);
    const imageRef = useRef();
-   console.log(userInfo)
 
    const formData = new FormData()
 
@@ -32,36 +31,40 @@ const MyPage = () => {
       stacks: userInfo?.stacks
    })
 
-   //프로필 이미지 넣지 않으면 편집 완료 못함
+   //⚠️ 프로필 이미지 넣지 않으면 편집 완료 못함
    const EditMyData = async () => {
-      setIsEdit(false)
-      console.log(myData.profileImg)
+      console.log(myData)
+      formData.append("image", myData.profileImg);
+      const data = {
+         stacks:myData.stacks,
+         nickname:myData.nickname
+      }
+      const formdata = JSON.stringify(data)
+      const blob = new Blob([formdata], {type:'application/json'})
+      formData.append("body", blob)
       try {
-         await instance.put(`/api/user/info`, formData
-         )
-         navigate("/")
+         await instance.put(`/api/user/info`, formData, {
+            headers: {"Content-Type" : "multipart/form-data"}
+         })
       }
       catch (error) {
          alert(error)
       }
+      setIsEdit(false)
+      navigate("/mypage")
    }
 
+//    image - imagefile
+//    body {stacks: value,
+//          nickname: value}
+// =>    한번에 만들어서 한번에 blovb
+//          {nickname: value}
+
+//state안에 새 stack 넣기
    const addStack = (newStack) => {
       if (!myData.stacks.includes(newStack)) {
          setMyData(prev => ({ ...prev, stacks: [...myData.stacks, newStack] }))
-
-         const stack = JSON.stringify(myData.stacks)//(배열)
-         console.log(stack)
-         console.log([stack])
-         const blob = new Blob([stack], {
-            type: 'application/JSON'
-          })
-         formData.append('body', blob)
-
-         // formData.append('stacks', {stacks: JSON.stringify(myData.stacks)});
-         console.log(formData)
-         for (const value of formData) console.log(value);
-         console.log(myData)
+         console.log(myData.stacks)
       } else {
          return null
       }
@@ -74,27 +77,14 @@ const MyPage = () => {
    const preview = new FileReader();
 
    const editImg = (e) =>{
-      console.log(e)
       const img = e.target.files[0]
-      formData.append('image', img);
       console.log(img)
-      console.log(formData)
-      // console.log(preview.readAsDataURL(img));
       setMyData((prev)=>({...prev, profileImg:img}))
-      for (const value of formData) console.log(value);
    }
 
    const editNickname = (e)=>{
       const newNickname = e.target.value
       setMyData((prev)=> ({...prev, nickname:newNickname}))
-      const nickname = JSON.stringify(newNickname)
-      console.log([nickname])
-      const blob = new Blob([nickname], {
-         type: 'application/JSON'
-       })
-      formData.append('body', blob)
-      console.log(blob)
-      for (const value of formData) console.log(value);
    }
 
    const removeStack = (selectedStack) => {

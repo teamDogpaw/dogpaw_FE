@@ -14,7 +14,6 @@ const Bookmark = () => {
    
     try{
       const response = await instance.get(`/api/user/mypage/bookmark`)
-      console.log(response.data)
       return response.data
     } catch(error){
       alert(error)
@@ -22,7 +21,6 @@ const Bookmark = () => {
   };
 
   const myBookmark = useQuery("mybookmark", GetMyBookmark);
-console.log(myBookmark)
 
 
   const DoBookmark = async (postId) => {
