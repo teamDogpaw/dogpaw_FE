@@ -1,11 +1,10 @@
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { DarkThemeAtom } from "../atom/theme";
 import React, { useState } from "react";
-// import ModalOpen from "./Modal";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import logo from "../styles/images/logo.png";
-
+import ModalOpen from "./Modal";
 import lightMode from "../styles/icon/toggleLight.svg";
 import darkMode from "../styles/icon/toggleDark.svg";
 import sun from "../styles/icon/sun.svg";
@@ -83,8 +82,7 @@ img{
 `;
 
 const ModeBtn = styled.button`
-  background-image: url(${(props) =>
-    props.isDark ? `${darkMode}` : `${lightMode}`});
+  background-image: url(${(props) => props.isDark ? `${darkMode}` : `${lightMode}`});
   background-repeat: no-repeat;
   background-size: cover;
 
