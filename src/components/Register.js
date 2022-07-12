@@ -8,7 +8,7 @@ import { modalChange } from "../atom/userQuery";
 import Login from "./Login";
 
 const Register = () => {
-  const setOnModal = useSetRecoilState(modalChange);
+  // const setOnModal = useSetRecoilState(modalChange);
 
   //아이디, 이메일, 비밀번호, 비밀번호 확인, 스택
   const [nickName, setNickName] = useState("");
@@ -294,13 +294,13 @@ const Register = () => {
       </SignUpBtn>
       <Log>
         계정이 있으셨나요?
-        <RegisterBtn
+        {/* <RegisterBtn
           onClick={() => {
             setOnModal(<Login />);
           }}
-        >
+        > */}
           로그인
-        </RegisterBtn>
+        {/* </RegisterBtn> */}
         하러가기
       </Log>
     </All>
@@ -339,7 +339,7 @@ const IdPut = styled.input`
   font-weight: bold;
   font-family: Jalnan;
   color: black;
-  :: placeholder {
+  ::placeholder {
     font-weight: bold;
     font-size: 16px;
     color: #9f9f9f;
@@ -436,7 +436,7 @@ background-color: ${(props) => (props.disabled ? "#f8cbac" : "#ee8548")};
   font-size: large;
   font-family: Jalnan;
   &:hover {
-    background-color: ${(props) => (props.disabled ? "#f8cbac" : "#c64d07;")}
+    background-color: ${(props) => (props.disabled ? "#f8cbac" : "#c64d07;")};
     cursor: pointer;
   }
 `;
