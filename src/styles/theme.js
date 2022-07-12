@@ -14,7 +14,8 @@ export const darkTheme = {
 export const lightTheme = {
     textColor: "#292929",
     textColor_sub: "#292929",
-    backgroundColor: "#FFF8E5",
+    //backgroundColor: "#FFF8E5",
+    backgroundColor: "#fff",
     divBackGroundColor: "#fff",
     keyColor: "#FFB673",
     inputBoxBackground: "#fff",

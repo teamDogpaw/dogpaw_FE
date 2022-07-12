@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
-import React, { Suspense, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import instance from "../shared/axios";
 
 import styled, { css } from "styled-components";
 import { ReactComponent as CommentIcon } from "../styles/icon/u_comment-alt-lines.svg";
@@ -9,9 +10,10 @@ import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/Vector 33.svg";
 
 import person from "../styles/icon/person.png"
+import banner from "../styles/images/main_banner.png";
 
-import instance from "../shared/axios";
-import Loading from "../shared/Loading";
+
+
 
 
 const Main = () => {
@@ -23,7 +25,7 @@ const Main = () => {
   const isLogin = localStorage.getItem("token");
 
   const getPostList = () => {
-    return instance.get("http://3.35.22.190/api/allpost");
+    return instance.get("/api/allpost");
   };
 
   const { isLoading, isError, data, error } = useQuery(
@@ -40,7 +42,7 @@ const Main = () => {
     }
   );
   if (isLoading) {
-    return <h1>로딩중!</h1>;
+    return null;
   }
 
   if (isError) {
@@ -67,7 +69,7 @@ const Main = () => {
 
   return (
     <Wrap>
-      <Link to="/write">글쓰러 가기</Link>
+      <img src={banner} alt="" />
       <ToggleWrap>
         <ToggleBtn onClick={clickedToggle} toggle={toggle}>
           <p style={{ display: "flex" }}>
@@ -138,10 +140,9 @@ const Main = () => {
   );
 };
 const Wrap = styled.div`
-  max-width: 1310px;
+  width:1200px;
   margin: auto;
-  border-radius: 16px;
-  padding: 32px;
+
   
 
   @media screen and (max-width: 996px) {
@@ -163,7 +164,7 @@ const Wrap = styled.div`
 const ToggleWrap = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  margin: 20px 0 ;
 `;
 const ToggleBtn = styled.button`
   width: 100px;
@@ -172,7 +173,7 @@ const ToggleBtn = styled.button`
   border: 2px solid #ffb673;
   cursor: pointer;
   background-color: ${(props) => props.theme.divBackGroundColor};
-  margin-left: 10px;
+  //margin-left: 10px;
   position: relative;
   display: flex;
   align-items: center;
@@ -220,18 +221,27 @@ const Circle = styled.div`
 // 토글 스위치
 
 const ArticleWrap = styled.ul`
-  gap: 10px;
+width:1200px;
+  gap: 2%;
+  row-gap:24px;
   display: flex;
   flex-wrap: wrap;
+  cursor: pointer;
 `;
 const Article = styled.li`
   background-color: ${(props) => props.theme.divBackGroundColor};
   padding: 16px 20px;
   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.08);
   border-radius: 16px;
-  width: 304px;
-  height: 380px;
+  //border:1px solid #d1d1d1;
+  width: 23.5%;
+  height: 352px;
   position: relative;
+  transition: 0.2s ease-in;
+
+  &:hover {
+    transform:scale(1.02);
+  }
 `;
 
 const Content = styled.div`
@@ -301,7 +311,7 @@ const Info = styled.div`
 `;
 const Comment = styled.div`
   display: flex;
-  margin-right: 10px;
+  margin-right: 15px;
 `;
 
 const Bookmark = styled.div`

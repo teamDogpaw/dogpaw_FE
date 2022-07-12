@@ -1,7 +1,8 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/Vector 33.svg";
-import person from "../styles/icon/person.png"
+import { ReactComponent as Arrow } from "../styles/icon/arrowLeft.svg";
+import person from "../styles/icon/person.png";
 
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -9,15 +10,17 @@ import Comments from "../components/Comments";
 import { instance } from "../shared/axios";
 import { useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/userQuery";
-
+import { useState } from "react";
+import Loading from "../shared/Loading";
 
 const Detail = () => {
   const navigate = useNavigate();
   const user = useRecoilValue(UserInfoAtom);
+
   const params = useParams();
   const id = params.postId;
-
-
+  const [isHover, setIsHover] = useState(false);
+  const [dataSet, setDataset] = useState([]);
 
   const getPostList = () => {
     return instance.get(`api/post/detail/${id}`);
@@ -31,15 +34,36 @@ const Detail = () => {
     return instance.post(`api/apply/${id}`);
   };
 
-  const detailQuery = useQuery("detailList", getPostList, {
-    refetchOnWindowFocus: false, // 사용자가 다른 곳에 갔다가 돌아올시 함수 재실행 여부
-    onSuccess: (data) => {
-      console.log("데이터 조회", data);
-    },
-    onError: (e) => {
-      console.log(e.message);
-    },
-  });
+  const { isLoading, isError, error } = useQuery(
+    "detailList",
+    getPostList,
+    {
+      refetchOnWindowFocus: false, // 사용자가 다른 곳에 갔다가 돌아올시 함수 재실행 여부
+      onSuccess: (data) => {
+        setDataset(data.data);
+        console.log("데이터 조회", data);
+      },
+      onError: (e) => {
+        console.log(e.message);
+      },
+    }
+  );
+
+  const {
+    nickname: author,
+    applyStatus,
+    bookMarkStatus,
+    content,
+    maxCapacity,
+    onLine,
+    profileImg,
+    currentMember,
+    title,
+    startAt,
+    stacks,
+  } = dataSet;
+
+  const userId = user.nickname;
 
   // 뮤테이션
   const queryClient = useQueryClient();
@@ -63,8 +87,12 @@ const Detail = () => {
     },
   });
 
-  if (detailQuery.isLoading) {
-    return <span>Loding...</span>;
+  if (isLoading) {
+    return <Loading />
+  }
+
+  if (isError) {
+    return <span>Error:{error.message}</span>;
   }
 
   const bookMark = () => {
@@ -75,77 +103,97 @@ const Detail = () => {
     applymark();
   };
 
-  // console.log(mark)
-  const content = detailQuery.data.data;
-  const author = detailQuery.data.data.nickname;
-  const userId = user.nickname;
-
-  //console.log(userId)
-  //console.log(content);
   return (
-    <Wrap>
-      <ArticleTop>
-        <h1>{content.title}</h1>
-        <Link to={`/write/${id}`} content={content}>
-          {" "}
-          수정하기{" "}
-        </Link>
-        삭제하기
-        <User>
-          <Img src={content.profileImg || person} alt="profile" />
-          <span>{content.nickname}</span>
-        </User>
-        <Mark>
-          {content.bookMarkStatus ? (
-            <BookmarkFill onClick={bookMark} />
-          ) : (
-            <BookmarkIcon onClick={bookMark} />
-          )}
-        </Mark>
-        <hr />
-        <ContentWrap>
-          <div>
-            <Online>
-              <p>진행방식</p>
-              <span> {content.onLine ? "온라인" : "오프라인"}</span>
-            </Online>
+    <>
+      <Leftarrow
+        onClick={() => {
+          navigate(-1);
+        }}
+      />
+      <Wrap>
+        <ArticleTop>
+          <h1>{title}</h1>
+          <Link to={`/write/${id}`} content={content}>
+            {" "}
+            수정하기{" "}
+          </Link>
+          삭제하기
+          <User>
+            <Img src={profileImg || person} alt="profile" />
+            <span>{author}</span>
+          </User>
+          <Mark>
+            {bookMarkStatus ? (
+              <BookmarkFill onClick={bookMark} />
+            ) : (
+              <BookmarkIcon onClick={bookMark} />
+            )}
+          </Mark>
+          <hr />
+          <ContentWrap>
             <div>
-              <Stacks>
-                <p>구인스택</p>
-                <Stack>
-                  {content.stacks.map((lang, idx) => (
-                    <span key={idx}> #{lang}</span>
-                  ))}
-                </Stack>
-              </Stacks>
+              <Title>
+                <p>진행방식</p>
+                <span> {onLine ? "온라인" : "오프라인"}</span>
+              </Title>
+              <div>
+                <Title>
+                  <p>구인스택</p>
+                  <Stack>
+                    {stacks?.map((lang, idx) => (
+                      <span key={idx}> #{lang}</span>
+                    ))}
+                  </Stack>
+                </Title>
+              </div>
+              <Title>
+                <p>시작 예정일</p>
+                <span> {startAt}</span>
+              </Title>
+              <Title>
+                <p>모집 인원</p>
+                <span>
+                  {" "}
+                  {currentMember} / {maxCapacity} 명
+                </span>
+              </Title>
             </div>
-            <Date>
-              <p>시작 예정일</p>
-              <span> {content.startAt}</span>
-            </Date>
-            <Maxcapacity>
-              <p>모집 인원</p>
-              <span> {content.maxCapacity} 명</span>
-            </Maxcapacity>
-          </div>
-          {author === userId ? (
-            <Button>지원자 보기</Button>
-          ) : !content.applyStatus ? (
-            <Button onClick={applyBtn}>프로젝트 지원하기</Button>
-          ) : (
-            <Button onClick={applyBtn}>지원 취소하기</Button>
-          )}
-        </ContentWrap>
-      </ArticleTop>
-      <Article>
-        <h1>프로젝트 소개</h1>
-        <hr />
-        <pre>{content.content}</pre>
-      </Article>
-      <Comments />
-    </Wrap>
+            <div style={{ backgroundColor: "gold" }}>
+              <div
+                onMouseOver={() => setIsHover(true)}
+                onMouseOut={() => setIsHover(false)}
+              >
+                {isHover && (
+                  <Alert>
+                    <p>{currentMember}명이 지원했어요!</p>
+                  </Alert>
+                )}
+                {author === userId ? (
+                  <Button>지원자 보기</Button>
+                ) : !applyStatus ? (
+                  <Button onClick={applyBtn}>프로젝트 지원하기</Button>
+                ) : (
+                  <Button onClick={applyBtn}>지원 취소하기</Button>
+                )}
+              </div>
+            </div>
+          </ContentWrap>
+        </ArticleTop>
+        <Article>
+          <h1>프로젝트 소개</h1>
+          <hr />
+          <pre>{content}</pre>
+        </Article>
+        <Comments />
+      </Wrap>
+    </>
   );
 };
+const Leftarrow = styled(Arrow)`
+  position: absolute;
+  top: 100px;
+  left: 100px;
+`;
 const Wrap = styled.div`
   max-width: 996px;
   //height:100vh;
@@ -164,7 +212,7 @@ const Wrap = styled.div`
   }
 
   span {
-    font-weight:500;
+    font-weight: 500;
   }
 
   @media screen and (max-width: 996px) {
@@ -205,22 +253,12 @@ const ContentWrap = styled.div`
   position: relative;
 `;
 
-const Online = styled.div`
+const Title = styled.div`
   display: flex;
 
   p:first-child {
     width: 90px;
   }
-`;
-
-const Stacks = styled(Online)``;
-
-const Date = styled(Online)``;
-
-const Maxcapacity = styled(Online)``;
-
-const Content = styled.div`
-  margin-left: 15px;
 `;
 
 const Stack = styled.div`
@@ -273,6 +311,23 @@ const Button = styled.button`
   :active {
     background-color: #d26500;
   }
+`;
+
+const alertAni = keyframes`
+from {
+  transform : translateY(30px);
+}
+
+to {
+  transform : translateY(0);
+}
+`;
+
+const Alert = styled.div`
+  position: absolute;
+  right: 35px;
+  bottom: 25%;
+  animation: ${alertAni} 0.2s linear;
 `;
 
 export default Detail;
