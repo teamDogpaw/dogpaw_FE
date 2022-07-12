@@ -2,7 +2,7 @@ import styled, { keyframes } from "styled-components";
 import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/Vector 33.svg";
 import { ReactComponent as Arrow } from "../styles/icon/arrowLeft.svg";
-import person from "../styles/icon/person.png";
+import person from "../styles/images/person.png";
 
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -11,10 +11,9 @@ import { instance } from "../shared/axios";
 import { useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/userQuery";
 import { useState } from "react";
-import Loading from "../shared/Loading";
+
 
 const Detail = () => {
-
   const navigate = useNavigate();
   const user = useRecoilValue(UserInfoAtom);
 
@@ -24,9 +23,9 @@ const Detail = () => {
   const [dataSet, setDataset] = useState([]);
 
   const PostDelete = useMutation(() => {
-    instance.delete(`/api/post/${id}`)
-    navigate("/")
- })
+    instance.delete(`/api/post/${id}`);
+    navigate("/");
+  });
 
   const getPostList = () => {
     return instance.get(`api/post/detail/${id}`);
@@ -40,20 +39,16 @@ const Detail = () => {
     return instance.post(`api/apply/${id}`);
   };
 
-  const { isLoading, isError, error } = useQuery(
-    "detailList",
-    getPostList,
-    {
-      refetchOnWindowFocus: false, // 사용자가 다른 곳에 갔다가 돌아올시 함수 재실행 여부
-      onSuccess: (data) => {
-        setDataset(data.data);
-        console.log("데이터 조회", data);
-      },
-      onError: (e) => {
-        console.log(e.message);
-      },
-    }
-  );
+  const { isLoading, isError, error } = useQuery("detailList", getPostList, {
+    refetchOnWindowFocus: false, // 사용자가 다른 곳에 갔다가 돌아올시 함수 재실행 여부
+    onSuccess: (data) => {
+      setDataset(data.data);
+      console.log("데이터 조회", data);
+    },
+    onError: (e) => {
+      console.log(e.message);
+    },
+  });
 
   const {
     nickname: author,
@@ -109,7 +104,6 @@ const Detail = () => {
     applymark();
   };
 
-
   return (
     <>
       <Leftarrow
@@ -120,11 +114,8 @@ const Detail = () => {
       <Wrap>
         <ArticleTop>
           <h1>{title}</h1>
-          <Link to={`/write/${id}`}>
-            {" "}
-            수정하기{" "}
-          </Link>
-           <span onClick={()=>PostDelete.mutate()}> 삭제하기 </span>
+          <Link to={`/write/${id}`}>수정하기</Link>
+          <span onClick={() => PostDelete.mutate()}> 삭제하기 </span>
           <User>
             <Img src={profileImg || person} alt="profile" />
             <span>{author}</span>
@@ -138,7 +129,6 @@ const Detail = () => {
           </Mark>
           <hr />
           <ContentWrap>
-
             <div>
               <Title>
                 <p>진행방식</p>
@@ -161,7 +151,6 @@ const Detail = () => {
               <Title>
                 <p>모집 인원</p>
                 <span>
-                  {" "}
                   {currentMember} / {maxCapacity} 명
                 </span>
               </Title>

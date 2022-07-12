@@ -9,12 +9,9 @@ import { ReactComponent as CommentIcon } from "../styles/icon/u_comment-alt-line
 import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/Vector 33.svg";
 
-import person from "../styles/icon/person.png"
+import person from "../styles/images/person.png";
 import banner from "../styles/images/main_banner.png";
-
-
-
-
+import mainBanner01 from "../styles/images/main_banner02.png";
 
 const Main = () => {
   const navigate = useNavigate();
@@ -69,7 +66,7 @@ const Main = () => {
 
   return (
     <Wrap>
-      <img src={banner} alt="" />
+      <img src={mainBanner01} alt="" />
       <ToggleWrap>
         <ToggleBtn onClick={clickedToggle} toggle={toggle}>
           <p style={{ display: "flex" }}>
@@ -196,7 +193,8 @@ const Circle = styled.div`
   display: flex;
   flex-direction: center;
   align-items: center;
-  background-color: #ffb673;
+ background-color: #FF891C;
+  //background-color: #ffb673;
   width: 48px;
   height: 32px;
   border-radius: 50px;
@@ -224,7 +222,7 @@ width:1200px;
   row-gap:24px;
   display: flex;
   flex-wrap: wrap;
-  cursor: pointer;
+  
 `;
 const Article = styled.li`
   background-color: ${(props) => props.theme.divBackGroundColor};
@@ -236,6 +234,7 @@ const Article = styled.li`
   height: 352px;
   position: relative;
   transition: 0.2s ease-in;
+  cursor: pointer;
 
   &:hover {
     transform:scale(1.02);
