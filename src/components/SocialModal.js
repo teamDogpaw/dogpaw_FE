@@ -1,54 +1,19 @@
-import React, { useCallback, useState } from "react";
-import styled from "styled-components";
+import React, { useState, useCallback } from "react";
 import axios from "axios";
+import styled from "styled-components";
 import arrow from "../assets/stack_arrow.png";
 
-import { useSetRecoilState } from "recoil";
-import { modalChange } from "../atom/userQuery";
-import Login from "./Login";
-
-const Register = () => {
-  // const setOnModal = useSetRecoilState(modalChange);
-
-  //닉네임, 이메일, 비밀번호, 비밀번호 확인, 스택
+const SocialModal = (props) => {
+  //console.log(props);
+  //닉네임, 스택
   const [nickName, setNickName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [stack, setStack] = useState([]);
 
   //오류메시지 상태저장
   const [nickMessage, setNickMessage] = useState("");
-  const [emailMessage, setEmailMessage] = useState("");
-  const [passwordMessage, setPasswordMessage] = useState("");
-  const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("");
 
   // 유효성 검사
   const [isNick, setIsNick] = useState(false);
-  const [isEmail, setIsEmail] = useState(false);
-  const [isPassword, setIsPassword] = useState(false);
-  const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
-
-  // 회원가입 정보
-  const onSubmit = async () => {
-    let data = {
-      nickname: nickName,
-      password,
-      username: email,
-      stacks: stack,
-    };
-    //console.log(data);
-    try {
-      await axios.post("http://3.35.22.190/user/signup", data).then((res) => {
-        console.log(res, "회원가입");
-        window.alert("회원가입 성공 :)");
-        window.location.replace("/login");
-      });
-    } catch (err) {
-      console.log(err);
-      window.alert(err.request.response);
-    }
-  };
 
   // 닉네임 중복 확인
   const nickCheck = async () => {
@@ -62,25 +27,10 @@ const Register = () => {
         ) => window.alert(res.data.msg)
       );
     } catch (err) {
-      console.log(err);
+      console.log(err.response.data.errorMessage);
+      window.alert(err.response.data.errorMessage);
     }
   };
-
-  // 이메일
-  const onChangeEmail = useCallback((e) => {
-    const emailRegex =
-      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-    const emailCurrent = e.target.value;
-    setEmail(emailCurrent);
-
-    if (!emailRegex.test(emailCurrent)) {
-      setEmailMessage("이메일 형식을 다시 한번 확인해 주세요.");
-      setIsEmail(false);
-    } else {
-      setEmailMessage("알맞게 작성되었습니다 :)");
-      setIsEmail(true);
-    }
-  }, []);
 
   // 닉네임
   const onChangeId = useCallback((e) => {
@@ -93,38 +43,6 @@ const Register = () => {
       setIsNick(true);
     }
   }, []);
-
-  // 비밀번호
-  const onChangePassword = useCallback((e) => {
-    const passwordRegex = /^[ㄱ-ㅎ가-힣0-9a-zA-Z@$!%#?&]{3,10}$/;
-    const passwordCurrent = e.target.value;
-    setPassword(passwordCurrent);
-
-    if (!passwordRegex.test(passwordCurrent)) {
-      setPasswordMessage("3글자 이상, 10글자 미만으로 입력해주세요. ");
-      setIsPassword(false);
-    } else {
-      setPasswordMessage("알맞게 작성되었습니다 :)");
-      setIsPassword(true);
-    }
-  }, []);
-
-  // 비밀번호 확인
-  const onChangePasswordConfirm = useCallback(
-    (e) => {
-      const passwordConfirmCurrent = e.target.value;
-      setPasswordConfirm(passwordConfirmCurrent);
-
-      if (password === passwordConfirmCurrent) {
-        setPasswordConfirmMessage("비밀번호를 똑같이 입력했어요 :)");
-        setIsPasswordConfirm(true);
-      } else {
-        setPasswordConfirmMessage("비밀번호를 다시 한번 확인해 주세요.");
-        setIsPasswordConfirm(false);
-      }
-    },
-    [password]
-  );
 
   //스택 추가
   const addStack = (newStack) => {
@@ -140,28 +58,36 @@ const Register = () => {
     setStack(newStacks);
   };
 
+  const onSubmit = async () => {
+    console.log(nickName);
+    console.log(JSON.stringify(stack));
+    let data = {
+      nickname: nickName,
+      stacks: stack,
+    };
+    try {
+      await axios
+        .post("http://3.35.22.190/user/signup/addInfo", data, {
+          headers: { Authorization: `Bearer ${props.element}` },
+        })
+        .then((res) => {
+          console.log(res, "회원가입");
+          window.alert(res);
+          //window.location.replace("/login");
+        });
+    } catch (err) {
+      console.log(err);
+      window.alert(err.response.data.errorMessage);
+    }
+  };
+
   return (
     <All>
       <p>
-        <span style={{ fontSize: "4rem", fontWeight: "bold" }}>RGISTER</span>
+        <span style={{ fontSize: "4rem", fontWeight: "bold" }}>REGISTER</span>
         <span>회원가입</span>
       </p>
       <Comments>
-        <Title>이메일</Title>
-        <IdPut
-          text="이메일"
-          type="email"
-          typeName="email"
-          onChange={onChangeEmail}
-          placeholder="이메일을 입력해주세요."
-        />
-        <Pone>
-          {email.length > 0 && (
-            <span className={`message ${isEmail ? "success" : "error"}`}>
-              {emailMessage}
-            </span>
-          )}
-        </Pone>
         <Title>닉네임</Title>
         <IdPut
           text="ID"
@@ -181,39 +107,6 @@ const Register = () => {
           {nickName.length > 0 && (
             <span className={`message ${isNick ? "success" : "error"}`}>
               {nickMessage}
-            </span>
-          )}
-        </Pone>
-
-        <Title>비밀번호</Title>
-        <IdPut
-          onChange={onChangePassword}
-          title="비밀번호"
-          typeTitle="password"
-          type="password"
-          placeholder="비밀번호를 입력해주세요."
-        />
-        <Pone>
-          {password.length > 0 && (
-            <span className={`message ${isPassword ? "success" : "error"}`}>
-              {passwordMessage}
-            </span>
-          )}
-        </Pone>
-        <Title>비밀번호 확인</Title>
-        <IdPut
-          onChange={onChangePasswordConfirm}
-          title="비밀번호 확인"
-          typeTitle="passwordConfirm"
-          type="password"
-          placeholder="비밀번호를 다시 한번 입력해주세요."
-        />
-        <Pone>
-          {passwordConfirm.length > 0 && (
-            <span
-              className={`message ${isPasswordConfirm ? "success" : "error"}`}
-            >
-              {passwordConfirmMessage}
             </span>
           )}
         </Pone>
@@ -275,34 +168,11 @@ const Register = () => {
       </div>
       <SignUpBtn
         type="submit"
-        disabled={
-          !(
-            isNick &&
-            isEmail &&
-            isPassword &&
-            isPasswordConfirm &&
-            nickName &&
-            email &&
-            password &&
-            passwordConfirm &&
-            stack.length > 0
-          )
-        }
+        disabled={!(isNick && nickName && stack.length > 0)}
         onClick={onSubmit}
       >
         회원가입하기
       </SignUpBtn>
-      <Log>
-        계정이 있으셨나요?
-        {/* <RegisterBtn
-          onClick={() => {
-            setOnModal(<Login />);
-          }}
-        > */}
-          로그인
-        {/* </RegisterBtn> */}
-        하러가기
-      </Log>
     </All>
   );
 };
@@ -315,18 +185,15 @@ const All = styled.div`
   margin-left: 60px;
   background-color: transparent;
 `;
-
 const Comments = styled.div`
   margin-top: 40px;
   color: #292929;
 `;
-
 const Title = styled.h3`
   font-size: 26px;
   margin-left: -110px;
   padding: 1rem 0;
 `;
-
 const IdPut = styled.input`
   padding: 1.3rem 0.5rem;
   background-color: #fff;
@@ -339,13 +206,12 @@ const IdPut = styled.input`
   font-weight: bold;
   font-family: Jalnan;
   color: black;
-  ::placeholder {
+  :: placeholder {
     font-weight: bold;
     font-size: 16px;
     color: #9f9f9f;
   }
 `;
-
 const NICK_BTN = styled.button`
   color: ${(props) => (props.disabled ? "black" : "white")};
   background-color: ${(props) => (props.disabled ? "#f8cbac" : "#ee8548")};
@@ -436,24 +302,8 @@ background-color: ${(props) => (props.disabled ? "#f8cbac" : "#ee8548")};
   font-size: large;
   font-family: Jalnan;
   &:hover {
-    background-color: ${(props) => (props.disabled ? "#f8cbac" : "#c64d07;")};
+    background-color: ${(props) => (props.disabled ? "#f8cbac" : "#c64d07;")}
     cursor: pointer;
   }
 `;
-
-const Log = styled.p`
-  margin-top: 30px;
-  color: #a3a3a3;
-  margin-left: -45px;
-`;
-
-const RegisterBtn = styled.span`
-  color: #9f9f9f;
-  &:hover {
-    font-weight: bold;
-    color: #5b5b5b;
-    cursor: pointer;
-  }
-`;
-
-export default Register;
+export default SocialModal;

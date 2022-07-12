@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import logo from "../styles/images/logo.png";
+
 import lightMode from "../styles/icon/toggleLight.svg";
 import darkMode from "../styles/icon/toggleDark.svg";
 import sun from "../styles/icon/sun.svg";
@@ -12,12 +13,10 @@ import moon from "../styles/icon/moon.svg";
 import styled, { css } from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-
 const Header = () => {
   const navigate = useNavigate();
-  const [isDark,setIsDark] = useRecoilState(DarkThemeAtom);
-  const [isHover, setIshover] = useState(false);
 
+  const [isDark, setIsDark] = useRecoilState(DarkThemeAtom);
 
 
   const logout = async () => {
@@ -40,6 +39,7 @@ const Header = () => {
   
   return (
     <Wrap>
+
       <div>
         <img
           src={logo}
@@ -56,25 +56,11 @@ const Header = () => {
         <Link to="/write">게시글 작성</Link>
         <Link to="/mypage">마이페이지</Link>
 
-        {/* <details>
-          <summary
-            onMouseOver={() => setIshover(true)}
-            onMouseOut={() => setIshover(false)}
-          >
-            <Profile />
-          </summary>
 
-          {isHover && (
-            <ul>
-              <li>1. 공지사항 1번입니다.</li>
-              <li>2. 공지사항 2번입니다.</li>
-            </ul>
-          )}
-        </details> */}
-
-        {/* <ModalOpen /> */}
+        <ModalOpen />
         <button onClick={logout}>로그아웃</button>
       </UserInfo>
+
     </Wrap>
   );
 };
@@ -93,10 +79,12 @@ img{
   width:203px;
   height:56px;
 }
+
 `;
 
 const ModeBtn = styled.button`
-  background-image: url(${(props) => (props.isDark ? `${darkMode}` : `${lightMode}`)});
+  background-image: url(${(props) =>
+    props.isDark ? `${darkMode}` : `${lightMode}`});
   background-repeat: no-repeat;
   background-size: cover;
 
@@ -112,7 +100,6 @@ const ModeBtn = styled.button`
   align-items: center;
   transition: all 0.5s ease-in-out;
 `;
-
 
 const ModeCircle = styled.div`
   display: flex;
@@ -136,8 +123,8 @@ const ModeCircle = styled.div`
       transform: translate(-35px, 0);
       transition: all 0.4s ease-in-out;
     `}
-
 `;
+
 
  
 const UserInfo = styled.div`
@@ -151,6 +138,7 @@ border-radius:50%;
 background-color:gold;
 
 `;
+
 
 
 

@@ -94,7 +94,7 @@ const Detail = () => {
   });
 
   if (isLoading) {
-    return <Loading />
+    return null;
   }
 
   if (isError) {

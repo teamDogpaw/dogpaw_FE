@@ -6,5 +6,4 @@ export const instance = axios.create({
   headers: token ? {Authorization: `Bearer ${token}`} : {}
 });
 
-
 export default instance;
