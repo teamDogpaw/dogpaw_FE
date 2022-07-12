@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ReactDatePicker from "react-datepicker";
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
@@ -7,19 +7,41 @@ import Select from "react-select";
 import { MainBody, Btn, LineBtn, MyStack } from "../styles/style";
 import styled from "styled-components";
 import "../styles/style.css"
+import { Mutation, useMutation, useQuery } from "react-query"
 
 import dayjs from "dayjs";
 import axios from "axios";
 import instance from "../shared/axios";
 import WriteSelect from "../components/WriteSelect";
 
-const Write = ({content}) => {
+const Write = () => {
+   const [isEdit, setIsEdit] = useState(false);
+   const params = useParams()
+   const postId = params.id
    const navigate = useNavigate()
 
    const processdetailsRef = useRef(null);
    const stackdetailsRef = useRef(null);
    const perioddetailsRef = useRef(null);
    const capacitydetailsRef = useRef(null);
+
+   const getPostData = () => {
+      if(isEdit){
+return instance.get(`api/post/detail/${postId}`);
+      }
+      
+   };
+
+   const { isLoading, error, data } = useQuery("detailList", getPostData, {
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => {
+         const PostData = data?.data
+         return PostData
+      },
+      onError: (e) => {
+         console.log(e.message);
+      },
+   });
 
    const [startDate, setStartDate] = useState(new Date());
    const [stack, setStack] = useState([])
@@ -43,6 +65,13 @@ const Write = ({content}) => {
       }
    }
 
+   const PostEdit = useMutation(() => {
+      instance.put(`/api/post/${postId}`, selectedData)
+      navigate("/")
+})
+
+
+   
    const handleStartDate = startDate => {
       setStartDate(startDate)
       setSelectedData(prev => ({ ...prev, startAt: dayjs(startDate).format("YYYY/MM/DD") }))
@@ -59,7 +88,7 @@ const Write = ({content}) => {
    const handleCapacity = capacity => {
       setSelectedData(prev => ({ ...prev, maxCapacity: capacity }));
       const details = capacitydetailsRef.current;
-      if(details) {
+      if (details) {
          details.open = false;
       }
    }
@@ -67,7 +96,7 @@ const Write = ({content}) => {
    const setPeriod = period => {
       setSelectedData(prev => ({ ...prev, period }))
       const details = perioddetailsRef.current;
-      if(details) {
+      if (details) {
          details.open = false;
       }
    }
@@ -75,7 +104,7 @@ const Write = ({content}) => {
    const handleProcess = (selectedProcess) => {
       setSelectedData(prev => ({ ...prev, online: selectedProcess }))
       const details = processdetailsRef.current;
-      if(details) {
+      if (details) {
          details.open = false;
       }
    }
@@ -84,19 +113,52 @@ const Write = ({content}) => {
 
    useEffect(() => {
       console.log(selectedData)
-      console.log(content)
-   }, [selectedData])
+      console.log(postId)
+      if (postId !== undefined) {
+         setIsEdit(true);
+         console.log(data?.data.stacks)
+         setStack(data?.data.stacks)
+         setSelectedData({
+            content: data?.data.content,
+            online: data?.data.onLine,
+            stacks: data?.data.stacks,
+            title: data?.data.title,
+            maxCapacity: data?.data.maxCapacity,
+            period: data?.data.period,
+            startAt: data?.data.startAt
+         })
+
+      }
+   }, [])
 
    const addStack = (newStack) => {
-      
-      if(!stack.includes(newStack)){
+
+      if (!stack.includes(newStack)) {
          setStack([...stack, newStack])
+         
+         console.log(stack)
+         console.log(stack)
+         console.log(stack)
+         console.log(stack)
+         console.log(stack)
+         console.log(stack)
+         console.log(stack)
+         console.log(stack)
+         console.log(stack)
+         
          setSelectedData(prev => ({ ...prev, stacks: stack }))
-      }else{
+         console.log(stack)
+         console.log(selectedData.stacks)
+         console.log(selectedData.stacks)
+         console.log(selectedData.stacks)
+         console.log(selectedData.stacks)
+         console.log(selectedData.stacks)
+         console.log(selectedData.stacks)
+      } else {
          return null
       }
       const details = stackdetailsRef.current;
-      if(details) {
+      if (details) {
          details.open = false;
       }
 
@@ -131,19 +193,24 @@ const Write = ({content}) => {
                capacitydetailsRef={capacitydetailsRef}
                stackdetailsRef={stackdetailsRef}
                perioddetailsRef={perioddetailsRef}
-               content={content}
+               isEdit={isEdit}
             />
          </WriteBody>
 
          <MainBody>
             <h3>프로젝트 소개</h3>
             <ProjectTextarea placeholder="컨텐츠에 대한 설명을 작성해주세요."
-               onChange={(event) => { handleContent(event.target.value) }} />
+               onChange={(event) => { handleContent(event.target.value) }}
+               defaultValue={isEdit ? selectedData.content : null}
+            />
          </MainBody>
 
          <Publish>
             <LineBtn style={{ marginRight: "26px" }}>전체 삭제</LineBtn>
-            <Btn type="submit" onClick={PostPublish}>프로젝트 등록하기</Btn>
+            {isEdit ? 
+            <Btn type="submit" onClick={()=>{PostEdit.mutate(selectedData)}}>프로젝트 수정하기</Btn>: 
+            <Btn type="submit" onClick={PostPublish}>프로젝트 등록하기</Btn>}
+            
          </Publish>
       </>
    )

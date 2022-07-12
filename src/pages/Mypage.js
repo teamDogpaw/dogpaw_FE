@@ -1,38 +1,151 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Bookmark from "../components/Bookmark"
 import MyProject from "../components/MyProject";
 import JoinProject from "../components/JoinProject"
-import { useMatch } from "react-router-dom";
-import { Btn, MainBody, MyStack } from "../styles/style"
+import { useMatch, useNavigate } from "react-router-dom";
+import { Btn, MainBody, MyStack, Option, SelectBoxOpen } from "../styles/style"
 import styled from "styled-components";
 import axios from "axios";
 import { useQuery } from "react-query";
 import { useRecoilState } from "recoil";
 import instance from "../shared/axios";
 import { UserInfoAtom } from "../atom/userQuery";
-import profilepic from  "../styles/icon/defaultProfile.svg";
+import profilepic from "../styles/icon/defaultProfile.svg";
+import { SelectBox } from "../components/WriteSelect";
 
 const MyPage = () => {
+   const navigate = useNavigate();
    const [tab, setTab] = useState(<Bookmark />);
    const [isEdit, setIsEdit] = useState(false);
    const [userInfo, setUserInfo] = useRecoilState(UserInfoAtom);
+   const stackdetailsRef = useRef(null);
+   const [newNickname, setNewNickname] = useState(null);
+   const imageRef = useRef();
+
+   const formData = new FormData()
+
+   const [myData, setMyData] = useState({
+      profileImg: userInfo?.profileImg,
+      nickname: userInfo?.nickname,
+      stacks: userInfo?.stacks
+   })
+
+   //프로필 이미지 넣지 않으면 편집 완료 못함
+   const EditMyData = async () => {
+      setIsEdit(false)
+      console.log(myData.profileImg)
+      try {
+         await instance.post(`/api/user/info/${myData.profileImg.name}`, formData,{
+            headers:{
+               'Content-Type': 'multipart/form-data'
+            }
+         })
+         navigate("/")
+      }
+      catch (error) {
+         alert(error)
+      }
+   }
 
 
+
+
+
+   const addStack = (newStack) => {
+      if (!myData.stacks.includes(newStack)) {
+         setMyData(prev => ({ ...prev, stacks: [...myData.stacks, newStack] }))
+         formData.append('stacks', myData.stacks);
+         console.log(formData)
+         for (const value of formData) console.log(value);
+         console.log(myData)
+      } else {
+         return null
+      }
+      const details = stackdetailsRef.current;
+      if (details) {
+         details.open = false;
+      }
+   }
+
+   const preview = new FileReader();
+
+   const editImg = (e) =>{
+      console.log(e)
+      const img = e.target.files[0]
+      formData.append('profileImg', img);
+      console.log(img)
+      console.log(formData)
+      // console.log(preview.readAsDataURL(img));
+      setMyData((prev)=>({...prev, profileImg:img}))
+      for (const value of formData) console.log(value);
+   }
+
+   const editNickname = (e)=>{
+      const newNickname = e.target.value
+      setMyData((prev)=> ({...prev, nickname:newNickname}))
+      formData.append('nickname',newNickname)
+      for (const value of formData) console.log(value);
+   }
+
+   const removeStack = (selectedStack) => {
+      const newStacks = myData.stacks.filter((stack) => stack !== selectedStack)
+      setMyData(prev => ({ ...prev, stacks: newStacks }))
+   }
 
    return (
       <>
          <MainBody>
-            {userInfo?.profileImg === null ? <Profilepic src={profilepic} /> : <Profilepic src={userInfo?.profileImg} />} 
-            {userInfo?.nickname} <br />
-            {userInfo?.username}
-            <div style={{ display: "flex" }}>
-               {userInfo?.stacks.map((mystack) => {
-                  return (
-                     <MyStack key={mystack.id}># {mystack.stack}</MyStack>
-                  )
-               })}
-            </div>
-            <Btn onClick={()=>setIsEdit(true)}>프로필 편집</Btn> <br />
+            {isEdit ?
+               <>
+                  {myData?.profileImg === null ? <Profilepic src={profilepic} /> : <Profilepic src={myData?.profileImg} />}
+                 <form>
+                 <input type="file" ref={imageRef} accept="image/*" onChange={(event)=>editImg(event)} />이미지 편집
+                  <input defaultValue={userInfo?.nickname} onChange={(event) => editNickname(event)} />
+                  {userInfo?.username}
+                  <details style={{ height: "40px" }} ref={stackdetailsRef}>
+                     <SelectBox>스택을 선택해주세요.</SelectBox>
+                     <SelectBoxOpen>
+                        <Option onClick={() => addStack("Java")}>Java</Option>
+                        <Option onClick={() => addStack("Javascript")}>Javascript</Option>
+                        <Option onClick={() => addStack("TypeScript")}>TypeScript</Option>
+                        <Option onClick={() => addStack("React")}>React</Option>
+                        <Option onClick={() => addStack("Vue")}>Vue</Option>
+                     </SelectBoxOpen>
+                  </details>
+                  <div style={{ display: "flex", flexWrap: "wrap", marginTop: "10px" }}>
+                     {myData?.stacks.map((stack) => {
+                        return (
+                           <MyStack style={{ margin: "0px 10px 10px 0px" }} key={stack.id}>#{stack.stack} <svg onClick={() => removeStack(stack)} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M9.99996 18.3327C14.6023 18.3327 18.3333 14.6017 18.3333 9.99935C18.3333 5.39698 14.6023 1.66602 9.99996 1.66602C5.39759 1.66602 1.66663 5.39698 1.66663 9.99935C1.66663 14.6017 5.39759 18.3327 9.99996 18.3327Z" stroke="#FFB673" stroke-width="2" strokeLinecap="round" strokeLinejoin="round" />
+                              <path d="M12.5 7.5L7.5 12.5" stroke="#FFB673" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                              <path d="M7.5 7.5L12.5 12.5" stroke="#FFB673" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                           </svg>
+                           </MyStack>
+                        )
+                     })}
+                  </div>
+                 </form>
+                 
+                  <Btn onClick={() => EditMyData()}>편집 완료</Btn>
+               </>
+
+               :
+               <>
+                  {userInfo?.profileImg === null ? <Profilepic src={profilepic} /> : <Profilepic src={userInfo?.profileImg} />}
+                  {userInfo?.nickname} <br />
+                  {userInfo?.username}
+                  <div style={{ display: "flex" }}>
+                     {userInfo?.stacks.map((mystack) => {
+                        return (
+                           <MyStack key={mystack.id}># {mystack.stack}</MyStack>
+                        )
+                     })}
+                  </div>
+                  <Btn onClick={() => setIsEdit(true)}>프로필 편집</Btn> <br />
+               </>
+
+            }
+
          </MainBody>
 
 

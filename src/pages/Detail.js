@@ -3,7 +3,7 @@ import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/Vector 33.svg";
 
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Comments from "../components/Comments";
 import { useState } from "react";
 import { instance } from "../shared/axios";
@@ -11,14 +11,19 @@ import { useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/userQuery";
 
 const Detail = () => {
+  const navigate = useNavigate()
   const user = useRecoilValue(UserInfoAtom);
   //console.log(user)
 
   const params = useParams();
   const id = params.postId;
 
+  const PostDelete = useMutation(() => {
+    instance.delete(`/api/post/${id}`)
+    navigate("/")
+ })
+
   const getPostList = () => {
-    //return axios.get(`http://localhost:5001/allpost/${id}`);
     return instance.get(`api/post/detail/${id}`);
   };
 
@@ -77,8 +82,8 @@ const Detail = () => {
   };
 
   // console.log(mark)
-  const content = detailQuery.data.data;
-  const author = detailQuery.data.data.nickname
+  const content = detailQuery?.data?.data;
+  const author = detailQuery?.data?.data.nickname
   const userId = user.nickname
 
   
@@ -90,8 +95,8 @@ const Detail = () => {
       <ArticleTop>
         <h1>{content.title}</h1>
 
-        <Link to={`/write/${id}`} content={content}> 수정하기 </Link>
-        삭제하기
+        <Link to={`/write/${id}`} > 수정하기 </Link>
+        <span onClick={()=>PostDelete.mutate()}> 삭제하기 </span>
         <User>
           <Img src={content.profileImg} alt="profile" />
           <p>{content.nickname}</p>
