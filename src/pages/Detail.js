@@ -62,6 +62,7 @@ const Detail = () => {
     title,
     startAt,
     stacks,
+    period
   } = dataSet;
 
   const userId = user.nickname;
@@ -112,14 +113,17 @@ const Detail = () => {
         }}
       />
       <Wrap>
-        <ArticleTop>
-          <h1>{title}</h1>
-          <Link to={`/write/${id}`}>수정하기</Link>
+      <Link to={`/write/${id}`}>수정하기</Link>
           <span onClick={() => PostDelete.mutate()}> 삭제하기 </span>
+        <ArticleTop>
+          
+          
           <User>
+          <h1>{title}</h1>
             <Img src={profileImg || person} alt="profile" />
-            <span>{author}</span>
+            <p>{author}</p>
           </User>
+        
           <Mark>
             {bookMarkStatus ? (
               <BookmarkFill onClick={bookMark} />
@@ -134,7 +138,7 @@ const Detail = () => {
                 <p>진행방식</p>
                 <span> {onLine ? "온라인" : "오프라인"}</span>
               </Title>
-              <div>
+              
                 <Title>
                   <p>구인스택</p>
                   <Stack>
@@ -143,7 +147,10 @@ const Detail = () => {
                     ))}
                   </Stack>
                 </Title>
-              </div>
+              <Title>
+                <p>예상 진행 기간</p> 
+                <span>{period}</span>
+              </Title>
               <Title>
                 <p>시작 예정일</p>
                 <span> {startAt}</span>
@@ -175,10 +182,10 @@ const Detail = () => {
               </div>
             </div>
           </ContentWrap>
+          
         </ArticleTop>
         <Article>
           <h1>프로젝트 소개</h1>
-          <hr />
           <pre>{content}</pre>
         </Article>
         <Comments />
@@ -192,10 +199,11 @@ const Leftarrow = styled(Arrow)`
   left: 100px;
 `;
 const Wrap = styled.div`
+  //margin-top:220px;
   max-width: 996px;
   //height:100vh;
   margin: auto;
-  box-sizing: border-box;
+
   h1 {
     font-size: 25px;
   }
@@ -205,7 +213,7 @@ const Wrap = styled.div`
   }
 
   hr {
-    color: #e2e2e2;
+    color: #EEEEEE;
   }
 
   span {
@@ -216,18 +224,22 @@ const Wrap = styled.div`
     margin: 0px 40px;
   }
 `;
-const ArticleTop = styled.article`
+const ArticleTop = styled.div`
   background-color: ${(props) => props.theme.divBackGroundColor};
+  height:514px;
   margin: auto;
   border-radius: 16px;
   padding: 32px;
   position: relative;
+  background-color:olive;
 `;
 
 const User = styled.div`
   display: flex;
+  flex-direction:column;
   align-items: center;
-  margin: 20px 0;
+  justify-content:center;
+  background-color: gold;
 `;
 
 const Img = styled.img`
@@ -254,7 +266,7 @@ const Title = styled.div`
   display: flex;
 
   p:first-child {
-    width: 90px;
+    width: 120px;
   }
 `;
 
@@ -278,6 +290,7 @@ const Article = styled(ArticleTop)`
   line-height: 1.5;
   letter-spacing: -0.004em;
   margin-top: 30px;
+  padding:32px;
 
   pre {
     white-space: pre-wrap;

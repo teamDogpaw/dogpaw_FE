@@ -66,7 +66,7 @@ const Main = () => {
 
   return (
     <Wrap>
-      <img src={mainBanner01} alt="" />
+      <Img src={mainBanner01} alt="" />
       <ToggleWrap>
         <ToggleBtn onClick={clickedToggle} toggle={toggle}>
           <p style={{ display: "flex" }}>
@@ -155,15 +155,21 @@ const Wrap = styled.div`
     font-size: 15px;
   }
 `;
+
+const Img = styled.img`
+border-radius:15px;
+margin-top:50px;
+`;
 // 토글 스위치
 const ToggleWrap = styled.div`
   display: flex;
   align-items: center;
-  margin: 20px 0 ;
+  margin-top: 40px;
+  margin-bottom: 24px;
 `;
 const ToggleBtn = styled.button`
-  width: 100px;
-  height: 38px;
+  width: 106px;
+  height: 44px;
   border-radius: 30px;
   border: 2px solid #ffb673;
   cursor: pointer;
@@ -176,7 +182,7 @@ const ToggleBtn = styled.button`
 `;
 
 const All = styled.span`
-  width: 35px;
+  width: 40px;
   font-weight: 700;
   color: #ffb673;
   opacity: 0.5;
@@ -193,10 +199,10 @@ const Circle = styled.div`
   display: flex;
   flex-direction: center;
   align-items: center;
- background-color: #FF891C;
+  background-color: #FF891C;
   //background-color: #ffb673;
-  width: 48px;
-  height: 32px;
+  width: 52px;
+  height: 34px;
   border-radius: 50px;
   position: absolute;
   left: 2%;
@@ -227,7 +233,7 @@ width:1200px;
 const Article = styled.li`
   background-color: ${(props) => props.theme.divBackGroundColor};
   padding: 16px 20px;
-  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 0px 12px rgba(0, 0, 0,0.09);
   border-radius: 16px;
   //border:1px solid #d1d1d1;
   width: 23.5%;

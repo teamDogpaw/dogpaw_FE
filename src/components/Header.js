@@ -7,13 +7,15 @@ import { useNavigate } from "react-router-dom";
 import { UserInfoAtom } from "../atom/userQuery";
 import ModalOpen from "./Modal";
 
-import logo from "../styles/images/logo.png";
+//import logo from "../styles/images/logo.png";
 import lightMode from "../styles/icon/toggleLight.svg";
-import dogpaw from "../styles/icon/개발바닥.svg";
+import logo from "../styles/icon/개발바닥.svg";
 import darkMode from "../styles/icon/toggleDark.svg";
 import sun from "../styles/icon/sun.svg";
 import moon from "../styles/icon/moon.svg";
-import person from "../styles/images/person.png";
+import person from "../styles/icon/profile.svg";
+import arrowdown from "../styles/icon/arrowdown.svg";
+
 
 
 const Header = () => {
@@ -46,15 +48,14 @@ const Header = () => {
   
   return (
     <Wrap>
-      <div>
-        <img
-          src={dogpaw}
+      <ContentWrap>
+        <Img
+          src={logo}
           onClick={() => {
             navigate("/");
           }}
           alt=""
         />
-      </div>
       <User>
         <ModeBtn onClick={() => setIsDark((prev) => !prev)} isDark={isDark}>
           <ModeCircle isDark={isDark} />
@@ -63,16 +64,17 @@ const Header = () => {
         <Details>
           <Summary>
             <img src={userInfo?.profileImg || person} alt="" />
+            <img src={arrowdown} alt="" />
           </Summary>
           <Select>
             <Option>
-              <button>
+              <p>
                 <StyledLink to="/mypage">마이페이지</StyledLink>
-              </button>
+              </p>
             </Option>
             <Option>
               {isLogin ? (
-                <button onClick={logout}>로그아웃</button>
+                <p onClick={logout}>로그아웃</p>
               ) : (
                 <ModalOpen />
               )}{" "}
@@ -80,26 +82,39 @@ const Header = () => {
           </Select>
         </Details>
       </User>
+      </ContentWrap>
     </Wrap>
   );
 };
 
 const Wrap = styled.div`
 
-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 width:100%;
 height:96px;
 margin-bottom:50px;
 display: flex;
-justify-content:space-between;
 align-items:center;
-padding: 0 80px;
 background-color:#fff;
 
-img{
+p{
+  font-size:16px;
+}
+`;
+
+const Img = styled.img`
   width:167px;
   height:46px;
-}
+
+`;
+
+const ContentWrap = styled.div`
+width:1200px;
+height:96px;
+display:flex;
+justify-content:space-between;
+align-items: center;
+margin:auto;
 
 `;
 
@@ -147,7 +162,7 @@ const ModeCircle = styled.div`
 `;
 const User = styled.div`
 display:flex;
-width:280px;
+width:320px;
 align-items:center;
 justify-content:space-between;
 `;
@@ -177,11 +192,12 @@ img {
 
 const Select = styled.ul`
 width: 100px;
-height: 88px;
+height: 80px;
 z-index: 10;
 border-radius: 8px;
 position: absolute;
-left:-25px;
+right:0;
+
 
 border: ${(props) => props.theme.border};
 background-color: ${(props) => props.theme.inputBoxBackground};
@@ -210,7 +226,8 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-padding: 10px;
+padding-top: 13px;
+padding-bottom:10px;
 
 
 
