@@ -16,6 +16,7 @@ import moon from "../styles/icon/moon.svg";
 import person from "../styles/icon/profile.svg";
 import arrowdown from "../styles/icon/arrowdown.svg";
 
+
 const Header = () => {
   const navigate = useNavigate();
 
@@ -52,6 +53,7 @@ const Header = () => {
           }}
           alt=""
         />
+
         <User>
           <ModeBtn onClick={() => setIsDark((prev) => !prev)} isDark={isDark}>
             <ModeCircle isDark={isDark} />
@@ -74,6 +76,7 @@ const Header = () => {
             </Select>
           </Details>
         </User>
+
       </ContentWrap>
     </Wrap>
   );
@@ -96,11 +99,11 @@ const Wrap = styled.div`
   display: flex;
   align-items: center;
   background-color: #fff;
-
   p {
     font-size: 16px;
   }
 `;
+
 
 const Img = styled.img`
   width: 167px;
@@ -158,10 +161,12 @@ const ModeCircle = styled.div`
     `}
 `;
 const User = styled.div`
+
   display: flex;
   width: 320px;
   align-items: center;
   justify-content: space-between;
+
 `;
 
 const Profile = styled.div`
@@ -185,6 +190,7 @@ const Summary = styled.summary`
 `;
 
 const Select = styled.ul`
+
   width: 100px;
   height: 80px;
   z-index: 10;
@@ -203,6 +209,7 @@ const Select = styled.ul`
     cursor: pointer;
     padding: 3px 0;
   }
+
 `;
 
 const StyledLink = styled(Link)`
@@ -210,12 +217,14 @@ const StyledLink = styled(Link)`
 `;
 
 const Option = styled.li`
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding-top: 13px;
   padding-bottom: 10px;
+
 `;
 
 export default Header;
