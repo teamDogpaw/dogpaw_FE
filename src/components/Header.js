@@ -9,10 +9,10 @@ import { Link } from "react-router-dom";
 import logo from "../styles/images/logo.png";
 
 
-import lightMode  from "../styles/icon/toggleLight.svg";
-import darkMode  from "../styles/icon/toggleDark.svg";
-import sun  from "../styles/icon/sun.svg";
-import moon  from "../styles/icon/moon.svg";
+import lightMode from "../styles/icon/toggleLight.svg";
+import darkMode from "../styles/icon/toggleDark.svg";
+import sun from "../styles/icon/sun.svg";
+import moon from "../styles/icon/moon.svg";
 import styled, { css } from "styled-components";
 import { useNavigate } from "react-router-dom";
 

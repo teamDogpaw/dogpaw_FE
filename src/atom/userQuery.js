@@ -25,3 +25,4 @@ export const modalChange = atom({
   key: "modalChange",
   default: <Login />,
 });
+
