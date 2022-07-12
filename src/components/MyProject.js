@@ -5,24 +5,19 @@ import styled from "styled-components"
 import instance from "../shared/axios"
 import { Btn, ListProfilePic, ListStack, ListTitle } from "../styles/style"
 
+
 const MyProject = () => {
+  const GetMyProject = () => {
+    try {
+      const response = instance.get(`/api/user/mypage/post`);
+      console.log(response);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-
-   const GetMyProject = async () => {
-      try{
-         const response = await instance.get(`/api/user/mypage/post`)
-         console.log(response)
-         console.log(response.data)
-         return response
-      } catch(error){
-         console.log(error)
-      }
-   }
-
-   const myprojects = useQuery('joinproject', GetMyProject)
-
-
-
+  const myprojects = useQuery("joinproject", GetMyProject);
 
    if (myprojects.isLoading) {
       return (
@@ -66,3 +61,4 @@ const MyProject = () => {
 
 
 export default MyProject;
+

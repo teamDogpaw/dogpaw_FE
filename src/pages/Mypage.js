@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from "react";
 import Bookmark from "../components/Bookmark"
 import MyProject from "../components/MyProject";
@@ -8,6 +9,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useQuery } from "react-query";
 import { useRecoilState } from "recoil";
+
 import instance from "../shared/axios";
 import { UserInfoAtom } from "../atom/userQuery";
 import profilepic from "../styles/icon/defaultProfile.svg";
@@ -171,47 +173,44 @@ const MyPage = () => {
    )
 }
 
+
 const Profilepic = styled.img`
-background-color: lightgray;
-width: 160px;
-height: 160px;
-border-radius: 80px;
+  background-color: lightgray;
+  width: 160px;
+  height: 160px;
+  border-radius: 80px;
 `;
 
 const WholeBody = styled(MainBody)`
-margin: 24px auto;
-display: grid;
-grid-template-columns: fit-content(40%) 100%;
-max-width: 996px;
-background-color: transparent;
-padding: 0px;
-gap:24px;
-@media screen and (max-width: 996px){
-  margin: 24px 40px;
-}
+  margin: 24px auto;
+  display: grid;
+  grid-template-columns: fit-content(40%) 100%;
+  max-width: 996px;
+  background-color: transparent;
+  padding: 0px;
+  gap: 24px;
+  @media screen and (max-width: 996px) {
+    margin: 24px 40px;
+  }
 `;
 
 const Tab = styled.div`
-line-height: 48px;
+  line-height: 48px;
 `;
 
 const PostBody = styled.div`
-background-color: ${(props) => props.theme.divBackGroundColor};
-max-width: 792px;
-border-radius: 16px;
-padding: 32px;
-
+  background-color: ${(props) => props.theme.divBackGroundColor};
+  max-width: 792px;
+  border-radius: 16px;
+  padding: 32px;
 `;
 
 const TabBody = styled.div`
-background-color: ${(props) => props.theme.divBackGroundColor};
-width: 180px;
-height: 251px;
-border-radius: 16px;
-padding: 32px 24px;
-
+  background-color: ${(props) => props.theme.divBackGroundColor};
+  width: 180px;
+  height: 251px;
+  border-radius: 16px;
+  padding: 32px 24px;
 `;
-
-
 
 export default MyPage;

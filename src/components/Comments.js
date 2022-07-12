@@ -1,41 +1,29 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import {
-  useDeleteCommentData,
-  useAddCommentData,
-  useCommentData,
-} from "../hook/CommentData";
 import instance from "../shared/axios";
-import Comment from "./Comment";
 
+import Comment from "./Comment";
 
 const Comments = () => {
 
   const params = useParams();
   const comment_ref = useRef("");
- const id = params.postId
+  const id = params.postId;
 
 
- const getCommentList = () => {
-  return instance.get(`api/posts/${id}/comments`);
-  //return instance.get("http://localhost:5001/comment/");
-};
+  // 댓글 조회
+  const getCommentList = () => {
+    return instance.get(`api/posts/${id}/comments`);
+  };
 
- const addComment = (data) => {
-  return instance.post(`api/posts/${id}/comments`,data);
-  //return instance.post("http://localhost:5001/comment/",data);
-};
-
-
+  // 댓글 작성
+  const addComment = (data) => {
+    return instance.post(`api/posts/${id}/comments`, data);
+  };
 
 
-  // const { isLoading, isError, data, error } = useCommentData(
-  //   onSuccess,
-  //   onError
-  // );
- 
   const { isLoading, isError, data, error } = useQuery(
     "commentList",
     getCommentList,
@@ -49,15 +37,14 @@ const Comments = () => {
       },
     }
   );
-  
-  const queryClient = useQueryClient();
-  //const { mutate: addComments } = useAddCommentData(id);
-  const {mutate :addComments} = useMutation(addComment,{
-    onSuccess: () => {
-      queryClient.invalidateQueries("commentList"); 
-    },
-    })
 
+  const queryClient = useQueryClient();
+
+  const { mutate: addComments } = useMutation(addComment, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("commentList");
+    },
+  });
 
 
   const onCheckEnter = (e) => {
@@ -83,6 +70,8 @@ const Comments = () => {
     return <span>Error:{error.message}</span>;
   }
 
+  //console.log(data.data)
+
 
   return (
     <Wrap>
@@ -98,8 +87,11 @@ const Comments = () => {
       </CommentBox>
 
       <CommentList>
-       
-        <Comment data={data}/>
+
+        {data.data.map((data) => (
+          <Comment key={data.commentId} data={data}></Comment>
+        ))}
+
       </CommentList>
     </Wrap>
   );
@@ -118,8 +110,7 @@ const CommentBox = styled.div`
   flex-direction: column;
   position: relative;
   height: 140px;
-  margin-top:10px;
-  
+  margin-top: 10px;
 `;
 const Input = styled.input`
   width: 100%;
@@ -128,27 +119,32 @@ const Input = styled.input`
   border: 1px solid #e2e2e2;
   border-radius: 8px;
   outline: none;
-  background-color: ${(props)=> props.theme.inputBoxBackground};
+  background-color: ${(props) => props.theme.inputBoxBackground};
 `;
 
 const Button = styled.button`
   background: #ffb673;
   color: #fff;
-  font-weight: 600;
+  width: 92px;
+  height: 40px;
+  font-weight: 700;
   border-radius: 8px;
   border: none;
   padding: 8px 12px;
   position: absolute;
   right: 0;
   bottom: 0;
-  
+
+  font-size: 15px;
+
+
   cursor: pointer;
   :hover {
-   background-color: #FF891C;
-}
-:active{
-   background-color: #D26500;
-}
+    background-color: #ff891c;
+  }
+  :active {
+    background-color: #d26500;
+  }
 `;
 
 const CommentList = styled.div`

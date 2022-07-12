@@ -1,12 +1,14 @@
 import React, { useState, useCallback } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
 import styled from "styled-components";
-import instance from "../shared/axios";
+import kakaoBTN from "../assets/카카오.png";
+import { useSetRecoilState } from "recoil";
+import { modalChange } from "../atom/userQuery";
+import Register from "./Register";
 
 function Login() {
-  const navigate = useNavigate();
+  const setOnModal = useSetRecoilState(modalChange);
 
   //아이디, 비밀번호
   const [email, setEmail] = useState("");
@@ -29,7 +31,7 @@ function Login() {
     //console.log(data);
 
     try {
-      await instance.post("/user/login", data).then((res) => {
+      await axios.post("http://3.35.22.190/user/login", data).then((res) => {
         const accessToken = res.data.data.token.accessToken;
         const refreshToken = res.data.data.token.refreshToken;
         const id = res.data.data.userId;
@@ -38,13 +40,13 @@ function Login() {
           localStorage.setItem("retoken", refreshToken);
           localStorage.setItem("id", id);
           console.log(res, "로그인");
-          window.alert(res.data.message);
+          window.alert(res.data.msg);
           window.location.replace("/");
         }
       });
     } catch (err) {
       console.log(err);
-      window.alert(err.response.data);
+      window.alert(err.response.data.errorMessage);
     }
   };
 
@@ -78,6 +80,9 @@ function Login() {
       setIsPassword(true);
     }
   }, []);
+
+  const KAKAO_AUTH_URL =
+    "https://kauth.kakao.com/oauth/authorize?client_id=3e848df062d2efe2be2266e171f3443c&redirect_uri=http://3.35.22.190/user/kakao/login&response_type=code";
 
   return (
     <All>
@@ -126,12 +131,14 @@ function Login() {
       >
         로그인
       </SignInBtn>
-
+      <a href={KAKAO_AUTH_URL}>
+        <IMG src={kakaoBTN} alt="" />
+      </a>
       <Log>
         아직 계정이 없으신가요?
         <RegisterBtn
           onClick={() => {
-            navigate("/register");
+            setOnModal(<Register />);
           }}
         >
           회원가입
@@ -141,7 +148,10 @@ function Login() {
     </All>
   );
 }
-
+/* display: flex;
+  flex-direction: column; or row;
+  justify-content: center;
+  align-item: center */
 const All = styled.div`
   position: absolute;
   top: 50%;
@@ -158,7 +168,8 @@ const Comments = styled.div`
 
 const Title = styled.p`
   font-size: 26px;
-  margin-left: -110px;
+  font-weight: bold;
+  margin-left: -140px;
   padding: 1rem 0;
 `;
 
@@ -167,14 +178,13 @@ const IdPut = styled.input`
   background-color: #fff;
   border: 2px solid #eee;
   border-radius: 8px;
-  width: 400px;
+  width: 500px;
   height: 30px;
-  margin-left: -115px;
+  margin-left: -150px;
   font-size: large;
   font-weight: bold;
   font-family: Jalnan;
   color: black;
-
   ::placeholder {
     font-weight: bold;
     font-size: 16px;
@@ -184,13 +194,14 @@ const IdPut = styled.input`
 
 const Pone = styled.p`
   color: #ffb470;
-  margin-left: -105px;
-  font-size: 13px;
+  margin-left: -140px;
+  font-size: 14px;
+  margin-top: 10px;
 `;
 
 const SignInBtn = styled.button`
-color: ${(props) => (props.disabled ? "black" : "white")};
-background-color: ${(props) => (props.disabled ? "#f8cbac" : "#ee8548")};
+  color: ${(props) => (props.disabled ? "black" : "white")};
+  background-color: ${(props) => (props.disabled ? "#f8cbac" : "#ee8548")};
   border: none;
   padding: 18px;
   width: 500px;
@@ -203,6 +214,14 @@ background-color: ${(props) => (props.disabled ? "#f8cbac" : "#ee8548")};
     background-color: ${(props) => (props.disabled ? "#f8cbac" : "#c64d07;")};
     cursor: pointer;
   }
+`;
+
+const IMG = styled.img`
+  position: absolute;
+  left: 90%;
+  bottom: 1%;
+  width: 60px;
+  height: 60px;
 `;
 
 const Log = styled.p`

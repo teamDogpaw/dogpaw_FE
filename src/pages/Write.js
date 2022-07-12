@@ -1,5 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ReactDatePicker from "react-datepicker";
+
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import React, { useEffect, useRef, useState } from "react";
@@ -216,10 +217,12 @@ return instance.get(`api/post/detail/${postId}`);
    )
 }
 
+
 const WriteBody = styled(MainBody)`
- margin-bottom: 40px;
- margin-top: 143px;
+  margin-bottom: 40px;
+  margin-top: 143px;
 `;
+
 
 const ProjectTextarea = styled.textarea`
 margin: 24px 0px;
@@ -236,11 +239,14 @@ font-size: 16px;
 }
 `;
 
+
 const Publish = styled.div`
-display: flex;
-justify-content: center;
-margin: 80px;
+  display: flex;
+  justify-content: center;
+  margin: 80px;
 `;
 
 
+
 export default Write;
+
