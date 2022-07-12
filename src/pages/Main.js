@@ -143,8 +143,6 @@ const Wrap = styled.div`
   width:1200px;
   margin: auto;
 
-  
-
   @media screen and (max-width: 996px) {
     margin: 0px 40px;
   }
