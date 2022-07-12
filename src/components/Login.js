@@ -82,7 +82,7 @@ function Login() {
   }, []);
 
   const KAKAO_AUTH_URL =
-    "https://kauth.kakao.com/oauth/authorize?client_id=3e848df062d2efe2be2266e171f3443c&redirect_uri=http://3.35.22.190/user/kakao/login&response_type=code";
+    "https://kauth.kakao.com/oauth/authorize?client_id=3e848df062d2efe2be2266e171f3443c&redirect_uri=http://localhost:3000/user/kakao/login&response_type=code";
 
   return (
     <All>
