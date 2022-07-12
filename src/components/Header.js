@@ -1,14 +1,10 @@
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { DarkThemeAtom } from "../atom/theme";
 import React, { useState } from "react";
-import ModalOpen from "./Modal";
+// import ModalOpen from "./Modal";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
-
 import logo from "../styles/images/logo.png";
-
-
 import lightMode from "../styles/icon/toggleLight.svg";
 import darkMode from "../styles/icon/toggleDark.svg";
 import sun from "../styles/icon/sun.svg";
@@ -18,7 +14,6 @@ import { useNavigate } from "react-router-dom";
 
 
 const Header = () => {
-  
   const navigate = useNavigate();
   const [isDark,setIsDark] = useRecoilState(DarkThemeAtom);
   const [isHover, setIshover] = useState(false);
@@ -27,8 +22,6 @@ const Header = () => {
 
   const logout = async () => {
     localStorage.removeItem("token"); 
-
-
     localStorage.removeItem("retoken");
     localStorage.removeItem("id");
 
@@ -43,6 +36,8 @@ const Header = () => {
     //   console.log(err);
     // }
   };
+
+  
   return (
     <Wrap>
       <div>
@@ -77,7 +72,7 @@ const Header = () => {
           )}
         </details> */}
 
-        <ModalOpen />
+        {/* <ModalOpen /> */}
         <button onClick={logout}>로그아웃</button>
       </UserInfo>
     </Wrap>

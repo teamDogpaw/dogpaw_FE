@@ -15,9 +15,7 @@ import { UserInfoAtom } from './atom/userQuery';
 
 function App() {
   const isDark = useRecoilValue(DarkThemeAtom)
-  const [isLogin,setIsLogin] = useRecoilState(UserInfoAtom)
   
-
   return (
     <>
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
