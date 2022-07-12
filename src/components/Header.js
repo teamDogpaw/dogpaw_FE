@@ -5,7 +5,12 @@ import ModalOpen from "./Modal";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-import { ReactComponent as Logo } from "../styles/icon/logoLight.svg";
+
+
+import logo from "../styles/images/logo.png";
+
+
+
 import lightMode from "../styles/icon/toggleLight.svg";
 import darkMode from "../styles/icon/toggleDark.svg";
 import sun from "../styles/icon/sun.svg";
@@ -15,7 +20,9 @@ import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const navigate = useNavigate();
+
   const [isDark, setIsDark] = useRecoilState(DarkThemeAtom);
+
 
   const logout = async () => {
     localStorage.removeItem("token");
@@ -36,29 +43,46 @@ const Header = () => {
   };
   return (
     <Wrap>
-      <Logo
-        onClick={() => {
-          navigate("/");
-        }}
-      />
-      <Link to="/mypage">마이페이지</Link>
 
-      <ModeBtn onClick={() => setIsDark((prev) => !prev)} isDark={isDark}>
-        <ModeCircle isDark={isDark} />
-      </ModeBtn>
+      <div>
+        <img
+          src={logo}
+          onClick={() => {
+            navigate("/");
+          }}
+          alt=""
+        />
+      </div>
+      <UserInfo>
+        <ModeBtn onClick={() => setIsDark((prev) => !prev)} isDark={isDark}>
+          <ModeCircle isDark={isDark} />
+        </ModeBtn>
+        <Link to="/write">게시글 작성</Link>
+        <Link to="/mypage">마이페이지</Link>
 
-      <ModalOpen />
-      <button onClick={logout}>로그아웃</button>
+        <ModalOpen />
+        <button onClick={logout}>로그아웃</button>
+      </UserInfo>
+
     </Wrap>
   );
 };
 
 const Wrap = styled.div`
-  background: #ffffff;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  height: 70px;
-  margin-bottom: 50px;
-  display: flex;
+box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+width:100%;
+height:70px;
+margin-bottom:50px;
+display: flex;
+justify-content:space-between;
+align-items:center;
+padding: 0 80px;
+
+img{
+  width:203px;
+  height:56px;
+}
+
 `;
 
 const ModeBtn = styled.button`
@@ -103,5 +127,22 @@ const ModeCircle = styled.div`
       transition: all 0.4s ease-in-out;
     `}
 `;
+
+
+ 
+const UserInfo = styled.div`
+display:flex;
+`;
+
+const Profile = styled.div`
+width:50px;
+height:50px;
+border-radius:50%;
+background-color:gold;
+
+`;
+
+
+
 
 export default Header;

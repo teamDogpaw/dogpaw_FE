@@ -5,7 +5,7 @@ import { ko } from "date-fns/esm/locale"
 import { MyStack } from "../styles/style"
 import { ReactComponent as CapacityArrowDown } from "../styles/icon/capacityArrowDown.svg"
 import { ReactComponent as CapacityArrowUp } from "../styles/icon/capacityArrowUp.svg"
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
 
 const WriteSelect = ({
     selectedData,
@@ -21,10 +21,13 @@ const WriteSelect = ({
     processdetailsRef,
     capacitydetailsRef,
     stackdetailsRef,
-    perioddetailsRef
+    perioddetailsRef,
+    isEdit
 }) => {
 
-   
+    useEffect(()=>{},[isEdit])
+    
+   console.log(isEdit)
 
     const period = ["1개월 미만", "1개월", "2개월", "3개월", "4개월", "5개월", "6개월", "6개월 이상"];
     const capacity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -32,7 +35,8 @@ const WriteSelect = ({
     return (
         <>
             <TitleInput placeholder="컨텐츠 제목을 작성해주세요"
-                required onChange={(event) => handleTitle(event.target.value)} maxLength={25} />
+                required onChange={(event) => handleTitle(event.target.value)} maxLength={25} 
+                defaultValue={isEdit ? selectedData.title : null }/>
 
             <hr style={{ border: "1px solid #e2e2e2" }} />
 
@@ -64,12 +68,12 @@ const WriteSelect = ({
                         </SelectBoxOpen>
                     </details>
                     <div style={{ display: "flex", flexWrap: "wrap", marginTop: "10px" }}>
-                        {stack.map((stack, index) => {
+                        {stack?.map((stack, index) => {
                             return (
                                 <MyStack style={{ margin: "0px 10px 10px 0px" }} key={index}>#{stack} <svg onClick={() => removeStack(stack)} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9.99996 18.3327C14.6023 18.3327 18.3333 14.6017 18.3333 9.99935C18.3333 5.39698 14.6023 1.66602 9.99996 1.66602C5.39759 1.66602 1.66663 5.39698 1.66663 9.99935C1.66663 14.6017 5.39759 18.3327 9.99996 18.3327Z" stroke="#FFB673" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M12.5 7.5L7.5 12.5" stroke="#FFB673" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M7.5 7.5L12.5 12.5" stroke="#FFB673" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M9.99996 18.3327C14.6023 18.3327 18.3333 14.6017 18.3333 9.99935C18.3333 5.39698 14.6023 1.66602 9.99996 1.66602C5.39759 1.66602 1.66663 5.39698 1.66663 9.99935C1.66663 14.6017 5.39759 18.3327 9.99996 18.3327Z" stroke="#FFB673" stroke-width="2" strokeLinecap="round" strokeLinejoin="round" />
+                                    <path d="M12.5 7.5L7.5 12.5" stroke="#FFB673" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                    <path d="M7.5 7.5L12.5 12.5" stroke="#FFB673" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                                 </MyStack>
                             )
@@ -95,6 +99,7 @@ const WriteSelect = ({
                     locale={ko}
                     dateFormat="yyyy/MM/dd (eee)"
                     selected={startDate}
+                    placeholderText="날짜를 선택하세요"
                     minDate={new Date()}
                     onChange={date => handleStartDate(date)} />
                 <SelectTitle ref={capacitydetailsRef}>모집인원</SelectTitle>
@@ -115,12 +120,12 @@ const WriteSelect = ({
     )
 }
 
-const SelectTitle = styled.div`
+export const SelectTitle = styled.div`
 display: flex;
 align-items: center;
 `;
 
-const SelectBox = styled.summary`
+export const SelectBox = styled.summary`
 line-height: 25px;
 width: 200px;
 height: 37px;
@@ -170,7 +175,7 @@ overflow: scroll;
 margin-top: 4px;
 `;
 
-const Option = styled.li`
+export const Option = styled.li`
 cursor: pointer;
 padding: 8px 12px;
 :hover{

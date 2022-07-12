@@ -1,3 +1,4 @@
+
 import React, { Suspense, useEffect, useState } from "react";
 import { GlobalStyle } from "./styles/style";
 import Router from "./Routes";
@@ -15,12 +16,17 @@ import Loading from "./shared/Loading";
 function App() {
   const isDark = useRecoilValue(DarkThemeAtom);
 
+
   return (
     <>
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <GlobalStyle />
         <Header />
-        <Router />
+
+          <Suspense fallback={<Loading />}>
+          <Router/>
+          </Suspense>
+
       </ThemeProvider>
     </>
   );
