@@ -8,7 +8,7 @@ import { modalChange } from "../atom/userQuery";
 import Register from "./Register";
 
 function Login() {
-  //const setOnModal = useSetRecoilState(modalChange);
+  const setOnModal = useSetRecoilState(modalChange);
 
   //아이디, 비밀번호
   const [email, setEmail] = useState("");
@@ -41,7 +41,7 @@ function Login() {
           localStorage.setItem("id", id);
           console.log(res, "로그인");
           window.alert(res.data.msg);
-          window.location.replace("/");
+         // window.location.replace("/");
         }
       });
     } catch (err) {
@@ -136,13 +136,13 @@ function Login() {
       </a>
       <Log>
         아직 계정이 없으신가요?
-        {/* <RegisterBtn
+        <RegisterBtn
           onClick={() => {
             setOnModal(<Register />);
           }}
-        > */}
+        >
           회원가입
-        {/* </RegisterBtn> */}
+        </RegisterBtn>
         하러가기
       </Log>
     </All>

@@ -48,7 +48,7 @@ const Comment = ({ data }) => {
   });
 
   const modifyCommentClick = (commentId) => {
-    modifyComments({ comment: comment_ref.current.value, commentId });
+    modifyComments({ content: comment_ref.current.value, commentId });
     setIsEdit(false);
   };
   const deleteCommentClick = (commentId) => {
@@ -64,9 +64,9 @@ const Comment = ({ data }) => {
         </User>
         <Content>
           {isEdit ? (
-            <input type="text" defaultValue={data.comment} ref={comment_ref} />
+            <input type="text" defaultValue={data.content} ref={comment_ref} />
           ) : (
-            <p>{data.comment}</p>
+            <p>{data.content}</p>
           )}
           <p>{data.modifiedAt.substring(0, 10)}</p>
         </Content>
