@@ -6,7 +6,7 @@ import { UserInfoAtom } from "../atom/userQuery";
 import instance from "../shared/axios";
 
 import styled from "styled-components";
-import person from "../styles/icon/person.png"
+import person from "../styles/images/person.png"
 
 
 const Comment = ({ data }) => {

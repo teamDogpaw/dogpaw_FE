@@ -41,7 +41,7 @@ function Login() {
           localStorage.setItem("id", id);
           console.log(res, "로그인");
           window.alert(res.data.msg);
-         // window.location.replace("/");
+          window.location.replace("/");
         }
       });
     } catch (err) {

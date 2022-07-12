@@ -16,17 +16,37 @@ import Loading from "./shared/Loading";
 function App() {
 
   const isDark = useRecoilValue(DarkThemeAtom)
+  const token = localStorage.getItem("token");
+  const [user,setUser] = useRecoilState(UserInfoAtom);
+
+  const GetUserInfo = async () => {
+    if (token) {
+      try {
+        const response = await instance.get("/user/userinfo");
+        const userData = response.data;
+        return userData;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }; 
+  
+  const {data} = useQuery("userinfo",GetUserInfo,{
+    refetchOnWindowFocus: false,
+    onSuccess:(data)=>{
+      setUser(data)
+    }
+  })
+  //console.log(user)
 
   return (
     <>
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <GlobalStyle />
         <Header />
-
           <Suspense fallback={<Loading />}>
           <Router/>
           </Suspense>
-
       </ThemeProvider>
     </>
   );
