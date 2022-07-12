@@ -14,7 +14,9 @@ import { UserInfoAtom } from "./atom/userQuery";
 import Loading from "./shared/Loading";
 
 function App() {
+
   const isDark = useRecoilValue(DarkThemeAtom);
+
 
 
   return (

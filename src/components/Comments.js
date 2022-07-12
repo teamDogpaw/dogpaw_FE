@@ -63,7 +63,7 @@ const Comments = () => {
 
 
   if (isLoading) {
-    return <span>Loding...</span>;
+    return null;
   }
 
   if (isError) {
