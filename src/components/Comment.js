@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { UserInfoAtom } from "../atom/userQuery";
+import { UserInfoAtom } from "../atom/atom";
 import instance from "../shared/axios";
 
 import styled from "styled-components";
