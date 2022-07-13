@@ -8,9 +8,9 @@ import { UserInfoAtom } from "../atom/userQuery";
 import ModalOpen from "./Modal";
 
 //import logo from "../styles/images/logo.png";
-import lightMode from "../styles/icon/toggleLight.svg";
 import logo from "../styles/icon/개발바닥.svg";
-import darkMode from "../styles/icon/toggleDark.svg";
+import lightMode from "../styles/icon/light.svg";
+import darkMode from "../styles/icon/dark.svg";
 import sun from "../styles/icon/sun.svg";
 import moon from "../styles/icon/moon.svg";
 import person from "../styles/icon/profile.svg";
@@ -61,7 +61,7 @@ const Header = () => {
           <StyledLink to="/write">게시글 작성</StyledLink>
           <Details>
             <Summary>
-              <img src={userInfo?.profileImg || person} alt="" />
+              <img src={userInfo?.profileImg || person} alt="" style={{width:"35px"}} />
               <img src={arrowdown} alt="" />
             </Summary>
             <Select>
@@ -118,6 +118,7 @@ const ModeBtn = styled.button`
   background-image: url(${(props) => props.isDark ? `${darkMode}` : `${lightMode}`});
   background-repeat: no-repeat;
   background-size: cover;
+  background-color: ${(props) => props.theme.divBackGroundColor};
 
   width: 78px;
   height: 35px;

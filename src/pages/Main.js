@@ -7,11 +7,10 @@ import instance from "../shared/axios";
 import styled, { css } from "styled-components";
 import { ReactComponent as CommentIcon } from "../styles/icon/u_comment-alt-lines.svg";
 import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
-import { ReactComponent as BookmarkFill } from "../styles/icon/Vector 33.svg";
+import { ReactComponent as BookmarkFill } from "../styles/icon/bookmarkFill.svg";
 
 import person from "../styles/images/person.png";
-import banner from "../styles/images/main_banner.png";
-import mainBanner01 from "../styles/images/main_banner02.png";
+import Carousel from "../components/Carousel";
 
 const Main = () => {
   const navigate = useNavigate();
@@ -24,6 +23,19 @@ const Main = () => {
   const getPostList = () => {
     return instance.get("/api/allpost");
   };
+
+  const getBookmarRank = () => {
+    return instance.get("/api/bookMark/rank");
+  }
+
+  const rank = useQuery("bookmarkrank",getBookmarRank,{
+    refetchOnWindowFocus: false,
+    onSuccess:(data) =>{
+      //console.log("랭킹",data)
+    }
+  })
+
+  console.log(rank.data)
 
   const { isLoading, isError, data, error } = useQuery(
     "postList",
@@ -66,7 +78,7 @@ const Main = () => {
 
   return (
     <Wrap>
-      <Img src={mainBanner01} alt="" />
+      <Carousel />
       <ToggleWrap>
         <ToggleBtn onClick={clickedToggle} toggle={toggle}>
           <p style={{ display: "flex" }}>
@@ -79,6 +91,9 @@ const Main = () => {
         </ToggleBtn>
       </ToggleWrap>
       <ArticleWrap>
+        <>
+        {}
+        </>
         {mojib.map((list) => {
           return (
             <Article
@@ -128,7 +143,7 @@ const Main = () => {
                 ) : (
                   <BookmarkIcon onClick={bookMark} />
                 )}
-              </Footer>
+              </Footer> 
             </Article>
           );
         })}

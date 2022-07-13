@@ -1,6 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
-import { ReactComponent as BookmarkFill } from "../styles/icon/Vector 33.svg";
+import { ReactComponent as BookmarkFill } from "../styles/icon/bookmarkFill.svg";
 import { ReactComponent as Arrow } from "../styles/icon/arrowLeft.svg";
 import person from "../styles/images/person.png";
 import paw from "../styles/icon/paw.svg";
@@ -117,25 +117,43 @@ const Detail = () => {
             <Img src={profileImg || person} alt="profile" />
             <p>{author}</p>
           </User>
-          <Leftarrow onClick={() => {navigate(-1)}}
+          <Leftarrow
+            onClick={() => {
+              navigate(-1);
+            }}
           />
           <Mark>
-            {bookMarkStatus ? (
+            {/* {bookMarkStatus ? (
+              <BookmarkFill onClick={bookMark} />
+            ) : (
+              <BookmarkIcon onClick={bookMark} />
+            )} */}
+            {author === userId ? (
+              ""
+            ) : bookMarkStatus ? (
               <BookmarkFill onClick={bookMark} />
             ) : (
               <BookmarkIcon onClick={bookMark} />
             )}
           </Mark>
           <Userbtn>
-          {author === userId && (
-          <>
-          <img src={modify} onClick={()=>navigate(`/write/${id}`)} alt=""/>
-          <img src={deletebtn} onClick={() => PostDelete.mutate()} alt=""/>
-          </> 
-        )}
-         {/* <Link to={`/write/${id}`}>수정하기</Link>
+            {author === userId && (
+              <>
+                <img
+                  src={modify}
+                  onClick={() => navigate(`/write/${id}`)}
+                  alt=""
+                />
+                <img
+                  src={deletebtn}
+                  onClick={() => PostDelete.mutate()}
+                  alt=""
+                />
+              </>
+            )}
+            {/* <Link to={`/write/${id}`}>수정하기</Link>
             <span onClick={() => PostDelete.mutate()}> 삭제하기 </span> */}
-        </Userbtn>
+          </Userbtn>
 
           <hr />
           <ContentWrap>
@@ -221,7 +239,8 @@ const Wrap = styled.div`
   }
 
   hr {
-    color: #e2e2e2;
+    border:1px solid #e2e2e2 ;
+    
   }
 
   span {
