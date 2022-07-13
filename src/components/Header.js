@@ -57,7 +57,6 @@ const Header = () => {
           <ModeBtn onClick={() => setIsDark((prev) => !prev)} isDark={isDark}>
             <ModeCircle isDark={isDark} />
           </ModeBtn>
-
           {!isLogin ? (
             <Contain>
               <StyledLink to="/write">게시글 작성</StyledLink>
@@ -170,6 +169,12 @@ const User = styled.div`
   width: 320px;
   align-items: center;
   justify-content: space-between;
+`;
+
+const Profile = styled.img`
+width:45px;
+height:45px;
+border-radius:50%;
 `;
 
 const Details = styled.details`
