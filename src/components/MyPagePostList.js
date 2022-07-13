@@ -1,6 +1,6 @@
 import { LineBtn, ListProfilePic, ListStack } from "../styles/style"
 import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
-import { ReactComponent as BookmarkFill } from "../styles/icon/Vector 33.svg";
+import { ReactComponent as BookmarkFill } from "../styles/icon/bookmarkFill.svg";
 import { useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/atom";
 import { useState } from "react";
