@@ -12,8 +12,12 @@ import { ReactComponent as BookmarkFill } from "../styles/icon/bookmarkFill.svg"
 import person from "../styles/images/person.png";
 import Carousel from "../components/Carousel";
 
+
 const Main = () => {
   const navigate = useNavigate();
+
+  const userInfo= useRecoilValue(UserInfoAtom);
+  console.log(userInfo)
 
   const [mark, setMark] = useState(false);
   const [toggle, setToggle] = useState(true);

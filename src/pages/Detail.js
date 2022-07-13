@@ -12,8 +12,9 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Comments from "../components/Comments";
 import { instance } from "../shared/axios";
 import { useRecoilValue } from "recoil";
-import { UserInfoAtom } from "../atom/userQuery";
+import { UserInfoAtom } from "../atom/atom";
 import { useState } from "react";
+import Loading from "../shared/Loading";
 
 const Detail = () => {
   const navigate = useNavigate();
@@ -40,18 +41,6 @@ const Detail = () => {
   const applyData = () => {
     return instance.post(`api/apply/${id}`);
   };
-
-  const { isLoading, isError, error } = useQuery("detailList", getPostList, {
-    refetchOnWindowFocus: false, // 사용자가 다른 곳에 갔다가 돌아올시 함수 재실행 여부
-    onSuccess: (data) => {
-      setDataset(data.data);
-      console.log("데이터 조회", data);
-    },
-    onError: (e) => {
-      console.log(e.message);
-    },
-  });
-
   const {
     nickname: author,
     applyStatus,
@@ -67,8 +56,18 @@ const Detail = () => {
     period,
   } = dataSet;
 
-  const userId = user.nickname;
+  const { isLoading, isError, error } = useQuery("detailList", getPostList, {
+    refetchOnWindowFocus: false, // 사용자가 다른 곳에 갔다가 돌아올시 함수 재실행 여부
+    onSuccess: (data) => {
+      setDataset(data.data);
+      console.log("데이터 조회", data);
+    },
+    onError: (e) => {
+      console.log(e.message);
+    },
+  });
 
+  const userId = user.nickname;
 
   // 뮤테이션
   const queryClient = useQueryClient();
@@ -93,7 +92,7 @@ const Detail = () => {
   });
 
   if (isLoading) {
-    return null;
+    return <Loading />
   }
 
   if (isError) {

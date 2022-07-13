@@ -24,12 +24,7 @@ root.render(
     <RecoilRoot>
     <BrowserRouter>
       <ReactQueryDevtools initialIsOpen={true} />
-    
         <App />
-   
-
-
-
     </BrowserRouter>
     </RecoilRoot>
     {/* </Provider> */}

@@ -11,18 +11,18 @@ import { useQuery } from "react-query";
 import { useRecoilState } from "recoil";
 
 import instance from "../shared/axios";
-import { UserInfoAtom } from "../atom/userQuery";
+import { UserInfoAtom } from "../atom/atom";
 import profilepic from "../styles/icon/defaultProfile.svg";
 import { SelectBox } from "../components/WriteSelect";
+import bookmark_fill from "../styles/icon/u_bookmark.svg"
 
 const MyPage = () => {
+   const [tab, setTab] = useState(<Bookmark />);
    const [userInfo, setUserInfo] = useRecoilState(UserInfoAtom);
    const navigate = useNavigate();
-   const [tab, setTab] = useState(<Bookmark />);
    const [isEdit, setIsEdit] = useState(false);
    const stackdetailsRef = useRef(null);
    const imageRef = useRef();
-   console.log(userInfo)
 
    const formData = new FormData()
 
@@ -32,36 +32,48 @@ const MyPage = () => {
       stacks: userInfo?.stacks
    })
 
-   //프로필 이미지 넣지 않으면 편집 완료 못함
+   //⚠️ 프로필 이미지 넣지 않으면 편집 완료 못함
    const EditMyData = async () => {
-      setIsEdit(false)
-      console.log(myData.profileImg)
+      console.log(myData)
+      formData.append("image", myData.profileImg);
+      const data = {
+         stacks: myData.stacks,
+         nickname: myData.nickname
+      }
+      const formdata = JSON.stringify(data)
+      const blob = new Blob([formdata], { type: 'application/json' })
+      formData.append("body", blob)
       try {
-         await instance.put(`/api/user/info`, formData
-         )
-         navigate("/")
+         await instance.put(`/api/user/info`, formData, {
+            headers: { "Content-Type": "multipart/form-data" }
+         })
       }
       catch (error) {
          alert(error)
       }
+      setIsEdit(false)
+      navigate("/mypage")
    }
 
+   const basic = async () => {
+      try {
+         await instance.post(`/api/user/profile/basic`)
+      } catch (error) {
+         alert(error)
+      }
+   }
+
+   //    image - imagefile
+   //    body {stacks: value,
+   //          nickname: value}
+   // =>    한번에 만들어서 한번에 blovb
+   //          {nickname: value}
+
+   //state안에 새 stack 넣기
    const addStack = (newStack) => {
       if (!myData.stacks.includes(newStack)) {
          setMyData(prev => ({ ...prev, stacks: [...myData.stacks, newStack] }))
-
-         const stack = JSON.stringify(myData.stacks)//(배열)
-         console.log(stack)
-         console.log([stack])
-         const blob = new Blob([stack], {
-            type: 'application/JSON'
-          })
-         formData.append('body', blob)
-
-         // formData.append('stacks', {stacks: JSON.stringify(myData.stacks)});
-         console.log(formData)
-         for (const value of formData) console.log(value);
-         console.log(myData)
+         console.log(myData.stacks)
       } else {
          return null
       }
@@ -73,28 +85,15 @@ const MyPage = () => {
 
    const preview = new FileReader();
 
-   const editImg = (e) =>{
-      console.log(e)
+   const editImg = (e) => {
       const img = e.target.files[0]
-      formData.append('image', img);
       console.log(img)
-      console.log(formData)
-      // console.log(preview.readAsDataURL(img));
-      setMyData((prev)=>({...prev, profileImg:img}))
-      for (const value of formData) console.log(value);
+      setMyData((prev) => ({ ...prev, profileImg: img }))
    }
 
-   const editNickname = (e)=>{
+   const editNickname = (e) => {
       const newNickname = e.target.value
-      setMyData((prev)=> ({...prev, nickname:newNickname}))
-      const nickname = JSON.stringify(newNickname)
-      console.log([nickname])
-      const blob = new Blob([nickname], {
-         type: 'application/JSON'
-       })
-      formData.append('body', blob)
-      console.log(blob)
-      for (const value of formData) console.log(value);
+      setMyData((prev) => ({ ...prev, nickname: newNickname }))
    }
 
    const removeStack = (selectedStack) => {
@@ -108,34 +107,35 @@ const MyPage = () => {
             {isEdit ?
                <>
                   {myData?.profileImg === null ? <Profilepic src={profilepic} /> : <Profilepic src={myData?.profileImg} />}
-                 <form>
-                 <input type="file" ref={imageRef} accept="image/*" onChange={(event)=>editImg(event)} />이미지 편집
-                  <input defaultValue={userInfo?.nickname} onChange={(event) => editNickname(event)} />
-                  {userInfo?.username}
-                  <details style={{ height: "40px" }} ref={stackdetailsRef}>
-                     <SelectBox>스택을 선택해주세요.</SelectBox>
-                     <SelectBoxOpen>
-                        <Option onClick={() => addStack("Java")}>Java</Option>
-                        <Option onClick={() => addStack("Javascript")}>Javascript</Option>
-                        <Option onClick={() => addStack("TypeScript")}>TypeScript</Option>
-                        <Option onClick={() => addStack("React")}>React</Option>
-                        <Option onClick={() => addStack("Vue")}>Vue</Option>
-                     </SelectBoxOpen>
-                  </details>
-                  <div style={{ display: "flex", flexWrap: "wrap", marginTop: "10px" }}>
-                     {myData?.stacks.map((stack) => {
-                        return (
-                           <MyStack style={{ margin: "0px 10px 10px 0px" }} key={stack.id}>#{stack.stack} <svg onClick={() => removeStack(stack)} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M9.99996 18.3327C14.6023 18.3327 18.3333 14.6017 18.3333 9.99935C18.3333 5.39698 14.6023 1.66602 9.99996 1.66602C5.39759 1.66602 1.66663 5.39698 1.66663 9.99935C1.66663 14.6017 5.39759 18.3327 9.99996 18.3327Z" stroke="#FFB673" stroke-width="2" strokeLinecap="round" strokeLinejoin="round" />
-                              <path d="M12.5 7.5L7.5 12.5" stroke="#FFB673" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                              <path d="M7.5 7.5L12.5 12.5" stroke="#FFB673" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                           </svg>
-                           </MyStack>
-                        )
-                     })}
-                  </div>
-                 </form>
-                 
+                  <form>
+                     <input type="file" ref={imageRef} accept="image/*" onChange={(event) => editImg(event)} />이미지 편집
+                     <input defaultValue={userInfo?.nickname} onChange={(event) => editNickname(event)} />
+                     {userInfo?.username}
+                     <details style={{ height: "40px" }} ref={stackdetailsRef}>
+                        <SelectBox>스택을 선택해주세요.</SelectBox>
+                        <SelectBoxOpen>
+                           <Option onClick={() => addStack("Java")}>Java</Option>
+                           <Option onClick={() => addStack("Javascript")}>Javascript</Option>
+                           <Option onClick={() => addStack("TypeScript")}>TypeScript</Option>
+                           <Option onClick={() => addStack("React")}>React</Option>
+                           <Option onClick={() => addStack("Vue")}>Vue</Option>
+                        </SelectBoxOpen>
+                  
+                     </details>
+                     <div style={{ display: "flex", flexWrap: "wrap", marginTop: "10px" }}>
+                        {myData?.stacks.map((stack) => {
+                           return (
+                              <MyStack style={{ margin: "0px 10px 10px 0px" }} key={stack.id}>#{stack.stack} <svg onClick={() => removeStack(stack)} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                 <path d="M9.99996 18.3327C14.6023 18.3327 18.3333 14.6017 18.3333 9.99935C18.3333 5.39698 14.6023 1.66602 9.99996 1.66602C5.39759 1.66602 1.66663 5.39698 1.66663 9.99935C1.66663 14.6017 5.39759 18.3327 9.99996 18.3327Z" stroke="#FFB673" stroke-width="2" strokeLinecap="round" strokeLinejoin="round" />
+                                 <path d="M12.5 7.5L7.5 12.5" stroke="#FFB673" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                 <path d="M7.5 7.5L12.5 12.5" stroke="#FFB673" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                              </MyStack>
+                           )
+                        })}
+                     </div>
+                  </form>
+                  <Btn onClick={() => basic()}>기본 이미지로 변경</Btn>
                   <Btn onClick={() => EditMyData()}>편집 완료</Btn>
                </>
 
@@ -150,6 +150,7 @@ const MyPage = () => {
                            <MyStack key={mystack.id}># {mystack.stack}</MyStack>
                         )
                      })}
+                       
                   </div>
                   <Btn onClick={() => setIsEdit(true)}>프로필 편집</Btn> <br />
                </>
