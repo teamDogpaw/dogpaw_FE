@@ -14,6 +14,7 @@ import { instance } from "../shared/axios";
 import { useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/atom";
 import { useState } from "react";
+import Loading from "../shared/Loading";
 
 const Detail = () => {
   const navigate = useNavigate();
@@ -52,6 +53,7 @@ const Detail = () => {
     title,
     startAt,
     stacks,
+    period,
   } = dataSet;
 
   const { isLoading, isError, error } = useQuery("detailList", getPostList, {
