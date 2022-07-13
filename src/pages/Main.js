@@ -16,9 +16,6 @@ import Carousel from "../components/Carousel";
 const Main = () => {
   const navigate = useNavigate();
 
-  const userInfo= useRecoilValue(UserInfoAtom);
-  console.log(userInfo)
-
   const [mark, setMark] = useState(false);
   const [toggle, setToggle] = useState(true);
 
