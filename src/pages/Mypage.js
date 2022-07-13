@@ -9,6 +9,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useQuery } from "react-query";
 import { useRecoilState } from "recoil";
+import ViewApply from "../components/ViewApply";
 
 import instance from "../shared/axios";
 import { UserInfoAtom } from "../atom/atom";
@@ -17,13 +18,15 @@ import { SelectBox } from "../components/WriteSelect";
 import bookmark_fill from "../styles/icon/u_bookmark.svg"
 
 const MyPage = () => {
-   const [tab, setTab] = useState(<Bookmark />);
    const [userInfo, setUserInfo] = useRecoilState(UserInfoAtom);
    const navigate = useNavigate();
    const [isEdit, setIsEdit] = useState(false);
    const stackdetailsRef = useRef(null);
    const imageRef = useRef();
+   const [viewApply, setViewApply] = useState(false);
+   const [tab, setTab] = useState(<Bookmark viewApply={viewApply} viewApplyModal={viewApplyModal} />);
 
+console.log(viewApply)
    const formData = new FormData()
 
    const [myData, setMyData] = useState({
@@ -101,9 +104,19 @@ const MyPage = () => {
       setMyData(prev => ({ ...prev, stacks: newStacks }))
    }
 
+   function viewApplyModal() {
+      if(viewApply) {
+         setViewApply(false);
+      } else {
+         setViewApply(true);
+      }
+   }
+
    return (
       <>
+      {viewApply ? <ViewApply viewApply={viewApply} viewApplyModal={viewApplyModal} /> :  null }
          <MainBody>
+            
             {isEdit ?
                <>
                   {myData?.profileImg === null ? <Profilepic src={profilepic} /> : <Profilepic src={myData?.profileImg} />}
@@ -141,11 +154,12 @@ const MyPage = () => {
 
                :
                <>
+            
                   {userInfo?.profileImg === null ? <Profilepic src={profilepic} /> : <Profilepic src={userInfo?.profileImg} />}
                   {userInfo?.nickname} <br />
                   {userInfo?.username}
                   <div style={{ display: "flex" }}>
-                     {userInfo?.stacks.map((mystack) => {
+                     {userInfo?.stacks?.map((mystack) => {
                         return (
                            <MyStack key={mystack.id}># {mystack.stack}</MyStack>
                         )
@@ -163,9 +177,9 @@ const MyPage = () => {
 
          <WholeBody>
             <TabBody>
-               <Tab onClick={() => { setTab(<Bookmark />) }}> 관심 프로젝트 </Tab>
-               <Tab onClick={() => { setTab(<JoinProject />) }}> 참여한 프로젝트 </Tab>
-               <Tab onClick={() => { setTab(<MyProject />) }}> 내가 쓴 프로젝트 </Tab>
+               <Tab onClick={() => { setTab(<Bookmark viewApply={viewApply} viewApplyModal={viewApplyModal} />) }}> 관심 프로젝트 </Tab>
+               <Tab onClick={() => { setTab(<JoinProject viewApply={viewApply} viewApplyModal={viewApplyModal}/>) }}> 참여한 프로젝트 </Tab>
+               <Tab onClick={() => { setTab(<MyProject viewApply={viewApply} viewApplyModal={viewApplyModal}/>) }}> 내가 쓴 프로젝트 </Tab>
 
             </TabBody>
             <PostBody>
