@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import paw from "../styles/icon/paw_loading.svg";
+import paw_loading from "../styles/icon/paw_loading.svg";
 
 const Loading = () => {
   return (
     <Wrap>
-      <img src={paw} alt="" />
+      <img src={paw_loading} alt="" />
     </Wrap>
   );
 };
