@@ -83,25 +83,20 @@ const Header = () => {
 };
 
 const Wrap = styled.div`
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  height: 96px;
-  margin-bottom: 50px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 80px;
-  background-color: #fff;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  height: 96px;
-  margin-bottom: 50px;
-  display: flex;
-  align-items: center;
-  background-color: #fff;
-  p {
-    font-size: 16px;
-  }
+
+background-color: ${(props) => props.theme.BackGroundColor};
+box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+width:100%;
+height:96px;
+margin-bottom:50px;
+display: flex;
+align-items:center;
+
+
+p{
+  font-size:16px;
+}
+
 `;
 
 
@@ -120,8 +115,7 @@ const ContentWrap = styled.div`
 `;
 
 const ModeBtn = styled.button`
-  background-image: url(${(props) =>
-    props.isDark ? `${darkMode}` : `${lightMode}`});
+  background-image: url(${(props) => props.isDark ? `${darkMode}` : `${lightMode}`});
   background-repeat: no-repeat;
   background-size: cover;
 
@@ -160,20 +154,12 @@ const ModeCircle = styled.div`
       transition: all 0.4s ease-in-out;
     `}
 `;
-const User = styled.div`
 
+const User = styled.div`
   display: flex;
   width: 320px;
   align-items: center;
   justify-content: space-between;
-
-`;
-
-const Profile = styled.div`
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: gold;
 `;
 
 const Details = styled.details`
@@ -190,7 +176,6 @@ const Summary = styled.summary`
 `;
 
 const Select = styled.ul`
-
   width: 100px;
   height: 80px;
   z-index: 10;
@@ -217,7 +202,6 @@ const StyledLink = styled(Link)`
 `;
 
 const Option = styled.li`
-
   display: flex;
   flex-direction: column;
   justify-content: center;

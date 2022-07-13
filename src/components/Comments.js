@@ -100,9 +100,7 @@ const Comments = () => {
 const Wrap = styled.div`
   background-color: ${(props) => props.theme.divBackGroundColor};
   margin: auto;
-  border-radius: 16px;
   padding: 32px;
-  margin-top: 30px;
   box-sizing: border-box;
 `;
 const CommentBox = styled.div`
@@ -110,7 +108,7 @@ const CommentBox = styled.div`
   flex-direction: column;
   position: relative;
   height: 140px;
-  margin-top: 10px;
+  margin-top: 20px;
 `;
 const Input = styled.input`
   width: 100%;

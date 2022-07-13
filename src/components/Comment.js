@@ -130,8 +130,6 @@ const Content = styled.div`
   }
   & p:last-child {
     color: #777777;
-    margin-top:10px;
-  
   }
 `;
 
@@ -157,5 +155,7 @@ const DeleteBtn = styled(ModiBtn)`
   color: #ff0000;
 `;
 
-const UpdateBtn = styled(ModiBtn)``;
+const UpdateBtn = styled(ModiBtn)`
+color: ${(props) => props.theme.textColor};
+`;
 export default Comment;
