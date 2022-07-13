@@ -8,7 +8,7 @@ import modify from "../styles/icon/modify.svg";
 import deletebtn from "../styles/icon/delete.svg";
 
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Comments from "../components/Comments";
 import { instance } from "../shared/axios";
 import { useRecoilValue } from "recoil";
@@ -122,11 +122,6 @@ const Detail = () => {
             }}
           />
           <Mark>
-            {/* {bookMarkStatus ? (
-              <BookmarkFill onClick={bookMark} />
-            ) : (
-              <BookmarkIcon onClick={bookMark} />
-            )} */}
             {author === userId ? (
               ""
             ) : bookMarkStatus ? (
@@ -150,8 +145,6 @@ const Detail = () => {
                 />
               </>
             )}
-            {/* <Link to={`/write/${id}`}>수정하기</Link>
-            <span onClick={() => PostDelete.mutate()}> 삭제하기 </span> */}
           </Userbtn>
 
           <hr />
@@ -286,7 +279,6 @@ const Leftarrow = styled(Arrow)`
   position: absolute;
   top: 25px;
   left: 30px;
-  //z-index:10;
 `;
 
 const Mark = styled.div`

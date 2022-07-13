@@ -61,7 +61,7 @@ const Header = () => {
           <StyledLink to="/write">게시글 작성</StyledLink>
           <Details>
             <Summary>
-              <img src={userInfo?.profileImg || person} alt="" style={{width:"35px"}} />
+              <Profile src={userInfo?.profileImg || person} alt="" />
               <img src={arrowdown} alt="" />
             </Summary>
             <Select>
@@ -161,6 +161,12 @@ const User = styled.div`
   width: 320px;
   align-items: center;
   justify-content: space-between;
+`;
+
+const Profile = styled.img`
+width:45px;
+height:45px;
+border-radius:50%;
 `;
 
 const Details = styled.details`
