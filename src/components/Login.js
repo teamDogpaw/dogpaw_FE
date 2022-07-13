@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import kakaoBTN from "../assets/카카오.png";
 import { useSetRecoilState } from "recoil";
-import { modalChange } from "../atom/userQuery";
+import { modalChange } from "../atom/atom";
 import Register from "./Register";
 
 function Login() {

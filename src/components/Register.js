@@ -4,7 +4,7 @@ import axios from "axios";
 import arrow from "../assets/stack_arrow.png";
 
 import { useSetRecoilState } from "recoil";
-import { modalChange } from "../atom/userQuery";
+import { modalChange } from "../atom/atom";
 import Login from "./Login";
 
 const Register = () => {

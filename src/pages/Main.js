@@ -12,9 +12,14 @@ import { ReactComponent as BookmarkFill } from "../styles/icon/Vector 33.svg";
 import person from "../styles/images/person.png";
 import banner from "../styles/images/main_banner.png";
 import mainBanner01 from "../styles/images/main_banner02.png";
+import { useRecoilValue } from "recoil";
+import { UserInfoAtom } from "../atom/atom";
 
 const Main = () => {
   const navigate = useNavigate();
+
+  const userInfo= useRecoilValue(UserInfoAtom);
+  console.log(userInfo)
 
   const [mark, setMark] = useState(false);
   const [toggle, setToggle] = useState(true);
