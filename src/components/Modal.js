@@ -38,8 +38,10 @@ import Modal from "react-modal";
 import Login from "./Login";
 import Register from "./Register";
 import { useRecoilValue, useRecoilState } from "recoil";
-import { modalChange } from "../atom/userQuery";
+
+import { modalChange } from "../atom/atom";
 import cancle from "../assets/취소 버튼.png";
+
 
 Modal.setAppElement("#root");
 const ModalOpen = () => {

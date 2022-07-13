@@ -206,7 +206,7 @@ const IdPut = styled.input`
   font-weight: bold;
   font-family: Jalnan;
   color: black;
-  :: placeholder {
+  ::placeholder {
     font-weight: bold;
     font-size: 16px;
     color: #9f9f9f;

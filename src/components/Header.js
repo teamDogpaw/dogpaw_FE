@@ -4,13 +4,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { UserInfoAtom } from "../atom/userQuery";
+import { UserInfoAtom } from "../atom/atom";
 import ModalOpen from "./Modal";
 
 //import logo from "../styles/images/logo.png";
-import lightMode from "../styles/icon/toggleLight.svg";
 import logo from "../styles/icon/개발바닥.svg";
-import darkMode from "../styles/icon/toggleDark.svg";
+import lightMode from "../styles/icon/light.svg";
+import darkMode from "../styles/icon/dark.svg";
 import sun from "../styles/icon/sun.svg";
 import moon from "../styles/icon/moon.svg";
 import person from "../styles/icon/profile.svg";
@@ -57,6 +57,7 @@ const Header = () => {
           <ModeBtn onClick={() => setIsDark((prev) => !prev)} isDark={isDark}>
             <ModeCircle isDark={isDark} />
           </ModeBtn>
+
           {!isLogin ? (
             <Contain>
               <StyledLink to="/write">게시글 작성</StyledLink>
@@ -67,7 +68,7 @@ const Header = () => {
           ) : (
             <Details>
               <Summary>
-                <img src={userInfo?.profileImg || person} alt="" />
+                <img src={userInfo?.profileImg || person} alt="" style={{width:"35px"}}/>
                 <img src={arrowdown} alt="" />
               </Summary>
               <Select>
@@ -82,6 +83,7 @@ const Header = () => {
               </Select>
             </Details>
           )}
+
         </User>
       </ContentWrap>
     </Wrap>
@@ -121,6 +123,7 @@ const ModeBtn = styled.button`
     props.isDark ? `${darkMode}` : `${lightMode}`});
   background-repeat: no-repeat;
   background-size: cover;
+  background-color: ${(props) => props.theme.divBackGroundColor};
 
   width: 78px;
   height: 35px;

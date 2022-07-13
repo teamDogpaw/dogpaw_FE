@@ -107,10 +107,22 @@ font-weight: bold;
 
 export const LineBtn = styled.button`
 background-color: transparent;
-border: 1px solid #777777;
-color: #777777;
+border: 1px solid ${(props) => props.theme.keyColor};
+color: ${(props) => props.theme.keyColor};
 padding: 12px 16px;
 border-radius: 8px;
+:hover{
+  background-color: ${(props) => props.theme.keyColor};
+  color:white;
+}
+:active{
+  background-color: #D26500;
+}
+`;
+
+export const GrayLineBtn = styled(LineBtn)`
+border: 1px solid #777777;
+color: #777777;
 `;
 
 export const ListProfilePic = styled.img`

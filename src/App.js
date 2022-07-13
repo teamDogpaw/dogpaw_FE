@@ -10,7 +10,7 @@ import { DarkThemeAtom } from "./atom/theme";
 import axios from "axios";
 import { useQuery } from "react-query";
 import instance from "./shared/axios";
-import { UserInfoAtom } from "./atom/userQuery";
+import { UserInfoAtom } from "./atom/atom";
 import Loading from "./shared/Loading";
 
 function App() {

@@ -19,9 +19,7 @@ const JoinProject = () => {
 
   const joinproject = useQuery("joinproject", GetJoinProject);
 
-  useEffect(() => {
-    console.log(joinproject);
-  }, [joinproject]);
+
 
   if (joinproject.isLoading) {
     return <h1>loading...</h1>;

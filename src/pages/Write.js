@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import React, { useEffect, useRef, useState } from "react";
 import Select from "react-select";
-import { MainBody, Btn, LineBtn, MyStack } from "../styles/style";
+import { MainBody, Btn, LineBtn, MyStack, GrayLineBtn } from "../styles/style";
 import styled from "styled-components";
 import "../styles/style.css"
 import { Mutation, useMutation, useQuery } from "react-query"
@@ -136,25 +136,7 @@ return instance.get(`api/post/detail/${postId}`);
 
       if (!stack.includes(newStack)) {
          setStack([...stack, newStack])
-         
-         console.log(stack)
-         console.log(stack)
-         console.log(stack)
-         console.log(stack)
-         console.log(stack)
-         console.log(stack)
-         console.log(stack)
-         console.log(stack)
-         console.log(stack)
-         
          setSelectedData(prev => ({ ...prev, stacks: stack }))
-         console.log(stack)
-         console.log(selectedData.stacks)
-         console.log(selectedData.stacks)
-         console.log(selectedData.stacks)
-         console.log(selectedData.stacks)
-         console.log(selectedData.stacks)
-         console.log(selectedData.stacks)
       } else {
          return null
       }
@@ -207,7 +189,7 @@ return instance.get(`api/post/detail/${postId}`);
          </MainBody>
 
          <Publish>
-            <LineBtn style={{ marginRight: "26px" }}>전체 삭제</LineBtn>
+            <GrayLineBtn style={{ marginRight: "26px" }} color={"#777777"}>전체 삭제</GrayLineBtn>
             {isEdit ? 
             <Btn type="submit" onClick={()=>{PostEdit.mutate(selectedData)}}>프로젝트 수정하기</Btn>: 
             <Btn type="submit" onClick={PostPublish}>프로젝트 등록하기</Btn>}
