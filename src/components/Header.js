@@ -17,22 +17,20 @@ import person from "../styles/icon/profile.svg";
 import arrowdown from "../styles/icon/arrowdown.svg";
 
 
-
 const Header = () => {
   const navigate = useNavigate();
 
   const [isDark, setIsDark] = useRecoilState(DarkThemeAtom);
 
   const userInfo = useRecoilValue(UserInfoAtom);
- 
+
   const isLogin = localStorage.getItem("token");
 
-
-  const logout = async () => {
-    localStorage.removeItem("token"); 
+  const logout = () => {
+    localStorage.removeItem("token");
     localStorage.removeItem("retoken");
     localStorage.removeItem("id");
-
+    window.location.replace("/");
     // const data = {
     //   userId: localStorage.getItem("id"),
     // };
@@ -45,7 +43,6 @@ const Header = () => {
     // }
   };
 
-  
   return (
     <Wrap>
       <ContentWrap>
@@ -56,38 +53,37 @@ const Header = () => {
           }}
           alt=""
         />
-      <User>
-        <ModeBtn onClick={() => setIsDark((prev) => !prev)} isDark={isDark}>
-          <ModeCircle isDark={isDark} />
-        </ModeBtn>
-        <StyledLink to="/write">게시글 작성</StyledLink>
-        <Details>
-          <Summary>
-            <img src={userInfo?.profileImg || person} alt="" />
-            <img src={arrowdown} alt="" />
-          </Summary>
-          <Select>
-            <Option>
-              <p>
-                <StyledLink to="/mypage">마이페이지</StyledLink>
-              </p>
-            </Option>
-            <Option>
-              {isLogin ? (
-                <p onClick={logout}>로그아웃</p>
-              ) : (
-                <ModalOpen />
-              )}{" "}
-            </Option>
-          </Select>
-        </Details>
-      </User>
+
+        <User>
+          <ModeBtn onClick={() => setIsDark((prev) => !prev)} isDark={isDark}>
+            <ModeCircle isDark={isDark} />
+          </ModeBtn>
+          <StyledLink to="/write">게시글 작성</StyledLink>
+          <Details>
+            <Summary>
+              <img src={userInfo?.profileImg || person} alt="" />
+              <img src={arrowdown} alt="" />
+            </Summary>
+            <Select>
+              <Option>
+                <p>
+                  <StyledLink to="/mypage">마이페이지</StyledLink>
+                </p>
+              </Option>
+              <Option>
+                {isLogin ? <p onClick={logout}>로그아웃</p> : <ModalOpen />}{" "}
+              </Option>
+            </Select>
+          </Details>
+        </User>
+
       </ContentWrap>
     </Wrap>
   );
 };
 
 const Wrap = styled.div`
+
 background-color: ${(props) => props.theme.BackGroundColor};
 box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 width:100%;
@@ -100,26 +96,25 @@ align-items:center;
 p{
   font-size:16px;
 }
+
 `;
 
-const Img = styled.img`
-  width:167px;
-  height:46px;
 
+const Img = styled.img`
+  width: 167px;
+  height: 46px;
 `;
 
 const ContentWrap = styled.div`
-width:1200px;
-height:96px;
-display:flex;
-justify-content:space-between;
-align-items: center;
-margin:auto;
-
+  width: 1200px;
+  height: 96px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
 `;
 
 const ModeBtn = styled.button`
-
   background-image: url(${(props) => props.isDark ? `${darkMode}` : `${lightMode}`});
   background-repeat: no-repeat;
   background-size: cover;
@@ -128,7 +123,6 @@ const ModeBtn = styled.button`
   height: 35px;
   border-radius: 30px;
   border: none;
-
 
   margin-left: 10px;
   position: relative;
@@ -160,75 +154,61 @@ const ModeCircle = styled.div`
       transition: all 0.4s ease-in-out;
     `}
 `;
+
 const User = styled.div`
-display:flex;
-width:320px;
-align-items:center;
-justify-content:space-between;
+  display: flex;
+  width: 320px;
+  align-items: center;
+  justify-content: space-between;
 `;
 
-
 const Details = styled.details`
-position:relative;
+  position: relative;
 `;
 
 const Summary = styled.summary`
-cursor: pointer;
-list-style: none;
-img {
-  width:48px;
-  height:48px;
-}
-
+  cursor: pointer;
+  list-style: none;
+  img {
+    width: 48px;
+    height: 48px;
+  }
 `;
 
 const Select = styled.ul`
-width: 100px;
-height: 80px;
-border-radius: 8px;
-position: absolute;
-right:0;
+  width: 100px;
+  height: 80px;
+  z-index: 10;
+  border-radius: 8px;
+  position: absolute;
+  right: 0;
 
+  border: ${(props) => props.theme.border};
+  background-color: ${(props) => props.theme.inputBoxBackground};
+  box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.1);
 
-border: ${(props) => props.theme.border};
-background-color: ${(props) => props.theme.inputBoxBackground};
-box-shadow: 0px 4px 4px 0px rgb(0,0,0,0.1);
+  button {
+    border: none;
+    background-color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 3px 0;
+  }
 
-
-
-button {
-  
-  border:none;
-  background-color:#fff;
-  font-size: 14px;
-  cursor: pointer;
-  padding:3px 0 ;
-  
-}
 `;
 
 const StyledLink = styled(Link)`
-text-decoration:none;
+  text-decoration: none;
 `;
 
 const Option = styled.li`
-
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding-top: 13px;
-padding-bottom:10px;
-
-
-
-
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 13px;
+  padding-bottom: 10px;
 
 `;
-
- 
-
-
-
 
 export default Header;

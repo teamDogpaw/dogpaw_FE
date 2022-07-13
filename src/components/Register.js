@@ -42,11 +42,11 @@ const Register = () => {
       await axios.post("http://3.35.22.190/user/signup", data).then((res) => {
         console.log(res, "회원가입");
         window.alert("회원가입 성공 :)");
-        window.location.replace("/login");
+        setOnModal(<Login />);
       });
     } catch (err) {
       console.log(err);
-      window.alert(err.request.response);
+      window.alert(err.response.data?.errorMessage);
     }
   };
 
@@ -426,8 +426,8 @@ const Option = styled.li`
 `;
 
 const SignUpBtn = styled.button`
-color: ${(props) => (props.disabled ? "black" : "white")};
-background-color: ${(props) => (props.disabled ? "#f8cbac" : "#ee8548")};
+  color: ${(props) => (props.disabled ? "black" : "white")};
+  background-color: ${(props) => (props.disabled ? "#f8cbac" : "#ee8548")};
   border: none;
   padding: 1rem;
   width: 500px;
