@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 import instance from "../shared/axios";
-
+import Login from "../components/Login";
 const token = localStorage.getItem("token");
 
 const GetUserInfo = async () => {
@@ -14,8 +14,14 @@ const GetUserInfo = async () => {
     }
   }
 };
+
+
 export const UserInfoAtom = atom({
   key: "UserInfo",
   default: GetUserInfo(),
 });
 
+export const modalChange = atom({
+  key: "modalChange",
+  default: <Login />,
+});

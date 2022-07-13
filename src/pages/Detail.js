@@ -9,7 +9,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Comments from "../components/Comments";
 import { instance } from "../shared/axios";
 import { useRecoilValue } from "recoil";
-import { UserInfoAtom } from "../atom/userQuery";
+import { UserInfoAtom } from "../atom/atom";
 import { useState } from "react";
 import Loading from "../shared/Loading";
 
@@ -39,6 +39,19 @@ const Detail = () => {
   const applyData = () => {
     return instance.post(`api/apply/${id}`);
   };
+  const {
+    nickname: author,
+    applyStatus,
+    bookMarkStatus,
+    content,
+    maxCapacity,
+    onLine,
+    profileImg,
+    currentMember,
+    title,
+    startAt,
+    stacks,
+  } = dataSet;
 
   const { isLoading, isError, error } = useQuery(
     "detailList",
@@ -54,20 +67,6 @@ const Detail = () => {
       },
     }
   );
-
-  const {
-    nickname: author,
-    applyStatus,
-    bookMarkStatus,
-    content,
-    maxCapacity,
-    onLine,
-    profileImg,
-    currentMember,
-    title,
-    startAt,
-    stacks,
-  } = dataSet;
 
   const userId = user.nickname;
 
@@ -94,7 +93,7 @@ const Detail = () => {
   });
 
   if (isLoading) {
-    return null;
+    return <Loading />
   }
 
   if (isError) {
