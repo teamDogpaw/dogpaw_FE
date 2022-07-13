@@ -79,7 +79,7 @@ h4{
 `;
 
 export const MainBody = styled.div`
-background-color: ${(props)=> props.theme.divBackGroundColor};
+background-color: ${(props) => props.theme.divBackGroundColor};
 max-width: 996px;
 margin: auto;
 border-radius: 16px;
@@ -91,7 +91,7 @@ padding: 32px;
 `;
 
 export const Btn = styled.button`
-background-color: ${(props)=> props.theme.keyColor};
+background-color: ${(props) => props.theme.keyColor};
 border-radius: 8px;
 padding: 12px 16px;
 border: 0px transparent;
@@ -142,12 +142,14 @@ margin-right: 10px;
 `;
 
 export const MyStack = styled.div`
-background-color: ${(props)=>props.theme.stackBackground};
+background-color: ${(props) => props.theme.stackBackground};
 padding: 8px 12px;
 border-radius: 30px;
 margin-right: 16px;
-color: ${(props)=>props.theme.stackColor}
+color: ${(props) => props.theme.stackColor}
 `;
+
+
 
 export const SelectTitle = styled.div`
 display: flex;
@@ -177,4 +179,18 @@ box-shadow: 0px 4px 4px 0px rgb(0,0,0,0.1);
 overflow: scroll;
 margin-top: 4px;
 
+`;
+
+export const PostBody = styled.div`
+background-color: ${(props) => props.theme.divBackGroundColor};
+border: transparent;
+padding: 24px;
+border-radius:16px;
+box-shadow: rgb(0 0 0 / 8%) 0px 2px 12px 0px;
+`;
+
+export const MypagePostBox = styled.div`
+display: flex;
+flex-direction: column;
+gap: 24px;
 `;
