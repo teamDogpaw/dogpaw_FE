@@ -7,7 +7,7 @@ import { useSetRecoilState } from "recoil";
 import { modalChange } from "../atom/userQuery";
 import Register from "./Register";
 
-function Login() {
+const Login = () => {
   const setOnModal = useSetRecoilState(modalChange);
 
   //아이디, 비밀번호
@@ -87,7 +87,7 @@ function Login() {
   return (
     <All>
       <p>
-        <span style={{ fontSize: "4rem", fontWeight: "bold" }}>LOGIN</span>
+        <span style={{ fontSize: "32px", fontWeight: "bold" }}>LOGIN</span>
         <span>로그인</span>
       </p>
 
@@ -147,7 +147,7 @@ function Login() {
       </Log>
     </All>
   );
-}
+};
 /* display: flex;
   flex-direction: column; or row;
   justify-content: center;
@@ -157,8 +157,9 @@ const All = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  margin-left: 60px;
   background-color: transparent;
+  width: 384px;
+  height: 433px;
 `;
 
 const Comments = styled.div`
@@ -167,67 +168,73 @@ const Comments = styled.div`
 `;
 
 const Title = styled.p`
-  font-size: 26px;
-  font-weight: bold;
-  margin-left: -140px;
-  padding: 1rem 0;
+  font-size: 14px;
+  margin-top: 24px;
+  padding: 4px 0;
 `;
 
 const IdPut = styled.input`
-  padding: 1.3rem 0.5rem;
   background-color: #fff;
   border: 2px solid #eee;
   border-radius: 8px;
-  width: 500px;
-  height: 30px;
-  margin-left: -150px;
-  font-size: large;
-  font-weight: bold;
+  width: 384px;
+  height: 44px;
+  font-size: 14px;
+  font-weight: regular;
   font-family: Jalnan;
   color: black;
   ::placeholder {
-    font-weight: bold;
-    font-size: 16px;
+    font-size: 14px;
     color: #9f9f9f;
   }
 `;
 
-const Pone = styled.p`
-  color: #ffb470;
-  margin-left: -140px;
-  font-size: 14px;
+const Pone = styled.div`
+  margin: auto;
   margin-top: 10px;
-`;
-
-const SignInBtn = styled.button`
-  color: ${(props) => (props.disabled ? "black" : "white")};
-  background-color: ${(props) => (props.disabled ? "#f8cbac" : "#ee8548")};
-  border: none;
-  padding: 18px;
-  width: 500px;
-  margin-left: -150px;
-  margin-top: 50px;
-  border-radius: 10px;
-  font-size: large;
-  font-family: Jalnan;
-  &:hover {
-    background-color: ${(props) => (props.disabled ? "#f8cbac" : "#c64d07;")};
-    cursor: pointer;
+  > span {
+    font-size: 16px;
+    color: #d26500;
   }
 `;
 
+const SignInBtn = styled.button`
+  color: #ffffff;
+  background-color: ${(props) => (props.disabled ? "#FFD6B0" : "#FF891C")};
+  border: none;
+  width: 384px;
+  height: 44px;
+  margin-top: 24px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: Jalnan;
+  &:hover {
+    background-color: ${(props) => (props.disabled ? "#FFD6B0" : "#D26500;")};
+    cursor: pointer;
+  }
+`;
+/* background-color: ${(props)=> props.theme.keyColor};
+border-radius: 8px;
+padding: 12px 16px;
+border: 0px transparent;
+color: white;
+font-weight: bold;
+:hover {
+   background-color: #FF891C;
+}
+:active{
+   background-color: #D26500;
+} */
 const IMG = styled.img`
-  position: absolute;
-  left: 90%;
-  bottom: 1%;
-  width: 60px;
-  height: 60px;
+  width: 48px;
+  height: 48px;
 `;
 
 const Log = styled.p`
-  margin-top: 30px;
+  margin-top: 32px;
+  margin-bottom: 0;
   color: #a3a3a3;
-  margin-left: -45px;
+  font-size: 12px;
 `;
 
 const RegisterBtn = styled.span`

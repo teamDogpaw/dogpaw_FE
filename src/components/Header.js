@@ -16,7 +16,6 @@ import moon from "../styles/icon/moon.svg";
 import person from "../styles/icon/profile.svg";
 import arrowdown from "../styles/icon/arrowdown.svg";
 
-
 const Header = () => {
   const navigate = useNavigate();
 
@@ -58,47 +57,50 @@ const Header = () => {
           <ModeBtn onClick={() => setIsDark((prev) => !prev)} isDark={isDark}>
             <ModeCircle isDark={isDark} />
           </ModeBtn>
-          <StyledLink to="/write">게시글 작성</StyledLink>
-          <Details>
-            <Summary>
-              <img src={userInfo?.profileImg || person} alt="" />
-              <img src={arrowdown} alt="" />
-            </Summary>
-            <Select>
-              <Option>
-                <p>
-                  <StyledLink to="/mypage">마이페이지</StyledLink>
-                </p>
-              </Option>
-              <Option>
-                {isLogin ? <p onClick={logout}>로그아웃</p> : <ModalOpen />}{" "}
-              </Option>
-            </Select>
-          </Details>
+          {!isLogin ? (
+            <Contain>
+              <StyledLink to="/write">게시글 작성</StyledLink>
+              {/* <ModalLogin />
+              <ModalRegister /> */}
+              <ModalOpen />
+            </Contain>
+          ) : (
+            <Details>
+              <Summary>
+                <img src={userInfo?.profileImg || person} alt="" />
+                <img src={arrowdown} alt="" />
+              </Summary>
+              <Select>
+                <Option>
+                  <p>
+                    <StyledLink to="/mypage">마이페이지</StyledLink>
+                  </p>
+                </Option>
+                <Option>
+                  <p onClick={logout}>로그아웃</p>
+                </Option>
+              </Select>
+            </Details>
+          )}
         </User>
-
       </ContentWrap>
     </Wrap>
   );
 };
 
 const Wrap = styled.div`
+  background-color: ${(props) => props.theme.BackGroundColor};
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: 96px;
+  margin-bottom: 50px;
+  display: flex;
+  align-items: center;
 
-background-color: ${(props) => props.theme.BackGroundColor};
-box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-width:100%;
-height:96px;
-margin-bottom:50px;
-display: flex;
-align-items:center;
-
-
-p{
-  font-size:16px;
-}
-
+  p {
+    font-size: 16px;
+  }
 `;
-
 
 const Img = styled.img`
   width: 167px;
@@ -115,7 +117,8 @@ const ContentWrap = styled.div`
 `;
 
 const ModeBtn = styled.button`
-  background-image: url(${(props) => props.isDark ? `${darkMode}` : `${lightMode}`});
+  background-image: url(${(props) =>
+    props.isDark ? `${darkMode}` : `${lightMode}`});
   background-repeat: no-repeat;
   background-size: cover;
 
@@ -153,6 +156,10 @@ const ModeCircle = styled.div`
       transform: translate(-35px, 0);
       transition: all 0.4s ease-in-out;
     `}
+`;
+
+const Contain = styled.div`
+  position: relative;
 `;
 
 const User = styled.div`
@@ -194,7 +201,6 @@ const Select = styled.ul`
     cursor: pointer;
     padding: 3px 0;
   }
-
 `;
 
 const StyledLink = styled(Link)`
@@ -208,7 +214,6 @@ const Option = styled.li`
   align-items: center;
   padding-top: 13px;
   padding-bottom: 10px;
-
 `;
 
 export default Header;

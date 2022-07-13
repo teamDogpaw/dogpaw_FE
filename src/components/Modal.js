@@ -39,6 +39,7 @@ import Login from "./Login";
 import Register from "./Register";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { modalChange } from "../atom/userQuery";
+import cancle from "../assets/취소 버튼.png";
 
 Modal.setAppElement("#root");
 const ModalOpen = () => {
@@ -54,16 +55,32 @@ const ModalOpen = () => {
         onRequestClose={() => setModalIsOpen(false)}
         style={{
           overlay: {
+            position: "fixed",
+            top: "0%",
+            left: "0%",
+            right: "0%",
+            bottom: "0%",
             backgroundColor: "rgb(0,0,0,0.3)",
           },
           content: {
-            color: "orange",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "650px",
+            height: "500px",
+            borderRadius: "16px",
           },
         }}
       >
         {onModal}
-        <div>
-          <button onClick={() => setModalIsOpen(false)}>닫기</button>
+        <div style={{ marginLeft: "540px" }}>
+          {/* <img
+            src={cancle}
+            alt=""
+            style={{ width: "24px", height: "2px" }}
+            onClick={() => setModalIsOpen(false)}
+          /> */}
         </div>
       </Modal>
     </div>
