@@ -88,14 +88,14 @@ const Header = () => {
 };
 
 const Wrap = styled.div`
-
+background-color: ${(props) => props.theme.BackGroundColor};
 box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 width:100%;
 height:96px;
 margin-bottom:50px;
 display: flex;
 align-items:center;
-background-color:#fff;
+
 
 p{
   font-size:16px;
@@ -167,14 +167,6 @@ align-items:center;
 justify-content:space-between;
 `;
 
-const Profile = styled.div`
-width:50px;
-height:50px;
-border-radius:50%;
-background-color:gold;
-
-`;
-
 
 const Details = styled.details`
 position:relative;
@@ -193,7 +185,6 @@ img {
 const Select = styled.ul`
 width: 100px;
 height: 80px;
-z-index: 10;
 border-radius: 8px;
 position: absolute;
 right:0;

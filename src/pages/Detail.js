@@ -3,6 +3,9 @@ import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/Vector 33.svg";
 import { ReactComponent as Arrow } from "../styles/icon/arrowLeft.svg";
 import person from "../styles/images/person.png";
+import paw from "../styles/icon/paw.svg";
+import modify from "../styles/icon/modify.svg";
+import deletebtn from "../styles/icon/delete.svg";
 
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -11,7 +14,6 @@ import { instance } from "../shared/axios";
 import { useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/userQuery";
 import { useState } from "react";
-
 
 const Detail = () => {
   const navigate = useNavigate();
@@ -62,10 +64,11 @@ const Detail = () => {
     title,
     startAt,
     stacks,
-    period
+    period,
   } = dataSet;
 
   const userId = user.nickname;
+
 
   // 뮤테이션
   const queryClient = useQueryClient();
@@ -107,23 +110,15 @@ const Detail = () => {
 
   return (
     <>
-      <Leftarrow
-        onClick={() => {
-          navigate(-1);
-        }}
-      />
       <Wrap>
-      <Link to={`/write/${id}`}>수정하기</Link>
-          <span onClick={() => PostDelete.mutate()}> 삭제하기 </span>
         <ArticleTop>
-          
-          
           <User>
-          <h1>{title}</h1>
+            <h1>{title}</h1>
             <Img src={profileImg || person} alt="profile" />
             <p>{author}</p>
           </User>
-        
+          <Leftarrow onClick={() => {navigate(-1)}}
+          />
           <Mark>
             {bookMarkStatus ? (
               <BookmarkFill onClick={bookMark} />
@@ -131,6 +126,17 @@ const Detail = () => {
               <BookmarkIcon onClick={bookMark} />
             )}
           </Mark>
+          <Userbtn>
+          {author === userId && (
+          <>
+          <img src={modify} onClick={()=>navigate(`/write/${id}`)} alt=""/>
+          <img src={deletebtn} onClick={() => PostDelete.mutate()} alt=""/>
+          </> 
+        )}
+         {/* <Link to={`/write/${id}`}>수정하기</Link>
+            <span onClick={() => PostDelete.mutate()}> 삭제하기 </span> */}
+        </Userbtn>
+
           <hr />
           <ContentWrap>
             <div>
@@ -138,17 +144,17 @@ const Detail = () => {
                 <p>진행방식</p>
                 <span> {onLine ? "온라인" : "오프라인"}</span>
               </Title>
-              
-                <Title>
-                  <p>구인스택</p>
-                  <Stack>
-                    {stacks?.map((lang, idx) => (
-                      <span key={idx}> #{lang}</span>
-                    ))}
-                  </Stack>
-                </Title>
+
               <Title>
-                <p>예상 진행 기간</p> 
+                <p>구인스택</p>
+                <Stack>
+                  {stacks?.map((lang, idx) => (
+                    <span key={idx}> #{lang}</span>
+                  ))}
+                </Stack>
+              </Title>
+              <Title>
+                <p>예상 진행 기간</p>
                 <span>{period}</span>
               </Title>
               <Title>
@@ -162,7 +168,7 @@ const Detail = () => {
                 </span>
               </Title>
             </div>
-            <div style={{ backgroundColor: "gold" }}>
+            <div>
               <div
                 onMouseOver={() => setIsHover(true)}
                 onMouseOut={() => setIsHover(false)}
@@ -173,7 +179,10 @@ const Detail = () => {
                   </Alert>
                 )}
                 {author === userId ? (
-                  <Button>지원자 보기</Button>
+                  <>
+                    <Button>지원자 보기</Button>
+                    <Button2>프로젝트 마감하기</Button2>
+                  </>
                 ) : !applyStatus ? (
                   <Button onClick={applyBtn}>프로젝트 지원하기</Button>
                 ) : (
@@ -182,26 +191,25 @@ const Detail = () => {
               </div>
             </div>
           </ContentWrap>
-          
         </ArticleTop>
+
         <Article>
-          <h1>프로젝트 소개</h1>
+          <div>
+            <h1>프로젝트 소개</h1>
+          </div>
           <pre>{content}</pre>
+          <div>
+            <img src={paw} alt="" />
+          </div>
         </Article>
         <Comments />
       </Wrap>
     </>
   );
 };
-const Leftarrow = styled(Arrow)`
-  position: absolute;
-  top: 100px;
-  left: 100px;
-`;
+
 const Wrap = styled.div`
-  //margin-top:220px;
   max-width: 996px;
-  //height:100vh;
   margin: auto;
 
   h1 {
@@ -213,7 +221,7 @@ const Wrap = styled.div`
   }
 
   hr {
-    color: #EEEEEE;
+    color: #e2e2e2;
   }
 
   span {
@@ -226,27 +234,41 @@ const Wrap = styled.div`
 `;
 const ArticleTop = styled.div`
   background-color: ${(props) => props.theme.divBackGroundColor};
-  height:514px;
+  height: 514px;
   margin: auto;
-  border-radius: 16px;
   padding: 32px;
   position: relative;
-  background-color:olive;
 `;
 
 const User = styled.div`
+  height: 153px;
+  margin-bottom: 16px;
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   align-items: center;
-  justify-content:center;
-  background-color: gold;
+  justify-content: center;
+  line-height: 60px;
+`;
+
+const Userbtn = styled.div`
+position:absolute;
+right:30px;
+top:150px;
+img{
+  margin-left: 5px;
+}
 `;
 
 const Img = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  margin-right: 10px;
+`;
+const Leftarrow = styled(Arrow)`
+  position: absolute;
+  top: 25px;
+  left: 30px;
+  //z-index:10;
 `;
 
 const Mark = styled.div`
@@ -286,11 +308,20 @@ const Stack = styled.div`
   }
 `;
 
-const Article = styled(ArticleTop)`
+const Article = styled.div`
+ background-color: ${(props) => props.theme.divBackGroundColor};
+  margin: auto;
+ 
   line-height: 1.5;
   letter-spacing: -0.004em;
-  margin-top: 30px;
-  padding:32px;
+  padding: 32px;
+  
+
+  div {
+    display: flex;
+    justify-content: center;
+    padding: 32px;
+  }
 
   pre {
     white-space: pre-wrap;
@@ -322,6 +353,34 @@ const Button = styled.button`
     background-color: #d26500;
   }
 `;
+const Button2 = styled.button`
+
+height: 52px;
+  width: 180px;
+  background-color:#fff;
+  border: 2px solid #ffb673;
+  border-radius: 8px;
+  color: #ffb673;
+  padding: 16px 24px;
+  font-size: 17px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right:200px;
+  bottom: 0px;
+  cursor: pointer;
+
+  :hover {
+    background-color: #ff891c;
+    color:white;
+  }
+  :active {
+    background-color: #d26500;
+  }
+
+`;
 
 const alertAni = keyframes`
 from {
@@ -336,7 +395,7 @@ to {
 const Alert = styled.div`
   position: absolute;
   right: 35px;
-  bottom: 25%;
+  bottom: 20%;
   animation: ${alertAni} 0.2s linear;
 `;
 
