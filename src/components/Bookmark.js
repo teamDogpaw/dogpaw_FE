@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import instance from "../shared/axios";
-import { Btn, LineBtn, ListProfilePic, ListStack } from "../styles/style";
+import { Btn, LineBtn, ListProfilePic, ListStack, MypagePostBox } from "../styles/style";
 import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/bookmarkFill.svg";
 import { useRecoilValue } from "recoil";
@@ -40,7 +40,7 @@ const Bookmark = ({
     return <h1>loading...</h1>;
   }
   return (
-    <div>
+    <MypagePostBox>
       {data?.map((content) => {
         return (
           <MyPagePostList key={content.postId} 
@@ -50,7 +50,7 @@ const Bookmark = ({
         )
 
       })}
-    </div>
+    </MypagePostBox>
   );
 };
 
