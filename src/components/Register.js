@@ -236,7 +236,7 @@ const Register = () => {
         <div style={{ display: "flex", flexWrap: "wrap", marginTop: "10px" }}>
           {stack.map((stack, index) => {
             return (
-              <MyStack style={{ margin: "0px 10px 10px 0px" }} key={index}>
+              <MyStack key={index}>
                 #{stack}{" "}
                 <svg
                   onClick={() => removeStack(stack)}
@@ -312,8 +312,11 @@ const All = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  margin-left: 60px;
+
   background-color: transparent;
+  :: p {
+    margin-left: 50%;
+  }
 `;
 
 const Comments = styled.div`
@@ -323,7 +326,6 @@ const Comments = styled.div`
 
 const Title = styled.h3`
   font-size: 26px;
-  margin-left: -110px;
   padding: 1rem 0;
 `;
 
@@ -334,7 +336,6 @@ const IdPut = styled.input`
   border-radius: 8px;
   width: 500px;
   height: 30px;
-  margin-left: -115px;
   font-size: large;
   font-weight: bold;
   font-family: Jalnan;
@@ -347,8 +348,8 @@ const IdPut = styled.input`
 `;
 
 const NICK_BTN = styled.button`
-  color: ${(props) => (props.disabled ? "black" : "white")};
-  background-color: ${(props) => (props.disabled ? "#f8cbac" : "#ee8548")};
+  color: #ffffff;
+  background-color: ${(props) => (props.disabled ? "#FFD6B0" : "#FF891C")};
   padding: 1rem 1rem;
   margin: 0 0 0 1rem;
   border: none;
@@ -357,6 +358,10 @@ const NICK_BTN = styled.button`
   height: 3rem;
   font-size: 16px;
   line-height: 2px;
+  &:hover {
+    background-color: ${(props) => (props.disabled ? "#FFD6B0" : "#D26500;")};
+    cursor: pointer;
+  }
 `;
 
 const Pone = styled.p`
@@ -376,7 +381,6 @@ const MyStack = styled.div`
 const SelectTitle = styled.p`
   font-size: 26px;
   font-weight: bold;
-  margin-left: -110px;
   padding: 1rem 0;
 `;
 
@@ -388,7 +392,6 @@ const SelectBox = styled.summary`
   border-radius: 8px;
   width: 500px;
   height: 30px;
-  margin-left: -115px;
   font-weight: bold;
   font-size: 16px;
   color: #9f9f9f;
@@ -408,7 +411,7 @@ const SelectBoxOpen = styled.ul`
   z-index: 10;
   border-radius: 8px;
   position: absolute;
-  margin-left: -115px;
+
   width: 500px;
   border: ${(props) => props.theme.border};
   background-color: ${(props) => props.theme.inputBoxBackground};
@@ -426,17 +429,17 @@ const Option = styled.li`
 `;
 
 const SignUpBtn = styled.button`
-  color: ${(props) => (props.disabled ? "black" : "white")};
-  background-color: ${(props) => (props.disabled ? "#f8cbac" : "#ee8548")};
+  color: #ffffff;
+  background-color: ${(props) => (props.disabled ? "#FFD6B0" : "#FF891C")};
   border: none;
   padding: 1rem;
   width: 500px;
-  margin: 1.5rem -7.5rem;
+  margin: 10px 0;
   border-radius: 10px;
   font-size: large;
   font-family: Jalnan;
   &:hover {
-    background-color: ${(props) => (props.disabled ? "#f8cbac" : "#c64d07;")};
+    background-color: ${(props) => (props.disabled ? "#FFD6B0" : "#D26500;")};
     cursor: pointer;
   }
 `;
@@ -444,7 +447,7 @@ const SignUpBtn = styled.button`
 const Log = styled.p`
   margin-top: 30px;
   color: #a3a3a3;
-  margin-left: -45px;
+  margin-left: 20%;
 `;
 
 const RegisterBtn = styled.span`
