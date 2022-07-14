@@ -118,8 +118,7 @@ const ContentWrap = styled.div`
 `;
 
 const ModeBtn = styled.button`
-  background-image: url(${(props) =>
-    props.isDark ? `${darkMode}` : `${lightMode}`});
+  background-image: url(${(props) =>props.isDark ? `${darkMode}` : `${lightMode}`});
   background-repeat: no-repeat;
   background-size: cover;
   background-color: ${(props) => props.theme.divBackGroundColor};
