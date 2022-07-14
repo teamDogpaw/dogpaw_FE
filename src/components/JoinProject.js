@@ -1,6 +1,6 @@
 
 import axios from "axios"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useQuery } from "react-query"
 import instance from "../shared/axios"
 import { Btn, ListProfilePic, ListStack, MypagePostBox } from "../styles/style"
@@ -10,9 +10,10 @@ import MyPagePostList from "./MyPagePostList"
 const JoinProject = ({
   viewApplyModal
 }) => {
+  const [isApply, setIsApply] = useState(true);
   const GetJoinProject = async () => {
     try {
-      const response = await instance.get(`/api/user/mypage/apply`);
+      const response = await instance.get(`/api/user/participation`);
       console.log(response.data);
       return response.data;
     } catch (error) {
@@ -34,6 +35,7 @@ const JoinProject = ({
           <MyPagePostList key={content.postId} 
           data={content} 
           viewApplyModal={viewApplyModal}
+          isApply={isApply}
           />
         )
 
