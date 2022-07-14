@@ -12,6 +12,7 @@ import { useQuery } from "react-query";
 import instance from "./shared/axios";
 import { UserInfoAtom } from "./atom/atom";
 import Loading from "./shared/Loading";
+import Toggle from "./components/Toggle";
 
 function App() {
 
@@ -31,13 +32,13 @@ function App() {
     }
   }; 
   
-  const {data} = useQuery("userinfo",GetUserInfo,{
+  useQuery("userinfo",GetUserInfo,{
     refetchOnWindowFocus: false,
     onSuccess:(data)=>{
       setUser(data)
     }
   })
-  //console.log(user)
+
 
   return (
     <>
@@ -47,6 +48,7 @@ function App() {
           <Suspense fallback={<Loading />}>
           <Router/>
           </Suspense>
+          <Toggle />
       </ThemeProvider>
     </>
   );
