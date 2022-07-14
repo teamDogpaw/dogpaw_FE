@@ -256,14 +256,14 @@ const Register = () => {
                   <path
                     d="M12.5 7.5L7.5 12.5"
                     stroke="#FFB673"
-                    stroke-width="2"
+                    strokeWidth="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                   />
                   <path
                     d="M7.5 7.5L12.5 12.5"
                     stroke="#FFB673"
-                    stroke-width="2"
+                    strokeWidth="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                   />
