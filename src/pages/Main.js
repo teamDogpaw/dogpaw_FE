@@ -12,10 +12,14 @@ import styled, { css } from "styled-components";
 import { ReactComponent as CommentIcon } from "../styles/icon/u_comment-alt-lines.svg";
 import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/bookmarkFill.svg";
+
+import award from "../styles/icon/award.svg";
 import gold from "../styles/icon/medal0.svg";
 import silver from "../styles/icon/medal1.svg";
 import bronze from "../styles/icon/medal2.svg";
 import person from "../styles/images/person.png";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { DarkThemeAtom } from "../atom/theme";
 
 
 
@@ -35,6 +39,7 @@ const Main = () => {
   const [toggle, setToggle] = useState(true);
   const [rank,setRank] = useState([]);
   const {ref,inView} = useInView();
+
 
   const isLogin = localStorage.getItem("token");
 
@@ -88,6 +93,75 @@ const Main = () => {
   return (
     <Wrap>
       <Carousel />
+      <Award>
+        <img src={award} alt="" />
+        <span>인기 게시글</span>
+      </Award>
+      <ArticleWrap>
+        {rank.map((list, idx) => {
+          return (
+            <Article2
+              key={list.postId}
+              onClick={() => {
+                if (!isLogin) {
+                  window.alert("로그인이 필요한 서비스입니다!");
+                  return;
+                }
+                navigate("/detail/" + list.postId);
+              }}
+            >
+              {idx === 0 ? (
+                <img src={gold} alt="" />
+              ) : idx === 1 ? (
+                <img src={silver} alt="" />
+              ) : (
+                <img src={bronze} alt="" />
+              )}
+              <Content>
+                <h1>{list.title}</h1>
+                <p>{list.content}</p>
+              </Content>
+
+              <Hashtag>
+                <ul>
+                  {list.stacks.map((lang, idx) => (
+                    <li key={idx}>#{lang}</li>
+                  ))}
+                </ul>
+                <p style={{ color: "#ffb673" }}>
+                  #{list.online ? "온라인" : "오프라인"}
+                </p>
+              </Hashtag>
+              <Info>
+                <div>
+                  <Comment>
+                    <CommentIcon />
+                    <p>{list.commentCnt}</p>
+                  </Comment>
+                  <Bookmark>
+                    <BookmarkIcon style={{ width: "10", height: "14" }} />
+                    <p>{list.bookmarkCnt}</p>
+                  </Bookmark>
+                </div>
+
+                <Date>시작예정일 {list.startAt}</Date>
+              </Info>
+              <Footer>
+                <User>
+                  <img src={list.profileImg || person} alt="profileImg" />
+                  <p>{list.nickname}</p>
+                </User>
+
+                {list.bookMarkStatus ? (
+                  <BookmarkFill onClick={bookMark} />
+                ) : (
+                  <BookmarkIcon onClick={bookMark} />
+                )}
+              </Footer>
+            </Article2>
+          );
+        })}
+      </ArticleWrap>
       <ToggleWrap>
         <ToggleBtn onClick={clickedToggle} toggle={toggle}>
           <p style={{ display: "flex" }}>
@@ -99,127 +173,68 @@ const Main = () => {
           </Circle>
         </ToggleBtn>
       </ToggleWrap>
-      <ArticleWrap>
-        {rank.map((list,idx)=>{
-          return (
-              <Article2
-            key={list.postId}
-            onClick={() => {
-              if (!isLogin) {
-                window.alert("로그인이 필요한 서비스입니다!");
-                return;
-              }
-              navigate("/detail/" + list.postId);
-            }}
-          >
-            {idx === 0 ? <img src={gold} alt="" /> : idx === 1 ? <img src={silver} alt="" /> : <img src={bronze} alt="" />}
-            <Content>
-              <h1>{list.title}</h1>
-              <p>{list.content}</p>
-            </Content>
-
-            <Hashtag>
-              <ul>
-                {list.stacks.map((lang, idx) => (
-                  <li key={idx}>#{lang}</li>
-                ))}
-              </ul>
-              <p style={{ color: "#ffb673" }}>
-                #{list.online ? "온라인" : "오프라인"}
-              </p>
-            </Hashtag>
-            <Info>
-              <div>
-                <Comment>
-                <CommentIcon />
-                <p>{list.commentCnt}</p>
-              </Comment>
-              <Bookmark>
-                <BookmarkIcon style={{ width: "10", height: "14" }} />
-                <p>{list.bookmarkCnt}</p>
-              </Bookmark>
-              </div>
-              
-              <Date>시작예정일 {list.startAt}</Date>
-            </Info>
-            <Footer>
-              <User>
-                <img src={list.profileImg || person} alt="profileImg" />
-                <p>{list.nickname}</p>
-              </User>
-
-              {list.bookMarkStatus ? (
-                <BookmarkFill onClick={bookMark} />
-              ) : (
-                <BookmarkIcon onClick={bookMark} />
-              )}
-            </Footer> 
-          </Article2>
-          )
-        })}
-        </ArticleWrap>
       <>
-      {data?.pages.map((page,idx)=>(
-        <div key={idx}>
-          <ArticleWrap>
-          {page.postList.map((post)=> (
-            <Article
-            key={post.postId}
-            onClick={() => {
-              if (!isLogin) {
-                window.alert("로그인이 필요한 서비스입니다!");
-                return;
-              }
-              navigate("/detail/" + post.postId);
-            }}
-          >
-            <Content>
-              <h1>{post.title}</h1>
-              <p>{post.content}</p>
-            </Content>
+        {data?.pages.map((page, idx) => (
+          <div key={idx}>
+            <ArticleWrap>
+              {page.postList.map((post) => (
+                <Article
+                  key={post.postId}
+                  onClick={() => {
+                    if (!isLogin) {
+                      window.alert("로그인이 필요한 서비스입니다!");
+                      return;
+                    }
+                    navigate("/detail/" + post.postId);
+                  }}
+                >
+                  <Content>
+                    <h1>{post.title}</h1>
+                    <p>{post.content}</p>
+                  </Content>
 
-            <Hashtag>
-              <ul>
-                {post.stacks.map((lang, idx) => (
-                  <li key={idx}>#{lang}</li>
-                ))}
-              </ul>
-              <p style={{ color: "#ffb673" }}>
-                #{post.online ? "온라인" : "오프라인"}
-              </p>
-            </Hashtag>
-            <Info>
-              <div>
-                <Comment>
-                <CommentIcon />
-                <p>{post.commentCnt}</p>
-              </Comment>
-              <Bookmark>
-                <BookmarkIcon style={{ width: "10", height: "14" }} />
-                <p>{post.bookmarkCnt}</p>
-              </Bookmark>
-              </div>
-              
-              <Date>시작예정일 {post.startAt}</Date>
-            </Info>
-            <Footer>
-              <User>
-                <img src={post.profileImg || person} alt="profileImg" />
-                <p>{post.nickname}</p>
-              </User>
+                  <Hashtag>
+                    <ul>
+                      {post.stacks.map((lang, idx) => (
+                        <li key={idx}>#{lang}</li>
+                      ))}
+                    </ul>
+                    <p style={{ color: "#ffb673" }}>
+                      #{post.online ? "온라인" : "오프라인"}
+                    </p>
+                  </Hashtag>
+                  <Info>
+                    <div>
+                      <Comment>
+                        <CommentIcon />
+                        <p>{post.commentCnt}</p>
+                      </Comment>
+                      <Bookmark>
+                        <BookmarkIcon style={{ width: "10", height: "14" }} />
+                        <p>{post.bookmarkCnt}</p>
+                      </Bookmark>
+                    </div>
 
-              {post.bookMarkStatus ? (
-                <BookmarkFill onClick={bookMark} />
-              ) : (
-                <BookmarkIcon onClick={bookMark} />
-              )}
-            </Footer> 
-          </Article>
-          ))}
-          </ArticleWrap>
-        </div>
-      ))}
-      {isFetchingNextPage ? <Loading /> : <div ref={ref}></div>}
+                    <Date>시작예정일 {post.startAt}</Date>
+                  </Info>
+                  <Footer>
+                    <User>
+                      <img src={post.profileImg || person} alt="profileImg" />
+                      <p>{post.nickname}</p>
+                    </User>
+
+                    {post.bookMarkStatus ? (
+                      <BookmarkFill onClick={bookMark} />
+                    ) : (
+                      <BookmarkIcon onClick={bookMark} />
+                    )}
+                  </Footer>
+                </Article>
+              ))}
+            </ArticleWrap>
+          </div>
+        ))}
+        {isFetchingNextPage ? <Loading /> : <div ref={ref}></div>}
       </>
     </Wrap>
   );
@@ -246,6 +261,15 @@ const Wrap = styled.div`
     font-size: 15px;
   }
 `;
+const Award = styled.div`
+display:flex;
+align-items:center;
+margin-top:20px;
+span {
+  font-weight: 500;
+  color: ${(props)=>props.theme.keyColor};
+}
+`;
 
 const Img = styled.img`
 border-radius:15px;
@@ -255,8 +279,8 @@ margin-top:50px;
 const ToggleWrap = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 40px;
-  margin-bottom: 24px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 `;
 const ToggleBtn = styled.button`
   width: 106px;
@@ -318,7 +342,7 @@ const ArticleWrap = styled.ul`
   row-gap:24px;
   display: flex;
   flex-wrap: wrap;
-  margin-top:24px;
+  margin-top:20px;
   
 `;
 const Article = styled.li`

@@ -4,6 +4,7 @@ import { DarkThemeAtom } from "../atom/theme";
 
 import darkMode from "../styles/icon/darkMode.svg";
 import lightMode from "../styles/icon/lightMode.svg";
+import arrowtop from "../styles/icon/arrowUp.svg";
 
 
 
@@ -14,11 +15,11 @@ const Toggle = () =>{
         
         <Wrap>
              <ModeBtn onClick={() => setIsDark((prev) => !prev)} isDark={isDark}>
-                {isDark? <span isDark={isDark}>라이트 모드</span> : <span>다크 모드</span>}
+                {isDark? <span>라이트 모드</span> : <span>다크 모드</span>}
             <ModeCircle isDark={isDark} />
           </ModeBtn>
           <TopBtn onClick={()=>{window.scrollTo({top:0, left:0, behavior:"smooth"})}} >
-
+            <img src={arrowtop} alt="" />
           </TopBtn>
         </Wrap>
     )
