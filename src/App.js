@@ -1,4 +1,3 @@
-
 import React, { Suspense, useEffect, useState } from "react";
 import { GlobalStyle } from "./styles/style";
 import Router from "./Routes";
@@ -14,10 +13,9 @@ import { UserInfoAtom } from "./atom/atom";
 import Loading from "./shared/Loading";
 
 function App() {
-
-  const isDark = useRecoilValue(DarkThemeAtom)
+  const isDark = useRecoilValue(DarkThemeAtom);
   const token = localStorage.getItem("token");
-  const [user,setUser] = useRecoilState(UserInfoAtom);
+  const [user, setUser] = useRecoilState(UserInfoAtom);
 
   const GetUserInfo = async () => {
     if (token) {
@@ -29,14 +27,14 @@ function App() {
         console.log(error);
       }
     }
-  }; 
-  
-  const {data} = useQuery("userinfo",GetUserInfo,{
+  };
+
+  const { data } = useQuery("userinfo", GetUserInfo, {
     refetchOnWindowFocus: false,
-    onSuccess:(data)=>{
-      setUser(data)
-    }
-  })
+    onSuccess: (data) => {
+      setUser(data);
+    },
+  });
   //console.log(user)
 
   return (
@@ -44,9 +42,9 @@ function App() {
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <GlobalStyle />
         <Header />
-          <Suspense fallback={<Loading />}>
-          <Router/>
-          </Suspense>
+        <Suspense fallback={<Loading />}>
+          <Router />
+        </Suspense>
       </ThemeProvider>
     </>
   );

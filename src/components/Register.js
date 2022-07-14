@@ -6,6 +6,21 @@ import arrow from "../assets/stack_arrow.png";
 import { useSetRecoilState } from "recoil";
 import { modalChange } from "../atom/atom";
 import Login from "./Login";
+import {
+  KakaoImg,
+  ModalAll,
+  ModalComments,
+  ModalIdPut,
+  ModalLog,
+  ModalPone,
+  ModalRegisterBtn,
+  ModalSignUpBtn,
+  ModalTitle,
+  MyStack,
+  Option,
+  SelectBoxOpen,
+  SelectTitle,
+} from "../styles/style";
 
 const Register = () => {
   const setOnModal = useSetRecoilState(modalChange);
@@ -141,74 +156,73 @@ const Register = () => {
   };
 
   return (
-    <All>
+    <ModalAll2>
       <p>
-        <span style={{ fontSize: "4rem", fontWeight: "bold" }}>RGISTER</span>
+        <span style={{ fontSize: "32px", fontWeight: "bold" }}>RGISTER</span>
         <span>회원가입</span>
       </p>
-      <Comments>
-        <Title>이메일</Title>
-        <IdPut
+      <ModalComments>
+        <ModalTitle>이메일</ModalTitle>
+        <ModalIdPut
           text="이메일"
           type="email"
           typeName="email"
           onChange={onChangeEmail}
           placeholder="이메일을 입력해주세요."
         />
-        <Pone>
+        <ModalPone>
           {email.length > 0 && (
             <span className={`message ${isEmail ? "success" : "error"}`}>
               {emailMessage}
             </span>
           )}
-        </Pone>
-        <Title>닉네임</Title>
-        <IdPut
+        </ModalPone>
+        <ModalTitle>닉네임</ModalTitle>
+        <ModalNickPut
           text="ID"
           type="text"
           typeName="id"
           onChange={onChangeId}
           placeholder="닉네임을 입력해주세요."
-          style={{ width: "380px" }}
         />
-        <NICK_BTN
+        <ModalNICKBTN
           disabled={nickName.length < 3 || nickName.length > 10}
           onClick={nickCheck}
         >
           중복확인
-        </NICK_BTN>
-        <Pone>
+        </ModalNICKBTN>
+        <ModalPone>
           {nickName.length > 0 && (
             <span className={`message ${isNick ? "success" : "error"}`}>
               {nickMessage}
             </span>
           )}
-        </Pone>
+        </ModalPone>
 
-        <Title>비밀번호</Title>
-        <IdPut
+        <ModalTitle>비밀번호</ModalTitle>
+        <ModalIdPut
           onChange={onChangePassword}
           title="비밀번호"
           typeTitle="password"
           type="password"
           placeholder="비밀번호를 입력해주세요."
         />
-        <Pone>
+        <ModalPone>
           {password.length > 0 && (
             <span className={`message ${isPassword ? "success" : "error"}`}>
               {passwordMessage}
             </span>
           )}
-        </Pone>
-        <Title>비밀번호 확인</Title>
-        <IdPut
+        </ModalPone>
+        <ModalTitle>비밀번호 확인</ModalTitle>
+        <ModalIdPut
           onChange={onChangePasswordConfirm}
           title="비밀번호 확인"
           typeTitle="passwordConfirm"
           type="password"
           placeholder="비밀번호를 다시 한번 입력해주세요."
         />
-        <Pone>
+        <ModalPone>
           {passwordConfirm.length > 0 && (
             <span
               className={`message ${isPasswordConfirm ? "success" : "error"}`}
@@ -216,14 +230,14 @@ const Register = () => {
               {passwordConfirmMessage}
             </span>
           )}
-        </Pone>
-      </Comments>
-      <SelectTitle>구인스택</SelectTitle>
+        </ModalPone>
+      </ModalComments>
+      <ModalTitle>구인스택</ModalTitle>
       <div>
         <details>
           <SelectBox>
             해당하는 기술 스텍을 선택해주세요. (중복 가능)
-            <Img src={arrow} alt="" />
+            <ArrowImg src={arrow} alt="" />
           </SelectBox>
           <SelectBoxOpen>
             <Option onClick={() => addStack("Java")}>Java</Option>
@@ -273,7 +287,7 @@ const Register = () => {
           })}
         </div>
       </div>
-      <SignUpBtn
+      <ModalSignUpBtn
         type="submit"
         disabled={
           !(
@@ -291,172 +305,57 @@ const Register = () => {
         onClick={onSubmit}
       >
         회원가입하기
-      </SignUpBtn>
-      <Log>
+      </ModalSignUpBtn>
+      <ModalLog>
         계정이 있으셨나요?
-        <RegisterBtn
+        <ModalRegisterBtn
           onClick={() => {
             setOnModal(<Login />);
           }}
         >
           로그인
-        </RegisterBtn>
+        </ModalRegisterBtn>
         하러가기
-      </Log>
-    </All>
+      </ModalLog>
+    </ModalAll2>
   );
 };
 
-const All = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  background-color: transparent;
-  :: p {
-    margin-left: 50%;
-  }
+const ModalAll2 = styled(ModalAll)`
+  width: 384px;
+  height: 673px;
 `;
 
-const Comments = styled.div`
-  margin-top: 40px;
-  color: #292929;
+const ModalNickPut = styled(ModalIdPut)`
+  width: 294px;
 `;
 
-const Title = styled.h3`
-  font-size: 26px;
-  padding: 1rem 0;
-`;
-
-const IdPut = styled.input`
-  padding: 1.3rem 0.5rem;
-  background-color: #fff;
-  border: 2px solid #eee;
-  border-radius: 8px;
-  width: 500px;
-  height: 30px;
-  font-size: large;
-  font-weight: bold;
-  font-family: Jalnan;
-  color: black;
-  ::placeholder {
-    font-weight: bold;
-    font-size: 16px;
-    color: #9f9f9f;
-  }
-`;
-
-const NICK_BTN = styled.button`
-  color: #ffffff;
-  background-color: ${(props) => (props.disabled ? "#FFD6B0" : "#FF891C")};
-  padding: 1rem 1rem;
-  margin: 0 0 0 1rem;
-  border: none;
-  border-radius: 12px;
-  width: 100px;
-  height: 3rem;
-  font-size: 16px;
-  line-height: 2px;
-  &:hover {
-    background-color: ${(props) => (props.disabled ? "#FFD6B0" : "#D26500;")};
-    cursor: pointer;
-  }
-`;
-
-const Pone = styled.p`
-  color: #ffb470;
-  margin-left: -105px;
-  font-size: 13px;
-`;
-
-const MyStack = styled.div`
-  background-color: ${(props) => props.theme.stackBackground};
-  padding: 8px 12px;
-  border-radius: 30px;
-  margin-right: 16px;
-  color: ${(props) => props.theme.stackColor};
-`;
-
-const SelectTitle = styled.p`
-  font-size: 26px;
-  font-weight: bold;
-  padding: 1rem 0;
+const ModalNICKBTN = styled(ModalSignUpBtn)`
+  width: 78px;
+  height: 44px;
+  font-size: 14px;
+  margin: 0px 0px 0px 12px;
+  padding: 0;
 `;
 
 const SelectBox = styled.summary`
-  line-height: 5px;
-  padding: 1.3rem 0.5rem;
+  line-height: 42px;
   background-color: #fff;
   border: 2px solid #eee;
   border-radius: 8px;
-  width: 500px;
-  height: 30px;
-  font-weight: bold;
-  font-size: 16px;
+  width: 384px;
+  height: 44px;
+  font-size: 14px;
   color: #9f9f9f;
   list-style: none;
   position: relative;
 `;
 
-const Img = styled.img`
+const ArrowImg = styled.img`
   position: absolute;
-  left: 90%;
-  bottom: 1%;
+  left: 88%;
   width: 40px;
   height: 40px;
-`;
-
-const SelectBoxOpen = styled.ul`
-  z-index: 10;
-  border-radius: 8px;
-  position: absolute;
-
-  width: 500px;
-  border: ${(props) => props.theme.border};
-  background-color: ${(props) => props.theme.inputBoxBackground};
-  box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.1);
-  overflow: scroll;
-  margin-top: 4px;
-`;
-
-const Option = styled.li`
-  cursor: pointer;
-  padding: 8px 12px;
-  :hover {
-    background-color: ${(props) => props.theme.keyColor};
-  }
-`;
-
-const SignUpBtn = styled.button`
-  color: #ffffff;
-  background-color: ${(props) => (props.disabled ? "#FFD6B0" : "#FF891C")};
-  border: none;
-  padding: 1rem;
-  width: 500px;
-  margin: 10px 0;
-  border-radius: 10px;
-  font-size: large;
-  font-family: Jalnan;
-  &:hover {
-    background-color: ${(props) => (props.disabled ? "#FFD6B0" : "#D26500;")};
-    cursor: pointer;
-  }
-`;
-
-const Log = styled.p`
-  margin-top: 30px;
-  color: #a3a3a3;
-  margin-left: 20%;
-`;
-
-const RegisterBtn = styled.span`
-  color: #9f9f9f;
-  &:hover {
-    font-weight: bold;
-    color: #5b5b5b;
-    cursor: pointer;
-  }
 `;
 
 export default Register;

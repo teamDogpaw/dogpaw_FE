@@ -6,7 +6,18 @@ import kakaoBTN from "../assets/카카오.png";
 import { useSetRecoilState } from "recoil";
 import { modalChange } from "../atom/atom";
 import Register from "./Register";
-
+import cursor1 from "../assets/메인커서1.png";
+import curosr2 from "../assets/메인커서2.png";
+import {
+  ModalAll,
+  ModalComments,
+  ModalIdPut,
+  ModalLog,
+  ModalPone,
+  ModalRegisterBtn,
+  ModalSignUpBtn,
+  ModalTitle,
+} from "../styles/style";
 const Login = () => {
   const setOnModal = useSetRecoilState(modalChange);
 
@@ -85,67 +96,67 @@ const Login = () => {
     "https://kauth.kakao.com/oauth/authorize?client_id=3e848df062d2efe2be2266e171f3443c&redirect_uri=http://localhost:3000/user/kakao/login&response_type=code";
 
   return (
-    <All>
+    <ModalAll>
       <p>
         <span style={{ fontSize: "32px", fontWeight: "bold" }}>LOGIN</span>
         <span>로그인</span>
       </p>
 
-      <Comments>
-        <Title>이메일</Title>
-        <IdPut
+      <ModalComments>
+        <ModalTitle>이메일</ModalTitle>
+        <ModalIdPut
           text="ID"
           type="text"
           typeName="id"
           onChange={onChangeId}
           placeholder="이메일을 입력해주세요."
         />
-        <Pone>
+        <ModalPone>
           {email.length > 0 && (
             <span className={`message ${isEmail ? "success" : "error"}`}>
               {emailMessage}
             </span>
           )}
-        </Pone>
-        <Title>비밀번호</Title>
-        <IdPut
+        </ModalPone>
+        <ModalTitle>비밀번호</ModalTitle>
+        <ModalIdPut
           onChange={onChangePassword}
           title="비밀번호"
           typeTitle="password"
           type="password"
           placeholder="비밀번호를 입력해주세요."
         />
-        <Pone>
+        <ModalPone>
           {password.length > 0 && (
             <span className={`message ${isPassword ? "success" : "error"}`}>
               {passwordMessage}
             </span>
           )}
-        </Pone>
-      </Comments>
+        </ModalPone>
+      </ModalComments>
 
-      <SignInBtn
+      <ModalSignUpBtn
         type="submit"
         disabled={!(isEmail && isPassword && email && password)}
         onClick={onSubmit}
       >
         로그인
-      </SignInBtn>
+      </ModalSignUpBtn>
       <a href={KAKAO_AUTH_URL}>
         <IMG src={kakaoBTN} alt="" />
       </a>
-      <Log>
+      <ModalLog>
         아직 계정이 없으신가요?
-        <RegisterBtn
+        <ModalRegisterBtn
           onClick={() => {
             setOnModal(<Register />);
           }}
         >
           회원가입
-        </RegisterBtn>
+        </ModalRegisterBtn>
         하러가기
-      </Log>
-    </All>
+      </ModalLog>
+    </ModalAll>
   );
 };
 /* display: flex;
@@ -153,10 +164,6 @@ const Login = () => {
   justify-content: center;
   align-item: center */
 const All = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   background-color: transparent;
   width: 384px;
   height: 433px;
@@ -180,8 +187,7 @@ const IdPut = styled.input`
   width: 384px;
   height: 44px;
   font-size: 14px;
-  font-weight: regular;
-  font-family: Jalnan;
+
   color: black;
   ::placeholder {
     font-size: 14px;
@@ -193,7 +199,7 @@ const Pone = styled.div`
   margin: auto;
   margin-top: 10px;
   > span {
-    font-size: 16px;
+    font-size: 14px;
     color: #d26500;
   }
 `;
@@ -213,18 +219,7 @@ const SignInBtn = styled.button`
     cursor: pointer;
   }
 `;
-/* background-color: ${(props)=> props.theme.keyColor};
-border-radius: 8px;
-padding: 12px 16px;
-border: 0px transparent;
-color: white;
-font-weight: bold;
-:hover {
-   background-color: #FF891C;
-}
-:active{
-   background-color: #D26500;
-} */
+
 const IMG = styled.img`
   width: 48px;
   height: 48px;

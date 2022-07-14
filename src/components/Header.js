@@ -15,6 +15,8 @@ import sun from "../styles/icon/sun.svg";
 import moon from "../styles/icon/moon.svg";
 import person from "../styles/icon/profile.svg";
 import arrowdown from "../styles/icon/arrowdown.svg";
+import cursor1 from "../assets/메인커서1.png";
+import cursor2 from "../assets/메인커서2.png";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -60,30 +62,35 @@ const Header = () => {
 
           {!isLogin ? (
             <Contain>
-              <StyledLink to="/write">게시글 작성</StyledLink>
               {/* <ModalLogin />
               <ModalRegister /> */}
               <ModalOpen />
             </Contain>
           ) : (
-            <Details>
-              <Summary>
-                <img src={userInfo?.profileImg || person} alt="" style={{width:"35px"}}/>
-                <img src={arrowdown} alt="" />
-              </Summary>
-              <Select>
-                <Option>
-                  <p>
-                    <StyledLink to="/mypage">마이페이지</StyledLink>
-                  </p>
-                </Option>
-                <Option>
-                  <p onClick={logout}>로그아웃</p>
-                </Option>
-              </Select>
-            </Details>
+            <>
+              <StyledLink to="/write">게시글 작성</StyledLink>
+              <Details>
+                <Summary>
+                  <img
+                    src={userInfo?.profileImg || person}
+                    alt=""
+                    style={{ width: "35px" }}
+                  />
+                  <img src={arrowdown} alt="" />
+                </Summary>
+                <Select>
+                  <Option>
+                    <p>
+                      <StyledLink to="/mypage">마이페이지</StyledLink>
+                    </p>
+                  </Option>
+                  <Option>
+                    <p onClick={logout}>로그아웃</p>
+                  </Option>
+                </Select>
+              </Details>
+            </>
           )}
-
         </User>
       </ContentWrap>
     </Wrap>
@@ -98,7 +105,6 @@ const Wrap = styled.div`
   margin-bottom: 50px;
   display: flex;
   align-items: center;
-
   p {
     font-size: 16px;
   }
