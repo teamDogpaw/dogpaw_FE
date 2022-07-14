@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { UserInfoAtom } from "../atom/atom";
 import ModalOpen from "./Modal";
 
-//import logo from "../styles/images/logo.png";
-import logo from "../styles/icon/개발바닥.svg";
+import logo from "../styles/images/logo.png";
+//import logo from "../styles/icon/개발바닥.svg";
 // import lightMode from "../styles/icon/light.svg";
 // import darkMode from "../styles/icon/dark.svg";
 // import sun from "../styles/icon/sun.svg";
