@@ -7,12 +7,12 @@ import { useNavigate } from "react-router-dom";
 import { UserInfoAtom } from "../atom/atom";
 import ModalOpen from "./Modal";
 
-//import logo from "../styles/images/logo.png";
-import logo from "../styles/icon/개발바닥.svg";
-import lightMode from "../styles/icon/light.svg";
-import darkMode from "../styles/icon/dark.svg";
-import sun from "../styles/icon/sun.svg";
-import moon from "../styles/icon/moon.svg";
+import logo from "../styles/images/logo.png";
+//import logo from "../styles/icon/개발바닥.svg";
+// import lightMode from "../styles/icon/light.svg";
+// import darkMode from "../styles/icon/dark.svg";
+// import sun from "../styles/icon/sun.svg";
+// import moon from "../styles/icon/moon.svg";
 import person from "../styles/icon/profile.svg";
 import arrowdown from "../styles/icon/arrowdown.svg";
 import cursor1 from "../assets/메인커서1.png";
@@ -20,8 +20,6 @@ import cursor2 from "../assets/메인커서2.png";
 
 const Header = () => {
   const navigate = useNavigate();
-
-  const [isDark, setIsDark] = useRecoilState(DarkThemeAtom);
 
   const userInfo = useRecoilValue(UserInfoAtom);
 
@@ -54,16 +52,13 @@ const Header = () => {
           }}
           alt=""
         />
-
         <User>
-          <ModeBtn onClick={() => setIsDark((prev) => !prev)} isDark={isDark}>
-            <ModeCircle isDark={isDark} />
-          </ModeBtn>
-
           {!isLogin ? (
             <Contain>
-              {/* <ModalLogin />
-              <ModalRegister /> */}
+
+              <StyledLink to="/write">게시글 작성</StyledLink>
+             
+
               <ModalOpen />
             </Contain>
           ) : (
@@ -124,58 +119,21 @@ const ContentWrap = styled.div`
   margin: auto;
 `;
 
-const ModeBtn = styled.button`
-  background-image: url(${(props) =>
-    props.isDark ? `${darkMode}` : `${lightMode}`});
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-color: ${(props) => props.theme.divBackGroundColor};
-
-  width: 78px;
-  height: 35px;
-  border-radius: 30px;
-  border: none;
-
-  margin-left: 10px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  transition: all 0.5s ease-in-out;
-`;
-
-const ModeCircle = styled.div`
-  display: flex;
-  flex-direction: center;
-  align-items: center;
-  background-image: url(${(props) => (props.isDark ? `${moon}` : `${sun}`)});
-
-  background-repeat: no-repeat;
-  background-size: cover;
-
-  width: 42px;
-  height: 42px;
-  border-radius: 50px;
-  position: absolute;
-  right: 0%;
-  bottom: -4px;
-  transition: all 0.4s ease-in-out;
-  ${(props) =>
-    props.isDark &&
-    css`
-      transform: translate(-35px, 0);
-      transition: all 0.4s ease-in-out;
-    `}
-`;
-
 const Contain = styled.div`
   position: relative;
 `;
 
 const User = styled.div`
   display: flex;
-  width: 320px;
+  width: 150px;
   align-items: center;
   justify-content: space-between;
+`;
+
+const Profile = styled.img`
+width:45px;
+height:45px;
+border-radius:50%;
 `;
 
 const Details = styled.details`

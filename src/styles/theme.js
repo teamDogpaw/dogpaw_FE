@@ -8,7 +8,10 @@ export const darkTheme = {
     textareaBackground: "#25252A",
     border: "1px solid #777777",
     stackBackground: "#fff6c6",
-    stackColor: "#292929"
+    stackColor: "#292929",
+    toggleBtnColor:"#444449",
+    toggleFontColor:"#FFC692"
+    
 }
 
 export const lightTheme = {
@@ -21,5 +24,7 @@ export const lightTheme = {
     textareaBackground: "#fbfbfb",
     border: "1px solid #e2e2e2",
     stackBackground: "#fff6c6",
-    stackColor: "#292929"
+    stackColor: "#292929",
+    toggleBtnColor:"#fff",
+    toggleFontColor:"#292929"
 }

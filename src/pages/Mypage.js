@@ -4,7 +4,7 @@ import Bookmark from "../components/Bookmark"
 import MyProject from "../components/MyProject";
 import JoinProject from "../components/JoinProject"
 import { useMatch, useNavigate } from "react-router-dom";
-import { Btn, MainBody, MyStack, Option, SelectBoxOpen } from "../styles/style"
+import { Btn, MainBody, MyStack, Option, SelectBoxOpen, PostBody } from "../styles/style"
 import styled from "styled-components";
 import axios from "axios";
 import { useQuery } from "react-query";
@@ -16,6 +16,7 @@ import { UserInfoAtom } from "../atom/atom";
 import profilepic from "../styles/icon/defaultProfile.svg";
 import { SelectBox } from "../components/WriteSelect";
 import bookmark_fill from "../styles/icon/u_bookmark.svg"
+import { ReactComponent as StackDelete} from "../styles/icon/stackDelete.svg"
 
 const MyPage = () => {
    const [userInfo, setUserInfo] = useRecoilState(UserInfoAtom);
@@ -25,10 +26,11 @@ const MyPage = () => {
    const imageRef = useRef();
    const [viewApply, setViewApply] = useState(false);
    const [tab, setTab] = useState(<Bookmark viewApply={viewApply} viewApplyModal={viewApplyModal} />);
-
+console.log(userInfo)
 console.log(viewApply)
    const formData = new FormData()
 
+   useEffect(()=>{},[userInfo])
    const [myData, setMyData] = useState({
       profileImg: userInfo?.profileImg,
       nickname: userInfo?.nickname,
@@ -113,9 +115,9 @@ console.log(viewApply)
    }
 
    return (
-      <>
+      <WholeBody>
       {viewApply ? <ViewApply viewApply={viewApply} viewApplyModal={viewApplyModal} /> :  null }
-         <MainBody>
+         <PostBody>
             
             {isEdit ?
                <>
@@ -123,7 +125,7 @@ console.log(viewApply)
                   <form>
                      <input type="file" ref={imageRef} accept="image/*" onChange={(event) => editImg(event)} />이미지 편집
                      <input defaultValue={userInfo?.nickname} onChange={(event) => editNickname(event)} />
-                     {userInfo?.username}
+                     {userInfo.username}
                      <details style={{ height: "40px" }} ref={stackdetailsRef}>
                         <SelectBox>스택을 선택해주세요.</SelectBox>
                         <SelectBoxOpen>
@@ -136,13 +138,10 @@ console.log(viewApply)
                   
                      </details>
                      <div style={{ display: "flex", flexWrap: "wrap", marginTop: "10px" }}>
-                        {myData?.stacks.map((stack) => {
+                        {userInfo.stacks.map((stack, index) => {
                            return (
-                              <MyStack style={{ margin: "0px 10px 10px 0px" }} key={stack.id}>#{stack.stack} <svg onClick={() => removeStack(stack)} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                 <path d="M9.99996 18.3327C14.6023 18.3327 18.3333 14.6017 18.3333 9.99935C18.3333 5.39698 14.6023 1.66602 9.99996 1.66602C5.39759 1.66602 1.66663 5.39698 1.66663 9.99935C1.66663 14.6017 5.39759 18.3327 9.99996 18.3327Z" stroke="#FFB673" stroke-width="2" strokeLinecap="round" strokeLinejoin="round" />
-                                 <path d="M12.5 7.5L7.5 12.5" stroke="#FFB673" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                 <path d="M7.5 7.5L12.5 12.5" stroke="#FFB673" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                              </svg>
+                              <MyStack style={{ margin: "0px 10px 10px 0px", display:"flex", alignItems:"center", gap:"5px"}} key={index}>#{stack} 
+                           <StackDelete onClick={()=>{removeStack(stack)}} />
                               </MyStack>
                            )
                         })}
@@ -159,9 +158,9 @@ console.log(viewApply)
                   {userInfo?.nickname} <br />
                   {userInfo?.username}
                   <div style={{ display: "flex" }}>
-                     {userInfo?.stacks?.map((mystack) => {
+                     {userInfo.stacks?.map((mystack,index) => {
                         return (
-                           <MyStack key={mystack.id}># {mystack.stack}</MyStack>
+                           <MyStack key={index}>#{mystack}</MyStack>
                         )
                      })}
                        
@@ -171,28 +170,27 @@ console.log(viewApply)
 
             }
 
-         </MainBody>
+         </PostBody>
 
 
 
-         <WholeBody>
+   
             <TabBody>
                <Tab onClick={() => { setTab(<Bookmark viewApply={viewApply} viewApplyModal={viewApplyModal} />) }}> 관심 프로젝트 </Tab>
                <Tab onClick={() => { setTab(<JoinProject viewApply={viewApply} viewApplyModal={viewApplyModal}/>) }}> 참여한 프로젝트 </Tab>
                <Tab onClick={() => { setTab(<MyProject viewApply={viewApply} viewApplyModal={viewApplyModal}/>) }}> 내가 쓴 프로젝트 </Tab>
 
             </TabBody>
-            <PostBody>
-
+            <div>
                {tab}
-            </PostBody>
+            </div>
 
-         </WholeBody>
-
-
+     
 
 
-      </>
+
+
+            </WholeBody>
    )
 }
 
@@ -204,36 +202,25 @@ const Profilepic = styled.img`
   border-radius: 80px;
 `;
 
-const WholeBody = styled(MainBody)`
-  margin: 24px auto;
-  display: grid;
-  grid-template-columns: fit-content(40%) 100%;
-  max-width: 996px;
-  background-color: transparent;
-  padding: 0px;
-  gap: 24px;
+const WholeBody = styled.div`
+max-width: 996px;
+margin: 0px auto 200px auto;
   @media screen and (max-width: 996px) {
-    margin: 24px 40px;
+    margin: 24px 40px 100px;
   }
 `;
 
 const Tab = styled.div`
   line-height: 48px;
-`;
-
-const PostBody = styled.div`
-  background-color: ${(props) => props.theme.divBackGroundColor};
-  max-width: 792px;
-  border-radius: 16px;
-  padding: 32px;
+  color:${(props) => props.theme.keyColor};
 `;
 
 const TabBody = styled.div`
-  background-color: ${(props) => props.theme.divBackGroundColor};
-  width: 180px;
-  height: 251px;
-  border-radius: 16px;
-  padding: 32px 24px;
+  background-color: ${(props) => props.theme.backgroundColor};
+display: grid;
+grid-template-columns: repeat(3,1fr);
+text-align: center;
+margin: 24px auto;
 `;
 
 export default MyPage;

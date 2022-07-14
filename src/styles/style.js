@@ -79,30 +79,32 @@ h4{
 `;
 
 export const MainBody = styled.div`
-  background-color: ${(props) => props.theme.divBackGroundColor};
-  max-width: 996px;
-  margin: auto;
-  border-radius: 16px;
-  padding: 32px;
 
-  @media screen and (max-width: 996px) {
-    margin: 0px 40px;
-  }
+background-color: ${(props) => props.theme.divBackGroundColor};
+max-width: 996px;
+margin: auto;
+border-radius: 16px;
+padding: 32px;
+
+@media screen and (max-width: 996px){
+  margin: 0px 40px;
+}
 `;
 
 export const Btn = styled.button`
-  background-color: ${(props) => props.theme.keyColor};
-  border-radius: 8px;
-  padding: 12px 16px;
-  border: 0px transparent;
-  color: white;
-  font-weight: bold;
-  :hover {
-    background-color: #ff891c;
-  }
-  :active {
-    background-color: #d26500;
-  }
+background-color: ${(props) => props.theme.keyColor};
+border-radius: 8px;
+padding: 12px 16px;
+border: 0px transparent;
+color: white;
+font-weight: bold;
+:hover {
+   background-color: #FF891C;
+}
+:active{
+   background-color: #D26500;
+}
+
 `;
 
 export const LineBtn = styled.button`
@@ -142,12 +144,16 @@ export const ListStack = styled.span`
 `;
 
 export const MyStack = styled.div`
-  background-color: ${(props) => props.theme.stackBackground};
-  padding: 8px 12px;
-  border-radius: 30px;
-  margin-right: 16px;
-  color: ${(props) => props.theme.stackColor};
+
+background-color: ${(props) => props.theme.stackBackground};
+padding: 8px 12px;
+border-radius: 30px;
+margin-right: 16px;
+color: ${(props) => props.theme.stackColor}
+
 `;
+
+
 
 export const SelectTitle = styled.div`
   display: flex;
@@ -252,4 +258,18 @@ export const ModalRegisterBtn = styled.span`
     color: #5b5b5b;
     cursor: pointer;
   }
+`;
+
+export const PostBody = styled.div`
+background-color: ${(props) => props.theme.divBackGroundColor};
+border: transparent;
+padding: 24px;
+border-radius:16px;
+box-shadow: rgb(0 0 0 / 8%) 0px 2px 12px 0px;
+`;
+
+export const MypagePostBox = styled.div`
+display: flex;
+flex-direction: column;
+gap: 24px;
 `;

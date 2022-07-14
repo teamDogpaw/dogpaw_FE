@@ -6,9 +6,11 @@ import person from "../styles/images/person.png";
 import paw from "../styles/icon/paw.svg";
 import modify from "../styles/icon/modify.svg";
 import deletebtn from "../styles/icon/delete.svg";
+import edit from "../styles/icon/edit.svg";
+import remove from "../styles/icon/remove.svg";
 
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Comments from "../components/Comments";
 import { instance } from "../shared/axios";
 import { useRecoilValue } from "recoil";
@@ -122,11 +124,6 @@ const Detail = () => {
             }}
           />
           <Mark>
-            {/* {bookMarkStatus ? (
-              <BookmarkFill onClick={bookMark} />
-            ) : (
-              <BookmarkIcon onClick={bookMark} />
-            )} */}
             {author === userId ? (
               ""
             ) : bookMarkStatus ? (
@@ -138,20 +135,16 @@ const Detail = () => {
           <Userbtn>
             {author === userId && (
               <>
-                <img
-                  src={modify}
-                  onClick={() => navigate(`/write/${id}`)}
-                  alt=""
-                />
-                <img
-                  src={deletebtn}
-                  onClick={() => PostDelete.mutate()}
-                  alt=""
-                />
+                <ModifyBtn onClick={() => navigate(`/write/${id}`)}>
+                  <img src={edit} alt="" />
+                  <span>게시글 수정</span>
+                </ModifyBtn>
+                <DeleteBtn onClick={() => PostDelete.mutate()}>
+                  <img src={remove} alt="" />
+                  <span>게시글 삭제</span>
+                </DeleteBtn>
               </>
             )}
-            {/* <Link to={`/write/${id}`}>수정하기</Link>
-            <span onClick={() => PostDelete.mutate()}> 삭제하기 </span> */}
           </Userbtn>
 
           <hr />
@@ -269,11 +262,41 @@ const User = styled.div`
 `;
 
 const Userbtn = styled.div`
+display:flex;
 position:absolute;
 right:30px;
 top:150px;
-img{
-  margin-left: 5px;
+
+
+span {
+  font-size:12px;
+  color: #777;
+}
+
+img {
+  margin:0 5px;
+}
+
+`;
+
+const ModifyBtn = styled.button`
+background-color:${(props)=>props.theme.divBackGroundColor};
+width:98px;
+height:32px;
+border:1px solid #777;
+border-radius:8px;
+display:flex;
+align-items:center;
+cursor: pointer;
+
+`;
+
+const DeleteBtn = styled(ModifyBtn)`
+border:1px solid #FF0000;
+margin-left:10px;
+
+span {
+  color:#FF0000;
 }
 `;
 
@@ -286,7 +309,6 @@ const Leftarrow = styled(Arrow)`
   position: absolute;
   top: 25px;
   left: 30px;
-  //z-index:10;
 `;
 
 const Mark = styled.div`

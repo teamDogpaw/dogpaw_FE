@@ -8,7 +8,7 @@ import banner_gift from "../styles/images/main_banner.png";
 
 const Carousel = () => {
   const settings = {
-    arrows:false,
+    arrows: false,
     dots: true,
     infinite: true,
     speed: 1000,
@@ -16,7 +16,7 @@ const Carousel = () => {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2500,
-    pauseOnHover: true
+    pauseOnHover: true,
   };
 
   return (
@@ -34,23 +34,24 @@ const Carousel = () => {
 };
 
 const Wrap = styled.div`
-.slick-dots {
+  .slick-list{
+    border-radius: 15px;
+  }
+
+  .slick-dots {
     .slick-active {
       button::before {
-        color: ${props => props.theme.keyColor};
-        position:absolute;
-        top:-40px;
-
+        color: ${(props) => props.theme.keyColor};
+        position: absolute;
+        top: -40px;
       }
     }
     button::before {
       color: #eee;
-      position:absolute;
-        top:-40px;
-    
+      position: absolute;
+      top: -40px;
     }
-    }
-
+  }
 `;
 
 export default Carousel;

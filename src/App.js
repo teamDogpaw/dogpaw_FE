@@ -11,6 +11,7 @@ import { useQuery } from "react-query";
 import instance from "./shared/axios";
 import { UserInfoAtom } from "./atom/atom";
 import Loading from "./shared/Loading";
+import Toggle from "./components/Toggle";
 
 function App() {
   const isDark = useRecoilValue(DarkThemeAtom);
@@ -27,24 +28,29 @@ function App() {
         console.log(error);
       }
     }
-  };
 
-  const { data } = useQuery("userinfo", GetUserInfo, {
+  }; 
+  
+  useQuery("userinfo",GetUserInfo,{
     refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      setUser(data);
-    },
-  });
-  //console.log(user)
+    onSuccess:(data)=>{
+      setUser(data)
+    }
+  })
+
+
 
   return (
     <>
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <GlobalStyle />
         <Header />
-        <Suspense fallback={<Loading />}>
-          <Router />
-        </Suspense>
+
+          <Suspense fallback={<Loading />}>
+          <Router/>
+          </Suspense>
+          <Toggle />
+
       </ThemeProvider>
     </>
   );
