@@ -1,24 +1,20 @@
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {  useRecoilValue} from "recoil";
 import { DarkThemeAtom } from "../atom/theme";
 import React from "react";
 import { Link } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { UserInfoAtom } from "../atom/atom";
 import ModalOpen from "./Modal";
 
-import logo from "../styles/images/logo.png";
-//import logo from "../styles/icon/개발바닥.svg";
-// import lightMode from "../styles/icon/light.svg";
-// import darkMode from "../styles/icon/dark.svg";
-// import sun from "../styles/icon/sun.svg";
-// import moon from "../styles/icon/moon.svg";
+import logolight from "../styles/icon/logoLight.svg";
+import logodark from "../styles/icon/logoDark.svg";
 import person from "../styles/icon/profile.svg";
 import arrowdown from "../styles/icon/arrowdown.svg";
 
 const Header = () => {
   const navigate = useNavigate();
-
+  const isDark = useRecoilValue(DarkThemeAtom);
   const userInfo = useRecoilValue(UserInfoAtom);
 
   const isLogin = localStorage.getItem("token");
@@ -43,13 +39,10 @@ const Header = () => {
   return (
     <Wrap>
       <ContentWrap>
-        <Img
-          src={logo}
-          onClick={() => {
-            navigate("/");
-          }}
-          alt=""
-        />
+        <div onClick={() => {navigate("/")}}>
+        {isDark? <Img src={logodark} alt="" /> :<Img src={logolight} alt="" />}
+        </div>
+       
         <User>
           {!isLogin ? (
             <Contain>
@@ -86,7 +79,7 @@ const Wrap = styled.div`
   background-color: ${(props) => props.theme.BackGroundColor};
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
-  height: 96px;
+  height: 92px;
   margin-bottom: 50px;
   display: flex;
   align-items: center;
@@ -103,7 +96,7 @@ const Img = styled.img`
 
 const ContentWrap = styled.div`
   width: 1200px;
-  height: 96px;
+  height: 92px;
   display: flex;
   justify-content: space-between;
   align-items: center;
