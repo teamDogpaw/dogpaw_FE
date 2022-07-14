@@ -40,8 +40,7 @@ import Register from "./Register";
 import { useRecoilValue, useRecoilState } from "recoil";
 
 import { modalChange } from "../atom/atom";
-import cancle from "../assets/취소 버튼.png";
-
+//import cancle from "../assets/취소 버튼.png";
 
 Modal.setAppElement("#root");
 const ModalOpen = () => {
@@ -69,13 +68,25 @@ const ModalOpen = () => {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: "650px",
-            height: "500px",
+            width: "588px",
+            minHeight: "545px",
+            maxHeight: "785px",
+            height: "100%",
             borderRadius: "16px",
+            padding: "0",
           },
         }}
       >
-        {onModal}
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          {onModal}
+        </div>
         <div style={{ marginLeft: "540px" }}>
           {/* <img
             src={cancle}
