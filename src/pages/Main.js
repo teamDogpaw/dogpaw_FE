@@ -3,17 +3,18 @@ import { useInfiniteQuery,useQuery } from "react-query";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import instance from "../shared/axios";
+import { useInView } from "react-intersection-observer";
+
+import Loading from "../shared/Loading";
+import Carousel from "../components/Carousel";
 
 import styled, { css } from "styled-components";
 import { ReactComponent as CommentIcon } from "../styles/icon/u_comment-alt-lines.svg";
 import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/bookmarkFill.svg";
-
-import Loading from "../shared/Loading";
-
 import person from "../styles/images/person.png";
-import Carousel from "../components/Carousel";
-import { useInView } from "react-intersection-observer";
+
+
 
 const getBookmarRank = () => {
   return instance.get("/api/bookMark/rank");
@@ -58,7 +59,7 @@ const Main = () => {
       return <Loading />;
     }
     if (status === "error"){
-      return null;
+      return null; // 에러 화면 하나 만들어서 뿌릴까요
     }
     console.log(data)
 
