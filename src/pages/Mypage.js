@@ -16,7 +16,8 @@ import { UserInfoAtom } from "../atom/atom";
 import profilepic from "../styles/icon/defaultProfile.svg";
 import { SelectBox } from "../components/WriteSelect";
 import bookmark_fill from "../styles/icon/u_bookmark.svg"
-import { ReactComponent as StackDelete} from "../styles/icon/stackDelete.svg"
+import { ReactComponent as StackDelete } from "../styles/icon/stackDelete.svg"
+import ApplyProject from "../components/ApplyProject";
 
 const MyPage = () => {
    const [userInfo, setUserInfo] = useRecoilState(UserInfoAtom);
@@ -25,18 +26,26 @@ const MyPage = () => {
    const stackdetailsRef = useRef(null);
    const imageRef = useRef();
    const [viewApply, setViewApply] = useState(false);
-   const [tab, setTab] = useState(<Bookmark viewApply={viewApply} viewApplyModal={viewApplyModal} />);
-console.log(userInfo)
-console.log(viewApply)
+   const [currentTab, setTab] = useState(0);
+   console.log(userInfo)
+   console.log(viewApply)
    const formData = new FormData()
 
-   useEffect(()=>{},[userInfo])
+   const tabList = [
+      { id: 1, name: '관심 프로젝트', content: <Bookmark /> },
+      { id: 2, name: '참여한 프로젝트', content: <JoinProject /> },
+      { id: 3, name: '신청한 프로젝트', content: <ApplyProject /> },
+      { id: 4, name: '내가 쓴 프로젝트', content: <MyProject viewApply={viewApply} viewApplyModal={viewApplyModal} /> }
+   ];
+
+   useEffect(() => { }, [userInfo])
    const [myData, setMyData] = useState({
       profileImg: userInfo?.profileImg,
       nickname: userInfo?.nickname,
       stacks: userInfo?.stacks
    })
 
+   console.log(myData)
    //⚠️ 프로필 이미지 넣지 않으면 편집 완료 못함
    const EditMyData = async () => {
       console.log(myData)
@@ -62,7 +71,7 @@ console.log(viewApply)
 
    const basic = async () => {
       try {
-         await instance.post(`/api/user/profile/basic`)
+         await instance.put(`/api/user/profile/basic`)
       } catch (error) {
          alert(error)
       }
@@ -76,9 +85,12 @@ console.log(viewApply)
 
    //state안에 새 stack 넣기
    const addStack = (newStack) => {
-      if (!myData.stacks.includes(newStack)) {
-         setMyData(prev => ({ ...prev, stacks: [...myData.stacks, newStack] }))
+
+      if (myData.stacks === undefined) {
+         setMyData({ stacks: [newStack] })
          console.log(myData.stacks)
+      } else if (!myData.stacks.includes(newStack)) {
+         setMyData(prev => ({ ...prev, stacks: [...myData.stacks, newStack] }))
       } else {
          return null
       }
@@ -107,7 +119,7 @@ console.log(viewApply)
    }
 
    function viewApplyModal() {
-      if(viewApply) {
+      if (viewApply) {
          setViewApply(false);
       } else {
          setViewApply(true);
@@ -116,9 +128,9 @@ console.log(viewApply)
 
    return (
       <WholeBody>
-      {viewApply ? <ViewApply viewApply={viewApply} viewApplyModal={viewApplyModal} /> :  null }
+         {/* {viewApply ? <ViewApply viewApply={viewApply} viewApplyModal={viewApplyModal} /> : null} */}
          <PostBody>
-            
+
             {isEdit ?
                <>
                   {myData?.profileImg === null ? <Profilepic src={profilepic} /> : <Profilepic src={myData?.profileImg} />}
@@ -135,13 +147,13 @@ console.log(viewApply)
                            <Option onClick={() => addStack("React")}>React</Option>
                            <Option onClick={() => addStack("Vue")}>Vue</Option>
                         </SelectBoxOpen>
-                  
+
                      </details>
                      <div style={{ display: "flex", flexWrap: "wrap", marginTop: "10px" }}>
-                        {userInfo.stacks.map((stack, index) => {
+                        {myData.stacks?.map((stack, index) => {
                            return (
-                              <MyStack style={{ margin: "0px 10px 10px 0px", display:"flex", alignItems:"center", gap:"5px"}} key={index}>#{stack} 
-                           <StackDelete onClick={()=>{removeStack(stack)}} />
+                              <MyStack style={{ margin: "0px 10px 10px 0px", display: "flex", alignItems: "center", gap: "5px" }} key={index}>#{stack}
+                                 <StackDelete onClick={() => { removeStack(stack) }} />
                               </MyStack>
                            )
                         })}
@@ -153,17 +165,17 @@ console.log(viewApply)
 
                :
                <>
-            
+
                   {userInfo?.profileImg === null ? <Profilepic src={profilepic} /> : <Profilepic src={userInfo?.profileImg} />}
                   {userInfo?.nickname} <br />
                   {userInfo?.username}
                   <div style={{ display: "flex" }}>
-                     {userInfo.stacks?.map((mystack,index) => {
+                     {userInfo.stacks?.map((mystack, index) => {
                         return (
                            <MyStack key={index}>#{mystack}</MyStack>
                         )
                      })}
-                       
+
                   </div>
                   <Btn onClick={() => setIsEdit(true)}>프로필 편집</Btn> <br />
                </>
@@ -174,23 +186,34 @@ console.log(viewApply)
 
 
 
-   
-            <TabBody>
-               <Tab onClick={() => { setTab(<Bookmark viewApply={viewApply} viewApplyModal={viewApplyModal} />) }}> 관심 프로젝트 </Tab>
-               <Tab onClick={() => { setTab(<JoinProject viewApply={viewApply} viewApplyModal={viewApplyModal}/>) }}> 참여한 프로젝트 </Tab>
-               <Tab onClick={() => { setTab(<MyProject viewApply={viewApply} viewApplyModal={viewApplyModal}/>) }}> 내가 쓴 프로젝트 </Tab>
 
-            </TabBody>
-            <div>
-               {tab}
-            </div>
+         <TabBody>
+            {tabList.map((tab, index) => {
+               return (
+                  <>
+                     <Tab
+                        onClick={() => { setTab(index) }}
+                        key={tab.id}
+                        className={currentTab === index ? "focused" : null}
+                     >
+                        {tab.name}
+                     </Tab>
+                  </>
+               )
+            })}
+         
 
-     
+         </TabBody>
+         <div>
+            {tabList[currentTab].content}
+         </div>
 
 
 
 
-            </WholeBody>
+
+
+      </WholeBody>
    )
 }
 
@@ -213,14 +236,24 @@ margin: 0px auto 200px auto;
 const Tab = styled.div`
   line-height: 48px;
   color:${(props) => props.theme.keyColor};
+ font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+
+  &.focused {
+   box-shadow: rgb(255 182 115 / 50%) 0px 2px 12px 0px ;
+   background-color: ${(props) => props.theme.keyColor};
+   color: #fff;
+  }
 `;
 
 const TabBody = styled.div`
   background-color: ${(props) => props.theme.backgroundColor};
 display: grid;
-grid-template-columns: repeat(3,1fr);
+grid-template-columns: repeat(4,1fr);
 text-align: center;
 margin: 24px auto;
+gap: 16px;
 `;
 
 export default MyPage;

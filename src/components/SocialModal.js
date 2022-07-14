@@ -142,21 +142,21 @@ const SocialModal = (props) => {
                   <path
                     d="M9.99996 18.3327C14.6023 18.3327 18.3333 14.6017 18.3333 9.99935C18.3333 5.39698 14.6023 1.66602 9.99996 1.66602C5.39759 1.66602 1.66663 5.39698 1.66663 9.99935C1.66663 14.6017 5.39759 18.3327 9.99996 18.3327Z"
                     stroke="#FFB673"
-                    stroke-width="2"
+                    strokeWidth="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                   />
                   <path
                     d="M12.5 7.5L7.5 12.5"
                     stroke="#FFB673"
-                    stroke-width="2"
+                    strokeWidth="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                   />
                   <path
                     d="M7.5 7.5L12.5 12.5"
                     stroke="#FFB673"
-                    stroke-width="2"
+                    strokeWidth="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                   />

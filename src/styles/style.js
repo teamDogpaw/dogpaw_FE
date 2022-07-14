@@ -171,17 +171,16 @@ export const Option = styled.li`
 `;
 
 export const SelectBoxOpen = styled.ul`
-  max-height: 200px;
-
-  z-index: 10;
-  border-radius: 8px;
-  position: absolute;
-  width: 200px;
-  border: ${(props) => props.theme.border};
-  background-color: ${(props) => props.theme.inputBoxBackground};
-  box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.1);
-  overflow: scroll;
-  margin-top: 4px;
+max-height: 200px;
+z-index: 10;
+border-radius: 8px;
+position: absolute;
+width: 200px;
+border: ${(props) => props.theme.border};
+background-color: ${(props) => props.theme.inputBoxBackground};
+box-shadow: 0px 4px 4px 0px rgb(0,0,0,0.1);
+overflow: scroll;
+margin-top: 4px;
 `;
 
 // 모달
@@ -265,7 +264,7 @@ background-color: ${(props) => props.theme.divBackGroundColor};
 border: transparent;
 padding: 24px;
 border-radius:16px;
-box-shadow: rgb(0 0 0 / 8%) 0px 2px 12px 0px;
+box-shadow: ${(props)=> props.theme.boxShadow};
 `;
 
 export const MypagePostBox = styled.div`
