@@ -12,6 +12,9 @@ import styled, { css } from "styled-components";
 import { ReactComponent as CommentIcon } from "../styles/icon/u_comment-alt-lines.svg";
 import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/bookmarkFill.svg";
+import gold from "../styles/icon/medal0.svg";
+import silver from "../styles/icon/medal1.svg";
+import bronze from "../styles/icon/medal2.svg";
 import person from "../styles/images/person.png";
 
 
@@ -97,9 +100,9 @@ const Main = () => {
         </ToggleBtn>
       </ToggleWrap>
       <ArticleWrap>
-        {rank.map((list)=>{
+        {rank.map((list,idx)=>{
           return (
-              <Article
+              <Article2
             key={list.postId}
             onClick={() => {
               if (!isLogin) {
@@ -109,6 +112,7 @@ const Main = () => {
               navigate("/detail/" + list.postId);
             }}
           >
+            {idx === 0 ? <img src={gold} alt="" /> : idx === 1 ? <img src={silver} alt="" /> : <img src={bronze} alt="" />}
             <Content>
               <h1>{list.title}</h1>
               <p>{list.content}</p>
@@ -125,7 +129,8 @@ const Main = () => {
               </p>
             </Hashtag>
             <Info>
-              <Comment>
+              <div>
+                <Comment>
                 <CommentIcon />
                 <p>{list.commentCnt}</p>
               </Comment>
@@ -133,6 +138,8 @@ const Main = () => {
                 <BookmarkIcon style={{ width: "10", height: "14" }} />
                 <p>{list.bookmarkCnt}</p>
               </Bookmark>
+              </div>
+              
               <Date>시작예정일 {list.startAt}</Date>
             </Info>
             <Footer>
@@ -147,7 +154,7 @@ const Main = () => {
                 <BookmarkIcon onClick={bookMark} />
               )}
             </Footer> 
-          </Article>
+          </Article2>
           )
         })}
         </ArticleWrap>
@@ -182,7 +189,8 @@ const Main = () => {
               </p>
             </Hashtag>
             <Info>
-              <Comment>
+              <div>
+                <Comment>
                 <CommentIcon />
                 <p>{post.commentCnt}</p>
               </Comment>
@@ -190,6 +198,8 @@ const Main = () => {
                 <BookmarkIcon style={{ width: "10", height: "14" }} />
                 <p>{post.bookmarkCnt}</p>
               </Bookmark>
+              </div>
+              
               <Date>시작예정일 {post.startAt}</Date>
             </Info>
             <Footer>
@@ -328,6 +338,12 @@ const Article = styled.li`
   }
 `;
 
+const Article2 = styled(Article)`
+width:32%;
+height:364px;
+padding-top: 0;
+`;
+
 const Content = styled.div`
   margin: 20px 0;
 
@@ -387,9 +403,13 @@ const User = styled.div`
 `;
 const Info = styled.div`
   display: flex;
-  width: 87%;
+  justify-content:space-between;
+  width:90%;
   position: absolute;
   bottom: 70px;
+  div{
+    display:flex;
+  }
   svg {
     margin-right: 5px;
   }
@@ -404,7 +424,7 @@ const Bookmark = styled.div`
 `;
 const Date = styled.p`
   color: #8b8b8b;
-  width: 203px;
+  //width: 203px;
   display: flex;
   justify-content: flex-end;
 `;
