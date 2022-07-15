@@ -15,6 +15,9 @@ import { useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/atom";
 import { useState } from "react";
 import Loading from "../shared/Loading";
+import { Btn, LineBtn } from "../styles/style";
+import { detailApis } from "../api/detail";
+import useDetailQuery from "../hook/useDetailData";
 
 const Detail = () => {
   const navigate = useNavigate();
@@ -24,7 +27,8 @@ const Detail = () => {
   const id = params.postId;
   const [isHover, setIsHover] = useState(false);
   const [dataSet, setDataset] = useState([]);
-
+//   const { data: postList } = useDetailQuery(id);
+// console.log(postList)
   const PostDelete = useMutation(() => {
     instance.delete(`/api/post/${id}`);
     navigate("/");
@@ -56,6 +60,15 @@ const Detail = () => {
     period,
     applierCnt
   } = dataSet;
+
+  useQuery("List",getPostList,{
+    onSuccess:(data)=>{
+      console.log(data)
+    },
+    onError:(e)=>{
+      console.log(e.message)
+    }
+  })
 
   const { isLoading, isError, error } = useQuery("detailList", getPostList, {
     refetchOnWindowFocus: false, // 사용자가 다른 곳에 갔다가 돌아올시 함수 재실행 여부
@@ -104,8 +117,15 @@ const Detail = () => {
     bookmark();
   };
 
-  const applyBtn = () => {
-    applymark();
+  const applyBtn = (applyStatus) => {
+    if(applyStatus){
+      alert("지원취소?");
+      return applymark();
+    }else{
+      alert("신청함!");
+      return applymark();
+    }
+  
   };
 
   return (
@@ -178,26 +198,37 @@ const Detail = () => {
               </Title>
             </div>
             <div>
-              <div
-                onMouseOver={() => setIsHover(true)}
-                onMouseOut={() => setIsHover(false)}
-              >
-                {isHover && (
-                  <Alert>
-                    <p>{applierCnt}명이 지원했어요!</p>
-                  </Alert>
-                )}
-                {author === userId ? (
-                  <>
-                    <Button>지원자 보기</Button>
-                    <Button2>프로젝트 마감하기</Button2>
-                  </>
-                ) : !applyStatus ? (
-                  <Button onClick={applyBtn}>프로젝트 지원하기</Button>
-                ) : (
-                  <Button onClick={applyBtn}>지원 취소하기</Button>
-                )}
-              </div>
+              {author === userId ? (
+                <>
+                  <Button2>지원자 보기</Button2>
+
+                  <Button>프로젝트 마감하기</Button>
+                </>
+              ) : !applyStatus ? (
+                <div
+                  onMouseOver={() => setIsHover(true)}
+                  onMouseOut={() => setIsHover(false)}
+                >
+                  {isHover && (
+                    <Alert>
+                      <p>{applierCnt}명이 지원했어요!</p>
+                    </Alert>
+                  )}
+                  <Button onClick={()=> applyBtn(applyStatus)}>프로젝트 지원하기</Button>
+                </div>
+              ) : (
+                <div
+                  onMouseOver={() => setIsHover(true)}
+                  onMouseOut={() => setIsHover(false)}
+                >
+                  {isHover && (
+                    <Alert>
+                      <p>{applierCnt}명이 지원했어요!</p>
+                    </Alert>
+                  )}
+                  <Button onClick={()=> applyBtn(applyStatus)}>지원 취소하기</Button>
+                </div>
+              )}
             </div>
           </ContentWrap>
         </ArticleTop>
@@ -367,13 +398,9 @@ const Article = styled.div`
   }
 `;
 
-const Button = styled.button`
+const Button = styled(Btn)`
   height: 52px;
   width: 180px;
-  background-color: ${(props) => props.theme.keyColor};
-  border: none;
-  border-radius: 8px;
-  color: #fff;
   padding: 16px 24px;
   font-size: 17px;
   font-weight: 700;
@@ -383,23 +410,11 @@ const Button = styled.button`
   position: absolute;
   right: 0px;
   bottom: 0px;
-  cursor: pointer;
 
-  :hover {
-    background-color: #ff891c;
-  }
-  :active {
-    background-color: #d26500;
-  }
 `;
-const Button2 = styled.button`
-
-height: 52px;
+const Button2 = styled(LineBtn)`
+  height: 52px;
   width: 180px;
-  background-color:#fff;
-  border: 2px solid #ffb673;
-  border-radius: 8px;
-  color: #ffb673;
   padding: 16px 24px;
   font-size: 17px;
   font-weight: 700;
@@ -407,18 +422,8 @@ height: 52px;
   align-items: center;
   justify-content: center;
   position: absolute;
-  right:200px;
+  right: 200px;
   bottom: 0px;
-  cursor: pointer;
-
-  :hover {
-    background-color: #ff891c;
-    color:white;
-  }
-  :active {
-    background-color: #d26500;
-  }
-
 `;
 
 const alertAni = keyframes`

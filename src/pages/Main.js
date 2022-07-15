@@ -1,14 +1,14 @@
-import { Link } from "react-router-dom";
 import { useInfiniteQuery, useQuery } from "react-query";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import instance from "../shared/axios";
 import { useInView } from "react-intersection-observer";
+import Tutoral from "../components/Tutorial";
 
 import Loading from "../shared/Loading";
 import Carousel from "../components/Carousel";
 
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { ReactComponent as CommentIcon } from "../styles/icon/post/commentCnt.svg";
 import { ReactComponent as BookmarkIcon } from "../styles/icon/post/bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/post/bookmarkFill.svg";
@@ -18,6 +18,8 @@ import gold from "../styles/icon/main/medal0.svg";
 import silver from "../styles/icon/main/medal1.svg";
 import bronze from "../styles/icon/main/medal2.svg";
 import person from "../styles/images/person.png";
+import { useRecoilValue } from "recoil";
+import { UserInfoAtom } from "../atom/atom";
 
 const getBookmarRank = () => {
   return instance.get("/api/bookMark/rank");
@@ -31,11 +33,14 @@ const fetchPostList = async (pageParam) => {
 
 const Main = () => {
   const navigate = useNavigate();
+  const user = useRecoilValue(UserInfoAtom);
   const [mark, setMark] = useState(false);
   const [toggle, setToggle] = useState(true);
+  const [isHover, setIsHover] = useState(false);
   const [rank, setRank] = useState([]);
   const { ref, inView } = useInView();
-
+  
+  const userMe = user.nickname;
   const isLogin = localStorage.getItem("token");
 
   useQuery("bookmarkRank", getBookmarRank, {
@@ -51,7 +56,7 @@ const Main = () => {
     {
       refetchOnWindowFocus: false,
       getNextPageParam: (lastPage) =>
-        !lastPage.isLast ? lastPage.nextPage : undefined,
+        !lastPage.isLast ? lastPage.nextPage : undefined, // lastPage.nexPage로만 하면 데이터 없는데 무한 배열 생성 함 .
     }
   );
 
@@ -71,8 +76,9 @@ const Main = () => {
   const postList = dataList.reduce((acc, cur) => {
     return acc.concat(cur);
   });
+
   const list = toggle ? postList.filter((post) => post.deadline === false) : postList;
-  console.log(list);
+ // console.log(list);
 
   const bookMark = () => {
     if (mark === false) {
@@ -88,6 +94,13 @@ const Main = () => {
 
   return (
     <Wrap>
+      <Tuto
+                onMouseOver={() => setIsHover(true)}
+                onMouseOut={() => setIsHover(false)}
+                onClick={() => setIsHover(false)}
+              >
+                {isHover && <Tutoral />}
+                ?</Tuto>
       <Carousel />
       <Award>
         <img src={award} alt="" />
@@ -211,13 +224,14 @@ const Main = () => {
                   <img src={post.profileImg || person} alt="profileImg" />
                   <p>{post.nickname}</p>
                 </User>
-                {post.bookMarkStatus ? (
+                {userMe === post.nickname ? ("") : post.bookMarkStatus ? (
                   <BookmarkFill onClick={bookMark} />
                 ) : (
                   <BookmarkIcon onClick={bookMark} />
                 )}
+                
               </Footer>
-            </Article>
+            </Article>   
           ))}
         </ArticleWrap>
         {isFetchingNextPage ? <Loading /> : <div ref={ref}></div>}
@@ -225,6 +239,7 @@ const Main = () => {
     </Wrap>
   );
 };
+
 const Wrap = styled.div`
   width: 1200px;
   margin: auto;
@@ -246,6 +261,44 @@ const Wrap = styled.div`
   p {
     font-size: 15px;
   }
+`;
+const Move = keyframes`
+0% {
+    transform: scale3d(1, 1, 1);
+  }
+  30% {
+    transform: scale3d(1.25, 0.75, 1);
+  }
+  40% {
+    transform: scale3d(0.75, 1.25, 1);
+  }
+  50% {
+    transform: scale3d(1.15, 0.85, 1);
+  }
+  65% {
+    transform: scale3d(0.95, 1.05, 1);
+  }
+  75% {
+    transform: scale3d(1.05, 0.95, 1);
+  }
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+
+`;
+const Tuto = styled.div`
+width:50px;
+height:50px;
+border-radius:50%;
+background-color:gold;
+display:flex;
+align-items:center;
+justify-content:center;
+position:absolute;
+left:150px;
+z-index:99;
+animation:${Move} 1s ease-in-out ;
+
 `;
 const Award = styled.div`
   display: flex;
@@ -320,7 +373,7 @@ const Circle = styled.div`
     font-weight: 700;
   }
 `;
-// 토글 스위치
+// 토글 스위치 끝
 
 const ArticleWrap = styled.ul`
   width: 1200px;
