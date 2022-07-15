@@ -13,28 +13,34 @@ import MyPagePostList from "./MyPagePostList";
 
 const Bookmark = ({
   viewApplyModal,
-  viewApply
 }) => {
   const navigate = useNavigate();
+  const [isMyBookmark, setIsMyBookmark] = useState(<BookmarkFill />);
+
+  const DoBookmark = async (postId) => {
+    setIsMyBookmark((prev) => !prev)
+    const response = await instance.post(`/api/bookMark/${postId}`)
+    return response.data
+  }
 
   const GetMyBookmark = async () => {
-    try{
+    try {
       const response = await instance.get(`/api/user/mypage/bookmark`)
       return response.data
-    } catch(error){
+    } catch (error) {
       alert(error)
     }
   };
 
-  const {isLoading, data, error} = useQuery("mybookmark", GetMyBookmark,
-   {
-    refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      return data
-    }, onError: (error) => {
-      alert(error)
-    }
-  });
+  const { isLoading, data, error } = useQuery("mybookmark", GetMyBookmark,
+    {
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => {
+        return data
+      }, onError: (error) => {
+        alert(error)
+      }
+    });
 
   if (isLoading) {
     return <h1>loading...</h1>;
@@ -43,9 +49,12 @@ const Bookmark = ({
     <MypagePostBox>
       {data?.map((content) => {
         return (
-          <MyPagePostList key={content.postId} 
-          data={content} 
-          viewApplyModal={viewApplyModal}
+          <MyPagePostList key={content.postId}
+            data={content}
+            viewApplyModal={viewApplyModal}
+            isMyBookmark={isMyBookmark}
+            DoBookmark={DoBookmark}
+
           />
         )
 

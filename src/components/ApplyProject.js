@@ -7,13 +7,16 @@ import { Btn, ListProfilePic, ListStack, MypagePostBox } from "../styles/style"
 import MyPagePostList from "./MyPagePostList"
 
 
-const JoinProject = ({
+const ApplyProject = ({
   viewApplyModal
 }) => {
-  const [isApply, setIsApply] = useState(true);
-  const GetJoinProject = async () => {
+    const [isApply, setIsApply] = useState(true);
+
+
+    
+  const GetApplyProject = async () => {
     try {
-      const response = await instance.get(`/api/user/participation`);
+      const response = await instance.get(`/api/user/mypage/apply`);
       console.log(response.data);
       return response.data;
     } catch (error) {
@@ -21,13 +24,13 @@ const JoinProject = ({
     }
   };
 
-  const{isLoading, data, isError} = useQuery("joinproject", GetJoinProject);
+  const{isLoading, data, isError} = useQuery("applyproject", GetApplyProject);
 
 
 
   if (isLoading) {
     return <h1>loading...</h1>;
-  }
+  } 
   return (
     <MypagePostBox>
       {data?.map((content) => {
@@ -44,4 +47,4 @@ const JoinProject = ({
   );
 };
 
-export default JoinProject;
+export default ApplyProject;
