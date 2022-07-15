@@ -7,7 +7,7 @@ import { useMatch, useNavigate } from "react-router-dom";
 import { Btn, MainBody, MyStack, Option, SelectBoxOpen, PostBody } from "../styles/style"
 import styled from "styled-components";
 import axios from "axios";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useRecoilState } from "recoil";
 import ViewApply from "../components/ViewApply";
 
@@ -76,6 +76,22 @@ console.log(userInfo)
          alert(error)
       }
    }
+
+   const queryClient = useQueryClient();
+
+const {mutate : profileEdit} = useMutation("profileedit", EditMyData, {
+   onSuccess: () => {
+      queryClient.invalidateQueries("userinfo");
+  }
+})
+
+const {mutate: imageReSet} = useMutation("imagereset", basic, {
+   onSuccess: () => {
+      queryClient.invalidateQueries("userinfo");
+  }
+})
+
+
 
    //    image - imagefile
    //    body {stacks: value,
@@ -153,8 +169,8 @@ console.log(userInfo)
                         })}
                      </div>
                   </form>
-                  <Btn onClick={() => basic()}>기본 이미지로 변경</Btn>
-                  <Btn onClick={() => EditMyData()}>편집 완료</Btn>
+                  <Btn onClick={() => imageReSet()}>기본 이미지로 변경</Btn>
+                  <Btn onClick={() => profileEdit()}>편집 완료</Btn>
                </>
 
                :
