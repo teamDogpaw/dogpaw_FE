@@ -5,6 +5,7 @@ import { DarkThemeAtom } from "../atom/theme";
 import darkMode from "../styles/icon/darkMode.svg";
 import lightMode from "../styles/icon/lightMode.svg";
 import arrowtop from "../styles/icon/arrowUp.svg";
+import arrowtopLight from "../styles/icon/arrowUpLight.svg";
 
 
 
@@ -19,7 +20,7 @@ const Toggle = () =>{
             <ModeCircle isDark={isDark} />
           </ModeBtn>
           <TopBtn onClick={()=>{window.scrollTo({top:0, left:0, behavior:"smooth"})}} >
-            <img src={arrowtop} alt="" />
+            {isDark? <img src={arrowtop} alt="" />:<img src={arrowtopLight} alt="" />}
           </TopBtn>
         </Wrap>
     )
@@ -28,7 +29,7 @@ const Toggle = () =>{
 const Wrap = styled.div`
 display:flex;
 position:fixed;
-right: 20px;
+right: 25px;
 bottom: 19px;
 
 span {
@@ -40,11 +41,11 @@ span {
 const ModeBtn = styled.button`
   background-color: ${(props) => props.theme.toggleBtnColor};
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
-  width: 144px;
+  width: 134px;
   height: 50px;
   border-radius: 100px;
   border: none;
-  padding:15px 25px 15px 18px;
+  padding:15px 20px 15px 15px;
   margin-right:15px;
 
   position: relative;
@@ -59,21 +60,19 @@ const ModeCircle = styled.div`
   flex-direction: center;
   align-items: center;
   background-image: url(${(props) => (props.isDark ? `${lightMode}` : `${darkMode}`)});
-
-  background-repeat: no-repeat;
   background-size: cover;
 
-  width: 56px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border-radius: 50px;
   position: absolute;
   left: 0%;
-  top:4%;
+  top:2%;
   transition: all 0.4s ease-in-out;
   ${(props) =>
     props.isDark &&
     css`
-      transform: translate(85px, 0);
+      transform: translate(81px, 0);
       transition: all 0.4s ease-in-out;
     `}
 `;

@@ -139,7 +139,7 @@ const Btn = styled.div`
 `;
 
 const ModiBtn = styled.button`
-  background-color: white;
+  background-color: ${(props) => props.theme.backgroundColor};
   border: 1px solid #777777;
   border-radius: 8px;
   padding: 4px 12px;

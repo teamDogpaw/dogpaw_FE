@@ -56,6 +56,7 @@ const Detail = () => {
     startAt,
     stacks,
     period,
+    applierCnt
   } = dataSet;
 
   const { isLoading, isError, error } = useQuery("detailList", getPostList, {
@@ -185,7 +186,7 @@ const Detail = () => {
               >
                 {isHover && (
                   <Alert>
-                    <p>{currentMember}명이 지원했어요!</p>
+                    <p>{applierCnt}명이 지원했어요!</p>
                   </Alert>
                 )}
                 {author === userId ? (
@@ -371,7 +372,7 @@ const Article = styled.div`
 const Button = styled.button`
   height: 52px;
   width: 180px;
-  background-color: #ffb673;
+  background-color: ${(props) => props.theme.keyColor};
   border: none;
   border-radius: 8px;
   color: #fff;

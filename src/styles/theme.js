@@ -10,7 +10,8 @@ export const darkTheme = {
     stackBackground: "#fff6c6",
     stackColor: "#292929",
     toggleBtnColor:"#444449",
-    toggleFontColor:"#FFC692"
+    toggleFontColor:"#FFC692",
+    
     
 }
 
