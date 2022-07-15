@@ -18,7 +18,6 @@ import gold from "../styles/icon/main/medal0.svg";
 import silver from "../styles/icon/main/medal1.svg";
 import bronze from "../styles/icon/main/medal2.svg";
 import person from "../styles/images/person.png";
-import { ReactComponent as Tutorial} from "../styles/tutorial.svg" 
 const getBookmarRank = () => {
   return instance.get("/api/bookMark/rank");
 };
