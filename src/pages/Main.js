@@ -18,6 +18,7 @@ import gold from "../styles/icon/main/medal0.svg";
 import silver from "../styles/icon/main/medal1.svg";
 import bronze from "../styles/icon/main/medal2.svg";
 import person from "../styles/images/person.png";
+
 import { useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/atom";
 
@@ -93,6 +94,7 @@ const Main = () => {
   };
 
   return (
+
     <Wrap>
       <Tuto
                 onMouseOver={() => setIsHover(true)}
@@ -101,6 +103,7 @@ const Main = () => {
               >
                 {isHover && <Tutoral />}
                 ?</Tuto>
+
       <Carousel />
       <Award>
         <img src={award} alt="" />
@@ -492,5 +495,7 @@ const Date = styled.p`
   display: flex;
   justify-content: flex-end;
 `;
+
+
 
 export default Main;
