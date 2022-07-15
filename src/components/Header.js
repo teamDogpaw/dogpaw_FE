@@ -1,4 +1,4 @@
-import {  useRecoilValue} from "recoil";
+import { useRecoilValue } from "recoil";
 import { DarkThemeAtom } from "../atom/theme";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -11,8 +11,6 @@ import logolight from "../styles/logo/logoLight.svg";
 import logodark from "../styles/logo/logoDark.svg";
 import person from "../styles/icon/global/profile.svg";
 import arrowdown from "../styles/icon/global/arrowDown.svg";
-import cursor1 from "../styles/icon/global/cursor/cursor01.svg";
-import cursor2 from "../styles/icon/global/cursor/cursor02.svg";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -41,10 +39,18 @@ const Header = () => {
   return (
     <Wrap>
       <ContentWrap>
-        <div onClick={() => {navigate("/")}}>
-        {isDark? <Img src={logodark} alt="" /> :<Img src={logolight} alt="" />}
+        <div
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          {isDark ? (
+            <Img src={logodark} alt="" />
+          ) : (
+            <Img src={logolight} alt="" />
+          )}
         </div>
-       
+
         <User>
           {!isLogin ? (
             <Contain>
@@ -56,10 +62,7 @@ const Header = () => {
               <StyledLink to="/write">게시글 작성</StyledLink>
               <Details>
                 <Summary>
-                  <Profile
-                    src={userInfo?.profileImg || person}
-                    alt=""
-                  />
+                  <Profile src={userInfo?.profileImg || person} alt="" />
                   <img src={arrowdown} alt="" />
                 </Summary>
                 <Select>
@@ -111,7 +114,7 @@ const ContentWrap = styled.div`
 
 const Contain = styled.div`
   position: relative;
-  display:flex;
+  display: flex;
 `;
 
 const User = styled.div`
@@ -121,11 +124,10 @@ const User = styled.div`
 `;
 
 const Profile = styled.img`
-width:40px;
-height:40px;
-border-radius:50%;
-box-shadow: -2px 1px 6px rgba(0, 0, 0, 0.2);
-
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: -2px 1px 6px rgba(0, 0, 0, 0.2);
 `;
 
 const Details = styled.details`
@@ -164,7 +166,6 @@ const Select = styled.ul`
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-
 `;
 
 const Option = styled.li`
