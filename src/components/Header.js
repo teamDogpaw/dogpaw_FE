@@ -48,10 +48,7 @@ const Header = () => {
         <User>
           {!isLogin ? (
             <Contain>
-
               <StyledLink to="/write">게시글 작성</StyledLink>
-             
-
               <ModalOpen />
             </Contain>
           ) : (
@@ -59,10 +56,9 @@ const Header = () => {
               <StyledLink to="/write">게시글 작성</StyledLink>
               <Details>
                 <Summary>
-                  <img
+                  <Profile
                     src={userInfo?.profileImg || person}
                     alt=""
-                    style={{ width: "35px" }}
                   />
                   <img src={arrowdown} alt="" />
                 </Summary>
@@ -87,9 +83,10 @@ const Header = () => {
 
 const Wrap = styled.div`
   background-color: ${(props) => props.theme.BackGroundColor};
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  //box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: -2px 1px 6px rgba(0, 0, 0, 0.2);
   width: 100%;
-  height: 92px;
+  height: 80px;
   margin-bottom: 50px;
   display: flex;
   align-items: center;
@@ -105,7 +102,7 @@ const Img = styled.img`
 
 const ContentWrap = styled.div`
   width: 1200px;
-  height: 92px;
+  height: 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -114,19 +111,21 @@ const ContentWrap = styled.div`
 
 const Contain = styled.div`
   position: relative;
+  display:flex;
 `;
 
 const User = styled.div`
   display: flex;
-  width: 150px;
   align-items: center;
   justify-content: space-between;
 `;
 
 const Profile = styled.img`
-width:45px;
-height:45px;
+width:40px;
+height:40px;
 border-radius:50%;
+box-shadow: -2px 1px 6px rgba(0, 0, 0, 0.2);
+
 `;
 
 const Details = styled.details`
@@ -165,6 +164,7 @@ const Select = styled.ul`
 
 const StyledLink = styled(Link)`
   text-decoration: none;
+
 `;
 
 const Option = styled.li`

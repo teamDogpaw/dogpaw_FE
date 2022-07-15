@@ -149,11 +149,8 @@ background-color: ${(props) => props.theme.stackBackground};
 padding: 8px 12px;
 border-radius: 30px;
 margin-right: 16px;
-color: ${(props) => props.theme.stackColor}
-
+color: ${(props) => props.theme.stackColor};
 `;
-
-
 
 export const SelectTitle = styled.div`
   display: flex;

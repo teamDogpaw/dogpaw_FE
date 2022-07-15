@@ -12,7 +12,6 @@ export const darkTheme = {
     toggleBtnColor:"#444449",
     toggleFontColor:"#FFC692",
     boxShadow:"rgb(168 168 168 / 16%) 0px 0px 8px 0px"
-
 }
 
 export const lightTheme = {

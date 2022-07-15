@@ -1,7 +1,7 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import instance from "../shared/axios";
 
 import Comment from "./Comment";
@@ -10,8 +10,9 @@ const Comments = () => {
 
   const params = useParams();
   const comment_ref = useRef("");
-  const id = params.postId;
+  const [btnState,setBtnState] = useState(false);
 
+  const id = params.postId;
 
   // 댓글 조회
   const getCommentList = () => {
@@ -72,6 +73,15 @@ const Comments = () => {
 
   //console.log(data.data)
 
+  const onChange = (e)=> {
+    const commentText = comment_ref.current.value;
+    if (commentText.length > 0 ){
+      setBtnState(true);
+    } else{
+      setBtnState(false);
+    }
+  }
+
 
   return (
     <Wrap>
@@ -79,11 +89,12 @@ const Comments = () => {
       <CommentBox>
         <Input
           type="text"
-          placeholder="댓글을 남겨주세요"
+          placeholder="자유롭게 의견을 남겨주세요."
           ref={comment_ref}
           onKeyPress={onCheckEnter}
+          onChange={onChange}
         />
-        <Button onClick={handleAddCommentClick}>등록하기</Button>
+        <Button onClick={handleAddCommentClick} isActive={btnState}>등록하기</Button>
       </CommentBox>
 
       <CommentList>
@@ -104,20 +115,21 @@ const Wrap = styled.div`
   box-sizing: border-box;
 `;
 const CommentBox = styled.div`
-  display: flex;
-  flex-direction: column;
+  //display: flex;
+  //flex-direction: column;
   position: relative;
   height: 140px;
   margin-top: 20px;
 `;
 const Input = styled.input`
   width: 100%;
-  height: 88px;
-  padding: 12px;
+  //height: 88px;
+  padding: 5px 12px 60px 12px;
+  //padding-bottom:60px;
   border: 1px solid #e2e2e2;
   border-radius: 8px;
   outline: none;
-  background-color: ${(props) => props.theme.inputBoxBackground};
+  background-color: ${(props) => props.theme.textareaBackground};
 `;
 
 const Button = styled.button`
@@ -132,17 +144,15 @@ const Button = styled.button`
   position: absolute;
   right: 0;
   bottom: 0;
-
   font-size: 15px;
-
-
   cursor: pointer;
-  :hover {
-    background-color: #ff891c;
-  }
-  :active {
-    background-color: #d26500;
-  }
+
+  ${props => props.isActive ? css`
+  background-color: #ff891c;
+  ` : css`
+    background-color:#ffb673;
+  `}
+
 `;
 
 const CommentList = styled.div`
