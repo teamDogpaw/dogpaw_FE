@@ -1,15 +1,15 @@
 import { LineBtn, ListProfilePic, ListStack, ListTitle, MainBody, PostBody } from "../styles/style"
-import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
-import { ReactComponent as BookmarkFill } from "../styles/icon/bookmarkFill.svg";
+import { ReactComponent as BookmarkIcon } from "../styles/icon/post/bookmark.svg";
+import { ReactComponent as BookmarkFill } from "../styles/icon/post/bookmarkFill.svg";
 import { useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/atom";
 import { useState } from "react";
 import instance from "../shared/axios";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { ReactComponent as DefaultProfile } from "../styles/icon/profile.svg"
-import { ReactComponent as CommentCnt } from "../styles/icon/u_comment-alt-lines.svg";
-import { ReactComponent as BookmarkCnt } from "../styles/icon/bookmarkIcon.svg"
+import { ReactComponent as DefaultProfile } from "../styles/icon/global/profile.svg"
+import { ReactComponent as CommentCnt } from "../styles/icon/post/commentCnt.svg";
+import { ReactComponent as BookmarkCnt } from "../styles/icon/post/bookmarkCnt.svg"
 import { useMutation } from "react-query";
 import axios from "axios";
 

@@ -189,7 +189,7 @@ return instance.get(`api/post/detail/${postId}`);
          </MainBody>
 
          <Publish>
-            <GrayLineBtn style={{ marginRight: "26px" }} color={"#777777"}>전체 삭제</GrayLineBtn>
+            <GrayLineBtn>전체 삭제</GrayLineBtn>
             {isEdit ? 
             <Btn type="submit" onClick={()=>{PostEdit.mutate(selectedData)}}>프로젝트 수정하기</Btn>: 
             <Btn type="submit" onClick={PostPublish}>프로젝트 등록하기</Btn>}
@@ -204,6 +204,7 @@ const WriteBody = styled(MainBody)`
   margin-bottom: 40px;
   margin-top: 143px;
 `;
+
 
 
 const ProjectTextarea = styled.textarea`
@@ -226,6 +227,7 @@ const Publish = styled.div`
   display: flex;
   justify-content: center;
   margin: 80px;
+  gap:26px;
 `;
 
 

@@ -9,14 +9,14 @@ import Loading from "../shared/Loading";
 import Carousel from "../components/Carousel";
 
 import styled, { css } from "styled-components";
-import { ReactComponent as CommentIcon } from "../styles/icon/u_comment-alt-lines.svg";
-import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
-import { ReactComponent as BookmarkFill } from "../styles/icon/bookmarkFill.svg";
+import { ReactComponent as CommentIcon } from "../styles/icon/post/commentCnt.svg";
+import { ReactComponent as BookmarkIcon } from "../styles/icon/post/bookmark.svg";
+import { ReactComponent as BookmarkFill } from "../styles/icon/post/bookmarkFill.svg";
 
-import award from "../styles/icon/award.svg";
-import gold from "../styles/icon/medal0.svg";
-import silver from "../styles/icon/medal1.svg";
-import bronze from "../styles/icon/medal2.svg";
+import award from "../styles/icon/main/award.svg";
+import gold from "../styles/icon/main/medal0.svg";
+import silver from "../styles/icon/main/medal1.svg";
+import bronze from "../styles/icon/main/medal2.svg";
 import person from "../styles/images/person.png";
 
 const getBookmarRank = () => {

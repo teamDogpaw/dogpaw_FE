@@ -2,12 +2,13 @@ import React, { useState, useCallback } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import kakaoBTN from "../assets/카카오.png";
+// import kakaoBTN from "../assets/카카오.png";
+import kakaoBTN from "../styles/icon/login/kakaoLogin.svg";
 import { useSetRecoilState } from "recoil";
 import { modalChange } from "../atom/atom";
 import Register from "./Register";
-import cursor1 from "../assets/메인커서1.png";
-import curosr2 from "../assets/메인커서2.png";
+import cursor1 from "../styles/icon/global/cursor/cursor01.svg";
+import curosr2 from "../styles/icon/global/cursor/cursor02.svg";
 import {
   ModalAll,
   ModalComments,
@@ -18,6 +19,8 @@ import {
   ModalSignUpBtn,
   ModalTitle,
 } from "../styles/style";
+
+import cancel from "../styles/icon/modal/close.svg"
 const Login = () => {
   const setOnModal = useSetRecoilState(modalChange);
 
@@ -97,6 +100,7 @@ const Login = () => {
 
   return (
     <ModalAll>
+        <img src={cancel}/>
       <p>
         <span style={{ fontSize: "32px", fontWeight: "bold" }}>LOGIN</span>
         <span>로그인</span>

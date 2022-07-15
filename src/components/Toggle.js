@@ -2,12 +2,10 @@ import { useRecoilState } from "recoil";
 import styled, { css } from "styled-components";
 import { DarkThemeAtom } from "../atom/theme";
 
-import darkMode from "../styles/icon/darkMode.svg";
-import lightMode from "../styles/icon/lightMode.svg";
-import arrowtop from "../styles/icon/arrowUp.svg";
 import arrowtopLight from "../styles/icon/arrowUpLight.svg";
-
-
+import darkMode from "../styles/icon/toggle/darkMode.svg";
+import lightMode from "../styles/icon/toggle/lightMode.svg";
+import arrowtop from "../styles/icon/toggle/scrollToTop.svg";
 
 const Toggle = () =>{
     const [isDark, setIsDark] = useRecoilState(DarkThemeAtom);

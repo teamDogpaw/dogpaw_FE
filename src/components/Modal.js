@@ -41,6 +41,7 @@ import { useRecoilValue, useRecoilState } from "recoil";
 
 import { modalChange } from "../atom/atom";
 //import cancle from "../assets/취소 버튼.png";
+import cancel from "../styles/icon/modal/close.svg";
 
 Modal.setAppElement("#root");
 const ModalOpen = () => {

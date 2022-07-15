@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import paw_loading from "../styles/icon/paw_loading.svg";
+import paw_loading from "../styles/icon/global/pawLoading.svg";
 
 const Loading = () => {
   return (

@@ -7,12 +7,12 @@ import { useNavigate } from "react-router-dom";
 import { UserInfoAtom } from "../atom/atom";
 import ModalOpen from "./Modal";
 
-import logolight from "../styles/icon/logoLight.svg";
-import logodark from "../styles/icon/logoDark.svg";
-import person from "../styles/icon/profile.svg";
-import arrowdown from "../styles/icon/arrowdown.svg";
-import cursor1 from "../assets/메인커서1.png";
-import cursor2 from "../assets/메인커서2.png";
+import logolight from "../styles/logo/logoLight.svg";
+import logodark from "../styles/logo/logoDark.svg";
+import person from "../styles/icon/global/profile.svg";
+import arrowdown from "../styles/icon/global/arrowDown.svg";
+import cursor1 from "../styles/icon/global/cursor/cursor01.svg";
+import cursor2 from "../styles/icon/global/cursor/cursor02.svg";
 
 const Header = () => {
   const navigate = useNavigate();
