@@ -7,7 +7,6 @@ import { useSetRecoilState } from "recoil";
 import { modalChange } from "../atom/atom";
 import Login from "./Login";
 import {
-  KakaoImg,
   ModalAll,
   ModalComments,
   ModalIdPut,
@@ -19,7 +18,6 @@ import {
   MyStack,
   Option,
   SelectBoxOpen,
-  SelectTitle,
 } from "../styles/style";
 
 const Register = () => {

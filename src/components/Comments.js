@@ -7,22 +7,19 @@ import instance from "../shared/axios";
 import Comment from "./Comment";
 
 const Comments = () => {
-
   const params = useParams();
   const comment_ref = useRef("");
   const id = params.postId;
 
-
-  // 댓글 조회
+  // 댓글 조회 액션
   const getCommentList = () => {
     return instance.get(`api/posts/${id}/comments`);
   };
 
-  // 댓글 작성
+  // 댓글 작성  액션
   const addComment = (data) => {
     return instance.post(`api/posts/${id}/comments`, data);
   };
-
 
   const { isLoading, isError, data, error } = useQuery(
     "commentList",
@@ -46,7 +43,6 @@ const Comments = () => {
     },
   });
 
-
   const onCheckEnter = (e) => {
     if (e.key === "Enter") {
       const commentData = { content: comment_ref.current.value };
@@ -61,7 +57,6 @@ const Comments = () => {
     addComments(comment);
   };
 
-
   if (isLoading) {
     return <h1>로딩중</h1>;
   }
@@ -70,8 +65,8 @@ const Comments = () => {
     return <span>Error:{error.message}</span>;
   }
 
-  //console.log(data.data)
-
+  /* console.log(data, "댓글 리스트 포함한 response값");
+  console.log(data.data, "댓글 리스트"); */
 
   return (
     <Wrap>
@@ -87,11 +82,9 @@ const Comments = () => {
       </CommentBox>
 
       <CommentList>
-
         {data.data.map((data) => (
           <Comment key={data.commentId} data={data}></Comment>
         ))}
-
       </CommentList>
     </Wrap>
   );
@@ -134,7 +127,6 @@ const Button = styled.button`
   bottom: 0;
 
   font-size: 15px;
-
 
   cursor: pointer;
   :hover {

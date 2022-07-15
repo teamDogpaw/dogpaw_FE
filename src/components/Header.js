@@ -1,4 +1,4 @@
-import {  useRecoilValue} from "recoil";
+import { useRecoilValue } from "recoil";
 import { DarkThemeAtom } from "../atom/theme";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -11,8 +11,6 @@ import logolight from "../styles/icon/logoLight.svg";
 import logodark from "../styles/icon/logoDark.svg";
 import person from "../styles/icon/profile.svg";
 import arrowdown from "../styles/icon/arrowdown.svg";
-import cursor1 from "../assets/메인커서1.png";
-import cursor2 from "../assets/메인커서2.png";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -41,16 +39,22 @@ const Header = () => {
   return (
     <Wrap>
       <ContentWrap>
-        <div onClick={() => {navigate("/")}}>
-        {isDark? <Img src={logodark} alt="" /> :<Img src={logolight} alt="" />}
+        <div
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          {isDark ? (
+            <Img src={logodark} alt="" />
+          ) : (
+            <Img src={logolight} alt="" />
+          )}
         </div>
-       
+
         <User>
           {!isLogin ? (
             <Contain>
-
               <StyledLink to="/write">게시글 작성</StyledLink>
-             
 
               <ModalOpen />
             </Contain>
@@ -121,12 +125,6 @@ const User = styled.div`
   width: 150px;
   align-items: center;
   justify-content: space-between;
-`;
-
-const Profile = styled.img`
-width:45px;
-height:45px;
-border-radius:50%;
 `;
 
 const Details = styled.details`
