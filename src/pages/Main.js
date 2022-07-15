@@ -439,9 +439,6 @@ const Date = styled.p`
   justify-content: flex-end;
 `;
 
-const TutorialStyle = styled(Tutorial)`
-position: fixed;
-z-index: 20;
-`;
+
 
 export default Main;
