@@ -124,7 +124,7 @@ const CommentBox = styled.div`
 const Input = styled.input`
   width: 100%;
   //height: 88px;
-  padding: 5px 12px 60px 12px;
+  padding: 15px 12px 55px 12px;
   //padding-bottom:60px;
   border: 1px solid #e2e2e2;
   border-radius: 8px;

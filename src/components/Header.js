@@ -1,6 +1,6 @@
 import {  useRecoilValue} from "recoil";
 import { DarkThemeAtom } from "../atom/theme";
-import React from "react";
+import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -14,12 +14,19 @@ import arrowdown from "../styles/icon/global/arrowDown.svg";
 import cursor1 from "../styles/icon/global/cursor/cursor01.svg";
 import cursor2 from "../styles/icon/global/cursor/cursor02.svg";
 
+
 const Header = () => {
   const navigate = useNavigate();
   const isDark = useRecoilValue(DarkThemeAtom);
   const userInfo = useRecoilValue(UserInfoAtom);
-
+  const detailsRef = useRef(null);
   const isLogin = localStorage.getItem("token");
+
+  const details = detailsRef.current;
+    if (details) {
+      details.open = false;
+    }
+  
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -38,13 +45,13 @@ const Header = () => {
     // }
   };
 
+
   return (
     <Wrap>
       <ContentWrap>
         <div onClick={() => {navigate("/")}}>
         {isDark? <Img src={logodark} alt="" /> :<Img src={logolight} alt="" />}
         </div>
-       
         <User>
           {!isLogin ? (
             <Contain>
@@ -54,13 +61,13 @@ const Header = () => {
           ) : (
             <>
               <StyledLink to="/write">게시글 작성</StyledLink>
-              <Details>
+              <Details ref={detailsRef}>
                 <Summary>
                   <Profile
                     src={userInfo?.profileImg || person}
                     alt=""
                   />
-                  <img src={arrowdown} alt="" />
+                  <img src={arrowdown} alt="" style={{width:"15px"}}/>
                 </Summary>
                 <Select>
                   <Option>
@@ -118,14 +125,16 @@ const User = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width:180px;
+  //background-color:gold;
 `;
 
 const Profile = styled.img`
-width:40px;
-height:40px;
+width:35px;
+height:35px;
 border-radius:50%;
-box-shadow: -2px 1px 6px rgba(0, 0, 0, 0.2);
-
+margin-right:10px;
+//box-shadow: -2px 1px 6px rgba(0, 0, 0, 0.2);
 `;
 
 const Details = styled.details`
