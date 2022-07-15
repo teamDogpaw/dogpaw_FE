@@ -8,7 +8,8 @@ import MyPagePostList from "./MyPagePostList"
 
 
 const JoinProject = ({
-  viewApplyModal
+  viewApplyModal,
+  currentTab
 }) => {
   const [isApply, setIsApply] = useState(true);
   const GetJoinProject = async () => {
@@ -36,6 +37,7 @@ const JoinProject = ({
           data={content} 
           viewApplyModal={viewApplyModal}
           isApply={isApply}
+          currentTab={currentTab}
           />
         )
 

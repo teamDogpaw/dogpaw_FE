@@ -18,7 +18,7 @@ import gold from "../styles/icon/main/medal0.svg";
 import silver from "../styles/icon/main/medal1.svg";
 import bronze from "../styles/icon/main/medal2.svg";
 import person from "../styles/images/person.png";
-
+import { ReactComponent as Tutorial} from "../styles/tutorial.svg" 
 const getBookmarRank = () => {
   return instance.get("/api/bookMark/rank");
 };
@@ -87,7 +87,7 @@ const Main = () => {
   };
 
   return (
-    <Wrap>
+     <Wrap>
       <Carousel />
       <Award>
         <img src={award} alt="" />
@@ -438,6 +438,11 @@ const Date = styled.p`
   //width: 203px;
   display: flex;
   justify-content: flex-end;
+`;
+
+const TutorialStyle = styled(Tutorial)`
+position: fixed;
+z-index: 20;
 `;
 
 export default Main;
