@@ -3,8 +3,8 @@ import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import { ko } from "date-fns/esm/locale"
 import { MyStack } from "../styles/style"
-import { ReactComponent as CapacityArrowDown } from "../styles/icon/capacityArrowDown.svg"
-import { ReactComponent as CapacityArrowUp } from "../styles/icon/capacityArrowUp.svg"
+import { ReactComponent as CapacityArrowDown } from "../styles/icon/global/arrowDown.svg"
+import { ReactComponent as CapacityArrowUp } from "../styles/icon/global/arrowUp.svg"
 import { useEffect, useRef } from "react"
 
 const WriteSelect = ({

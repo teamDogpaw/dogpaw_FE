@@ -79,7 +79,6 @@ h4{
 `;
 
 export const MainBody = styled.div`
-
 background-color: ${(props) => props.theme.divBackGroundColor};
 max-width: 996px;
 margin: auto;
@@ -104,7 +103,6 @@ font-weight: bold;
 :active{
    background-color: #D26500;
 }
-
 `;
 
 export const LineBtn = styled.button`
@@ -144,20 +142,16 @@ export const ListStack = styled.span`
 `;
 
 export const MyStack = styled.div`
-
 background-color: ${(props) => props.theme.stackBackground};
 padding: 8px 12px;
 border-radius: 30px;
 margin-right: 16px;
-color: ${(props) => props.theme.stackColor}
-
+color: ${(props) => props.theme.stackColor};
 `;
 
-
-
 export const SelectTitle = styled.div`
-  display: flex;
-  align-items: center;
+display: flex;
+align-items: center;
 `;
 
 export const Option = styled.li`

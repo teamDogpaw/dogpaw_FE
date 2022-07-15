@@ -13,10 +13,10 @@ import ViewApply from "../components/ViewApply";
 
 import instance from "../shared/axios";
 import { UserInfoAtom } from "../atom/atom";
-import profilepic from "../styles/icon/defaultProfile.svg";
+import profilepic from "../styles/icon/global/profile.svg";
 import { SelectBox } from "../components/WriteSelect";
-import bookmark_fill from "../styles/icon/u_bookmark.svg"
-import { ReactComponent as StackDelete } from "../styles/icon/stackDelete.svg"
+import bookmark_fill from "../styles/icon/post/bookmark.svg"
+import { ReactComponent as StackDelete } from "../styles/icon/stackSelect/stackDelete.svg"
 import ApplyProject from "../components/ApplyProject";
 
 const MyPage = () => {

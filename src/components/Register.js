@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import arrow from "../assets/stack_arrow.png";
+import arrow from "../styles/icon/global/arrowDown.svg";
 
 import { useSetRecoilState } from "recoil";
 import { modalChange } from "../atom/atom";

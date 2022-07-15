@@ -1,13 +1,11 @@
 import styled, { keyframes } from "styled-components";
-import { ReactComponent as BookmarkIcon } from "../styles/icon/u_bookmark.svg";
-import { ReactComponent as BookmarkFill } from "../styles/icon/bookmarkFill.svg";
-import { ReactComponent as Arrow } from "../styles/icon/arrowLeft.svg";
+import { ReactComponent as BookmarkIcon } from "../styles/icon/post/bookmark.svg";
+import { ReactComponent as BookmarkFill } from "../styles/icon/post/bookmarkFill.svg";
+import { ReactComponent as Arrow } from "../styles/icon/detail/backArrow.svg";
 import person from "../styles/images/person.png";
-import paw from "../styles/icon/paw.svg";
-import modify from "../styles/icon/modify.svg";
-import deletebtn from "../styles/icon/delete.svg";
-import edit from "../styles/icon/edit.svg";
-import remove from "../styles/icon/remove.svg";
+import paw from "../styles/icon/detail/paw.svg";
+import edit from "../styles/icon/detail/edit.svg";
+import remove from "../styles/icon/detail/remove.svg";
 
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";

@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import arrow from "../assets/stack_arrow.png";
+import arrow from "../styles/icon/global/arrowDown.svg";
 
 const SocialModal = (props) => {
   //console.log(props);

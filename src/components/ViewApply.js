@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ReactComponent as X } from "../styles/icon/close.svg";
+import { ReactComponent as X } from "../styles/icon/modal/close.svg";
 import { GrayLineBtn, LineBtn } from "../styles/style";
 import ApplyList from "./ApplyList";
 
