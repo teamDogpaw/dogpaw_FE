@@ -5,16 +5,16 @@ import ApplyList from "./ApplyList";
 
 const ViewApply = ({
     viewApplyModal,
-    postId
+    myPostId
 }) => {
-console.log(postId)
+console.log(myPostId)
     return (
         <Background>
             <Modal>
                 <CloseButton onClick={viewApplyModal}>
                     <X style={{ right: "0" }} />
                 </CloseButton>
-                <ApplyList postId={postId} />
+                <ApplyList myPostId={myPostId}/>
             </Modal>
         </Background>
 

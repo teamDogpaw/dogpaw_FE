@@ -25,26 +25,26 @@ const MyPage = () => {
    const [isEdit, setIsEdit] = useState(false);
    const stackdetailsRef = useRef(null);
    const imageRef = useRef();
-   const [viewApply, setViewApply] = useState(false);
-   const [currentTab, setTab] = useState(0);
+   const [currentTab, setTab] = useState(1);
    console.log(userInfo)
-   console.log(viewApply)
    const formData = new FormData()
 
    const tabList = [
-      { id: 1, name: '관심 프로젝트', content: <Bookmark /> },
-      { id: 2, name: '참여한 프로젝트', content: <JoinProject /> },
-      { id: 3, name: '신청한 프로젝트', content: <ApplyProject /> },
-      { id: 4, name: '내가 쓴 프로젝트', content: <MyProject viewApply={viewApply} viewApplyModal={viewApplyModal} /> }
+      { id: 1, name: '관심 프로젝트', content: <Bookmark currentTab={currentTab}/> },
+      { id: 2, name: '참여한 프로젝트', content: <JoinProject currentTab={currentTab}/> },
+      { id: 3, name: '신청한 프로젝트', content: <ApplyProject currentTab={currentTab}/> },
+      { id: 4, name: '내가 쓴 프로젝트', content: <MyProject currentTab={currentTab}/> }
    ];
 
-   useEffect(() => { }, [userInfo])
    const [myData, setMyData] = useState({
       profileImg: userInfo?.profileImg,
       nickname: userInfo?.nickname,
       stacks: userInfo?.stacks
    })
 
+   useEffect(() => {setMyData(userInfo)}, [userInfo])
+
+console.log(userInfo)
    console.log(myData)
    //⚠️ 프로필 이미지 넣지 않으면 편집 완료 못함
    const EditMyData = async () => {
@@ -118,13 +118,7 @@ const MyPage = () => {
       setMyData(prev => ({ ...prev, stacks: newStacks }))
    }
 
-   function viewApplyModal() {
-      if (viewApply) {
-         setViewApply(false);
-      } else {
-         setViewApply(true);
-      }
-   }
+
 
    return (
       <WholeBody>
@@ -188,13 +182,13 @@ const MyPage = () => {
 
 
          <TabBody>
-            {tabList.map((tab, index) => {
+            {tabList.map((tab) => {
                return (
                   <>
                      <Tab
-                        onClick={() => { setTab(index) }}
+                        onClick={() => { setTab(tab.id) }}
                         key={tab.id}
-                        className={currentTab === index ? "focused" : null}
+                        className={currentTab === tab.id ? "focused" : null}
                      >
                         {tab.name}
                      </Tab>
@@ -205,7 +199,7 @@ const MyPage = () => {
 
          </TabBody>
          <div>
-            {tabList[currentTab].content}
+            {tabList[currentTab-1].content}
          </div>
 
 
@@ -219,7 +213,6 @@ const MyPage = () => {
 
 
 const Profilepic = styled.img`
-  background-color: lightgray;
   width: 160px;
   height: 160px;
   border-radius: 80px;

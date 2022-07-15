@@ -13,6 +13,7 @@ import MyPagePostList from "./MyPagePostList";
 
 const Bookmark = ({
   viewApplyModal,
+  currentTab
 }) => {
   const navigate = useNavigate();
   const [isMyBookmark, setIsMyBookmark] = useState(<BookmarkFill />);
@@ -54,7 +55,7 @@ const Bookmark = ({
             viewApplyModal={viewApplyModal}
             isMyBookmark={isMyBookmark}
             DoBookmark={DoBookmark}
-
+            currentTab={currentTab}
           />
         )
 
