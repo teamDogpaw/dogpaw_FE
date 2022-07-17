@@ -41,7 +41,8 @@ const Main = () => {
   const [rank, setRank] = useState([]);
   const { ref, inView } = useInView();
   
-  const userMe = user.nickname;
+  const userMe = user?.nickname;
+  //console.log(userMe)
   const isLogin = localStorage.getItem("token");
 
   useQuery("bookmarkRank", getBookmarRank, {
