@@ -26,6 +26,7 @@ const Write = () => {
    const perioddetailsRef = useRef(null);
    const capacitydetailsRef = useRef(null);
 
+   //⚠️ 데이터 부르지말고 detail에서 가져와서 쓰기
    const getPostData = () => {
       if(isEdit){
 return instance.get(`api/post/detail/${postId}`);
