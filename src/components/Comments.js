@@ -3,7 +3,6 @@ import { useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { useGetCommentList, usePostComment } from "../hook/useCommentData";
-
 import Comment from "./Comment";
 
 const Comments = () => {

@@ -226,7 +226,7 @@ const Main = () => {
                   <BookmarkIcon onClick={bookMark} />
                 )}
               </Footer>
-              {post.dealine === false && <div>모집마감</div>}
+              {post.deadline === true && <Deadline>모집마감</Deadline>}
             </Article>
           ))}
         </ArticleWrap>
@@ -421,11 +421,17 @@ const Hashtag = styled.div`
 `;
 
 const Deadline = styled.div`
-  padding: 15px;
-  border-radius: 8px;
-  font-weight: bold;
-  text-align: center;
-  background-color: rgba(0, 0, 0, 0.3);
+ 
+ 
+    position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 16px;
+  transform: translate(-50%, -50%);
+  color: white;
+  background-color: black;
+  border-radius: 6px;
+  
 `;
 const Footer = styled.div`
   display: flex;

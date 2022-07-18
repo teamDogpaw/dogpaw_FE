@@ -20,11 +20,9 @@ const Comment = ({ data }) => {
   const id = params.postId;
   const comment_ref = useRef("");
 
-  const { mutateAsync: editComment } = useEditComment();
-
-  const { mutateAsync: removeComment } = useRemoveComment();
-
   const queryClient = useQueryClient();
+  const { mutateAsync: editComment } = useEditComment();
+  const { mutateAsync: removeComment } = useRemoveComment();
 
   const modifyCommentClick = async (commentId) => {
     const commentData = { content: comment_ref.current.value, commentId, id };
@@ -87,7 +85,7 @@ const Comment = ({ data }) => {
 };
 
 const Wrap = styled.div`
-padding-bottom:50px;
+//padding-bottom:50px;
 `;
 
 const User = styled.div`

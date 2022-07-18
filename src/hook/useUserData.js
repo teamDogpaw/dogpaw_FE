@@ -18,3 +18,4 @@ export function usePostApply() {
     return bookmarkApis.postApply(data);
   });
 }
+

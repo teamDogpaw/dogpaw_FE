@@ -6,4 +6,9 @@ export const instance = axios.create({
   headers: token ? {Authorization: `Bearer ${token}`} : {}
 });
 
+instance.interceptors.response.use(
+  (response) => {
+    return response;
+  })
+
 export default instance;
