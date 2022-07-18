@@ -7,8 +7,8 @@ import instance from "../shared/axios";
 
 import styled from "styled-components";
 import person from "../styles/images/person.png";
-import ReplyComment from "./dropdown/ReplyComment";
-import DropDown from "./dropdown/DropDown";
+
+import DropDown from "./DropDown";
 
 const Comment = (props) => {
   //대댓글 드롭다운 열기/닫기
@@ -67,12 +67,7 @@ const Comment = (props) => {
     deleteComments(commentId);
   };
 
-  //대댓글 조회
-  const getReplyList = () => {
-    return instance.get(`/api/posts/${id}/comments`);
-  };
-
-  // 대댓글 작성  액션
+  // 답글 작성  액션
   const addReply = (data) => {
     console.log(props.data.commentId, "대댓글 주소");
     return instance.post(
@@ -80,20 +75,6 @@ const Comment = (props) => {
       data
     );
   };
-
-  const { isLoading, isError, data, error } = useQuery(
-    "replyList",
-    getReplyList,
-    {
-      refetchOnWindowFocus: false,
-      onSuccess: (data) => {
-        console.log(data);
-      },
-      onError: (e) => {
-        console.log(e.message);
-      },
-    }
-  );
 
   const { mutate: addReplies } = useMutation(addReply, {
     onSuccess: () => {
@@ -115,16 +96,6 @@ const Comment = (props) => {
     addReplies(reply);
     //console.log(reply);
   };
-
-  if (isLoading) {
-    return <h1>로딩중</h1>;
-  }
-
-  if (isError) {
-    return <span>Error:{error.message}</span>;
-  }
-
-  //console.log(data, "Reply의 데이터");
 
   return (
     <div>
@@ -177,7 +148,6 @@ const Comment = (props) => {
             )}
           </Btn>
         </Content>
-
         <div className="commentList">
           <DropDown visibility={dropdownVisibility}>
             <ul>
@@ -197,9 +167,6 @@ const Comment = (props) => {
             </ul>
           </DropDown>
         </div>
-        {data.data.map((data) => (
-          <ReplyComment key={data.commentId} data={data} />
-        ))}
         <hr style={{ color: "#e2e2e2" }} />
       </div>
     </div>

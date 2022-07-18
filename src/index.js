@@ -1,37 +1,29 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
-import store from './redux/configStore';
-import { Provider } from 'react-redux';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter } from "react-router-dom";
+
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import { RecoilRoot } from 'recoil';
-
-
-
+import { RecoilRoot } from "recoil";
 
 const queryClient = new QueryClient();
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-
   <QueryClientProvider client={queryClient}>
     {/* <Provider store={store}> */}
     <RecoilRoot>
-    <BrowserRouter>
-      <ReactQueryDevtools initialIsOpen={true} />
+      <BrowserRouter>
+        <ReactQueryDevtools initialIsOpen={true} />
         <App />
-    </BrowserRouter>
+      </BrowserRouter>
     </RecoilRoot>
     {/* </Provider> */}
   </QueryClientProvider>
-
-
-
 );
 
 // If you want your app to work offline and load faster, you can change

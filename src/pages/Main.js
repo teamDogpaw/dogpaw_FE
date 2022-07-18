@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useInfiniteQuery, useQuery } from "react-query";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -70,7 +69,9 @@ const Main = () => {
   const postList = dataList.reduce((acc, cur) => {
     return acc.concat(cur);
   });
-  const list = toggle ? postList.filter((post) => post.deadline === false) : postList;
+  const list = toggle
+    ? postList.filter((post) => post.deadline === false)
+    : postList;
   console.log(list);
 
   const bookMark = () => {
@@ -86,7 +87,7 @@ const Main = () => {
   };
 
   return (
-     <Wrap>
+    <Wrap>
       <Carousel />
       <Award>
         <img src={award} alt="" />
@@ -438,7 +439,5 @@ const Date = styled.p`
   display: flex;
   justify-content: flex-end;
 `;
-
-
 
 export default Main;

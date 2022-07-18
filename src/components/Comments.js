@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 import instance from "../shared/axios";
-
+import ReplyComment from "./ReplyComment";
 import Comment from "./Comment";
 
 const Comments = () => {
@@ -67,8 +67,6 @@ const Comments = () => {
     return <span>Error:{error.message}</span>;
   }
 
-  //console.log(data.data)
-
   const onChange = (e) => {
     const commentText = comment_ref.current.value;
     if (commentText.length > 0) {
@@ -77,6 +75,8 @@ const Comments = () => {
       setBtnState(false);
     }
   };
+
+  console.log(data.data, "댓글");
 
   return (
     <Wrap>
@@ -96,7 +96,16 @@ const Comments = () => {
 
       <CommentList>
         {data.data.map((data) => (
-          <Comment key={data.commentId} data={data}></Comment>
+          <>
+            <Comment key={data.commentId} data={data}></Comment>
+            {data.commentReplyList.map((reply) => (
+              <ReplyComment
+                key={reply.id}
+                data={reply}
+                commentId={data.commentId}
+              />
+            ))}
+          </>
         ))}
       </CommentList>
     </Wrap>

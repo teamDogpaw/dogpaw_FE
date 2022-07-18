@@ -1,14 +1,12 @@
 import React, { useState, useCallback } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 // import kakaoBTN from "../assets/카카오.png";
 import kakaoBTN from "../styles/icon/login/kakaoLogin.svg";
 import { useSetRecoilState } from "recoil";
 import { modalChange } from "../atom/atom";
 import Register from "./Register";
-import cursor1 from "../styles/icon/global/cursor/cursor01.svg";
-import curosr2 from "../styles/icon/global/cursor/cursor02.svg";
+
 import {
   ModalAll,
   ModalComments,
@@ -20,7 +18,7 @@ import {
   ModalTitle,
 } from "../styles/style";
 
-import cancel from "../styles/icon/modal/close.svg"
+import cancel from "../styles/icon/modal/close.svg";
 const Login = () => {
   const setOnModal = useSetRecoilState(modalChange);
 
@@ -100,7 +98,7 @@ const Login = () => {
 
   return (
     <ModalAll>
-        <img src={cancel}/>
+      <img src={cancel} alt="" />
       <p>
         <span style={{ fontSize: "32px", fontWeight: "bold" }}>LOGIN</span>
         <span>로그인</span>
@@ -163,86 +161,10 @@ const Login = () => {
     </ModalAll>
   );
 };
-/* display: flex;
-  flex-direction: column; or row;
-  justify-content: center;
-  align-item: center */
-const All = styled.div`
-  background-color: transparent;
-  width: 384px;
-  height: 433px;
-`;
-
-const Comments = styled.div`
-  margin-top: 40px;
-  color: #292929;
-`;
-
-const Title = styled.p`
-  font-size: 14px;
-  margin-top: 24px;
-  padding: 4px 0;
-`;
-
-const IdPut = styled.input`
-  background-color: #fff;
-  border: 2px solid #eee;
-  border-radius: 8px;
-  width: 384px;
-  height: 44px;
-  font-size: 14px;
-
-  color: black;
-  ::placeholder {
-    font-size: 14px;
-    color: #9f9f9f;
-  }
-`;
-
-const Pone = styled.div`
-  margin: auto;
-  margin-top: 10px;
-  > span {
-    font-size: 14px;
-    color: #d26500;
-  }
-`;
-
-const SignInBtn = styled.button`
-  color: #ffffff;
-  background-color: ${(props) => (props.disabled ? "#FFD6B0" : "#FF891C")};
-  border: none;
-  width: 384px;
-  height: 44px;
-  margin-top: 24px;
-  border-radius: 10px;
-  font-size: 14px;
-  font-family: Jalnan;
-  &:hover {
-    background-color: ${(props) => (props.disabled ? "#FFD6B0" : "#D26500;")};
-    cursor: pointer;
-  }
-`;
 
 const IMG = styled.img`
   width: 48px;
   height: 48px;
-`;
-
-const Log = styled.p`
-  margin-top: 32px;
-  margin-bottom: 0;
-  color: #a3a3a3;
-  font-size: 12px;
-`;
-
-const RegisterBtn = styled.span`
-  color: #9f9f9f;
-  &:hover {
-    font-weight: bold;
-    color: #5b5b5b;
-    cursor: pointer;
-  }
 `;
 
 export default Login;

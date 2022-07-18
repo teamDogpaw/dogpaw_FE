@@ -1,13 +1,12 @@
 import React, { useRef, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useRecoilValue } from "recoil";
-import { useParams } from "react-router-dom";
-import { UserInfoAtom } from "../../atom/atom";
-import instance from "../../shared/axios";
-import person from "../../styles/images/person.png";
+import { UserInfoAtom } from "../atom/atom";
+import instance from "../shared/axios";
+import person from "../styles/images/person.png";
 
 import styled from "styled-components";
-import arrow from "../../styles/icon/replyarrow.png";
+import arrow from "../styles/icon/replyarrow.png";
 
 const ReplyComment = (props) => {
   const [isEdit, setIsEdit] = useState(false);
@@ -18,21 +17,22 @@ const ReplyComment = (props) => {
   const writeUser = props.data.nickname;
   //console.log(writeUser, "글쓴이");
 
-  const params = useParams();
-  const id = params.postId;
   const comment_ref = useRef("");
 
   //답글 수정 액션
   const modifyReply = (data) => {
     return instance.put(
-      `api/posts/${id}/comments/${props.data.commentId}`,
+      `api/comments/${props.commentId}/${props.data.id}`,
       data
     );
   };
 
   //답글 삭제 액션
-  const removeReply = (commentId, data) => {
-    return instance.delete(`api/posts/${id}/comments/${commentId}`, data);
+  const removeReply = (data) => {
+    return instance.delete(
+      `api/comments/${props.commentId}/${props.data.id}`,
+      data
+    );
   };
 
   const queryClient = useQueryClient();
@@ -40,27 +40,30 @@ const ReplyComment = (props) => {
   // 답글 수정
   const { mutate: modifyReplies } = useMutation(modifyReply, {
     onSuccess: (data) => {
-      queryClient.invalidateQueries("replyList");
+      queryClient.invalidateQueries("commentList");
       console.log(data);
     },
   });
 
-  const modifyReplyClick = (commentId) => {
-    modifyReplies({ content: comment_ref.current.value, commentId });
+  const modifyReplyClick = () => {
+    modifyReplies({ content: comment_ref.current.value });
     setIsEdit(false);
   };
 
   // 답글 삭제
   const { mutate: deleteReplies } = useMutation(removeReply, {
     onSuccess: (data) => {
-      queryClient.invalidateQueries("replyList");
+      queryClient.invalidateQueries("commentList");
       console.log(data);
     },
   });
 
-  const deleteReplyClick = (commentId) => {
-    deleteReplies(commentId);
+  const deleteReplyClick = (id) => {
+    deleteReplies(id);
   };
+
+  console.log(props, "답글");
+
   return (
     <Contain>
       <Arr src={arrow} alt="사진" />
@@ -79,7 +82,7 @@ const ReplyComment = (props) => {
           ) : (
             <p>{props.data.content}</p>
           )}
-          <p>{props.data.modifiedAt.substring(0, 10)}</p>
+          <p>{props.data.modifiedAt}</p>
         </Content>
         <Btn>
           {loginUser === writeUser && (
@@ -87,7 +90,7 @@ const ReplyComment = (props) => {
               {isEdit ? (
                 <UpdateBtn
                   onClick={() => {
-                    modifyReplyClick(props.data.commentId);
+                    modifyReplyClick(props.data.id);
                   }}
                 >
                   등록
@@ -97,7 +100,7 @@ const ReplyComment = (props) => {
               )}
               <DeleteBtn
                 onClick={() => {
-                  deleteReplyClick(props.data.commentId);
+                  deleteReplyClick(props.data.id);
                 }}
               >
                 삭제
