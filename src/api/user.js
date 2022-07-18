@@ -10,8 +10,8 @@ export const bookmarkApis = {
     console.log(data);
     return data;
   },
-  postApply: (id)=> {
-    const {data} = instance.post(`api/apply/${id}`);
+  postApply: async (id)=> {
+    const {data} = await instance.post(`api/apply/${id}`);
     return data;
   }
 };

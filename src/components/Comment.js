@@ -9,16 +9,16 @@ import person from "../styles/images/person.png";
 import { useEditComment, useRemoveComment } from "../hook/useCommentData";
 
 const Comment = ({ data }) => {
+  const params = useParams();
+  const id = params.postId;
+  const comment_ref = useRef("");
+
   const [isEdit, setIsEdit] = useState(false);
 
   const isLogin = useRecoilValue(UserInfoAtom);
 
   const loginUser = isLogin.nickname;
   const writeUser = data.nickname;
-
-  const params = useParams();
-  const id = params.postId;
-  const comment_ref = useRef("");
 
   const queryClient = useQueryClient();
   const { mutateAsync: editComment } = useEditComment();
@@ -30,7 +30,7 @@ const Comment = ({ data }) => {
     await editComment(commentData);
     queryClient.invalidateQueries("commentList");
   };
-  
+
   const deleteCommentClick = async (commentId) => {
     const commentData = { commentId, id };
     await removeComment(commentData);
@@ -38,7 +38,7 @@ const Comment = ({ data }) => {
   };
 
   return (
-    <Wrap>
+    <div>
       <div>
         <User>
           <Img src={data.profileImg || person} alt="사진" />
@@ -77,16 +77,11 @@ const Comment = ({ data }) => {
             </>
           )}
         </Btn>
-
         <hr style={{ color: "#e2e2e2" }} />
       </div>
-    </Wrap>
+    </div>
   );
 };
-
-const Wrap = styled.div`
-//padding-bottom:50px;
-`;
 
 const User = styled.div`
   display: flex;

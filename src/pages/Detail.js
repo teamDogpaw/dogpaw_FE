@@ -13,7 +13,7 @@ import person from "../styles/icon/global/profile.svg";
 import paw from "../styles/icon/detail/paw.svg";
 import edit from "../styles/icon/detail/edit.svg";
 import remove from "../styles/icon/detail/remove.svg";
-import { usePostBookmark,usePostApply } from "../hook/useUserData";
+import { usePostBookmark, usePostApply } from "../hook/useUserData";
 import ViewApply from "../components/ViewApply";
 
 const Detail = () => {
@@ -37,7 +37,7 @@ const Detail = () => {
 
   function viewApplyModal(id) {
     setViewApply((prev) => !prev);
-    setMyPostId(id)
+    setMyPostId(id);
   }
 
   const deletePostClick = async () => {
@@ -50,14 +50,15 @@ const Detail = () => {
     queryClient.invalidateQueries("detailPost");
   };
 
-  const applyBtn = (applyStatus) => {
+  const applyBtn = async (applyStatus) => {
     if (userStatus === "applicant") {
       alert("지원이 취소됐습니다");
-      return apply(id);
+      await apply(id);
     } else {
       alert("신청 완료");
-      return apply(id);
+      await apply(id);
     }
+    queryClient.invalidateQueries("detailPost");
   };
 
   return (
@@ -133,9 +134,13 @@ const Detail = () => {
             <div>
               {userStatus === "author" ? (
                 <>
-                  <Button2 onClick={()=>{
-                    viewApplyModal(id)
-                  }}>지원자 보기</Button2>
+                  <Button2
+                    onClick={() => {
+                      viewApplyModal(id);
+                    }}
+                  >
+                    지원자 보기
+                  </Button2>
 
                   <Button>프로젝트 마감하기</Button>
                 </>
@@ -171,10 +176,9 @@ const Detail = () => {
             </div>
           </ContentWrap>
         </ArticleTop>
-        {viewApply &&
-                  <ViewApply viewApplyModal={viewApplyModal}
-                    myPostId={myPostId}
-                  />}
+        {viewApply && (
+          <ViewApply viewApplyModal={viewApplyModal} myPostId={myPostId} />
+        )}
         <Article>
           <div>
             <h1>프로젝트 소개</h1>
@@ -193,7 +197,7 @@ const Detail = () => {
 const Wrap = styled.div`
   max-width: 996px;
   margin: auto;
-  margin-bottom:100px;
+  margin-bottom: 100px;
 
   h1 {
     font-size: 25px;
