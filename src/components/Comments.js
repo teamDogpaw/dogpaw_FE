@@ -3,27 +3,25 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 import instance from "../shared/axios";
-
+import ReplyComment from "./ReplyComment";
 import Comment from "./Comment";
 
 const Comments = () => {
-
   const params = useParams();
   const comment_ref = useRef("");
-  const [btnState,setBtnState] = useState(false);
+  const [btnState, setBtnState] = useState(false);
 
   const id = params.postId;
 
-  // 댓글 조회
+  // 댓글 조회 액션
   const getCommentList = () => {
     return instance.get(`api/posts/${id}/comments`);
   };
 
-  // 댓글 작성
+  // 댓글 작성  액션
   const addComment = (data) => {
     return instance.post(`api/posts/${id}/comments`, data);
   };
-
 
   const { isLoading, isError, data, error } = useQuery(
     "commentList",
@@ -47,7 +45,6 @@ const Comments = () => {
     },
   });
 
-
   const onCheckEnter = (e) => {
     if (e.key === "Enter") {
       const commentData = { content: comment_ref.current.value };
@@ -62,7 +59,6 @@ const Comments = () => {
     addComments(comment);
   };
 
-
   if (isLoading) {
     return <h1>로딩중</h1>;
   }
@@ -71,17 +67,16 @@ const Comments = () => {
     return <span>Error:{error.message}</span>;
   }
 
-  //console.log(data.data)
-
-  const onChange = (e)=> {
+  const onChange = (e) => {
     const commentText = comment_ref.current.value;
-    if (commentText.length > 0 ){
+    if (commentText.length > 0) {
       setBtnState(true);
-    } else{
+    } else {
       setBtnState(false);
     }
-  }
+  };
 
+  console.log(data.data, "댓글");
 
   return (
     <Wrap>
@@ -94,15 +89,24 @@ const Comments = () => {
           onKeyPress={onCheckEnter}
           onChange={onChange}
         />
-        <Button onClick={handleAddCommentClick} isActive={btnState}>등록하기</Button>
+        <Button onClick={handleAddCommentClick} isActive={btnState}>
+          등록하기
+        </Button>
       </CommentBox>
-
       <CommentList>
-
         {data.data.map((data) => (
-          <Comment key={data.commentId} data={data}></Comment>
+          <>
+            <Comment key={data.commentId} data={data}></Comment>
+            {data.commentReplyList.map((reply) => (
+              <ReplyComment
+                key={reply.id}
+                data={reply}
+                commentId={data.commentId}
+              />
+            ))}
+            <hr style={{ color: "#e2e2e2" }} />
+          </>
         ))}
-
       </CommentList>
     </Wrap>
   );
@@ -147,12 +151,14 @@ const Button = styled.button`
   font-size: 15px;
   cursor: pointer;
 
-  ${props => props.isActive ? css`
-  background-color: #ff891c;
-  ` : css`
-    background-color:#ffb673;
-  `}
-
+  ${(props) =>
+    props.isActive
+      ? css`
+          background-color: #ff891c;
+        `
+      : css`
+          background-color: #ffb673;
+        `}
 `;
 
 const CommentList = styled.div`

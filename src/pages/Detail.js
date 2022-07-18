@@ -16,8 +16,6 @@ import { UserInfoAtom } from "../atom/atom";
 import { useState } from "react";
 import Loading from "../shared/Loading";
 import { Btn, LineBtn } from "../styles/style";
-import { detailApis } from "../api/detail";
-import useDetailQuery from "../hook/useDetailData";
 
 const Detail = () => {
   const navigate = useNavigate();
@@ -27,8 +25,8 @@ const Detail = () => {
   const id = params.postId;
   const [isHover, setIsHover] = useState(false);
   const [dataSet, setDataset] = useState([]);
-//   const { data: postList } = useDetailQuery(id);
-// console.log(postList)
+  //   const { data: postList } = useDetailQuery(id);
+  // console.log(postList)
   const PostDelete = useMutation(() => {
     instance.delete(`/api/post/${id}`);
     navigate("/");
@@ -58,17 +56,17 @@ const Detail = () => {
     startAt,
     stacks,
     period,
-    applierCnt
+    applierCnt,
   } = dataSet;
 
-  useQuery("List",getPostList,{
-    onSuccess:(data)=>{
-      console.log(data)
+  useQuery("List", getPostList, {
+    onSuccess: (data) => {
+      console.log(data);
     },
-    onError:(e)=>{
-      console.log(e.message)
-    }
-  })
+    onError: (e) => {
+      console.log(e.message);
+    },
+  });
 
   const { isLoading, isError, error } = useQuery("detailList", getPostList, {
     refetchOnWindowFocus: false, // 사용자가 다른 곳에 갔다가 돌아올시 함수 재실행 여부
@@ -106,7 +104,7 @@ const Detail = () => {
   });
 
   if (isLoading) {
-    return <Loading />
+    return <Loading />;
   }
 
   if (isError) {
@@ -118,14 +116,13 @@ const Detail = () => {
   };
 
   const applyBtn = (applyStatus) => {
-    if(applyStatus){
+    if (applyStatus) {
       alert("지원취소?");
       return applymark();
-    }else{
+    } else {
       alert("신청함!");
       return applymark();
     }
-  
   };
 
   return (
@@ -214,7 +211,9 @@ const Detail = () => {
                       <p>{applierCnt}명이 지원했어요!</p>
                     </Alert>
                   )}
-                  <Button onClick={()=> applyBtn(applyStatus)}>프로젝트 지원하기</Button>
+                  <Button onClick={() => applyBtn(applyStatus)}>
+                    프로젝트 지원하기
+                  </Button>
                 </div>
               ) : (
                 <div
@@ -226,7 +225,9 @@ const Detail = () => {
                       <p>{applierCnt}명이 지원했어요!</p>
                     </Alert>
                   )}
-                  <Button onClick={()=> applyBtn(applyStatus)}>지원 취소하기</Button>
+                  <Button onClick={() => applyBtn(applyStatus)}>
+                    지원 취소하기
+                  </Button>
                 </div>
               )}
             </div>
@@ -261,8 +262,7 @@ const Wrap = styled.div`
   }
 
   hr {
-    border:1px solid #e2e2e2 ;
-    
+    border: 1px solid #e2e2e2;
   }
 
   span {
@@ -292,42 +292,39 @@ const User = styled.div`
 `;
 
 const Userbtn = styled.div`
-display:flex;
-position:absolute;
-right:30px;
-top:150px;
+  display: flex;
+  position: absolute;
+  right: 30px;
+  top: 150px;
 
+  span {
+    font-size: 12px;
+    color: #777;
+  }
 
-span {
-  font-size:12px;
-  color: #777;
-}
-
-img {
-  margin:0 5px;
-}
-
+  img {
+    margin: 0 5px;
+  }
 `;
 
 const ModifyBtn = styled.button`
-background-color:${(props)=>props.theme.divBackGroundColor};
-width:98px;
-height:32px;
-border:1px solid #777;
-border-radius:8px;
-display:flex;
-align-items:center;
-cursor: pointer;
-
+  background-color: ${(props) => props.theme.divBackGroundColor};
+  width: 98px;
+  height: 32px;
+  border: 1px solid #777;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 `;
 
 const DeleteBtn = styled(ModifyBtn)`
-border:1px solid #FF0000;
-margin-left:10px;
+  border: 1px solid #ff0000;
+  margin-left: 10px;
 
-span {
-  color:#FF0000;
-}
+  span {
+    color: #ff0000;
+  }
 `;
 
 const Img = styled.img`
@@ -379,13 +376,12 @@ const Stack = styled.div`
 `;
 
 const Article = styled.div`
- background-color: ${(props) => props.theme.divBackGroundColor};
+  background-color: ${(props) => props.theme.divBackGroundColor};
   margin: auto;
- 
+
   line-height: 1.5;
   letter-spacing: -0.004em;
   padding: 32px;
-  
 
   div {
     display: flex;
@@ -410,7 +406,6 @@ const Button = styled(Btn)`
   position: absolute;
   right: 0px;
   bottom: 0px;
-
 `;
 const Button2 = styled(LineBtn)`
   height: 52px;
