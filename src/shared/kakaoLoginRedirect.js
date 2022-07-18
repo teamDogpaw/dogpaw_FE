@@ -1,9 +1,6 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import ModalOpen from "../components/Modal";
 import Modal from "react-modal";
 import SocialModal from "../components/SocialModal";
-import Login from "../components/Login";
 
 const KakaoLoginRedirect = () => {
   const [modalIsOpen, setModalIsOpen] = useState(true);
@@ -51,7 +48,6 @@ const KakaoLoginRedirect = () => {
 
   useEffect(() => {
     handleOpen();
-    console.log(modalIsOpen);
   }, []);
 
   return (

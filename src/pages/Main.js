@@ -40,7 +40,7 @@ const Main = () => {
   const [isHover, setIsHover] = useState(false);
   const [rank, setRank] = useState([]);
   const { ref, inView } = useInView();
-  
+
   const userMe = user?.nickname;
   //console.log(userMe)
   const isLogin = localStorage.getItem("token");
@@ -79,8 +79,10 @@ const Main = () => {
     return acc.concat(cur);
   });
 
-  const list = toggle ? postList.filter((post) => post.deadline === false) : postList;
- // console.log(list);
+  const list = toggle
+    ? postList.filter((post) => post.deadline === false)
+    : postList;
+  // console.log(list);
 
   const bookMark = () => {
     if (mark === false) {
@@ -95,16 +97,14 @@ const Main = () => {
   };
 
   return (
-
     <Wrap>
       <Tuto
-                onMouseOver={() => setIsHover(true)}
-                onMouseOut={() => setIsHover(false)}
-                onClick={() => setIsHover(false)}
-              >
-                {isHover && <Tutoral />}
-                ?</Tuto>
-
+        onMouseOver={() => setIsHover(true)}
+        onMouseOut={() => setIsHover(false)}
+        onClick={() => setIsHover(false)}
+      >
+        {isHover && <Tutoral />}?
+      </Tuto>
       <Carousel />
       <Award>
         <img src={award} alt="" />
@@ -228,14 +228,15 @@ const Main = () => {
                   <img src={post.profileImg || person} alt="profileImg" />
                   <p>{post.nickname}</p>
                 </User>
-                {userMe === post.nickname ? ("") : post.bookMarkStatus ? (
+                {userMe === post.nickname ? (
+                  ""
+                ) : post.bookMarkStatus ? (
                   <BookmarkFill onClick={bookMark} />
                 ) : (
                   <BookmarkIcon onClick={bookMark} />
                 )}
-                
               </Footer>
-            </Article>   
+            </Article>
           ))}
         </ArticleWrap>
         {isFetchingNextPage ? <Loading /> : <div ref={ref}></div>}
@@ -291,18 +292,17 @@ const Move = keyframes`
 
 `;
 const Tuto = styled.div`
-width:50px;
-height:50px;
-border-radius:50%;
-background-color:gold;
-display:flex;
-align-items:center;
-justify-content:center;
-position:absolute;
-left:150px;
-z-index:99;
-animation:${Move} 1s ease-in-out ;
-
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: gold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 150px;
+  z-index: 99;
+  animation: ${Move} 1s ease-in-out;
 `;
 const Award = styled.div`
   display: flex;
@@ -314,10 +314,6 @@ const Award = styled.div`
   }
 `;
 
-const Img = styled.img`
-  border-radius: 15px;
-  margin-top: 50px;
-`;
 // 토글 스위치
 const ToggleWrap = styled.div`
   display: flex;
@@ -440,13 +436,6 @@ const Hashtag = styled.div`
   }
 `;
 
-const Deadline = styled.div`
-  padding: 15px;
-  border-radius: 8px;
-  font-weight: bold;
-  text-align: center;
-  background-color: rgba(0, 0, 0, 0.3);
-`;
 const Footer = styled.div`
   display: flex;
   width: 88%;
@@ -496,7 +485,5 @@ const Date = styled.p`
   display: flex;
   justify-content: flex-end;
 `;
-
-
 
 export default Main;

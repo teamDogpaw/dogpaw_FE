@@ -1,4 +1,4 @@
-import {  useRecoilValue} from "recoil";
+import { useRecoilValue } from "recoil";
 import { DarkThemeAtom } from "../atom/theme";
 import React, { useRef } from "react";
 import { Link } from "react-router-dom";
@@ -11,9 +11,6 @@ import logolight from "../styles/logo/logoLight.svg";
 import logodark from "../styles/logo/logoDark.svg";
 import person from "../styles/icon/global/profile.svg";
 import arrowdown from "../styles/icon/global/arrowDown.svg";
-import cursor1 from "../styles/icon/global/cursor/cursor01.svg";
-import cursor2 from "../styles/icon/global/cursor/cursor02.svg";
-
 
 const Header = () => {
   const navigate = useNavigate();
@@ -23,10 +20,9 @@ const Header = () => {
   const isLogin = localStorage.getItem("token");
 
   const details = detailsRef.current;
-    if (details) {
-      details.open = false;
-    }
-  
+  if (details) {
+    details.open = false;
+  }
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -45,12 +41,19 @@ const Header = () => {
     // }
   };
 
-
   return (
     <Wrap>
       <ContentWrap>
-        <div onClick={() => {navigate("/")}}>
-        {isDark? <Img src={logodark} alt="" /> :<Img src={logolight} alt="" />}
+        <div
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          {isDark ? (
+            <Img src={logodark} alt="" />
+          ) : (
+            <Img src={logolight} alt="" />
+          )}
         </div>
         <User>
           {!isLogin ? (
@@ -63,11 +66,8 @@ const Header = () => {
               <StyledLink to="/write">게시글 작성</StyledLink>
               <Details ref={detailsRef}>
                 <Summary>
-                  <Profile
-                    src={userInfo?.profileImg || person}
-                    alt=""
-                  />
-                  <img src={arrowdown} alt="" style={{width:"15px"}}/>
+                  <Profile src={userInfo?.profileImg || person} alt="" />
+                  <img src={arrowdown} alt="" style={{ width: "15px" }} />
                 </Summary>
                 <Select>
                   <Option>
@@ -118,23 +118,25 @@ const ContentWrap = styled.div`
 
 const Contain = styled.div`
   position: relative;
-  display:flex;
+  display: flex;
 `;
 
 const User = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width:180px;
+  width: 180px;
   //background-color:gold;
 `;
 
 const Profile = styled.img`
+
 width:35px;
 height:35px;
 border-radius:50%;
 margin-right:10px;
 //box-shadow: -2px 1px 6px rgba(0, 0, 0, 0.2);
+feature1
 `;
 
 const Details = styled.details`
@@ -173,7 +175,6 @@ const Select = styled.ul`
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-
 `;
 
 const Option = styled.li`
