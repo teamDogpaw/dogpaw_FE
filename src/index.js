@@ -5,8 +5,6 @@ import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-import store from './redux/configStore';
-import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { RecoilRoot } from 'recoil';
@@ -20,14 +18,12 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 
   <QueryClientProvider client={queryClient}>
-    {/* <Provider store={store}> */}
     <RecoilRoot>
     <BrowserRouter>
       <ReactQueryDevtools initialIsOpen={true} />
         <App />
     </BrowserRouter>
     </RecoilRoot>
-    {/* </Provider> */}
   </QueryClientProvider>
 
 

@@ -4,7 +4,6 @@ import ReactDatePicker from "react-datepicker";
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import React, { useEffect, useRef, useState } from "react";
-import Select from "react-select";
 import { MainBody, Btn, LineBtn, MyStack, GrayLineBtn } from "../styles/style";
 import styled from "styled-components";
 import "../styles/style.css"
