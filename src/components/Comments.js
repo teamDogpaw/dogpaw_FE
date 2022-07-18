@@ -13,10 +13,8 @@ const Comments = () => {
 
   const id = params.postId;
 
-  const { data: commentList } = useGetCommentList(id);
-
   const queryClient = useQueryClient();
-
+  const { data: commentList } = useGetCommentList(id);
   const { mutateAsync: addComment } = usePostComment();
 
   const onCheckEnter = (e) => {
@@ -27,11 +25,9 @@ const Comments = () => {
 
   const addCommentClick = async () => {
     const commentData = { id, content: comment_ref.current.value };
-    const { success } = await addComment(commentData); // <없어서 없음 {success: true}>
-    if (success) {
-      comment_ref.current.value = "";
-      queryClient.invalidateQueries(["commentList"]);
-    }
+    await addComment(commentData);
+    comment_ref.current.value = "";
+    queryClient.invalidateQueries(["commentList"]);
   };
 
   const onChange = (e) => {

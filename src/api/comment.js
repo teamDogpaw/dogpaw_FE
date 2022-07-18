@@ -7,34 +7,25 @@ export const commentApis = {
   },
 
   postComment: async (commentData) => {
-    try {
-      await instance.post(`api/posts/${commentData.id}/comments`, commentData);
-      return { success: true };
-    } catch (e) {
-      return { success: false };
-    }
+    const { data } = await instance.post(
+      `api/posts/${commentData.id}/comments`,
+      commentData
+    );
+    return data;
   },
 
   editComment: async (commentData) => {
-    try {
-      await instance.put(
-        `api/posts/${commentData.id}/comments/${commentData.commentId}`,
-        commentData
-      );
-      return { success: true };
-    } catch (e) {
-      return { success: false };
-    }
+    const { data } = await instance.put(
+      `api/posts/${commentData.id}/comments/${commentData.commentId}`,
+      commentData
+    );
+    return data;
   },
 
   removeComment: async (commentData) => {
-    try {
-      await instance.delete(
-        `api/posts/${commentData.id}/comments/${commentData.commentId}`
-      );
-      return { success: true };
-    } catch (e) {
-      return { success: false };
-    }
+    const { data } = await instance.delete(
+      `api/posts/${commentData.id}/comments/${commentData.commentId}`
+    );
+    return data;
   },
 };

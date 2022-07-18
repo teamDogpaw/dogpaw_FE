@@ -29,18 +29,14 @@ const Comment = ({ data }) => {
   const modifyCommentClick = async (commentId) => {
     const commentData = { content: comment_ref.current.value, commentId, id };
     setIsEdit(false);
-    const { success } = await editComment(commentData);
-    if (success) {
-      queryClient.invalidateQueries("commentList");
-    }
+    await editComment(commentData);
+    queryClient.invalidateQueries("commentList");
   };
   
   const deleteCommentClick = async (commentId) => {
     const commentData = { commentId, id };
-    const { success } = await removeComment(commentData);
-    if (success) {
-      queryClient.invalidateQueries("commentList");
-    }
+    await removeComment(commentData);
+    queryClient.invalidateQueries("commentList");
   };
 
   return (

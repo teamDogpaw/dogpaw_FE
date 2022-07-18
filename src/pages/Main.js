@@ -19,7 +19,6 @@ import award from "../styles/icon/main/award.svg";
 import gold from "../styles/icon/main/medal0.svg";
 import silver from "../styles/icon/main/medal1.svg";
 import bronze from "../styles/icon/main/medal2.svg";
-//import person from "../styles/images/person.png";
 import person from "../styles/icon/global/profile.svg";
 import help from "../styles/icon/main/help.svg";
 
@@ -35,7 +34,6 @@ const Main = () => {
   const [mark, setMark] = useState(false);
   const [toggle, setToggle] = useState(true);
   const [isHover, setIsHover] = useState(false);
-  // const [rank, setRank] = useState([]);
   const { ref, inView } = useInView();
 
   const { data: rankList } = useGetBookmarkRank();
@@ -49,7 +47,7 @@ const Main = () => {
     {
       refetchOnWindowFocus: false,
       getNextPageParam: (lastPage) =>
-        !lastPage.isLast ? lastPage.nextPage : undefined, // lastPage.nexPage로만 하면 데이터 없는데 무한 배열 생성 함 .
+        !lastPage.isLast ? lastPage.nextPage : undefined, 
     }
   );
 
@@ -178,7 +176,7 @@ const Main = () => {
       <>
         <ArticleWrap>
           {list.map((post) => (
-            <Article
+          <Article
               key={post.postId}
               onClick={() => {
                 if (!isLogin) {
@@ -228,6 +226,7 @@ const Main = () => {
                   <BookmarkIcon onClick={bookMark} />
                 )}
               </Footer>
+              {post.dealine === false && <div>모집마감</div>}
             </Article>
           ))}
         </ArticleWrap>
