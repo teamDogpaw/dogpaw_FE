@@ -1,131 +1,58 @@
+import { useQueryClient } from "react-query";
+import { useNavigate, useParams } from "react-router-dom";
+import Comments from "../components/Comments";
+import { useState } from "react";
+import { Btn, LineBtn } from "../styles/style";
+import { useDeletePost, useGetPost } from "../hook/usePostData";
+
 import styled, { keyframes } from "styled-components";
 import { ReactComponent as BookmarkIcon } from "../styles/icon/post/bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/post/bookmarkFill.svg";
 import { ReactComponent as Arrow } from "../styles/icon/detail/backArrow.svg";
-import person from "../styles/images/person.png";
+import person from "../styles/icon/global/profile.svg";
 import paw from "../styles/icon/detail/paw.svg";
 import edit from "../styles/icon/detail/edit.svg";
 import remove from "../styles/icon/detail/remove.svg";
+import { usePostBookmark,usePostApply } from "../hook/useUserData";
 
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useNavigate, useParams } from "react-router-dom";
-import Comments from "../components/Comments";
-import { instance } from "../shared/axios";
-import { useRecoilValue } from "recoil";
-import { UserInfoAtom } from "../atom/atom";
-import { useState } from "react";
-import Loading from "../shared/Loading";
-import { Btn, LineBtn } from "../styles/style";
-import { detailApis } from "../api/detail";
-import useDetailQuery from "../hook/useDetailData";
+
 
 const Detail = () => {
   const navigate = useNavigate();
-  const user = useRecoilValue(UserInfoAtom);
 
   const params = useParams();
   const id = params.postId;
   const [isHover, setIsHover] = useState(false);
-  const [dataSet, setDataset] = useState([]);
-//   const { data: postList } = useDetailQuery(id);
-// console.log(postList)
-  const PostDelete = useMutation(() => {
-    instance.delete(`/api/post/${id}`);
-    navigate("/");
-  });
 
-  const getPostList = () => {
-    return instance.get(`api/post/detail/${id}`);
-  };
+  const { data: postList } = useGetPost(id);
+  console.log(postList);
 
-  const bookmarkData = () => {
-    return instance.post(`api/bookMark/${id}`);
-  };
+  const author = postList?.nickname;
+  const userStatus = postList?.userStatus;
 
-  const applyData = () => {
-    return instance.post(`api/apply/${id}`);
-  };
-  const {
-    nickname: author,
-    applyStatus,
-    bookMarkStatus,
-    content,
-    maxCapacity,
-    onLine,
-    profileImg,
-    currentMember,
-    title,
-    startAt,
-    stacks,
-    period,
-    applierCnt
-  } = dataSet;
-
-  useQuery("List",getPostList,{
-    onSuccess:(data)=>{
-      console.log(data)
-    },
-    onError:(e)=>{
-      console.log(e.message)
-    }
-  })
-
-  const { isLoading, isError, error } = useQuery("detailList", getPostList, {
-    refetchOnWindowFocus: false, // 사용자가 다른 곳에 갔다가 돌아올시 함수 재실행 여부
-    onSuccess: (data) => {
-      setDataset(data.data);
-      console.log("데이터 조회", data);
-    },
-    onError: (e) => {
-      console.log(e.message);
-    },
-  });
-
-  const userId = user.nickname;
-
-  // 뮤테이션
   const queryClient = useQueryClient();
+  const { mutateAsync: deletePost } = useDeletePost();
+  const { mutateAsync: bookmark } = usePostBookmark();
+  const { mutateAsync: apply } = usePostApply();
 
-  const { mutate: bookmark } = useMutation(bookmarkData, {
-    onSuccess: (data) => {
-      console.log(data);
-      queryClient.invalidateQueries("detailList");
-    },
-    onError: (e) => {
-      console.log(e.message);
-    },
-  });
-  const { mutate: applymark } = useMutation(applyData, {
-    onSuccess: (data) => {
-      console.log(data);
-      queryClient.invalidateQueries("detailList");
-    },
-    onError: (e) => {
-      console.log(e.message);
-    },
-  });
+  const deletePostClick = async () => {
+    await deletePost(id);
+    navigate("/");
+  };
 
-  if (isLoading) {
-    return <Loading />
-  }
-
-  if (isError) {
-    return <span>Error:{error.message}</span>;
-  }
-
-  const bookMark = () => {
-    bookmark();
+  const bookMark = async () => {
+    await bookmark(id);
+    queryClient.invalidateQueries("detailPost");
   };
 
   const applyBtn = (applyStatus) => {
-    if(applyStatus){
+    if (userStatus === "applicant") {
       alert("지원취소?");
-      return applymark();
-    }else{
+      return apply(id);
+    } else {
       alert("신청함!");
-      return applymark();
+      return apply(id);
     }
-  
   };
 
   return (
@@ -133,8 +60,8 @@ const Detail = () => {
       <Wrap>
         <ArticleTop>
           <User>
-            <h1>{title}</h1>
-            <Img src={profileImg || person} alt="profile" />
+            <h1>{postList?.title}</h1>
+            <Img src={postList?.profileImg || person} alt="profile" />
             <p>{author}</p>
           </User>
           <Leftarrow
@@ -143,22 +70,24 @@ const Detail = () => {
             }}
           />
           <Mark>
-            {author === userId ? (
+            {userStatus === "author" ? (
               ""
-            ) : bookMarkStatus ? (
+            ) : postList?.bookMarkStatus ? (
               <BookmarkFill onClick={bookMark} />
             ) : (
               <BookmarkIcon onClick={bookMark} />
             )}
           </Mark>
           <Userbtn>
-            {author === userId && (
+            {userStatus === "author" && (
               <>
-                <ModifyBtn onClick={() => navigate(`/write/${id}`)}>
+                <ModifyBtn
+                  onClick={() => navigate(`/write/${id}`, { state: postList })}
+                >
                   <img src={edit} alt="" />
                   <span>게시글 수정</span>
                 </ModifyBtn>
-                <DeleteBtn onClick={() => PostDelete.mutate()}>
+                <DeleteBtn onClick={deletePostClick}>
                   <img src={remove} alt="" />
                   <span>게시글 삭제</span>
                 </DeleteBtn>
@@ -171,50 +100,51 @@ const Detail = () => {
             <div>
               <Title>
                 <p>진행방식</p>
-                <span> {onLine ? "온라인" : "오프라인"}</span>
+                <span> {postList?.onLine ? "온라인" : "오프라인"}</span>
               </Title>
-
               <Title>
                 <p>구인스택</p>
                 <Stack>
-                  {stacks?.map((lang, idx) => (
+                  {postList?.stacks?.map((lang, idx) => (
                     <span key={idx}> #{lang}</span>
                   ))}
                 </Stack>
               </Title>
               <Title>
                 <p>예상 진행 기간</p>
-                <span>{period}</span>
+                <span>{postList?.period}</span>
               </Title>
               <Title>
                 <p>시작 예정일</p>
-                <span> {startAt}</span>
+                <span> {postList?.startAt}</span>
               </Title>
               <Title>
                 <p>모집 인원</p>
                 <span>
-                  {currentMember} / {maxCapacity} 명
+                  {postList?.currentMember} / {postList?.maxCapacity} 명
                 </span>
               </Title>
             </div>
             <div>
-              {author === userId ? (
+              {userStatus === "author" ? (
                 <>
                   <Button2>지원자 보기</Button2>
 
                   <Button>프로젝트 마감하기</Button>
                 </>
-              ) : !applyStatus ? (
+              ) : userStatus === "MEMBER" ? (
                 <div
                   onMouseOver={() => setIsHover(true)}
                   onMouseOut={() => setIsHover(false)}
                 >
                   {isHover && (
                     <Alert>
-                      <p>{applierCnt}명이 지원했어요!</p>
+                      <p>{postList?.applierCnt}명이 지원했어요!</p>
                     </Alert>
                   )}
-                  <Button onClick={()=> applyBtn(applyStatus)}>프로젝트 지원하기</Button>
+                  <Button onClick={() => applyBtn(postList?.applyStatus)}>
+                    프로젝트 지원하기
+                  </Button>
                 </div>
               ) : (
                 <div
@@ -223,21 +153,22 @@ const Detail = () => {
                 >
                   {isHover && (
                     <Alert>
-                      <p>{applierCnt}명이 지원했어요!</p>
+                      <p>{postList?.applierCnt}명이 지원했어요!</p>
                     </Alert>
                   )}
-                  <Button onClick={()=> applyBtn(applyStatus)}>지원 취소하기</Button>
+                  <Button onClick={() => applyBtn(postList?.applyStatus)}>
+                    지원 취소하기
+                  </Button>
                 </div>
               )}
             </div>
           </ContentWrap>
         </ArticleTop>
-
         <Article>
           <div>
             <h1>프로젝트 소개</h1>
           </div>
-          <pre>{content}</pre>
+          <pre>{postList?.content}</pre>
           <div>
             <img src={paw} alt="" />
           </div>
@@ -261,8 +192,7 @@ const Wrap = styled.div`
   }
 
   hr {
-    border:1px solid #e2e2e2 ;
-    
+    border: 1px solid #e2e2e2;
   }
 
   span {
@@ -292,42 +222,40 @@ const User = styled.div`
 `;
 
 const Userbtn = styled.div`
-display:flex;
-position:absolute;
-right:30px;
-top:150px;
+  display: flex;
+  position: absolute;
+  right: 30px;
+  top: 150px;
 
+  span {
+    font-size: 12px;
+    color: #777;
+  }
 
-span {
-  font-size:12px;
-  color: #777;
-}
-
-img {
-  margin:0 5px;
-}
-
+  img {
+    margin: 0 5px;
+  }
 `;
 
 const ModifyBtn = styled.button`
-background-color:${(props)=>props.theme.divBackGroundColor};
-width:98px;
-height:32px;
-border:1px solid #777;
-border-radius:8px;
-display:flex;
-align-items:center;
-cursor: pointer;
-
+  background-color: ${(props) => props.theme.divBackGroundColor};
+  //width: 98px;
+  padding: 0 10px 0 5px;
+  height: 32px;
+  border: 1px solid #777;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 `;
 
 const DeleteBtn = styled(ModifyBtn)`
-border:1px solid #FF0000;
-margin-left:10px;
+  border: 1px solid #ff0000;
+  margin-left: 10px;
 
-span {
-  color:#FF0000;
-}
+  span {
+    color: #ff0000;
+  }
 `;
 
 const Img = styled.img`
@@ -379,13 +307,12 @@ const Stack = styled.div`
 `;
 
 const Article = styled.div`
- background-color: ${(props) => props.theme.divBackGroundColor};
+  background-color: ${(props) => props.theme.divBackGroundColor};
   margin: auto;
- 
+
   line-height: 1.5;
   letter-spacing: -0.004em;
   padding: 32px;
-  
 
   div {
     display: flex;
@@ -400,7 +327,7 @@ const Article = styled.div`
 
 const Button = styled(Btn)`
   height: 52px;
-  width: 180px;
+  //width: 180px;
   padding: 16px 24px;
   font-size: 17px;
   font-weight: 700;
@@ -410,7 +337,6 @@ const Button = styled(Btn)`
   position: absolute;
   right: 0px;
   bottom: 0px;
-
 `;
 const Button2 = styled(LineBtn)`
   height: 52px;

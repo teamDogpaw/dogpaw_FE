@@ -1,8 +1,8 @@
 import {  useRecoilValue} from "recoil";
 import { DarkThemeAtom } from "../atom/theme";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { UserInfoAtom } from "../atom/atom";
 import ModalOpen from "./Modal";
@@ -20,13 +20,29 @@ const Header = () => {
   const isDark = useRecoilValue(DarkThemeAtom);
   const userInfo = useRecoilValue(UserInfoAtom);
   const detailsRef = useRef(null);
+  const [headerFixed, setHeaderFixed] = useState(false);
   const isLogin = localStorage.getItem("token");
 
   const details = detailsRef.current;
     if (details) {
       details.open = false;
-    }
+    };
+
+    useEffect(() => {
+      if (window.scrollY > 0) setHeaderFixed(true);
+      function scrollEvt (e) {
+        if (window.scrollY > 0) {
+          if (!headerFixed) setHeaderFixed(true);
+        } else {
+          setHeaderFixed(false);
+        }
+      }
   
+      window.addEventListener("scroll", scrollEvt);
+      return () => {
+        window.removeEventListener("scroll", scrollEvt);
+      }
+    }, [headerFixed])
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -47,7 +63,7 @@ const Header = () => {
 
 
   return (
-    <Wrap>
+    <Wrap isFixed={headerFixed}>
       <ContentWrap>
         <div onClick={() => {navigate("/")}}>
         {isDark? <Img src={logodark} alt="" /> :<Img src={logolight} alt="" />}
@@ -91,15 +107,27 @@ const Header = () => {
 const Wrap = styled.div`
   background-color: ${(props) => props.theme.BackGroundColor};
   //box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  box-shadow: -2px 1px 6px rgba(0, 0, 0, 0.2);
+  //box-shadow: -2px 1px 6px rgba(0, 0, 0, 0.2);
+  position: sticky;
+  padding-top: 10px;
+  top: 0px;
   width: 100%;
   height: 80px;
-  margin-bottom: 50px;
+  //margin-bottom: 50px;
   display: flex;
   align-items: center;
+  z-index:99;
   p {
     font-size: 16px;
   }
+
+  ${props => props.isFixed && css`
+  //background-color: ${(props) => props.theme.BackGroundColor};
+  //position:fixed;
+  top:-32px;
+  box-shadow: -2px 1px 6px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.2s ease-in-out;
+  `}
 `;
 
 const Img = styled.img`
@@ -161,6 +189,8 @@ const Select = styled.ul`
   border: ${(props) => props.theme.border};
   background-color: ${(props) => props.theme.inputBoxBackground};
   box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.1);
+  
+
 
   button {
     border: none;

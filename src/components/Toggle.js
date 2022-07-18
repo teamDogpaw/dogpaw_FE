@@ -37,15 +37,14 @@ span {
 }
 `;
 const ModeBtn = styled.button`
-  background-color: ${(props) => props.theme.toggleBtnColor};
+ background-color: ${(props) => props.theme.toggleBtnColor};
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
-  width: 134px;
+ //width: 134px;
   height: 50px;
   border-radius: 100px;
   border: none;
-  padding:15px 20px 15px 15px;
+  padding:${(props)=> props.isDark ? "15px 50px 15px 15px" : "15px 15px 15px 50px"};
   margin-right:15px;
-
   position: relative;
   display: flex;
   justify-content: ${(props)=> (props.isDark ? "flex-start" : "flex-end")};

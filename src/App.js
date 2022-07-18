@@ -45,7 +45,6 @@ function App() {
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <GlobalStyle />
         <Header />
-
           <Suspense fallback={<Loading />}>
           <Router/>
           </Suspense>

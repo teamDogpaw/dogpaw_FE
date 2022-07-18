@@ -1,10 +1,13 @@
-import { useInfiniteQuery, useQuery } from "react-query";
+import { useInfiniteQuery } from "react-query";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import instance from "../shared/axios";
 import { useInView } from "react-intersection-observer";
-import Tutoral from "../components/Tutorial";
+import { useRecoilValue } from "recoil";
+import { UserInfoAtom } from "../atom/atom";
+import { useGetBookmarkRank } from "../hook/useUserData";
 
+import Tutoral from "../components/Tutorial";
 import Loading from "../shared/Loading";
 import Carousel from "../components/Carousel";
 
@@ -12,19 +15,13 @@ import styled, { css, keyframes } from "styled-components";
 import { ReactComponent as CommentIcon } from "../styles/icon/post/commentCnt.svg";
 import { ReactComponent as BookmarkIcon } from "../styles/icon/post/bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/post/bookmarkFill.svg";
-
 import award from "../styles/icon/main/award.svg";
 import gold from "../styles/icon/main/medal0.svg";
 import silver from "../styles/icon/main/medal1.svg";
 import bronze from "../styles/icon/main/medal2.svg";
-import person from "../styles/images/person.png";
-
-import { useRecoilValue } from "recoil";
-import { UserInfoAtom } from "../atom/atom";
-
-const getBookmarRank = () => {
-  return instance.get("/api/bookMark/rank");
-};
+//import person from "../styles/images/person.png";
+import person from "../styles/icon/global/profile.svg";
+import help from "../styles/icon/main/help.svg";
 
 const fetchPostList = async (pageParam) => {
   const res = await instance.get(`/api/allpost?page=${pageParam}`);
@@ -38,19 +35,13 @@ const Main = () => {
   const [mark, setMark] = useState(false);
   const [toggle, setToggle] = useState(true);
   const [isHover, setIsHover] = useState(false);
-  const [rank, setRank] = useState([]);
+  // const [rank, setRank] = useState([]);
   const { ref, inView } = useInView();
-  
-  const userMe = user?.nickname;
-  //console.log(userMe)
-  const isLogin = localStorage.getItem("token");
 
-  useQuery("bookmarkRank", getBookmarRank, {
-    refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      setRank(data.data);
-    },
-  });
+  const { data: rankList } = useGetBookmarkRank();
+
+  const userMe = user?.nickname;
+  const isLogin = localStorage.getItem("token");
 
   const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     "postList",
@@ -74,13 +65,11 @@ const Main = () => {
   }
   console.log(data);
 
-  const dataList = data?.pages.map((arr) => arr.postList);
-  const postList = dataList.reduce((acc, cur) => {
-    return acc.concat(cur);
-  });
-
-  const list = toggle ? postList.filter((post) => post.deadline === false) : postList;
- // console.log(list);
+  const dataList = data?.pages.map(arr => arr.postList);
+  const postList = dataList.reduce((acc, cur) => acc.concat(cur));
+  const list = toggle
+    ? postList.filter(post => post.deadline === false)
+    : postList;
 
   const bookMark = () => {
     if (mark === false) {
@@ -95,15 +84,18 @@ const Main = () => {
   };
 
   return (
-
     <Wrap>
-      <Tuto
-                onMouseOver={() => setIsHover(true)}
-                onMouseOut={() => setIsHover(false)}
-                onClick={() => setIsHover(false)}
-              >
-                {isHover && <Tutoral />}
-                ?</Tuto>
+      <Help>
+        <Tuto
+          onMouseOver={() => setIsHover(true)}
+          onMouseOut={() => setIsHover(false)}
+          onClick={() => setIsHover(false)}
+        >
+          {isHover && <Tutoral />}
+          <img src={help} alt="" />
+        </Tuto>
+        <span>이용가이드</span>
+      </Help>
 
       <Carousel />
       <Award>
@@ -111,7 +103,7 @@ const Main = () => {
         <span>인기 게시글</span>
       </Award>
       <ArticleWrap>
-        {rank.map((list, idx) => {
+        {rankList.map((list, idx) => {
           return (
             <Article2
               key={list.postId}
@@ -228,14 +220,15 @@ const Main = () => {
                   <img src={post.profileImg || person} alt="profileImg" />
                   <p>{post.nickname}</p>
                 </User>
-                {userMe === post.nickname ? ("") : post.bookMarkStatus ? (
+                {userMe === post.nickname ? (
+                  ""
+                ) : post.bookMarkStatus ? (
                   <BookmarkFill onClick={bookMark} />
                 ) : (
                   <BookmarkIcon onClick={bookMark} />
                 )}
-                
               </Footer>
-            </Article>   
+            </Article>
           ))}
         </ArticleWrap>
         {isFetchingNextPage ? <Loading /> : <div ref={ref}></div>}
@@ -247,23 +240,32 @@ const Main = () => {
 const Wrap = styled.div`
   width: 1200px;
   margin: auto;
-
   @media screen and (max-width: 996px) {
     margin: 0px 40px;
   }
-
   ul {
     display: flex;
   }
   li {
     list-style: none;
   }
-
   h1 {
     font-size: 25px;
   }
   p {
     font-size: 15px;
+  }
+`;
+
+const Help = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  margin-bottom: 10px;
+  span {
+    font-weight: 500;
+    color: #ffb673;
+    margin-left: 5px;
   }
 `;
 const Move = keyframes`
@@ -288,21 +290,9 @@ const Move = keyframes`
   100% {
     transform: scale3d(1, 1, 1);
   }
-
 `;
 const Tuto = styled.div`
-width:50px;
-height:50px;
-border-radius:50%;
-background-color:gold;
-display:flex;
-align-items:center;
-justify-content:center;
-position:absolute;
-left:150px;
-z-index:99;
-animation:${Move} 1s ease-in-out ;
-
+  animation: ${Move} 1s ease-in-out;
 `;
 const Award = styled.div`
   display: flex;
@@ -314,10 +304,6 @@ const Award = styled.div`
   }
 `;
 
-const Img = styled.img`
-  border-radius: 15px;
-  margin-top: 50px;
-`;
 // 토글 스위치
 const ToggleWrap = styled.div`
   display: flex;
@@ -326,7 +312,7 @@ const ToggleWrap = styled.div`
   margin-bottom: 20px;
 `;
 const ToggleBtn = styled.button`
-  width: 106px;
+  // width: 106px;
   height: 44px;
   border-radius: 30px;
   border: 2px solid #ffb673;
@@ -367,10 +353,9 @@ const Circle = styled.div`
   ${(props) =>
     props.toggle &&
     css`
-      transform: translate(44px, 0);
+      transform: translate(85%, 0); // 44px
       transition: all 0.4s ease-in-out;
     `}
-
   p {
     width: 100%;
     color: white;
@@ -397,7 +382,6 @@ const Article = styled.li`
   position: relative;
   transition: 0.2s ease-in;
   cursor: pointer;
-
   &:hover {
     transform: scale(1.02);
   }
@@ -411,7 +395,6 @@ const Article2 = styled(Article)`
 
 const Content = styled.div`
   margin: 20px 0;
-
   h1 {
     padding-bottom: 20px;
     text-overflow: ellipsis;
@@ -419,7 +402,6 @@ const Content = styled.div`
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
   }
-
   p {
     line-height: 20px;
     overflow: hidden;
@@ -433,7 +415,6 @@ const Content = styled.div`
 const Hashtag = styled.div`
   position: absolute;
   bottom: 100px;
-
   li {
     margin-right: 5px;
     color: #ffb673;
@@ -454,7 +435,6 @@ const Footer = styled.div`
   align-items: center;
   position: absolute;
   bottom: 20px;
-
   svg {
     margin-right: 5px;
   }
@@ -496,7 +476,5 @@ const Date = styled.p`
   display: flex;
   justify-content: flex-end;
 `;
-
-
 
 export default Main;
