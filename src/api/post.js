@@ -1,7 +1,7 @@
 import instance from "../shared/axios";
 
 
-export const postApis = {
+export const postApiss = {
   getPostList: async (id) => {
     const { data } = await instance.get(`api/post/detail/${id}`);
     return data;

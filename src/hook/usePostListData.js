@@ -1,8 +1,8 @@
 import { useQuery } from "react-query";
-import { postApis } from "../api/post";
+import { postApiss } from "../api/post";
 
 export function useGetMyBookmarkPost() {
-    return useQuery("mybookmark", postApis.getMyBookmarkPost,
+    return useQuery("mybookmark", postApiss.getMyBookmarkPost,
         {refetchOnWindowFocus: false,
         onSuccess: (data) => {
             const actualData = data.data
@@ -14,7 +14,7 @@ export function useGetMyBookmarkPost() {
 };
 
 export function useGetMyParticipatePost() {
-    return useQuery("joinproject", postApis.getMyParticipatePost,
+    return useQuery("joinproject", postApiss.getMyParticipatePost,
     {refetchOnWindowFocus: false,
         onSuccess: (data) => {
             const actualData = data.data
@@ -26,7 +26,7 @@ export function useGetMyParticipatePost() {
 }
 
 export function useGetMyApplyPost() {
-    return useQuery("applyproject", postApis.getMyApplyPost,
+    return useQuery("applyproject", postApiss.getMyApplyPost,
     {refetchOnWindowFocus: false,
         onSuccess: (data) => {
             const actualData = data.data
@@ -38,7 +38,7 @@ export function useGetMyApplyPost() {
 }
 
 export function useGetMyProjectPost() {
-    return useQuery("myproject", postApis.getMyProjectPost,
+    return useQuery("myproject", postApiss.getMyProjectPost,
     {refetchOnWindowFocus: false,
         onSuccess: (data) => {
             const actualData = data.data

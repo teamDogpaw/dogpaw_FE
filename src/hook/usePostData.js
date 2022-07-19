@@ -1,14 +1,14 @@
 import { useMutation, useQuery } from "react-query";
-import {  PostApis } from "../api/post";
+import {  postApiss } from "../api/post";
 
 export function useGetPost(postId) {
     return useQuery(["detailPost"], () => {
-      return PostApis.getPostList(postId);
+      return postApiss.getPostList(postId);
     });
   }
 
 export function useDeletePost(){
   return useMutation(postId => {
-    return PostApis.deletePost(postId)
+    return postApiss.deletePost(postId)
   });
 }
