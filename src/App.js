@@ -29,7 +29,6 @@ function App() {
         console.log(error);
       }
     }
-
   }; 
   
   useQuery("userinfo",GetUserInfo,{
@@ -38,8 +37,7 @@ function App() {
       setUser(data)
     }
   })
-
-
+ 
 
   return (
     <>

@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "react-query";
-import { bookmarkApis } from "../api/user";
+import { bookmarkApis, userApis } from "../api/user";
 
 export function useGetBookmarkRank() {
   return useQuery(["bookmarkRank"], () => {
@@ -18,4 +18,5 @@ export function usePostApply() {
     return bookmarkApis.postApply(data);
   });
 }
+
 
