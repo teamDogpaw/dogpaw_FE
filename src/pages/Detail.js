@@ -345,7 +345,7 @@ const Article = styled.div`
 
 const Button = styled(Btn)`
   height: 52px;
-  //width: 180px;
+  width: 180px;
   padding: 16px 24px;
   font-size: 17px;
   font-weight: 700;

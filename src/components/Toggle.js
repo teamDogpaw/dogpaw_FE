@@ -48,8 +48,7 @@ const ModeBtn = styled.button`
   height: 50px;
   border-radius: 100px;
   border: none;
-  padding: ${(props) =>
-    props.isDark ? "15px 50px 15px 15px" : "15px 15px 15px 50px"};
+  padding: ${(props) => props.isDark ? "15px 53px 15px 15px" : "15px 15px 15px 50px"};
   margin-right: 15px;
   position: relative;
   display: flex;
@@ -75,7 +74,7 @@ const ModeCircle = styled.div`
   ${(props) =>
     props.isDark &&
     css`
-      transform: translate(81px, 0);
+      transform: translate(85px, 0);
       transition: all 0.4s ease-in-out;
     `}
 `;

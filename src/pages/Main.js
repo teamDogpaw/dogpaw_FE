@@ -166,10 +166,10 @@ const Main = () => {
       </ArticleWrap>
       <ToggleWrap>
         <ToggleBtn onClick={clickedToggle} toggle={toggle}>
-          <p style={{ display: "flex" }}>
+          <div style={{ display: "flex" }}>
             <All>ALL</All>
             <Ing>모집중</Ing>
-          </p>
+          </div>
           <Circle toggle={toggle}>
             <p>{toggle ? "모집중" : "ALL"}</p>
           </Circle>
@@ -311,6 +311,7 @@ const ToggleWrap = styled.div`
   align-items: center;
   margin-top: 20px;
   margin-bottom: 20px;
+
 `;
 const ToggleBtn = styled.button`
   // width: 106px;
@@ -326,7 +327,8 @@ const ToggleBtn = styled.button`
 `;
 
 const All = styled.span`
-  width: 40px;
+  //width: 40px;
+  padding:0 5px;
   font-weight: 700;
   color: #ffb673;
   opacity: 0.5;
@@ -335,7 +337,8 @@ const All = styled.span`
   padding-left: 6px;
 `;
 const Ing = styled(All)`
-  width: 50px;
+  //width: 55px;
+  padding-left:12px;
   flex-direction: row-reverse;
 `;
 
@@ -354,7 +357,7 @@ const Circle = styled.div`
   ${(props) =>
     props.toggle &&
     css`
-      transform: translate(85%, 0); // 44px
+      transform: translate(95%, 0); // 44px
       transition: all 0.4s ease-in-out;
     `}
   p {

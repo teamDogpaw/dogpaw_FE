@@ -133,15 +133,13 @@ const User = styled.div`
   align-items: center;
   justify-content: space-between;
   width:180px;
-  //background-color:gold;
 `;
 
 const Profile = styled.img`
-width:35px;
-height:35px;
+width:30px;
+height:30px;
 border-radius:50%;
 margin-right:10px;
-//box-shadow: -2px 1px 6px rgba(0, 0, 0, 0.2);
 `;
 
 const Details = styled.details`

@@ -327,6 +327,7 @@ const Profile = styled.div`
     border: ${(props) => props.theme.border};
     border-radius: 8px;
     font-size: 16px;
+    background-color:${(props)=>props.theme.inputBoxBackground};
   }
 
   details {
