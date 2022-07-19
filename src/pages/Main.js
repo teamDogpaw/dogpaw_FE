@@ -160,7 +160,7 @@ const Main = () => {
               </Footer>
             </Article2>
           );
-        })} */}
+        })} 
       </ArticleWrap>
       <ToggleWrap>
         <ToggleBtn onClick={clickedToggle} toggle={toggle}>

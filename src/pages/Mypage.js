@@ -304,7 +304,7 @@ grid-template-columns: repeat(4,1fr);
 text-align: center;
 margin: 24px auto;
 gap: 16px;
-
+`;
 
 const ProfileWrap = styled.div`
   display: flex;

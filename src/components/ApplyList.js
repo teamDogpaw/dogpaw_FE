@@ -144,9 +144,6 @@ export const User = styled.div`
 `;
 
 
-const Stack = styled(MyStack)`
-  margin-top: 10px;
-`;
 
 
 export const StackBody = styled.div`
