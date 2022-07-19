@@ -55,8 +55,9 @@ const Detail = () => {
       alert("지원이 취소됐습니다");
       await apply(id);
     } else {
-      alert("신청 완료");
+     
       await apply(id);
+      alert("신청 완료");
     }
    queryClient.invalidateQueries("detailPost");
   };
@@ -165,7 +166,7 @@ const Detail = () => {
                 >
                   {isHover && (
                     <Alert>
-                      <p>{postList?.applierCnt}명이 지원했어요!</p>
+                      <p>{postList?.data.applierCnt}명이 지원했어요!</p>
                     </Alert>
                   )}
                   <Button onClick={() => applyBtn(postList?.data.applyStatus)}>
@@ -176,9 +177,7 @@ const Detail = () => {
             </div>
           </ContentWrap>
         </ArticleTop>
-        {viewApply && (
-          <ViewApply viewApplyModal={viewApplyModal} myPostId={myPostId} />
-        )}
+        
         <Article>
           <div>
             <h1>프로젝트 소개</h1>
@@ -189,6 +188,9 @@ const Detail = () => {
           </div>
         </Article>
         <Comments />
+        {viewApply && (
+          <ViewApply viewApplyModal={viewApplyModal} myPostId={myPostId} />
+        )}
       </Wrap>
     </>
   );
@@ -380,7 +382,7 @@ to {
 
 const Alert = styled.div`
   position: absolute;
-  right: 35px;
+  right: 28px;
   bottom: 20%;
   animation: ${alertAni} 0.2s linear;
 `;

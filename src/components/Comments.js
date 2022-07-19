@@ -14,6 +14,7 @@ const Comments = () => {
 
   const queryClient = useQueryClient();
   const { data: commentList } = useGetCommentList(id);
+  console.log(commentList)
   const { mutateAsync: addComment } = usePostComment();
 
   const onCheckEnter = (e) => {
@@ -40,7 +41,7 @@ const Comments = () => {
 
   return (
     <Wrap>
-      <h3>댓글 {commentList?.data.length}개</h3>
+      <h3>댓글 {commentList?.data.data.length}개</h3>
       <CommentBox>
         <Input
           type="text"
@@ -55,7 +56,7 @@ const Comments = () => {
       </CommentBox>
 
       <div>
-        {commentList?.data.map((data) => (
+        {commentList?.data.data.map((data) => (
           <Comment key={data.commentId} data={data}></Comment>
         ))}
       </div>
