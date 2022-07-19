@@ -1,8 +1,8 @@
 import {  useRecoilValue} from "recoil";
 import { DarkThemeAtom } from "../atom/theme";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { UserInfoAtom } from "../atom/atom";
 import ModalOpen from "./Modal_prev";
@@ -11,6 +11,7 @@ import logolight from "../styles/logo/logoLight.svg";
 import logodark from "../styles/logo/logoDark.svg";
 import person from "../styles/icon/global/profile.svg";
 import arrowdown from "../styles/icon/global/arrowDown.svg";
+import write from "../styles/icon/detail/edit.svg";
 import cursor1 from "../styles/icon/global/cursor/cursor01.svg";
 import cursor2 from "../styles/icon/global/cursor/cursor02.svg";
 
@@ -27,11 +28,9 @@ const Header = () => {
     if (details) {
       details.open = false;
     }
-
     const viewModal = () => {
       setIsModalOpen((prev) => !prev)
     }
-  
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -98,16 +97,15 @@ const Header = () => {
 
 const Wrap = styled.div`
   background-color: ${(props) => props.theme.BackGroundColor};
-  //box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  box-shadow: -2px 1px 6px rgba(0, 0, 0, 0.2);
   width: 100%;
-  height: 80px;
-  margin-bottom: 50px;
+  height: 90px;
+  margin-bottom:10px;
   display: flex;
   align-items: center;
   p {
     font-size: 16px;
   }
+
 `;
 
 const Img = styled.img`
@@ -169,6 +167,8 @@ const Select = styled.ul`
   border: ${(props) => props.theme.border};
   background-color: ${(props) => props.theme.inputBoxBackground};
   box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.1);
+  
+
 
   button {
     border: none;
@@ -180,8 +180,12 @@ const Select = styled.ul`
 `;
 
 const StyledLink = styled(Link)`
+img {
+padding-right:5px;
+}
   text-decoration: none;
-
+  color: #777777;
+  font-weight:500;
 `;
 
 const Option = styled.li`

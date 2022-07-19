@@ -12,6 +12,7 @@ import instance from "./shared/axios";
 import { UserInfoAtom } from "./atom/atom";
 import Loading from "./shared/Loading";
 import Toggle from "./components/Toggle";
+import { useGetUserInfo } from "./hook/useUserData";
 
 function App() {
   const isDark = useRecoilValue(DarkThemeAtom);
@@ -45,7 +46,6 @@ function App() {
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <GlobalStyle />
         <Header />
-
           <Suspense fallback={<Loading />}>
           <Router/>
           </Suspense>
