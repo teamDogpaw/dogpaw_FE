@@ -28,6 +28,7 @@ const MyProject = ({
       {viewApply ?
         <ViewApply viewApplyModal={viewApplyModal}
           myPostId={myPostId}
+          postTitle={myProjectPost.data.title}
         />
         : null}
 
@@ -35,6 +36,7 @@ const MyProject = ({
         {myProjectPost?.data.map((content) => {
           return (
             <MyPagePostList
+              key={content.postId}
               data={content}
               viewApplyModal={viewApplyModal}
               currentTab={currentTab}

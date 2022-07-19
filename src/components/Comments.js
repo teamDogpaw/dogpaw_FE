@@ -71,7 +71,7 @@ const Comments = () => {
     return <span>Error:{error.message}</span>;
   }
 
-  //console.log(data.data)
+  console.log(data)
 
   const onChange = (e)=> {
     const commentText = comment_ref.current.value;
@@ -85,7 +85,7 @@ const Comments = () => {
 
   return (
     <Wrap>
-      <h3>댓글 {data.data.length}개</h3>
+      {/* <h3>댓글 {data?.data?.length}개</h3>
       <CommentBox>
         <Input
           type="text"
@@ -99,11 +99,11 @@ const Comments = () => {
 
       <CommentList>
 
-        {data.data.map((data) => (
+        {data?.data?.map((data) => (
           <Comment key={data.commentId} data={data}></Comment>
         ))}
 
-      </CommentList>
+      </CommentList> */}
     </Wrap>
   );
 };

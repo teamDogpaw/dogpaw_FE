@@ -211,7 +211,7 @@ margin: 0px auto 200px auto;
   }
 `;
 
-const Tab = styled.div`
+export const Tab = styled.div`
   line-height: 48px;
   color:${(props) => props.theme.keyColor};
  font-weight: bold;
@@ -221,12 +221,12 @@ const Tab = styled.div`
   &.focused {
    box-shadow: rgb(255 182 115 / 50%) 0px 2px 12px 0px ;
    background-color: ${(props) => props.theme.keyColor};
-   color: #fff;
+   color: ${(props)=>props.theme.textColor_btn}
   }
 `;
 
-const TabBody = styled.div`
-  background-color: ${(props) => props.theme.backgroundColor};
+export const TabBody = styled.div`
+background-color: ${(props) => props.theme.backgroundColor};
 display: grid;
 grid-template-columns: repeat(4,1fr);
 text-align: center;
