@@ -1,11 +1,11 @@
 import {  useRecoilValue} from "recoil";
 import { DarkThemeAtom } from "../atom/theme";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { UserInfoAtom } from "../atom/atom";
-import ModalOpen from "./Modal";
+import ModalOpen from "./Modal_prev";
 
 import logolight from "../styles/logo/logoLight.svg";
 import logodark from "../styles/logo/logoDark.svg";
@@ -16,6 +16,7 @@ import cursor2 from "../styles/icon/global/cursor/cursor02.svg";
 
 
 const Header = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const isDark = useRecoilValue(DarkThemeAtom);
   const userInfo = useRecoilValue(UserInfoAtom);
@@ -25,6 +26,10 @@ const Header = () => {
   const details = detailsRef.current;
     if (details) {
       details.open = false;
+    }
+
+    const viewModal = () => {
+      setIsModalOpen((prev) => !prev)
     }
   
 
@@ -55,12 +60,15 @@ const Header = () => {
         <User>
           {!isLogin ? (
             <Contain>
-              <StyledLink to="/write">게시글 작성</StyledLink>
-              <ModalOpen />
+              <StyledLink to="/write">게시글 작성 </StyledLink>
+              <span onClick={viewModal}>로그인 </span> 
+              {isModalOpen ? <ModalOpen  /> : "아니"}
+
+              {/* <ModalOpen /> */}
             </Contain>
           ) : (
             <>
-              <StyledLink to="/write">게시글 작성</StyledLink>
+              {/* <StyledLink to="/write">게시글 작성</StyledLink> */}
               <Details ref={detailsRef}>
                 <Summary>
                   <Profile
