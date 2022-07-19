@@ -30,6 +30,7 @@ const Comments = () => {
     queryClient.invalidateQueries("commentList");
   };
 
+
   const onChange = (e) => {
     const commentText = comment_ref.current.value;
     if (commentText.length > 0) {
@@ -41,7 +42,9 @@ const Comments = () => {
 
   return (
     <Wrap>
+
       <h3>댓글 {commentList?.data.data.length}개</h3>
+
       <CommentBox>
         <Input
           type="text"
@@ -54,6 +57,7 @@ const Comments = () => {
           등록하기
         </Button>
       </CommentBox>
+
 
       <div>
         {commentList?.data.data.map((data) => (
