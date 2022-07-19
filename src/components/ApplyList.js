@@ -16,6 +16,7 @@ import { useRejectApply } from "../hook/useProjectMutation";
 import { ReactComponent as Empty } from "../styles/icon/global/pawLoading.svg"
 const ApplyList = ({ myPostId }) => {
 
+
   console.log(myPostId);
 
   //✅
@@ -28,6 +29,7 @@ const ApplyList = ({ myPostId }) => {
   //     console.log(error);
   //   }
   // };
+
 
   const rejectionMutate = useMutation(async (userId) => {
     try {
@@ -141,6 +143,10 @@ export const User = styled.div`
   margin-bottom: 5px;
 `;
 
+
+const Stack = styled(MyStack)`
+  margin-top: 10px;
+`;
 
 
 export const StackBody = styled.div`

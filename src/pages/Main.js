@@ -6,7 +6,6 @@ import { useInView } from "react-intersection-observer";
 import { useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/atom";
 
-
 import Tutoral from "../components/Tutorial";
 import Loading from "../shared/Loading";
 import Carousel from "../components/Carousel";
@@ -19,9 +18,10 @@ import gold from "../styles/icon/main/medal0.svg";
 import silver from "../styles/icon/main/medal1.svg";
 import bronze from "../styles/icon/main/medal2.svg";
 import person from "../styles/icon/global/profile.svg";
-// import help from "../styles/icon/main/help.svg";
 
-import { useGetBookmarkRank } from "../hook/usePostData"
+import help from "../styles/icon/main/help.svg";
+import { useGetBookmarkRank } from "../hook/usePostData";
+
 
 const fetchPostList = async (pageParam) => {
   const res = await instance.get(`/api/allpost?page=${pageParam}`);
@@ -36,11 +36,14 @@ const Main = () => {
   const [isHover, setIsHover] = useState(false);
   const { ref, inView } = useInView();
 
-  // const { data : rankList } = useGetBookmarkRank();
-  // console.log(rankList)
+
+  const { data: rankList } = useGetBookmarkRank();
+  console.log(rankList)
 
   const userMe = user?.nickname;
   const isLogin = localStorage.getItem("token");
+
+
   const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     "postList",
     ({ pageParam = 0 }) => fetchPostList(pageParam),
@@ -60,11 +63,13 @@ const Main = () => {
     return null;
   }
   console.log(data);
+
   const dataList = data?.pages.map(arr => arr.postList);
   const postList = dataList.reduce((acc, cur) => acc.concat(cur));
   const list = toggle
     ? postList.filter(post => post.deadline === false)
     : postList;
+
   const bookMark = () => {
     if (mark === false) {
       setMark(true);
@@ -84,17 +89,19 @@ const Main = () => {
           onClick={() => setIsHover(false)}
         >
           {isHover && <Tutoral />}
-          {/* <img src={help} alt="" /> */}
+          <img src={help} alt="" />
         </Tuto>
         <span>이용가이드</span>
       </Help>
+
       <Carousel />
       <Award>
         <img src={award} alt="" />
         <span>인기 게시글</span>
       </Award>
       <ArticleWrap>
-        {/* {rankList?.data.map((list, idx) => {
+
+        {rankList?.data.map((list, idx) => {
           return (
             <Article2
               key={list.postId}
@@ -247,6 +254,7 @@ const Wrap = styled.div`
     font-size: 15px;
   }
 `;
+
 const Help = styled.div`
   display: flex;
   align-items: center;
@@ -293,6 +301,7 @@ const Award = styled.div`
     color: ${(props) => props.theme.keyColor};
   }
 `;
+
 // 토글 스위치
 const ToggleWrap = styled.div`
   display: flex;
@@ -463,4 +472,5 @@ const Date = styled.p`
   display: flex;
   justify-content: flex-end;
 `;
+
 export default Main;

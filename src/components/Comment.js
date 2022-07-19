@@ -1,15 +1,18 @@
 import { useRef, useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/atom";
-import instance from "../shared/axios";
 
 import styled from "styled-components";
-import person from "../styles/images/person.png"
-
+import person from "../styles/images/person.png";
+import { useEditComment, useRemoveComment } from "../hook/useCommentData";
 
 const Comment = ({ data }) => {
+  const params = useParams();
+  const id = params.postId;
+  const comment_ref = useRef("");
+
   const [isEdit, setIsEdit] = useState(false);
 
   const isLogin = useRecoilValue(UserInfoAtom);
@@ -17,42 +20,21 @@ const Comment = ({ data }) => {
   const loginUser = isLogin.nickname;
   const writeUser = data.nickname;
 
-  const params = useParams();
-  const id = params.postId;
-  const comment_ref = useRef("");
-
-  const modifyComment = (data) => {
-    return instance.put(`api/posts/${id}/comments/${data.commentId}`, data);
-  };
-
-  const removeComment = (commentId, data) => {
-    return instance.delete(`api/posts/${id}/comments/${commentId}`, data);
-  };
-
   const queryClient = useQueryClient();
+  const { mutateAsync: editComment } = useEditComment();
+  const { mutateAsync: removeComment } = useRemoveComment();
 
-  // 댓글 수정
-  const { mutate: modifyComments } = useMutation(modifyComment, {
-    onSuccess: (data) => {
-      queryClient.invalidateQueries("commentList");
-      console.log(data);
-    },
-  });
-
-  // 댓글 삭제
-  const { mutate: deleteComments } = useMutation(removeComment, {
-    onSuccess: (data) => {
-      queryClient.invalidateQueries("commentList");
-      // console.log(data)
-    },
-  });
-
-  const modifyCommentClick = (commentId) => {
-    modifyComments({ content: comment_ref.current.value, commentId });
+  const modifyCommentClick = async (commentId) => {
+    const commentData = { content: comment_ref.current.value, commentId, id };
     setIsEdit(false);
+    await editComment(commentData);
+    queryClient.invalidateQueries("commentList");
   };
-  const deleteCommentClick = (commentId) => {
-    deleteComments(commentId);
+
+  const deleteCommentClick = async (commentId) => {
+    const commentData = { commentId, id };
+    await removeComment(commentData);
+    queryClient.invalidateQueries("commentList");
   };
 
   return (
@@ -95,7 +77,6 @@ const Comment = ({ data }) => {
             </>
           )}
         </Btn>
-
         <hr style={{ color: "#e2e2e2" }} />
       </div>
     </div>
@@ -107,7 +88,7 @@ const User = styled.div`
   align-items: center;
   margin: 10px 0;
 
-  p{
+  p {
     font-weight: 500;
   }
 `;
@@ -125,8 +106,8 @@ const Content = styled.div`
   input {
     width: 100%;
     border: 1px solid #e2e2e2;
-    border-radius:8px;
-    padding:10px;
+    border-radius: 8px;
+    padding: 10px;
   }
   & p:last-child {
     color: #777777;
@@ -156,6 +137,6 @@ const DeleteBtn = styled(ModiBtn)`
 `;
 
 const UpdateBtn = styled(ModiBtn)`
-color: ${(props) => props.theme.textColor};
+  color: ${(props) => props.theme.textColor};
 `;
 export default Comment;

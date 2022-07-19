@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams,useLocation } from "react-router-dom";
 import ReactDatePicker from "react-datepicker";
 
 import DatePicker from "react-datepicker"
@@ -14,8 +14,11 @@ import axios from "axios";
 import instance from "../shared/axios";
 import WriteSelect from "../components/WriteSelect";
 
-const Write = () => {
+const Write = ({postList}) => {
+   const {state} = useLocation()
+   console.log(state)
    const [isEdit, setIsEdit] = useState(false);
+   console.log(isEdit)
    const params = useParams()
    const postId = params.id
    const navigate = useNavigate()
@@ -66,9 +69,9 @@ return instance.get(`api/post/detail/${postId}`);
       }
    }
 
-   const PostEdit = useMutation(() => {
-      instance.put(`/api/post/${postId}`, selectedData)
-      navigate("/")
+   const PostEdit = useMutation(async() => {
+      await instance.put(`/api/post/${postId}`, selectedData)
+      navigate(`/detail/${postId}`)
 })
 
 
@@ -120,13 +123,13 @@ return instance.get(`api/post/detail/${postId}`);
          console.log(data?.data.stacks)
          setStack(data?.data.stacks)
          setSelectedData({
-            content: data?.data.content,
-            online: data?.data.onLine,
-            stacks: data?.data.stacks,
-            title: data?.data.title,
-            maxCapacity: data?.data.maxCapacity,
-            period: data?.data.period,
-            startAt: data?.data.startAt
+            content: state.content,
+            online: state.onLine,
+            stacks: state.stacks,
+            title: state.title,
+            maxCapacity: state.maxCapacity,
+            period: state.period,
+            startAt: state.startAt
          })
 
       }
