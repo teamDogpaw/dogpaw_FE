@@ -6,11 +6,9 @@ import { useInView } from "react-intersection-observer";
 import { useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/atom";
 
-
 import Tutoral from "../components/Tutorial";
 import Loading from "../shared/Loading";
 import Carousel from "../components/Carousel";
-
 import styled, { css, keyframes } from "styled-components";
 import { ReactComponent as CommentIcon } from "../styles/icon/post/commentCnt.svg";
 import { ReactComponent as BookmarkIcon } from "../styles/icon/post/bookmark.svg";
@@ -20,15 +18,16 @@ import gold from "../styles/icon/main/medal0.svg";
 import silver from "../styles/icon/main/medal1.svg";
 import bronze from "../styles/icon/main/medal2.svg";
 import person from "../styles/icon/global/profile.svg";
+
 import help from "../styles/icon/main/help.svg";
 import { useGetBookmarkRank } from "../hook/usePostData";
+
 
 const fetchPostList = async (pageParam) => {
   const res = await instance.get(`/api/allpost?page=${pageParam}`);
   const { postList, isLast } = res.data;
   return { postList, nextPage: pageParam + 1, isLast };
 };
-
 const Main = () => {
   const navigate = useNavigate();
   const user = useRecoilValue(UserInfoAtom);
@@ -37,11 +36,13 @@ const Main = () => {
   const [isHover, setIsHover] = useState(false);
   const { ref, inView } = useInView();
 
+
   const { data: rankList } = useGetBookmarkRank();
   console.log(rankList)
 
   const userMe = user?.nickname;
   const isLogin = localStorage.getItem("token");
+
 
   const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     "postList",
@@ -52,11 +53,9 @@ const Main = () => {
         !lastPage.isLast ? lastPage.nextPage : undefined, 
     }
   );
-
   useEffect(() => {
     if (inView) fetchNextPage();
   }, [fetchNextPage, inView]);
-
   if (status === "loading") {
     return <Loading />;
   }
@@ -78,11 +77,9 @@ const Main = () => {
       setMark(false);
     }
   };
-
   const clickedToggle = () => {
     setToggle((prev) => !prev);
   };
-
   return (
     <Wrap>
       <Help>
@@ -103,6 +100,7 @@ const Main = () => {
         <span>인기 게시글</span>
       </Award>
       <ArticleWrap>
+
         {rankList?.data.map((list, idx) => {
           return (
             <Article2
@@ -162,7 +160,7 @@ const Main = () => {
               </Footer>
             </Article2>
           );
-        })}
+        })} 
       </ArticleWrap>
       <ToggleWrap>
         <ToggleBtn onClick={clickedToggle} toggle={toggle}>
@@ -237,7 +235,6 @@ const Main = () => {
     </Wrap>
   );
 };
-
 const Wrap = styled.div`
   width: 1200px;
   margin: auto;
@@ -325,7 +322,6 @@ const ToggleBtn = styled.button`
   align-items: center;
   transition: all 0.5s ease-in-out;
 `;
-
 const All = styled.span`
   //width: 40px;
   padding:0 5px;
@@ -341,7 +337,6 @@ const Ing = styled(All)`
   padding-left:12px;
   flex-direction: row-reverse;
 `;
-
 const Circle = styled.div`
   display: flex;
   flex-direction: center;
@@ -367,7 +362,6 @@ const Circle = styled.div`
   }
 `;
 // 토글 스위치 끝
-
 const ArticleWrap = styled.ul`
   width: 1200px;
   gap: 2%;
@@ -390,13 +384,11 @@ const Article = styled.li`
     transform: scale(1.02);
   }
 `;
-
 const Article2 = styled(Article)`
   width: 32%;
   height: 364px;
   padding-top: 0;
 `;
-
 const Content = styled.div`
   margin: 20px 0;
   h1 {
@@ -415,7 +407,6 @@ const Content = styled.div`
     -webkit-box-orient: vertical;
   }
 `;
-
 const Hashtag = styled.div`
   position: absolute;
   bottom: 100px;
@@ -424,7 +415,6 @@ const Hashtag = styled.div`
     color: #ffb673;
   }
 `;
-
 const Deadline = styled.div`
  
  
@@ -476,7 +466,6 @@ const Comment = styled.div`
   display: flex;
   margin-right: 15px;
 `;
-
 const Bookmark = styled.div`
   display: flex;
 `;
