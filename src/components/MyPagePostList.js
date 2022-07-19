@@ -1,4 +1,4 @@
-import { LineBtn, ListProfilePic, ListStack, ListTitle, PostBody } from "../styles/style"
+import { Btn, LineBtn, ListProfilePic, ListStack, ListTitle, PostBody } from "../styles/style"
 import { useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/atom";
 import { useNavigate } from "react-router-dom";
@@ -65,7 +65,10 @@ const MyPagePostList = ({
                     : null}
 
                 {data?.nickname === userInfo?.nickname ?
-                    <MyPageBtn onClick={() => viewApplyModal(data.postId)} >지원자 보기</MyPageBtn>
+     
+                    <MyPageBtn onClick={() => viewApplyModal(data.postId)} >내 팀원 보기</MyPageBtn>
+
+                   
                     : null}
             </PostBody>
 
@@ -111,6 +114,8 @@ const MyPageBtn = styled(LineBtn)`
 margin-top: 24px;
 width: 100%;
 `;
+
+
 
 
 export default MyPagePostList;
