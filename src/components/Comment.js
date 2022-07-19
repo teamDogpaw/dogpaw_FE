@@ -55,9 +55,9 @@ const Comment = ({ data }) => {
     }
   };
 
-  const addReplyClick = async () => {
+  const addReplyClick = () => {
     const replyData = { id, content: replyRef.current.value };
-    await addReply(replyData);
+    addReply(replyData);
     replyRef.current.value = "";
     queryClient.invalidateQueries("commentList");
   };

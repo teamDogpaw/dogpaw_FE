@@ -26,19 +26,19 @@ export function useRemoveComment() {
 }
 
 export function usePostReply() {
-  useMutation((replyData) => {
+  return useMutation((replyData) => {
     return commentApis.postReply(replyData);
   });
 }
 
 export function useEditReply() {
-  useMutation((replyData) => {
+  return useMutation((replyData) => {
     return commentApis.editReply(replyData);
   });
 }
 
 export function useRemoveReply() {
-  useMutation((replyData) => {
+  return useMutation((replyData) => {
     return commentApis.removeReply(replyData);
   });
 }
