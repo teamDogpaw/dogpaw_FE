@@ -20,11 +20,11 @@ console.log(myPostId)
 
     )
 }
-const CloseButton = styled.div`
+export const CloseButton = styled.div`
 margin-left: auto;
 `;
 
-const Modal = styled.div`
+export const Modal = styled.div`
 display: flex;
 flex-direction: column;
   position: absolute;
@@ -39,7 +39,7 @@ flex-direction: column;
     padding: 30px;
 `;
 
-const Background = styled.div`
+export const Background = styled.div`
     position: fixed;
     top: 0;
     left: 0;
