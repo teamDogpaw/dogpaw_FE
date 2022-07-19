@@ -5,7 +5,7 @@ import instance from "../shared/axios";
 import { useInView } from "react-intersection-observer";
 import { useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/atom";
-import { useGetBookmarkRank } from "../hook/useUserData";
+
 
 import Tutoral from "../components/Tutorial";
 import Loading from "../shared/Loading";
@@ -21,6 +21,7 @@ import silver from "../styles/icon/main/medal1.svg";
 import bronze from "../styles/icon/main/medal2.svg";
 import person from "../styles/icon/global/profile.svg";
 import help from "../styles/icon/main/help.svg";
+import { useGetBookmarkRank } from "../hook/usePostData";
 
 const fetchPostList = async (pageParam) => {
   const res = await instance.get(`/api/allpost?page=${pageParam}`);
@@ -37,6 +38,7 @@ const Main = () => {
   const { ref, inView } = useInView();
 
   const { data: rankList } = useGetBookmarkRank();
+  console.log(rankList)
 
   const userMe = user?.nickname;
   const isLogin = localStorage.getItem("token");
@@ -101,7 +103,7 @@ const Main = () => {
         <span>인기 게시글</span>
       </Award>
       <ArticleWrap>
-        {rankList.map((list, idx) => {
+        {rankList?.data.map((list, idx) => {
           return (
             <Article2
               key={list.postId}

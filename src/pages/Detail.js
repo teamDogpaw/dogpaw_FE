@@ -13,7 +13,8 @@ import person from "../styles/icon/global/profile.svg";
 import paw from "../styles/icon/detail/paw.svg";
 import edit from "../styles/icon/detail/edit.svg";
 import remove from "../styles/icon/detail/remove.svg";
-import { usePostBookmark, usePostApply } from "../hook/useUserData";
+import { usePostBookmark} from "../hook/useUserData";
+import {usePostApply} from "../hook/useApplyMutation"
 import ViewApply from "../components/ViewApply";
 
 const Detail = () => {
@@ -25,10 +26,9 @@ const Detail = () => {
   const [myPostId, setMyPostId] = useState();
 
   const { data: postList } = useGetPost(id);
-  console.log(postList);
-
+  console.log(postList?.data)
   const author = postList?.nickname;
-  const userStatus = postList?.userStatus;
+  const userStatus = postList?.data.userStatus;
 
   const queryClient = useQueryClient();
   const { mutateAsync: deletePost } = useDeletePost();
@@ -40,7 +40,7 @@ const Detail = () => {
     setMyPostId(id);
   }
 
-  const deletePostClick = async () => {
+  const deletePostClick =  async () => {
     await deletePost(id);
     navigate("/");
   };
@@ -58,7 +58,7 @@ const Detail = () => {
       alert("신청 완료");
       await apply(id);
     }
-    queryClient.invalidateQueries("detailPost");
+   queryClient.invalidateQueries("detailPost");
   };
 
   return (
@@ -66,8 +66,8 @@ const Detail = () => {
       <Wrap>
         <ArticleTop>
           <User>
-            <h1>{postList?.title}</h1>
-            <Img src={postList?.profileImg || person} alt="profile" />
+            <h1>{postList?.data.title}</h1>
+            <Img src={postList?.data.profileImg || person} alt="profile" />
             <p>{author}</p>
           </User>
           <Leftarrow
@@ -78,7 +78,7 @@ const Detail = () => {
           <Mark>
             {userStatus === "author" ? (
               ""
-            ) : postList?.bookMarkStatus ? (
+            ) : postList?.data.bookMarkStatus ? (
               <BookmarkFill onClick={bookMark} />
             ) : (
               <BookmarkIcon onClick={bookMark} />
@@ -106,28 +106,28 @@ const Detail = () => {
             <div>
               <Title>
                 <p>진행방식</p>
-                <span> {postList?.onLine ? "온라인" : "오프라인"}</span>
+                <span> {postList?.data.onLine ? "온라인" : "오프라인"}</span>
               </Title>
               <Title>
                 <p>구인스택</p>
                 <Stack>
-                  {postList?.stacks?.map((lang, idx) => (
+                  {postList?.data.stacks?.map((lang, idx) => (
                     <span key={idx}> #{lang}</span>
                   ))}
                 </Stack>
               </Title>
               <Title>
                 <p>예상 진행 기간</p>
-                <span>{postList?.period}</span>
+                <span>{postList?.data.period}</span>
               </Title>
               <Title>
                 <p>시작 예정일</p>
-                <span> {postList?.startAt}</span>
+                <span> {postList?.data.startAt}</span>
               </Title>
               <Title>
                 <p>모집 인원</p>
                 <span>
-                  {postList?.currentMember} / {postList?.maxCapacity} 명
+                  {postList?.data.currentMember} / {postList?.data.maxCapacity} 명
                 </span>
               </Title>
             </div>
@@ -151,10 +151,10 @@ const Detail = () => {
                 >
                   {isHover && (
                     <Alert>
-                      <p>{postList?.applierCnt}명이 지원했어요!</p>
+                      <p>{postList?.data.applierCnt}명이 지원했어요!</p>
                     </Alert>
                   )}
-                  <Button onClick={() => applyBtn(postList?.applyStatus)}>
+                  <Button onClick={() => applyBtn(postList?.data.applyStatus)}>
                     프로젝트 지원하기
                   </Button>
                 </div>
@@ -168,7 +168,7 @@ const Detail = () => {
                       <p>{postList?.applierCnt}명이 지원했어요!</p>
                     </Alert>
                   )}
-                  <Button onClick={() => applyBtn(postList?.applyStatus)}>
+                  <Button onClick={() => applyBtn(postList?.data.applyStatus)}>
                     지원 취소하기
                   </Button>
                 </div>
@@ -183,7 +183,7 @@ const Detail = () => {
           <div>
             <h1>프로젝트 소개</h1>
           </div>
-          <pre>{postList?.content}</pre>
+          <pre>{postList?.data.content}</pre>
           <div>
             <img src={paw} alt="" />
           </div>

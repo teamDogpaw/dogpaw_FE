@@ -59,7 +59,7 @@ const Header = () => {
         <User>
           {!isLogin ? (
             <Contain>
-              <StyledLink to="/write">게시글 작성 </StyledLink>
+              
               <span onClick={viewModal}>로그인 </span> 
               {isModalOpen ? <ModalOpen  /> : "아니"}
 
@@ -67,6 +67,7 @@ const Header = () => {
             </Contain>
           ) : (
             <>
+            <StyledLink to="/write"><img src={write} alt="" />게시글 작성 </StyledLink>
               {/* <StyledLink to="/write">게시글 작성</StyledLink> */}
               <Details ref={detailsRef}>
                 <Summary>

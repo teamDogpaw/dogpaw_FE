@@ -49,7 +49,7 @@ const ApplyList = ({ myPostId }) => {
   }
   return (
     <>
-      신청자 명단
+      <h1>신청자 명단</h1>
       {data.map((applier) => {
         return (
           <ApplyListContent>
@@ -63,9 +63,9 @@ const ApplyList = ({ myPostId }) => {
                 {applier.nickname}
               </User>
 
-              <Div>
+              
                 {applier.username}
-
+                <Div>
                 {applier.stacks?.map((stack, index) => {
                   return <Stack key={index}>#{stack}</Stack>;
                 })}
@@ -101,28 +101,31 @@ const ApplyListContent = styled.div`
   border: 1px solid #e2e2e2;
   padding: 16px;
   border-radius: 16px;
-  margin-bottom: 16px;
+  margin : 16px 0;
 
   img {
-    margin-right: 5px;
+    margin-right: 10px;
   }
 `;
 
 const Section = styled.div`
-  //width:70%;
+  width:75%;
+  background-color:olive;
 `;
 const User = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 `;
 
 const Div = styled.div`
-  //display:flex;
+  display:flex;
+  background-color:gold;
 `;
 
 const Stack = styled(MyStack)`
   margin-top: 10px;
+  position: static;
 `;
 
 const MyBtn = styled.div`

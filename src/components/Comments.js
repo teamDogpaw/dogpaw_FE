@@ -26,7 +26,7 @@ const Comments = () => {
     const commentData = { id, content: comment_ref.current.value };
     await addComment(commentData);
     comment_ref.current.value = "";
-    queryClient.invalidateQueries(["commentList"]);
+    queryClient.invalidateQueries("commentList");
   };
 
   const onChange = (e) => {
@@ -40,7 +40,7 @@ const Comments = () => {
 
   return (
     <Wrap>
-      <h3>댓글 {commentList?.length}개</h3>
+      <h3>댓글 {commentList?.data.length}개</h3>
       <CommentBox>
         <Input
           type="text"
@@ -55,7 +55,7 @@ const Comments = () => {
       </CommentBox>
 
       <div>
-        {commentList?.map((data) => (
+        {commentList?.data.map((data) => (
           <Comment key={data.commentId} data={data}></Comment>
         ))}
       </div>

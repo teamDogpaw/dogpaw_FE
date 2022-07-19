@@ -1,31 +1,19 @@
 import instance from "../shared/axios";
 
 export const commentApis = {
-  getCommentList: async (id) => {
-    const { data } = await instance.get(`api/posts/${id}/comments`);
-    return data;
-  },
+  getCommentList: async (id) => await instance.get(`api/posts/${id}/comments`),
 
-  postComment: async (commentData) => {
-    const { data } = await instance.post(
-      `api/posts/${commentData.id}/comments`,
-      commentData
-    );
-    return data;
-  },
+  postComment: async (commentData) =>
+    await instance.post(`api/posts/${commentData.id}/comments`, commentData),
 
-  editComment: async (commentData) => {
-    const { data } = await instance.put(
+  editComment: async (commentData) =>
+    await instance.put(
       `api/posts/${commentData.id}/comments/${commentData.commentId}`,
       commentData
-    );
-    return data;
-  },
+    ),
 
-  removeComment: async (commentData) => {
-    const { data } = await instance.delete(
+  removeComment: async (commentData) =>
+    await instance.delete(
       `api/posts/${commentData.id}/comments/${commentData.commentId}`
-    );
-    return data;
-  },
+    ),
 };
