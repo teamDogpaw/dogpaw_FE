@@ -12,13 +12,12 @@ import { usePostApply } from "../hook/useApplyMutation";
 const MyPagePostList = ({
     data,
     viewApplyModal,
-    isApply,
     currentTab
 }) => {
 
+    console.log(currentTab)
     const navigate = useNavigate()
-    const userInfo = useRecoilValue(UserInfoAtom);
-    const { mutate : postApply } = usePostApply()
+    const { mutate: postApply } = usePostApply()
 
     return (
         <>
@@ -27,12 +26,12 @@ const MyPagePostList = ({
                     {data.profileImg === null ? <DefaultProfile style={{ width: "40px", height: "40px" }} />
                         : <ListProfilePic src={data.profileImg} />}
                     {data?.nickname}
-                    {data.bookMarkStatus ? 
-                    <UserBookmark postId={data.postId} 
-                    bookmarkStatus={data.bookMarkStatus} 
-                    currentTab={currentTab}/>
-                    :
-                    <UserBookmark postId={data.postId} currentTab={currentTab}/>}
+                    {data.bookMarkStatus ?
+                        <UserBookmark postId={data.postId}
+                            bookmarkStatus={data.bookMarkStatus}
+                            currentTab={currentTab} />
+                        :
+                        <UserBookmark postId={data.postId} currentTab={currentTab} />}
                 </HeadBody>
 
                 <ListTitle onClick={() => navigate(`/detail/${data.postId}`)}>
@@ -60,15 +59,28 @@ const MyPagePostList = ({
                     </Count>
 
                 </ListBottom>
-                {isApply ?
+                {currentTab === 3 ?
                     <MyPageBtn onClick={() => postApply(data.postId)} >지원 취소하기</MyPageBtn>
                     : null}
 
-                {data?.nickname === userInfo?.nickname ?
-     
-                    <MyPageBtn onClick={() => viewApplyModal(data.postId)} >내 팀원 보기</MyPageBtn>
 
-                   
+                {currentTab === 2 ?
+                    <MyPageBtn
+                        onClick={() =>
+                            viewApplyModal({
+                                postId: data.postId,
+                                title: data.title,
+                                deadline: data.deadline
+                            })} >팀원 목록 보기</MyPageBtn>
+                    : null}
+                {currentTab === 4 ?
+                    <MyPageBtn
+                        onClick={() =>
+                            viewApplyModal({
+                                postId: data.postId,
+                                title: data.title,
+                                deadline: data.deadline
+                            })} >팀원 목록 보기</MyPageBtn>
                     : null}
             </PostBody>
 
