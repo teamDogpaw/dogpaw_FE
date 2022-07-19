@@ -1,21 +1,15 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import Bookmark from "../components/Bookmark"
 import MyProject from "../components/MyProject";
 import JoinProject from "../components/JoinProject"
-import { useMatch, useNavigate } from "react-router-dom";
-import { Btn, MainBody, MyStack, Option, SelectBoxOpen, PostBody } from "../styles/style"
+import { useNavigate } from "react-router-dom";
+import { Btn, MyStack, Option, SelectBoxOpen, PostBody } from "../styles/style"
 import styled from "styled-components";
-import axios from "axios";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMyProfileReset, useMyProfileEdit } from "../hook/useProfileMutation"
 import { useRecoilState } from "recoil";
-import ViewApply from "../components/ViewApply";
-
-import instance from "../shared/axios";
 import { UserInfoAtom } from "../atom/atom";
 import profilepic from "../styles/icon/global/profile.svg";
 import { SelectBox } from "../components/WriteSelect";
-import bookmark_fill from "../styles/icon/post/bookmark.svg"
 import { ReactComponent as StackDelete } from "../styles/icon/stackSelect/stackDelete.svg"
 import ApplyProject from "../components/ApplyProject";
 
@@ -26,82 +20,61 @@ const MyPage = () => {
    const stackdetailsRef = useRef(null);
    const imageRef = useRef();
    const [currentTab, setTab] = useState(1);
-   console.log(userInfo)
    const formData = new FormData()
 
    const tabList = [
-      { id: 1, name: '관심 프로젝트', content: <Bookmark currentTab={currentTab}/> },
-      { id: 2, name: '참여한 프로젝트', content: <JoinProject currentTab={currentTab}/> },
-      { id: 3, name: '신청한 프로젝트', content: <ApplyProject currentTab={currentTab}/> },
-      { id: 4, name: '내가 쓴 프로젝트', content: <MyProject currentTab={currentTab}/> }
+      { id: 1, name: '관심 프로젝트', content: <Bookmark currentTab={currentTab} /> },
+      { id: 2, name: '참여한 프로젝트', content: <JoinProject currentTab={currentTab} /> },
+      { id: 3, name: '신청한 프로젝트', content: <ApplyProject currentTab={currentTab} /> },
+      { id: 4, name: '내가 쓴 프로젝트', content: <MyProject currentTab={currentTab} /> }
    ];
 
    const [myData, setMyData] = useState({
-      profileImg: userInfo?.profileImg,
-      nickname: userInfo?.nickname,
-      stacks: userInfo?.stacks
+      profileImg: userInfo.profileImg,
+      nickname: userInfo.nickname,
+      stacks: userInfo.stacks
    })
 
-   useEffect(() => {setMyData(userInfo)}, [userInfo])
+   useEffect(() => { setMyData(userInfo) }, [userInfo])
 
-console.log(userInfo)
-   console.log(myData)
    //⚠️ 프로필 이미지 넣지 않으면 편집 완료 못함
    const EditMyData = async () => {
-      console.log(myData)
-      formData.append("image", myData.profileImg);
+
+      const image = myData.profileImg
+      if (image === null) {
+      } else if (typeof image === "string") {
+      } else if (image !== null) {
+         formData.append("image", image);
+      }
       const data = {
          stacks: myData.stacks,
          nickname: myData.nickname
       }
       const formdata = JSON.stringify(data)
       const blob = new Blob([formdata], { type: 'application/json' })
+
       formData.append("body", blob)
-      try {
-         await instance.put(`/api/user/info`, formData, {
-            headers: { "Content-Type": "multipart/form-data" }
-         })
-      }
-      catch (error) {
-         alert(error)
-      }
+
+      await profileEdit(formData)
+ 
       setIsEdit(false)
       navigate("/mypage")
    }
 
-   const basic = async () => {
-      try {
-         await instance.put(`/api/user/profile/basic`)
-      } catch (error) {
-         alert(error)
-      }
-   }
-
-   const queryClient = useQueryClient();
-
-const {mutate : profileEdit} = useMutation("profileedit", EditMyData, {
-   onSuccess: () => {
-      queryClient.invalidateQueries("userinfo");
-  }
-})
-
-const {mutate: imageReSet} = useMutation("imagereset", basic, {
-   onSuccess: () => {
-      queryClient.invalidateQueries("userinfo");
-  }
-})
+   //✅
+   // const basic = async () => {
+   //    try {
+   //       await instance.put(`/api/user/profile/basic`)
+   //    } catch (error) {
+   //       alert(error)
+   //    }
+   // }
 
 
+   const { mutate: profileEdit } = useMyProfileEdit()
+   const { mutate: imageReSet } = useMyProfileReset()
 
-   //    image - imagefile
-   //    body {stacks: value,
-   //          nickname: value}
-   // =>    한번에 만들어서 한번에 blovb
-   //          {nickname: value}
-
-   //state안에 새 stack 넣기
    const addStack = (newStack) => {
-
       if (myData.stacks === undefined) {
          setMyData({ stacks: [newStack] })
          console.log(myData.stacks)
@@ -134,13 +107,9 @@ const {mutate: imageReSet} = useMutation("imagereset", basic, {
       setMyData(prev => ({ ...prev, stacks: newStacks }))
    }
 
-
-
    return (
       <WholeBody>
-         {/* {viewApply ? <ViewApply viewApply={viewApply} viewApplyModal={viewApplyModal} /> : null} */}
          <PostBody>
-
             {isEdit ?
                <>
                   {myData?.profileImg === null ? <Profilepic src={profilepic} /> : <Profilepic src={myData?.profileImg} />}
@@ -169,9 +138,9 @@ const {mutate: imageReSet} = useMutation("imagereset", basic, {
                         })}
                      </div>
                   </form>
-                  <Btn onClick={() => imageReSet()}>기본 이미지로 변경</Btn>
-                  <Btn onClick={() => profileEdit()}>편집 완료</Btn>
-               </>
+                  <Btn onClick={imageReSet}>기본 이미지로 변경</Btn>
+                  <Btn onClick={EditMyData}>편집 완료</Btn>
+               </> 
 
                :
                <>
@@ -180,7 +149,7 @@ const {mutate: imageReSet} = useMutation("imagereset", basic, {
                   {userInfo?.nickname} <br />
                   {userInfo?.username}
                   <div style={{ display: "flex" }}>
-                     {userInfo.stacks?.map((mystack, index) => {
+                     {userInfo?.stacks?.map((mystack, index) => {
                         return (
                            <MyStack key={index}>#{mystack}</MyStack>
                         )
@@ -211,11 +180,11 @@ const {mutate: imageReSet} = useMutation("imagereset", basic, {
                   </>
                )
             })}
-         
+
 
          </TabBody>
          <div>
-            {tabList[currentTab-1].content}
+            {tabList[currentTab - 1].content}
          </div>
 
 
