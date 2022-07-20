@@ -136,7 +136,7 @@ height:35px;
 border-radius:50%;
 margin-right:10px;
 //box-shadow: -2px 1px 6px rgba(0, 0, 0, 0.2);
-feature1
+
 `;
 
 const Details = styled.details`
