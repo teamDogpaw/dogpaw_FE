@@ -106,6 +106,6 @@ background: ${(props)=>props.theme.divBackGroundColor};
 `;
 
 const ModalContent = styled.div`
-overflow: scroll;
+overflow-y: auto;
 `;
 export default ViewApply;
