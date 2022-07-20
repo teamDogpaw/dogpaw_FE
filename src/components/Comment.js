@@ -19,6 +19,7 @@ const Comment = ({ data }) => {
 
   const params = useParams();
   const id = params.postId;
+  const replyId = data.commentId;
   const comment_ref = useRef("");
   const replyRef = useRef("");
 
@@ -46,7 +47,7 @@ const Comment = ({ data }) => {
     queryClient.invalidateQueries("commentList");
   };
 
-  // 답글 작성  액션
+  // 대 댓글 작성
   const { mutateAsync: addReply } = usePostReply();
 
   const onCheckEnter = (e) => {
@@ -55,9 +56,9 @@ const Comment = ({ data }) => {
     }
   };
 
-  const addReplyClick = () => {
-    const replyData = { id, content: replyRef.current.value };
-    addReply(replyData);
+  const addReplyClick = async () => {
+    const replyData = { replyId, content: replyRef.current.value };
+    await addReply(replyData);
     replyRef.current.value = "";
     queryClient.invalidateQueries("commentList");
   };
@@ -108,6 +109,7 @@ const Comment = ({ data }) => {
             </>
           )}
         </Btn>
+        {/* 대 댓글 작성할 수 있는 input 박스 */}
         <div className="commentList">
           <DropDown visibility={dropdownVisibility}>
             <ul>

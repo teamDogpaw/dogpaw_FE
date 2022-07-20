@@ -18,7 +18,7 @@ export const commentApis = {
     ),
 
   postReply: async (replyData) =>
-    await instance.post(`api/comments/${replyData.id}/commentReply`, {
+    await instance.post(`api/comments/${replyData.replyId}/commentReply`, {
       content: replyData.content,
     }),
 

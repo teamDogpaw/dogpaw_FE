@@ -19,8 +19,9 @@ const ReplyComment = (props) => {
   const replyRef = useRef("");
 
   const queryClient = useQueryClient();
+
+  // 대 댓글 수정
   const { mutateAsync: editReply } = useEditReply();
-  const { mutateAsync: removeReply } = useRemoveReply();
 
   const modifyReplyClick = async (replyId) => {
     const replyData = { content: replyRef.current.value, replyId, id };
@@ -28,6 +29,9 @@ const ReplyComment = (props) => {
     await editReply(replyData);
     queryClient.invalidateQueries("commentList");
   };
+
+  // 대 댓글 삭제
+  const { mutateAsync: removeReply } = useRemoveReply();
 
   const deleteReplyClick = async (replyId) => {
     const replyData = { replyId, id };
