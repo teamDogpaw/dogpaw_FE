@@ -16,4 +16,17 @@ export const commentApis = {
     await instance.delete(
       `api/posts/${commentData.id}/comments/${commentData.commentId}`
     ),
+
+  postReply: async (replyData) =>
+    await instance.post(`api/comments/${replyData.replyId}/commentReply`, {
+      content: replyData.content,
+    }),
+
+  editReply: async (replyData) =>
+    await instance.put(`api/comments/${replyData.id}/${replyData.replyId}`, {
+      content: replyData.content,
+    }),
+
+  removeReply: async (replyData) =>
+    await instance.delete(`api/comments/${replyData.id}/${replyData.replyId}`),
 };

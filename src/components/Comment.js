@@ -6,12 +6,22 @@ import { UserInfoAtom } from "../atom/atom";
 
 import styled from "styled-components";
 import person from "../styles/images/person.png";
-import { useEditComment, useRemoveComment } from "../hook/useCommentData";
+import {
+  useEditComment,
+  useRemoveComment,
+  usePostReply,
+} from "../hook/useCommentData";
+import DropDown from "./DropDown";
 
 const Comment = ({ data }) => {
+  //대댓글 드롭다운 열기/닫기
+  const [dropdownVisibility, setDropdownVisibility] = useState(false);
+
   const params = useParams();
   const id = params.postId;
+  const replyId = data.commentId;
   const comment_ref = useRef("");
+  const replyRef = useRef("");
 
   const [isEdit, setIsEdit] = useState(false);
 
@@ -37,6 +47,22 @@ const Comment = ({ data }) => {
     queryClient.invalidateQueries("commentList");
   };
 
+  // 대 댓글 작성
+  const { mutateAsync: addReply } = usePostReply();
+
+  const onCheckEnter = (e) => {
+    if (e.key === "Enter") {
+      addReplyClick();
+    }
+  };
+
+  const addReplyClick = async () => {
+    const replyData = { replyId, content: replyRef.current.value };
+    await addReply(replyData);
+    replyRef.current.value = "";
+    queryClient.invalidateQueries("commentList");
+  };
+
   return (
     <div>
       <div>
@@ -51,6 +77,12 @@ const Comment = ({ data }) => {
             <p>{data.content}</p>
           )}
           <p>{data.modifiedAt.substring(0, 10)}</p>
+          <button
+            style={{ marginLeft: "10px" }}
+            onClick={(e) => setDropdownVisibility(!dropdownVisibility)}
+          >
+            {dropdownVisibility ? "닫기" : "답글 쓰기"}
+          </button>
         </Content>
 
         <Btn>
@@ -77,7 +109,26 @@ const Comment = ({ data }) => {
             </>
           )}
         </Btn>
-        <hr style={{ color: "#e2e2e2" }} />
+        {/* 대 댓글 작성할 수 있는 input 박스 */}
+        <div className="commentList">
+          <DropDown visibility={dropdownVisibility}>
+            <ul>
+              <li>
+                <Wrap>
+                  <CommentBox>
+                    <Input
+                      type="text"
+                      placeholder="댓글을 남겨주세요"
+                      ref={replyRef}
+                      onKeyPress={onCheckEnter}
+                    />
+                    <Button onClick={addReplyClick}>등록하기</Button>
+                  </CommentBox>
+                </Wrap>
+              </li>
+            </ul>
+          </DropDown>
+        </div>
       </div>
     </div>
   );
@@ -138,5 +189,52 @@ const DeleteBtn = styled(ModiBtn)`
 
 const UpdateBtn = styled(ModiBtn)`
   color: ${(props) => props.theme.textColor};
+`;
+
+const Wrap = styled.div`
+  background-color: ${(props) => props.theme.divBackGroundColor};
+  margin: auto;
+
+  box-sizing: border-box;
+`;
+const CommentBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 140px;
+  margin-top: 20px;
+`;
+const Input = styled.input`
+  width: 100%;
+  height: 88px;
+  padding: 12px;
+  border: 1px solid #e2e2e2;
+  border-radius: 8px;
+  outline: none;
+  background-color: ${(props) => props.theme.inputBoxBackground};
+`;
+
+const Button = styled.button`
+  background: #ffb673;
+  color: #fff;
+  width: 92px;
+  height: 40px;
+  font-weight: 700;
+  border-radius: 8px;
+  border: none;
+  padding: 8px 12px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+
+  font-size: 15px;
+
+  cursor: pointer;
+  :hover {
+    background-color: #ff891c;
+  }
+  :active {
+    background-color: #d26500;
+  }
 `;
 export default Comment;
