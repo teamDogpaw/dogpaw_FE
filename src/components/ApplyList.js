@@ -1,72 +1,49 @@
-import { useMutation, useQuery } from "react-query";
 import styled from "styled-components";
-import instance from "../shared/axios";
 import {
-  Btn,
   GrayLineBtn,
   LineBtn,
   ListProfilePic,
-  MypagePostBox,
   MyStack,
 } from "../styles/style";
 import profilepic from "../styles/icon/global/profile.svg";
-import { useState } from "react";
-import { useGetApplicantLists, useGetApplyLists } from "../hook/useProjectData";
-import { useRejectApply } from "../hook/useProjectMutation";
+import { useGetApplicantLists } from "../hook/useProjectData";
+import { useAcceptApply, useRejectApply } from "../hook/useProjectMutation";
 import { ReactComponent as Empty } from "../styles/icon/global/pawLoading.svg"
 const ApplyList = ({ myPostId }) => {
+  const { isLoading: isApplyListLoading, data: applyList } = useGetApplicantLists(myPostId)
+  const { mutate: rejectApply } = useRejectApply()
+  const { mutate: acceptApply } = useAcceptApply()
 
+  const reject = async (data) => {
+    await rejectApply(data)
+    alert("거절이 완료되었습니다!")
+  }
 
-  console.log(myPostId);
-
-  //✅
-  // const getApplyLists = async () => {
-  //   try {
-  //     const response = await instance.get(`api/allApplicants/info/${myPostId}`);
-  //     console.log(response.data);
-  //     return response.data;
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-
-  const rejectionMutate = useMutation(async (userId) => {
-    try {
-      await instance.delete(`api/applicant/${userId}/rejection/${myPostId}`);
-      alert("거절이 완료되었습니다!");
-    } catch (error) {
-      alert("잘못된 접근입니다");
-    }
-  });
-
-  const acceptMutate = useMutation(async (userId) => {
-    try {
-      await instance.post(`api/applicant/${userId}/acceptance/${myPostId}`);
-      alert("수락이 완료되었습니다!");
-    } catch (error) {
-      alert("잘못된 접근입니다");
-    }
-  });
-
-  const { isLoading: isApplyListLoading , data: applyList } = useGetApplicantLists(myPostId)
-  const { mutate : rejectApply } = useRejectApply()
+  const accept = async (data) => {
+    await acceptApply(data)
+    alert("수락이 완료되었습니다!")
+  }
 
   if (isApplyListLoading) {
-    return <h1>loading...</h1>;
+    return (
+      <EmptyBody>
+        <EmptyImg />
+        <br />
+        <span> Loading . . . </span>
+      </EmptyBody>
+    );
   }
-  console.log(applyList)
+
   return (
     <>
-    {applyList.data.length === 0 ? <EmptyBody>
-    <EmptyImg />
-    <br/>
-    <span> 아직 신청자가 없어요! </span>
-    </EmptyBody> : null}
+      {applyList.data.length === 0 ? <EmptyBody>
+        <EmptyImg />
+        <br />
+        <span> 아직 신청자가 없어요! </span>
+      </EmptyBody> : null}
       {applyList.data.map((applier) => {
-        
-        <ApplyListContent>
-     
+        return (
+          <ApplyListContent>
             <User>
               {applier.profileImg === null ? (
                 <ListProfilePic src={profilepic} />
@@ -76,30 +53,32 @@ const ApplyList = ({ myPostId }) => {
               {applier.nickname}
               {applier.username}
             </User>
-              <StackBody>
+            <StackBody>
               {applier.stacks?.map((stack, index) => {
                 return (
-                <Stack key={index}>#{stack}</Stack>
+                  <Stack key={index}>#{stack}</Stack>
                 )
               })}
-                </StackBody>
-          <MyBtn>
-            <LineBtn
-              onClick={() => acceptMutate.mutate(applier.userId, myPostId)}
-            >
-              수락하기
-            </LineBtn>
-            <GrayLineBtn
-              onClick={rejectApply(applier.userId, myPostId)}
-            >
-              거절하기
-            </GrayLineBtn>
-          </MyBtn>
-        </ApplyListContent>
+            </StackBody>
+            <MyBtn>
+              <LineBtn
+                onClick={() => accept({ userId: applier.userId, postId: myPostId })}
+              >
+                수락하기
+              </LineBtn>
+              <GrayLineBtn
+                onClick={() => reject({ userId: applier.userId, postId: myPostId })}
+              >
+                거절하기
+              </GrayLineBtn>
+            </MyBtn>
+          </ApplyListContent>
+        )
 
-    })}
 
-      
+      })}
+
+
     </>
   );
 };

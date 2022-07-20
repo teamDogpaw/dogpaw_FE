@@ -12,21 +12,26 @@ import edit from "../styles/icon/detail/edit.svg";
 import remove from "../styles/icon/detail/remove.svg";
 import { usePostBookmark } from "../hook/useUserData";
 import ApplyBtn from "../components/ApplyBtn";
+import Loading from "../shared/Loading";
 
 const Detail = () => {
   const navigate = useNavigate();
   const params = useParams();
   const id = params.postId;
-
-  const { data: postList } = useGetPost(id);
+  
+  const { data: postList , isLoading:isLoadingPost } = useGetPost(id);
   console.log(postList?.data);
+  
   const author = postList?.data.nickname;
   const userStatus = postList?.data.userStatus;
-  const applierCnt = postList?.data.applierCnt;
 
   const queryClient = useQueryClient();
   const { mutateAsync: deletePost } = useDeletePost();
   const { mutateAsync: bookmark } = usePostBookmark();
+
+  if(isLoadingPost){
+    return <Loading /> 
+  }
 
   const deletePostClick = async () => {
     await deletePost(id);
@@ -65,7 +70,9 @@ const Detail = () => {
             {userStatus === "author" && (
               <>
                 <ModifyBtn
-                  onClick={() => navigate(`/write/${id}`, { state: postList })}
+                  onClick={() =>
+                    navigate(`/write/${id}`, { state: postList.data })
+                  }
                 >
                   <img src={edit} alt="" />
                   <span>게시글 수정</span>
@@ -108,7 +115,8 @@ const Detail = () => {
                 </span>
               </Title>
             </div>
-            <ApplyBtn userStatus={userStatus} id={id} applierCnt={applierCnt} />
+
+            <ApplyBtn myPostData={postList?.data} />
           </ContentWrap>
         </ArticleTop>
         <Article>

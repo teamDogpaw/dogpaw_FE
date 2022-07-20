@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useGetMyProjectPost } from "../hook/usePostListData"
 import { MypagePostBox } from "../styles/style"
+import { EmptyBody, EmptyImg } from "./ApplyList"
 import MyPagePostList from "./MyPagePostList"
 import ViewApply from "./ViewApply"
 
@@ -8,27 +9,41 @@ const MyProject = ({
   currentTab
 }) => {
 
-  const [viewApply, setViewApply] = useState(false);
-  const [myPostId, setMyPostId] = useState();
-  const { data: myProjectPost } = useGetMyProjectPost();
+  
+  const { data: myProjectPost, isLoading : isLoadingMyProject } = useGetMyProjectPost();
 
-  function viewApplyModal(postId) {
+  console.log(myProjectPost)
+  const [viewApply, setViewApply] = useState(false);
+  
+  const [myPostData,setMyPostData] = useState({
+    id:1,
+    title:"",
+    deadline:false
+  })
+
+  function viewApplyModal(data) {
     setViewApply((prev) => !prev);
-    setMyPostId(postId)
+    setMyPostData(()=> ({
+      id: data.postId,
+      title:data.title,
+      deadline:data.deadline
+    }))
   }
 
-  // if (isLoading) {
-  //   return (
-  //     <h1>loading...</h1>
-  //   )
-  // }
+  if (isLoadingMyProject) {
+    return (
+      <EmptyBody>
+        <EmptyImg />
+      </EmptyBody>
+    )
+  }
   return (
     <>
 
       {viewApply ?
         <ViewApply viewApplyModal={viewApplyModal}
-          myPostId={myPostId}
-          postTitle={myProjectPost.data.title}
+          myPostData={myPostData}
+          
         />
         : null}
 
