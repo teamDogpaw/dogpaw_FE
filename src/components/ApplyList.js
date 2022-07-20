@@ -64,6 +64,7 @@ const ApplyList = ({ myPostId }) => {
     <span> 아직 신청자가 없어요! </span>
     </EmptyBody> : null}
       {applyList.data.map((applier) => {
+        
         <ApplyListContent>
      
             <User>

@@ -6,4 +6,5 @@ export const userApis = {
     putMyProfileReset : async () => await instance.put(`/api/user/profile/basic`),
     withdrawParticipate : async (postId) => await instance.delete(`/api/withdraw/team/${postId}`),
     postBookmark: async (id) => await instance.post(`api/bookMark/${id}`),
+    userInfo: async () => await instance.get("/user/userinfo")
 };

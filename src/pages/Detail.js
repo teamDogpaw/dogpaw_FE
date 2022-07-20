@@ -1,11 +1,8 @@
 import { useQueryClient } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import Comments from "../components/Comments";
-import { useState } from "react";
-import { Btn, LineBtn } from "../styles/style";
 import { useDeletePost, useGetPost } from "../hook/usePostData";
-
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { ReactComponent as BookmarkIcon } from "../styles/icon/post/bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/post/bookmarkFill.svg";
 import { ReactComponent as Arrow } from "../styles/icon/detail/backArrow.svg";
@@ -13,34 +10,25 @@ import person from "../styles/icon/global/profile.svg";
 import paw from "../styles/icon/detail/paw.svg";
 import edit from "../styles/icon/detail/edit.svg";
 import remove from "../styles/icon/detail/remove.svg";
-import { usePostBookmark} from "../hook/useUserData";
-import {usePostApply} from "../hook/useApplyMutation"
-import ViewApply from "../components/ViewApply";
+import { usePostBookmark } from "../hook/useUserData";
+import ApplyBtn from "../components/ApplyBtn";
 
 const Detail = () => {
   const navigate = useNavigate();
   const params = useParams();
   const id = params.postId;
-  const [isHover, setIsHover] = useState(false);
-  const [viewApply, setViewApply] = useState(false);
-  const [myPostId, setMyPostId] = useState();
 
   const { data: postList } = useGetPost(id);
-  console.log(postList?.data)
-  const author = postList?.nickname;
+  console.log(postList?.data);
+  const author = postList?.data.nickname;
   const userStatus = postList?.data.userStatus;
+  const applierCnt = postList?.data.applierCnt;
 
   const queryClient = useQueryClient();
   const { mutateAsync: deletePost } = useDeletePost();
   const { mutateAsync: bookmark } = usePostBookmark();
-  const { mutateAsync: apply } = usePostApply();
 
-  function viewApplyModal(id) {
-    setViewApply((prev) => !prev);
-    setMyPostId(id);
-  }
-
-  const deletePostClick =  async () => {
+  const deletePostClick = async () => {
     await deletePost(id);
     navigate("/");
   };
@@ -48,18 +36,6 @@ const Detail = () => {
   const bookMark = async () => {
     await bookmark(id);
     queryClient.invalidateQueries("detailPost");
-  };
-
-  const applyBtn = async (applyStatus) => {
-    if (userStatus === "applicant") {
-      alert("지원이 취소됐습니다");
-      await apply(id);
-    } else {
-     
-      await apply(id);
-      alert("신청 완료");
-    }
-   queryClient.invalidateQueries("detailPost");
   };
 
   return (
@@ -101,7 +77,6 @@ const Detail = () => {
               </>
             )}
           </Userbtn>
-
           <hr />
           <ContentWrap>
             <div>
@@ -128,56 +103,14 @@ const Detail = () => {
               <Title>
                 <p>모집 인원</p>
                 <span>
-                  {postList?.data.currentMember} / {postList?.data.maxCapacity} 명
+                  {postList?.data.currentMember} / {postList?.data.maxCapacity}{" "}
+                  명
                 </span>
               </Title>
             </div>
-            <div>
-              {userStatus === "author" ? (
-                <>
-                  <Button2
-                    onClick={() => {
-                      viewApplyModal(id);
-                    }}
-                  >
-                    지원자 보기
-                  </Button2>
-
-                  <Button>프로젝트 마감하기</Button>
-                </>
-              ) : userStatus === "MEMBER" ? (
-                <div
-                  onMouseOver={() => setIsHover(true)}
-                  onMouseOut={() => setIsHover(false)}
-                >
-                  {isHover && (
-                    <Alert>
-                      <p>{postList?.data.applierCnt}명이 지원했어요!</p>
-                    </Alert>
-                  )}
-                  <Button onClick={() => applyBtn(postList?.data.applyStatus)}>
-                    프로젝트 지원하기
-                  </Button>
-                </div>
-              ) : (
-                <div
-                  onMouseOver={() => setIsHover(true)}
-                  onMouseOut={() => setIsHover(false)}
-                >
-                  {isHover && (
-                    <Alert>
-                      <p>{postList?.data.applierCnt}명이 지원했어요!</p>
-                    </Alert>
-                  )}
-                  <Button onClick={() => applyBtn(postList?.data.applyStatus)}>
-                    지원 취소하기
-                  </Button>
-                </div>
-              )}
-            </div>
+            <ApplyBtn userStatus={userStatus} id={id} applierCnt={applierCnt} />
           </ContentWrap>
         </ArticleTop>
-        
         <Article>
           <div>
             <h1>프로젝트 소개</h1>
@@ -188,9 +121,6 @@ const Detail = () => {
           </div>
         </Article>
         <Comments />
-        {viewApply && (
-          <ViewApply viewApplyModal={viewApplyModal} myPostId={myPostId} />
-        )}
       </Wrap>
     </>
   );
@@ -341,50 +271,6 @@ const Article = styled.div`
   pre {
     white-space: pre-wrap;
   }
-`;
-
-const Button = styled(Btn)`
-  height: 52px;
-  width: 180px;
-  padding: 16px 24px;
-  font-size: 17px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  right: 0px;
-  bottom: 0px;
-`;
-const Button2 = styled(LineBtn)`
-  height: 52px;
-  width: 180px;
-  padding: 16px 24px;
-  font-size: 17px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  right: 200px;
-  bottom: 0px;
-`;
-
-const alertAni = keyframes`
-from {
-  transform : translateY(30px);
-}
-
-to {
-  transform : translateY(0);
-}
-`;
-
-const Alert = styled.div`
-  position: absolute;
-  right: 28px;
-  bottom: 20%;
-  animation: ${alertAni} 0.2s linear;
 `;
 
 export default Detail;
