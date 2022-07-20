@@ -38,7 +38,7 @@ const Main = () => {
 
 
   const { data: rankList } = useGetBookmarkRank();
-  console.log(rankList)
+  //console.log(rankList)
 
   const userMe = user?.nickname;
   const isLogin = localStorage.getItem("token");
