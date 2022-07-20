@@ -21,9 +21,7 @@ const Write = () => {
    const stackdetailsRef = useRef(null);
    const perioddetailsRef = useRef(null);
    const capacitydetailsRef = useRef(null);
-
-   //⚠️ 데이터 부르지말고 detail에서 가져와서 쓰기
-
+   
    const [startDate, setStartDate] = useState(new Date());
    const [stack, setStack] = useState([])
    const [selectedData, setSelectedData] = useState({

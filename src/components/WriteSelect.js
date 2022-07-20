@@ -139,6 +139,7 @@ list-style: none;
 
 const TitleInput = styled.input`
 font-size: 40px;
+width: 100%;
 font-weight: bold;
 border: 0px transparent;
 background-color: transparent;
@@ -160,6 +161,10 @@ font-size: 16px;
 ::placeholder{
    color:#e2e2e2;
 }
+:focus{
+    outline: none;
+}
+cursor: pointer;
 `;
 
 const SelectBoxOpen = styled.ul`
