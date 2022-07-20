@@ -16,7 +16,7 @@ const MyProject = ({
   const [viewApply, setViewApply] = useState(false);
   
   const [myPostData,setMyPostData] = useState({
-    id:1,
+    postId:1,
     title:"",
     deadline:false
   })
@@ -24,7 +24,7 @@ const MyProject = ({
   function viewApplyModal(data) {
     setViewApply((prev) => !prev);
     setMyPostData(()=> ({
-      id: data.postId,
+      postId: data.postId,
       title:data.title,
       deadline:data.deadline
     }))
