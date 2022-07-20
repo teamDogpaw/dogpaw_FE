@@ -12,6 +12,8 @@ const ApplyBtn = ({ myPostData }) => {
   const userStatus = myPostData.userStatus;
   const id = myPostData.postId;
   const applierCnt = myPostData.applierCnt;
+  const deadline = myPostData.deadline;
+  
   const queryClient = useQueryClient();
   const { mutateAsync: apply } = usePostApply();
 
@@ -35,7 +37,7 @@ const ApplyBtn = ({ myPostData }) => {
 
   return (
     <div>
-      {userStatus === "author" ? (
+      {userStatus === "author" && (
         <>
           <Button2
             onClick={() => {
@@ -46,7 +48,8 @@ const ApplyBtn = ({ myPostData }) => {
           </Button2>
           <Button>프로젝트 마감하기</Button>
         </>
-      ) : userStatus === "MEMBER" ? (
+      )} 
+      {deadline === false ? (userStatus === "MEMBER" ? (
         <div
           onMouseOver={() => setIsHover(true)}
           onMouseOut={() => setIsHover(false)}
@@ -72,7 +75,9 @@ const ApplyBtn = ({ myPostData }) => {
             <Button onClick={applyBtn}>지원 취소하기</Button>
           </div>
         )
-      )}
+      )) : (<Button3 disabled={true}>모집 마감</Button3>)}
+       
+      
       {viewApply && (
         <ViewApply viewApplyModal={viewApplyModal} myPostData={myPostData} />
       )}
@@ -121,6 +126,22 @@ const Button2 = styled(LineBtn)`
   position: absolute;
   right: 200px;
   bottom: 0px;
+`;
+
+const Button3 = styled.button`
+height: 52px;
+  width: 180px;
+  padding: 16px 24px;
+  font-size: 17px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+
+
 `;
 
 export default ApplyBtn;

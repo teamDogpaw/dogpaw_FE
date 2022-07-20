@@ -56,7 +56,6 @@ const Comments = () => {
           등록하기
         </Button>
       </CommentBox>
-
       <div>
         {commentList?.data.data.map((data) => (
           <>
