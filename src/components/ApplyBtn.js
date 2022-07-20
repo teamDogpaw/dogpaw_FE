@@ -5,11 +5,13 @@ import { useQueryClient } from "react-query";
 import { usePostApply } from "../hook/useApplyMutation";
 import ViewApply from "../components/ViewApply";
 
-
-const ApplyBtn = ({ userStatus, id, applierCnt }) => {
+const ApplyBtn = ({ myPostData }) => {
   const [isHover, setIsHover] = useState(false);
   const [viewApply, setViewApply] = useState(false);
-  const [myPostId, setMyPostId] = useState();
+
+  const userStatus = myPostData.userStatus;
+  const id = myPostData.id;
+  const applierCnt = myPostData.applierCnt;
   const queryClient = useQueryClient();
   const { mutateAsync: apply } = usePostApply();
 
@@ -29,7 +31,6 @@ const ApplyBtn = ({ userStatus, id, applierCnt }) => {
 
   function viewApplyModal(id) {
     setViewApply((prev) => !prev);
-    setMyPostId(id);
   }
 
   return (
@@ -73,7 +74,7 @@ const ApplyBtn = ({ userStatus, id, applierCnt }) => {
         )
       )}
       {viewApply && (
-        <ViewApply viewApplyModal={viewApplyModal} myPostId={myPostId} />
+        <ViewApply viewApplyModal={viewApplyModal} myPostData={myPostData} />
       )}
     </div>
   );
