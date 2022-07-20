@@ -10,11 +10,12 @@ const JoinProject = ({
   currentTab
 }) => {
 
-
-  const {data:myParticipatePost, isLoading : isLoadingPartiPost} = useGetMyParticipatePost();
+  const {
+    data:myParticipatePost, 
+    isLoading : isLoadingPartiPost} 
+    = useGetMyParticipatePost();
 
   const [viewApply, setViewApply] = useState(false);
-  
   const [myPostData,setMyPostData] = useState({
     id:1,
     title:"",
@@ -24,7 +25,7 @@ const JoinProject = ({
   function viewApplyModal(data) {
     setViewApply((prev) => !prev);
     setMyPostData(()=> ({
-      id: data.postId,
+      postId: data.postId,
       title:data.title,
       deadline:data.deadline
     }))
@@ -64,22 +65,3 @@ const JoinProject = ({
 };
 
 export default JoinProject;
-
-  
-  //✅
-  // const GetJoinProject = async () => {
-  //   try {
-  //     const response = await instance.get(`/api/user/participation`);
-  //     console.log(response.data);
-  //     return response.data;
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-
-
-
-  // if (isLoading) {
-  //   return <h1>loading...</h1>;
-  // }
