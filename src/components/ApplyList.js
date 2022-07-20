@@ -51,15 +51,16 @@ const ApplyList = ({ myPostId }) => {
                 <ListProfilePic src={applier.profileImg} />
               )}
               {applier.nickname}
+              </User>
               {applier.username}
-            </User>
-            <StackBody>
+            
+            <Stacks>
               {applier.stacks?.map((stack, index) => {
                 return (
                   <Stack key={index}>#{stack}</Stack>
                 )
               })}
-            </StackBody>
+            </Stacks>
             <MyBtn>
               <LineBtn
                 onClick={() => accept({ userId: applier.userId, postId: myPostId })}
@@ -91,6 +92,7 @@ export const ApplyListContent = styled.div`
   padding: 16px;
   border-radius: 16px;
   margin-bottom: 16px;
+  overflow-y:auto;
 
   img {
     margin-right: 5px;
@@ -115,7 +117,7 @@ height: 200px;
 `;
 
 export const Section = styled.div`
-  //width:70%;
+  width:75%;
 `;
 export const User = styled.div`
   display: flex;
@@ -123,13 +125,20 @@ export const User = styled.div`
   margin-bottom: 5px;
 `;
 
-
-
-
-export const StackBody = styled.div`
-display: flex;
-overflow: scroll;
-`;
+export const Stacks = styled.div`
+  display:flex;
+  overflow-x:auto;
+  padding-bottom:10px;
+ &::-webkit-scrollbar {
+    width: 0px;
+    height:9px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    border:1px solid #dadada;
+    background: white;
+  }
+  `;
 
 export const Stack = styled(MyStack)`
   margin-top: 10px;
