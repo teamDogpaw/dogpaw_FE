@@ -10,7 +10,7 @@ const ApplyBtn = ({ myPostData }) => {
   const [viewApply, setViewApply] = useState(false);
 
   const userStatus = myPostData.userStatus;
-  const id = myPostData.id;
+  const id = myPostData.postId;
   const applierCnt = myPostData.applierCnt;
   const queryClient = useQueryClient();
   const { mutateAsync: apply } = usePostApply();
