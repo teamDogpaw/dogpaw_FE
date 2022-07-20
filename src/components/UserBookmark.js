@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { QueryClient, useMutation, useQueryClient } from "react-query";
+import { usePostBookmark } from "../hook/useUserData";
 import instance from "../shared/axios";
 import { ReactComponent as BookmarkIcon } from "../styles/icon/post/bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/post/bookmarkFill.svg";
@@ -17,18 +18,25 @@ const UserBookmark = ({
     useEffect(() => {
     }, [isMyBookmark])
 
-    const DoBookmark = async (postId) => {
-        setIsMyBookmark((prev) => !prev)
-        return await instance.post(`/api/bookMark/${postId}`)
-    }
+    // const DoBookmark = async (postId) => {
+    //     setIsMyBookmark((prev) => !prev)
+    //     return await instance.post(`/api/bookMark/${postId}`)
+    // }
 
     const queryClient = useQueryClient();
 
-    const bookmarkMutation = useMutation(["bookmark", postId], DoBookmark, {
-        onSuccess: () => {
-            queryClient.invalidateQueries("applyproject", "joinproject", "mybookmark");
-        }
-    })
+    // const bookmarkMutation = useMutation(["bookmark", postId], DoBookmark, {
+    //     onSuccess: () => {
+    //         queryClient.invalidateQueries("applyproject", "joinproject", "mybookmark");
+    //     }
+    // })
+
+    const bookmark = () => {
+        setIsMyBookmark((prev) => !prev)
+        doBookmark(postId)
+        queryClient.invalidateQueries("applyproject", "joinproject", "mybookmark");
+    }
+    const {mutate : doBookmark } = usePostBookmark()
 
     if (currentTab === 1) {
         return (
@@ -36,8 +44,8 @@ const UserBookmark = ({
             <>
 
                 {(isMyBookmark) ?
-                    <BookmarkFill style={{ marginLeft: "auto" }} onClick={() => { bookmarkMutation.mutate(postId) }} />
-                    : <BookmarkIcon style={{ marginLeft: "auto" }} onClick={() => { bookmarkMutation.mutate(postId) }} />
+                    <BookmarkFill style={{ marginLeft: "auto" }} onClick={bookmark} />
+                    : <BookmarkIcon style={{ marginLeft: "auto" }} onClick={bookmark} />
                 }
 
             </>
@@ -50,8 +58,8 @@ const UserBookmark = ({
         <>
 
             {(bookmarkStatus) ?
-                <BookmarkFill style={{ marginLeft: "auto" }} onClick={() => { bookmarkMutation.mutate(postId) }} />
-                : <BookmarkIcon style={{ marginLeft: "auto" }} onClick={() => { bookmarkMutation.mutate(postId) }} />
+                <BookmarkFill style={{ marginLeft: "auto" }} onClick={bookmark} />
+                : <BookmarkIcon style={{ marginLeft: "auto" }} onClick={bookmark } />
             }
 
         </>

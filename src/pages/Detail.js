@@ -23,7 +23,6 @@ const Detail = () => {
   const id = params.postId;
   const [isHover, setIsHover] = useState(false);
   const [viewApply, setViewApply] = useState(false);
-  const [myPostId, setMyPostId] = useState();
 
   const { data: postList } = useGetPost(id);
   console.log(postList?.data)
@@ -35,9 +34,8 @@ const Detail = () => {
   const { mutateAsync: bookmark } = usePostBookmark();
   const { mutateAsync: apply } = usePostApply();
 
-  function viewApplyModal(id) {
+  function viewApplyModal() {
     setViewApply((prev) => !prev);
-    setMyPostId(id);
   }
 
   const deletePostClick =  async () => {
@@ -89,7 +87,7 @@ const Detail = () => {
             {userStatus === "author" && (
               <>
                 <ModifyBtn
-                  onClick={() => navigate(`/write/${id}`, { state: postList })}
+                  onClick={() => navigate(`/write/${id}`, { state: postList.data })}
                 >
                   <img src={edit} alt="" />
                   <span>게시글 수정</span>
@@ -137,7 +135,7 @@ const Detail = () => {
                 <>
                   <Button2
                     onClick={() => {
-                      viewApplyModal(id);
+                      viewApplyModal();
                     }}
                   >
                     지원자 보기
@@ -189,7 +187,7 @@ const Detail = () => {
         </Article>
         <Comments />
         {viewApply && (
-          <ViewApply viewApplyModal={viewApplyModal} myPostId={myPostId} />
+          <ViewApply viewApplyModal={viewApplyModal} myPostData={postList.data} />
         )}
       </Wrap>
     </>

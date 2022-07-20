@@ -1,20 +1,25 @@
 
-import { useState } from "react"
 import { MypagePostBox } from "../styles/style"
 import MyPagePostList from "./MyPagePostList"
 import { useGetMyApplyPost } from "../hook/usePostListData"
+import { EmptyBody, EmptyImg } from "./ApplyList";
 
 const ApplyProject = ({
-  viewApplyModal
+  viewApplyModal,
+  currentTab
 }) => {
 
-  const [isApply, setIsApply] = useState(true);
-  const {data : myApplyPost} = useGetMyApplyPost();
+  const {data : myApplyPost, isLoading:isLoadingApplyPost} = useGetMyApplyPost();
 
-  // if (isLoading) {
-  //   return <h1>loading...</h1>;
-  // } 
   
+  if (isLoadingApplyPost) {
+    return (
+      <EmptyBody>
+        <EmptyImg />
+      </EmptyBody>
+    )
+  }
+
   return (
     <MypagePostBox>
       {myApplyPost?.data.map((content) => {
@@ -22,7 +27,7 @@ const ApplyProject = ({
           <MyPagePostList key={content.postId} 
           data={content} 
           viewApplyModal={viewApplyModal}
-          isApply={isApply}
+          currentTab={currentTab}
           />
         )
 

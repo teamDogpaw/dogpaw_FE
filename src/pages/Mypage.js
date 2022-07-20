@@ -9,7 +9,7 @@ import {
   useMyProfileReset,
   useMyProfileEdit,
 } from "../hook/useProfileMutation";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/atom";
 import profilepic from "../styles/icon/global/profile.svg";
 import { SelectBox } from "../components/WriteSelect";
@@ -18,7 +18,7 @@ import ApplyProject from "../components/ApplyProject";
 import pen from "../styles/icon/myPage/pen.svg";
 
 const MyPage = () => {
-  const [userInfo, setUserInfo] = useRecoilState(UserInfoAtom);
+  const userInfo = useRecoilValue(UserInfoAtom);
   console.log(userInfo);
   const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(false);
@@ -31,22 +31,22 @@ const MyPage = () => {
     {
       id: 1,
       name: "관심 프로젝트",
-      content: <Bookmark currentTab={currentTab} />,
+      content: <Bookmark currentTab={1} />,
     },
     {
       id: 2,
       name: "참여한 프로젝트",
-      content: <JoinProject currentTab={currentTab} />,
+      content: <JoinProject currentTab={2} />,
     },
     {
       id: 3,
       name: "신청한 프로젝트",
-      content: <ApplyProject currentTab={currentTab} />,
+      content: <ApplyProject currentTab={3} />,
     },
     {
       id: 4,
       name: "내가 쓴 프로젝트",
-      content: <MyProject currentTab={currentTab} />,
+      content: <MyProject currentTab={4} />,
     },
   ];
 

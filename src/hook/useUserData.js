@@ -5,4 +5,3 @@ export function usePostBookmark() {
   return useMutation(userApis.postBookmark);
 }
 
- 

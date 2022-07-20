@@ -1,20 +1,13 @@
-import { Link, useNavigate, useParams,useLocation } from "react-router-dom";
-import ReactDatePicker from "react-datepicker";
-
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
+import { useNavigate, useParams,useLocation } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
-import { MainBody, Btn, LineBtn, MyStack, GrayLineBtn } from "../styles/style";
+import { MainBody, Btn, GrayLineBtn } from "../styles/style";
 import styled from "styled-components";
 import "../styles/style.css"
-import { Mutation, useMutation, useQuery } from "react-query"
-
 import dayjs from "dayjs";
-import axios from "axios";
-import instance from "../shared/axios";
 import WriteSelect from "../components/WriteSelect";
+import { useEditProject, usePostProject } from "../hook/usePostMutation";
 
-const Write = ({postList}) => {
+const Write = () => {
    const {state} = useLocation()
    console.log(state)
    const [isEdit, setIsEdit] = useState(false);
@@ -22,30 +15,14 @@ const Write = ({postList}) => {
    const params = useParams()
    const postId = params.id
    const navigate = useNavigate()
-
+   const {mutate: editProject} = useEditProject();
+   const {mutate : postProject} = usePostProject();
    const processdetailsRef = useRef(null);
    const stackdetailsRef = useRef(null);
    const perioddetailsRef = useRef(null);
    const capacitydetailsRef = useRef(null);
 
    //⚠️ 데이터 부르지말고 detail에서 가져와서 쓰기
-   const getPostData = () => {
-      if(isEdit){
-return instance.get(`api/post/detail/${postId}`);
-      }
-      
-   };
-
-   const { isLoading, error, data } = useQuery("detailList", getPostData, {
-      refetchOnWindowFocus: false,
-      onSuccess: (data) => {
-         const PostData = data?.data
-         return PostData
-      },
-      onError: (e) => {
-         console.log(e.message);
-      },
-   });
 
    const [startDate, setStartDate] = useState(new Date());
    const [stack, setStack] = useState([])
@@ -59,9 +36,9 @@ return instance.get(`api/post/detail/${postId}`);
       startAt: dayjs(new Date()).format("YYYY/MM/DD")
    })
 
-   const PostPublish = async () => {
+   const publishPost = async () => {
       try {
-         await instance.post(`/api/post`, selectedData)
+         await postProject(selectedData)
          navigate("/")
       }
       catch (error) {
@@ -69,13 +46,11 @@ return instance.get(`api/post/detail/${postId}`);
       }
    }
 
-   const PostEdit = useMutation(async() => {
-      await instance.put(`/api/post/${postId}`, selectedData)
+   const editPost = async () => {
+      await editProject({data:selectedData, postId} )
       navigate(`/detail/${postId}`)
-})
+}
 
-
-   
    const handleStartDate = startDate => {
       setStartDate(startDate)
       setSelectedData(prev => ({ ...prev, startAt: dayjs(startDate).format("YYYY/MM/DD") }))
@@ -118,10 +93,9 @@ return instance.get(`api/post/detail/${postId}`);
    useEffect(() => {
       console.log(selectedData)
       console.log(postId)
+      console.log(state)
       if (postId !== undefined) {
          setIsEdit(true);
-         console.log(data?.data.stacks)
-         setStack(data?.data.stacks)
          setSelectedData({
             content: state.content,
             online: state.onLine,
@@ -131,12 +105,10 @@ return instance.get(`api/post/detail/${postId}`);
             period: state.period,
             startAt: state.startAt
          })
-
       }
-   }, [])
+   }, [state])
 
    const addStack = (newStack) => {
-
       if (!stack.includes(newStack)) {
          setStack([...stack, newStack])
          setSelectedData(prev => ({ ...prev, stacks: stack }))
@@ -147,7 +119,6 @@ return instance.get(`api/post/detail/${postId}`);
       if (details) {
          details.open = false;
       }
-
    }
 
    const removeStack = (selectedStack) => {
@@ -194,8 +165,8 @@ return instance.get(`api/post/detail/${postId}`);
          <Publish>
             <GrayLineBtn>전체 삭제</GrayLineBtn>
             {isEdit ? 
-            <Btn type="submit" onClick={()=>{PostEdit.mutate(selectedData)}}>프로젝트 수정하기</Btn>: 
-            <Btn type="submit" onClick={PostPublish}>프로젝트 등록하기</Btn>}
+            <Btn type="submit" onClick={editPost}>프로젝트 수정하기</Btn>: 
+            <Btn type="submit" onClick={publishPost}>프로젝트 등록하기</Btn>}
             
          </Publish>
       </>
@@ -207,8 +178,6 @@ const WriteBody = styled(MainBody)`
   margin-bottom: 40px;
   margin-top: 143px;
 `;
-
-
 
 const ProjectTextarea = styled.textarea`
 margin: 24px 0px;
@@ -225,15 +194,12 @@ font-size: 16px;
 }
 `;
 
-
 const Publish = styled.div`
   display: flex;
   justify-content: center;
   margin: 80px;
   gap:26px;
 `;
-
-
 
 export default Write;
 

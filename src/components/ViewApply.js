@@ -8,34 +8,49 @@ import ParticipantList from "./ParticipantList";
 
 const ViewApply = ({
     viewApplyModal,
-    myPostId,
-    postTitle
+    myPostData,
+    currentTab
 }) => {
-console.log(myPostId)
-console.log(postTitle)
+console.log(currentTab)
+    console.log(myPostData)
+
 
 const [isApplyList, setIsApplyList] = useState(false);
-    return (
+    
+return (
         <Background>
             <Modal>
                 <CloseButton onClick={viewApplyModal}>
                     <X style={{ right: "0" }} />
                 </CloseButton>
-                {postTitle}
-                <ModalTabBody>
-                    <Tab className={isApplyList ? null : "focused"}
+                <h1>{myPostData.title} </h1>
+             
+                    {currentTab === 2 ?
+                       <ModalTabBody className="participant">
+                    <Tab className="focused"
                     onClick={()=>setIsApplyList(false)}>
-                    내 팀원 목록
+                    팀원 목록
                     </Tab>
-                    <Tab className={isApplyList ? "focused" : null}
-                    onClick={()=>setIsApplyList(true)}>
-                    신청자 목록
-                    </Tab>
+                    </ModalTabBody>
+                     : 
+                     <ModalTabBody>
+                      <Tab className={isApplyList ? null : "focused"}
+                     onClick={()=>setIsApplyList(false)}>
+                     팀원 목록
+                     </Tab>
+                     <Tab className={isApplyList ? "focused" : null}
+                     onClick={()=>setIsApplyList(true)}>
+                     신청자 목록
+                     </Tab>
+                     </ModalTabBody>
+                    
+                     }
+                   
               
 
-                </ModalTabBody>
+
                 <ModalContent>
-                {isApplyList ?  <ApplyList myPostId={myPostId}/> : <ParticipantList myPostId={myPostId}/>}
+                {isApplyList ?  <ApplyList myPostId={myPostData.id}/> : <ParticipantList myPostId={myPostData.id} currentTab={currentTab}/>}
 
                 </ModalContent>
                
@@ -85,7 +100,9 @@ grid-template-columns: repeat(2,1fr);
 margin: 16px 0px 20px;
 background: ${(props)=>props.theme.divBackGroundColor};
 
-
+&.participant{
+    grid-template-columns: 1fr;
+}
 `;
 
 const ModalContent = styled.div`
