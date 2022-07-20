@@ -324,7 +324,7 @@ const ToggleBtn = styled.button`
 `;
 const All = styled.span`
   //width: 40px;
-  padding:0 5px;
+  padding-right: 4px;
   font-weight: 700;
   color: #ffb673;
   opacity: 0.5;
@@ -352,7 +352,7 @@ const Circle = styled.div`
   ${(props) =>
     props.toggle &&
     css`
-      transform: translate(100%, 0); // 44px
+      transform: translate(95%, 0); // 44px
       transition: all 0.4s ease-in-out;
     `}
   p {

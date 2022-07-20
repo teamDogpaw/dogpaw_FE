@@ -18,10 +18,10 @@ const Detail = () => {
   const navigate = useNavigate();
   const params = useParams();
   const id = params.postId;
-  
-  const { data: postList , isLoading:isLoadingPost } = useGetPost(id);
+
+  const { data: postList, isLoading: isLoadingPost } = useGetPost(id);
   console.log(postList?.data);
-  
+
   const author = postList?.data.nickname;
   const userStatus = postList?.data.userStatus;
 
@@ -29,8 +29,8 @@ const Detail = () => {
   const { mutateAsync: deletePost } = useDeletePost();
   const { mutateAsync: bookmark } = usePostBookmark();
 
-  if(isLoadingPost){
-    return <Loading /> 
+  if (isLoadingPost) {
+    return <Loading />;
   }
 
   const deletePostClick = async () => {
@@ -49,7 +49,9 @@ const Detail = () => {
         <ArticleTop>
           <User>
             <h1>{postList?.data.title}</h1>
-            <Img src={postList?.data.profileImg || person} alt="profile" />
+
+            <img src={postList?.data.profileImg || person} alt="profile" />
+
             <p>{author}</p>
           </User>
           <Leftarrow
@@ -174,7 +176,13 @@ const User = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  line-height: 60px;
+  line-height: 50px;
+
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
 `;
 
 const Userbtn = styled.div`
@@ -214,11 +222,6 @@ const DeleteBtn = styled(ModifyBtn)`
   }
 `;
 
-const Img = styled.img`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-`;
 const Leftarrow = styled(Arrow)`
   position: absolute;
   top: 25px;
