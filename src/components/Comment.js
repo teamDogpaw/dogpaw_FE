@@ -25,7 +25,7 @@ const Comment = ({ data }) => {
   const { mutateAsync: removeComment } = useRemoveComment();
 
   const modifyCommentClick = async (commentId) => {
-    const commentData = { content: comment_ref.current.value, commentId, id };
+    const commentData = {id,commentId,content:comment_ref.current.value};
     setIsEdit(false);
     await editComment(commentData);
     queryClient.invalidateQueries("commentList");

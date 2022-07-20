@@ -1,10 +1,9 @@
-import { useInfiniteQuery } from "react-query";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import instance from "../shared/axios";
 import { useInView } from "react-intersection-observer";
 import { useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/atom";
+import { useGetBookmarkRank, useGetKeepPostList } from "../hook/usePostData";
 
 import Tutoral from "../components/Tutorial";
 import Loading from "../shared/Loading";
@@ -18,16 +17,8 @@ import gold from "../styles/icon/main/medal0.svg";
 import silver from "../styles/icon/main/medal1.svg";
 import bronze from "../styles/icon/main/medal2.svg";
 import person from "../styles/icon/global/profile.svg";
-
 import help from "../styles/icon/main/help.svg";
-import { useGetBookmarkRank } from "../hook/usePostData";
 
-
-const fetchPostList = async (pageParam) => {
-  const res = await instance.get(`/api/allpost?page=${pageParam}`);
-  const { postList, isLast } = res.data;
-  return { postList, nextPage: pageParam + 1, isLast };
-};
 const Main = () => {
   const navigate = useNavigate();
   const user = useRecoilValue(UserInfoAtom);
@@ -36,23 +27,14 @@ const Main = () => {
   const [isHover, setIsHover] = useState(false);
   const { ref, inView } = useInView();
 
-
   const { data: rankList } = useGetBookmarkRank();
   //console.log(rankList)
 
   const userMe = user?.nickname;
   const isLogin = localStorage.getItem("token");
 
-
-  const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
-    "postList",
-    ({ pageParam = 0 }) => fetchPostList(pageParam),
-    {
-      refetchOnWindowFocus: false,
-      getNextPageParam: (lastPage) =>
-        !lastPage.isLast ? lastPage.nextPage : undefined, 
-    }
-  );
+  const { data, status, fetchNextPage, isFetchingNextPage } = useGetKeepPostList();
+  
   useEffect(() => {
     if (inView) fetchNextPage();
   }, [fetchNextPage, inView]);
