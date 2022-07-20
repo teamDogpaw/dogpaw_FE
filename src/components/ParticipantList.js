@@ -1,6 +1,6 @@
 import { useGetParticipantsLists } from "../hook/useProjectData";
 import { LineBtn, ListProfilePic } from "../styles/style";
-import { ApplyListContent, EmptyBody, EmptyImg, MyBtn, Section, Stack, StackBody, User } from "./ApplyList";
+import { ApplyListContent, EmptyBody, EmptyImg, MyBtn, Section, Stack, StackBody, Stacks, User } from "./ApplyList";
 import profilepic from "../styles/icon/global/profile.svg";
 import { useExplusionMateMutation } from "../hook/useProjectMutation";
 
@@ -53,12 +53,12 @@ const ParticipantList = ({ myPostId, currentTab }) => {
 
                             <div>
 
-                                <StackBody>
+                                <Stacks>
 
                                     {team.stacks?.map((stack, index) => {
                                         return <Stack key={index}>#{stack}</Stack>;
                                     })}
-                                </StackBody>
+                                </Stacks>
 
                             </div>
                         </div>
