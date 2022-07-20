@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { useGetCommentList, usePostComment } from "../hook/useCommentData";
 import Comment from "./Comment";
+import ReplyComment from "./ReplyComment";
 
 const Comments = () => {
   const params = useParams();
@@ -13,8 +14,9 @@ const Comments = () => {
   const id = params.postId;
 
   const queryClient = useQueryClient();
+  // 댓글 조회 및 대 댓글 조회
   const { data: commentList } = useGetCommentList(id);
-  console.log(commentList)
+
   const { mutateAsync: addComment } = usePostComment();
 
   const onCheckEnter = (e) => {
@@ -30,7 +32,6 @@ const Comments = () => {
     queryClient.invalidateQueries("commentList");
   };
 
-
   const onChange = (e) => {
     const commentText = comment_ref.current.value;
     if (commentText.length > 0) {
@@ -42,9 +43,7 @@ const Comments = () => {
 
   return (
     <Wrap>
-
       <h3>댓글 {commentList?.data.data.length}개</h3>
-
       <CommentBox>
         <Input
           type="text"
@@ -58,10 +57,21 @@ const Comments = () => {
         </Button>
       </CommentBox>
 
-
       <div>
         {commentList?.data.data.map((data) => (
-          <Comment key={data.commentId} data={data}></Comment>
+          <>
+            {/* 댓글 부분 */}
+            <Comment key={data.commentId} data={data}></Comment>
+            {data.commentReplyList.map((reply) => (
+              /* 대 댓글 부분 */
+              <ReplyComment
+                key={reply.id}
+                data={reply}
+                commentId={data.commentId}
+              />
+            ))}
+            <hr style={{ color: "#e2e2e2" }} />
+          </>
         ))}
       </div>
     </Wrap>
