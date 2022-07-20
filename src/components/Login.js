@@ -43,7 +43,7 @@ const Login = () => {
     //console.log(data);
 
     try {
-      await axios.post("http://3.35.22.190/user/login", data).then((res) => {
+      await axios.post("https://my1stdomain.shop/user/login", data).then((res) => {
         const accessToken = res.data.data.token.accessToken;
         const refreshToken = res.data.data.token.refreshToken;
         const id = res.data.data.userId;

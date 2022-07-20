@@ -52,7 +52,7 @@ const Register = () => {
     };
     //console.log(data);
     try {
-      await axios.post("http://3.35.22.190/user/signup", data).then((res) => {
+      await axios.post("https://my1stdomain.shop/user/signup", data).then((res) => {
         console.log(res, "회원가입");
         window.alert("회원가입 성공 :)");
         setOnModal(<Login />);

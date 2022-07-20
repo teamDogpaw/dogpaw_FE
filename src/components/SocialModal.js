@@ -21,7 +21,7 @@ const SocialModal = (props) => {
       nickname: nickName,
     };
     try {
-      await axios.post("http://3.35.22.190/user/nickname", data).then(
+      await axios.post("https://my1stdomain.shop/user/nickname", data).then(
         (
           res //console.log(res, "닉네임 중복확인")
         ) => window.alert(res.data.msg)
