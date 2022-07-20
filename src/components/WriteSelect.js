@@ -6,6 +6,7 @@ import { MyStack } from "../styles/style"
 import { ReactComponent as CapacityArrowDown } from "../styles/icon/global/arrowDown.svg"
 import { ReactComponent as CapacityArrowUp } from "../styles/icon/global/arrowUp.svg"
 import { useEffect, useRef } from "react"
+import StackSelector from "./StackSeletor"
 
 const WriteSelect = ({
     selectedData,
@@ -20,9 +21,9 @@ const WriteSelect = ({
     startDate,
     processdetailsRef,
     capacitydetailsRef,
-    stackdetailsRef,
     perioddetailsRef,
-    isEdit
+    isEdit,
+    setSelectedData
 }) => {
 
     useEffect(()=>{},[isEdit])
@@ -48,40 +49,20 @@ const WriteSelect = ({
             }}>
 
                 <SelectTitle>진행방식</SelectTitle>
-                <details style={{ height: "40px" }} ref={processdetailsRef}>
+                <Detail ref={processdetailsRef}>
                     <SelectBox>{selectedData.online}</SelectBox>
                     <SelectBoxOpen>
                         <Option onClick={() => handleProcess("온라인")}>온라인</Option>
                         <Option onClick={() => handleProcess("오프라인")}>오프라인</Option>
                     </SelectBoxOpen>
-                </details>
+                </Detail>
                 <SelectTitle>구인스택</SelectTitle>
-                <div>
-                    <details style={{ height: "40px" }} ref={stackdetailsRef}>
-                        <SelectBox>스택을 선택해주세요.</SelectBox>
-                        <SelectBoxOpen>
-                            <Option onClick={() => addStack("Java")}>Java</Option>
-                            <Option onClick={() => addStack("Javascript")}>Javascript</Option>
-                            <Option onClick={() => addStack("TypeScript")}>TypeScript</Option>
-                            <Option onClick={() => addStack("React")}>React</Option>
-                            <Option onClick={() => addStack("Vue")}>Vue</Option>
-                        </SelectBoxOpen>
-                    </details>
-                    <div style={{ display: "flex", flexWrap: "wrap", marginTop: "10px" }}>
-                        {stack?.map((stack, index) => {
-                            return (
-                                <MyStack style={{ margin: "0px 10px 10px 0px" }} key={index}>#{stack} <svg onClick={() => removeStack(stack)} width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9.99996 18.3327C14.6023 18.3327 18.3333 14.6017 18.3333 9.99935C18.3333 5.39698 14.6023 1.66602 9.99996 1.66602C5.39759 1.66602 1.66663 5.39698 1.66663 9.99935C1.66663 14.6017 5.39759 18.3327 9.99996 18.3327Z" stroke="#FFB673" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                    <path d="M12.5 7.5L7.5 12.5" stroke="#FFB673" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                    <path d="M7.5 7.5L12.5 12.5" stroke="#FFB673" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                                </MyStack>
-                            )
-                        })}
-                    </div>
-                </div>
+                <StackSelector addStack={addStack} removeStack={removeStack} 
+                stack={stack}  isEdit={isEdit}
+               setSelectedData={setSelectedData} selectedData={selectedData}
+               /> 
                 <SelectTitle>예상 진행 기간</SelectTitle>
-                <details style={{ height: "40px" }} ref={perioddetailsRef}>
+                <Detail ref={perioddetailsRef}>
 
                     <SelectBox>{selectedData.period}<CapacityArrowDown /></SelectBox>
                     <SelectBoxOpen>
@@ -91,7 +72,7 @@ const WriteSelect = ({
                         ))}
 
                     </SelectBoxOpen>
-                </details>
+                </Detail>
                 <SelectTitle>시작 예정일 </SelectTitle>
                 <DateInput
                     showPopperArrow={false}
@@ -104,7 +85,7 @@ const WriteSelect = ({
                     onChange={date => handleStartDate(date)} />
                 <SelectTitle ref={capacitydetailsRef}>모집인원</SelectTitle>
 
-                <details style={{ height: "40px" }} ref={capacitydetailsRef}>
+                <Detail ref={capacitydetailsRef}>
 
                     <SelectBox>{selectedData.maxCapacity}명 <CapacityArrowDown /></SelectBox>
                     <SelectBoxOpen>
@@ -114,7 +95,7 @@ const WriteSelect = ({
                         ))}
 
                     </SelectBoxOpen>
-                </details>
+                </Detail>
             </div>
         </>
     )
@@ -137,7 +118,7 @@ background-color: ${(props) => props.theme.inputBoxBackground};
 list-style: none;
 `;
 
-const TitleInput = styled.input`
+export const TitleInput = styled.input`
 font-size: 40px;
 width: 100%;
 font-weight: bold;
@@ -151,7 +132,7 @@ background-color: transparent;
 }
 `;
 
-const DateInput = styled(DatePicker)`
+export const DateInput = styled(DatePicker)`
 background-color: ${(props) => props.theme.inputBoxBackground};
 height: 37px;
 padding: 5px 10px;
@@ -167,7 +148,7 @@ font-size: 16px;
 cursor: pointer;
 `;
 
-const SelectBoxOpen = styled.ul`
+export const SelectBoxOpen = styled.ul`
 max-height: 200px;
 z-index: 10;
 border-radius: 8px;
@@ -187,6 +168,10 @@ padding: 8px 12px;
    background-color:${(props) => props.theme.keyColor};
    color:${(props) => props.theme.stackColor}
 }
+`;
+
+export const Detail = styled.details`
+height: 40px;
 `;
 
 export default WriteSelect;

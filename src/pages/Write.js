@@ -18,10 +18,10 @@ const Write = () => {
    const {mutate: editProject} = useEditProject();
    const {mutate : postProject} = usePostProject();
    const processdetailsRef = useRef(null);
-   const stackdetailsRef = useRef(null);
+ 
    const perioddetailsRef = useRef(null);
    const capacitydetailsRef = useRef(null);
-   
+
    const [startDate, setStartDate] = useState(new Date());
    const [stack, setStack] = useState([])
    const [selectedData, setSelectedData] = useState({
@@ -87,13 +87,11 @@ const Write = () => {
    }
 
 
-
    useEffect(() => {
       console.log(selectedData)
-      console.log(postId)
-      console.log(state)
       if (postId !== undefined) {
          setIsEdit(true);
+         setStack(state.stacks)
          setSelectedData({
             content: state.content,
             online: state.onLine,
@@ -104,29 +102,10 @@ const Write = () => {
             startAt: state.startAt
          })
       }
-   }, [state])
+   }, [])
 
-   const addStack = (newStack) => {
-      if (!stack.includes(newStack)) {
-         setStack([...stack, newStack])
-         setSelectedData(prev => ({ ...prev, stacks: stack }))
-      } else {
-         return null
-      }
-      const details = stackdetailsRef.current;
-      if (details) {
-         details.open = false;
-      }
-   }
 
-   const removeStack = (selectedStack) => {
-      console.log(stack)
-      console.log(selectedStack)
-      const newStacks = stack.filter((stack) => stack !== selectedStack)
-      console.log(newStacks)
-      setStack(newStacks)
-      setSelectedData(prev => ({ ...prev, stacks: newStacks }))
-   }
+
 
    return (
       <>
@@ -137,8 +116,8 @@ const Write = () => {
                selectedData={selectedData}
                handleTitle={handleTitle}
                handleCapacity={handleCapacity}
-               addStack={addStack}
-               removeStack={removeStack}
+               
+             
                handleProcess={handleProcess}
                handleStartDate={handleStartDate}
                setPeriod={setPeriod}
@@ -146,9 +125,11 @@ const Write = () => {
                startDate={startDate}
                processdetailsRef={processdetailsRef}
                capacitydetailsRef={capacitydetailsRef}
-               stackdetailsRef={stackdetailsRef}
+             
                perioddetailsRef={perioddetailsRef}
                isEdit={isEdit}
+               setSelectedData={setSelectedData}
+             
             />
          </WriteBody>
 
