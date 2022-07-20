@@ -50,7 +50,7 @@ return (
 
 
                 <ModalContent>
-                {isApplyList ?  <ApplyList myPostId={myPostData.id}/> : <ParticipantList myPostId={myPostData.id} currentTab={currentTab}/>}
+                {isApplyList ?  <ApplyList myPostId={myPostData.postId}/> : <ParticipantList myPostId={myPostData.postId} currentTab={currentTab}/>}
 
                 </ModalContent>
                
