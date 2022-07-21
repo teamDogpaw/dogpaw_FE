@@ -1,4 +1,4 @@
-import React, { Suspense} from "react";
+import React, { Suspense } from "react";
 import { GlobalStyle } from "./styles/style";
 import Router from "./Routes";
 import Header from "./components/Header";
@@ -7,11 +7,10 @@ import { lightTheme, darkTheme } from "./styles/theme";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { DarkThemeAtom } from "./atom/theme";
 import { useQuery } from "react-query";
-import instance from "./shared/axios";
+import instance from "./shared/userOauth";
 import { UserInfoAtom } from "./atom/atom";
 import Loading from "./shared/Loading";
 import Toggle from "./components/Toggle";
-
 
 function App() {
   const isDark = useRecoilValue(DarkThemeAtom);
@@ -28,27 +27,24 @@ function App() {
         console.log(error);
       }
     }
-  }; 
-  
-  useQuery("userinfo",GetUserInfo,{
+  };
+
+  useQuery("userinfo", GetUserInfo, {
     refetchOnWindowFocus: false,
-    onSuccess:(data)=>{
-      setUser(data)
-    }
-  })
- 
+    onSuccess: (data) => {
+      setUser(data);
+    },
+  });
 
   return (
     <>
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <GlobalStyle />
         <Header />
-          <Suspense fallback={<Loading />}>
-          <Router/>
-          </Suspense>
-          <Toggle />
-          
-
+        <Suspense fallback={<Loading />}>
+          <Router />
+        </Suspense>
+        <Toggle />
       </ThemeProvider>
     </>
   );
