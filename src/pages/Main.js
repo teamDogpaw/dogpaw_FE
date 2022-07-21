@@ -21,6 +21,7 @@ import person from "../styles/icon/global/profile.svg";
 
 import help from "../styles/icon/main/help.svg";
 import { useGetBookmarkRank } from "../hook/usePostData";
+import ModalOpen from "../components/Modal_prev";
 
 
 const fetchPostList = async (pageParam) => {
@@ -35,6 +36,7 @@ const Main = () => {
   const [toggle, setToggle] = useState(true);
   const [isHover, setIsHover] = useState(false);
   const { ref, inView } = useInView();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
 
   const { data: rankList } = useGetBookmarkRank();
@@ -82,12 +84,14 @@ const Main = () => {
   };
   return (
     <Wrap>
+        
       <Help>
         <Tuto
           onMouseOver={() => setIsHover(true)}
           onMouseOut={() => setIsHover(false)}
           onClick={() => setIsHover(false)}
         >
+          
           {isHover && <Tutoral />}
           <img src={help} alt="" />
         </Tuto>
@@ -229,9 +233,11 @@ const Main = () => {
               {post.deadline === true && <Deadline>모집마감</Deadline>}
             </Article>
           ))}
+          
         </ArticleWrap>
         {isFetchingNextPage ? <Loading /> : <div ref={ref}></div>}
       </>
+      {isModalOpen ? <ModalOpen isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/> : null}
     </Wrap>
   );
 };

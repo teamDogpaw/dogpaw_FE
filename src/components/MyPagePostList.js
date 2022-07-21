@@ -3,7 +3,7 @@ import { useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/atom";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { ReactComponent as DefaultProfile } from "../styles/icon/global/profile.svg"
+import DefaultProfile from "../styles/icon/global/profile.svg"
 import { ReactComponent as CommentCnt } from "../styles/icon/post/commentCnt.svg";
 import { ReactComponent as BookmarkCnt } from "../styles/icon/post/bookmarkCnt.svg"
 import UserBookmark from "./UserBookmark";
@@ -23,9 +23,13 @@ const MyPagePostList = ({
         <>
             <PostBody key={data.postId} >
                 <HeadBody>
-                    {data.profileImg === null ? <DefaultProfile style={{ width: "40px", height: "40px" }} />
-                        : <ListProfilePic src={data.profileImg} />}
+                    {currentTab !== 4 ? 
+                    <>
+                    <ListProfilePic src={data.profileImg === null ? DefaultProfile : data.profileImg} />
                     {data?.nickname}
+                    </>
+                    : null }
+                    
                     {data.bookMarkStatus ?
                         <UserBookmark postId={data.postId}
                             bookmarkStatus={data.bookMarkStatus}

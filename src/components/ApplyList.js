@@ -92,6 +92,8 @@ export const ApplyListContent = styled.div`
   border-radius: 16px;
   margin-bottom: 16px;
   line-height: normal;
+  
+
 
   img {
     margin-right: 5px;
@@ -126,6 +128,7 @@ export const Stacks = styled.div`
   display: flex;
   overflow-x: auto;
   padding-bottom: 10px;
+  width: 100%;
   &::-webkit-scrollbar {
     width: 0px;
     height: 9px;

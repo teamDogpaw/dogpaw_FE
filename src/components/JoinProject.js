@@ -46,6 +46,7 @@ const JoinProject = ({
       <ViewApply viewApplyModal={viewApplyModal}
         myPostData={myPostData}
         currentTab={currentTab}
+        setViewApply={setViewApply}
       />
       : null}
     <MypagePostBox>
