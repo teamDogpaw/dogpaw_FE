@@ -15,8 +15,8 @@ const Write = () => {
    const params = useParams()
    const postId = params.id
    const navigate = useNavigate()
-   const {mutate: editProject} = useEditProject();
-   const {mutate : postProject} = usePostProject();
+   const {mutateAsync: editProject} = useEditProject();
+   const {mutateAsync : postProject} = usePostProject();
    const processdetailsRef = useRef(null);
  
    const perioddetailsRef = useRef(null);
