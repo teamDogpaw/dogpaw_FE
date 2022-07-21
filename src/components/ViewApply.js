@@ -68,9 +68,6 @@ return (
 }
 
 
-`;
-
-
 
 const ModalTabBody = styled(TabBody)`
 grid-template-columns: repeat(2,1fr);

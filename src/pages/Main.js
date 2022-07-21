@@ -18,7 +18,6 @@ import silver from "../styles/icon/main/medal1.svg";
 import bronze from "../styles/icon/main/medal2.svg";
 import person from "../styles/icon/global/profile.svg";
 import help from "../styles/icon/main/help.svg";
-import { useGetBookmarkRank } from "../hook/usePostData";
 import ModalOpen from "../components/Modal_prev";
 
 
