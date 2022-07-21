@@ -113,7 +113,7 @@ const Main = () => {
                   ))}
                 </ul>
                 <p style={{ color: "#ffb673" }}>
-                  #{list.online ? "온라인" : "오프라인"}
+                  #{list.online}
                 </p>
               </Hashtag>
               <Info>
@@ -179,7 +179,7 @@ const Main = () => {
                   ))}
                 </ul>
                 <p style={{ color: "#ffb673" }}>
-                  #{post.online ? "온라인" : "오프라인"}
+                  #{post.online}
                 </p>
               </Hashtag>
               <Info>

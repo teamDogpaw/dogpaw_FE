@@ -15,6 +15,10 @@ export function useGetBookmarkRank() {
   return useQuery("bookmarkRank",postApis.getBookmarkRank);
 }
 
+export function usePostDeadline(){
+  return useMutation(postApis.postDeadlineProject);
+}
+
 export function useGetKeepPostList() {
   return useInfiniteQuery(
     "postList",

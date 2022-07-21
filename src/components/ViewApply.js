@@ -92,7 +92,7 @@ export const Background = styled.div`
     bottom: 0;
     right: 0;
     background-color: rgba(0,0,0,0.3);
-    z-index: 0;
+    z-index: 99;
 `;
 
 const ModalTabBody = styled(TabBody)`

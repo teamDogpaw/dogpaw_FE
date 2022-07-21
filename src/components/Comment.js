@@ -64,7 +64,7 @@ const Comment = ({ data }) => {
   };
 
   return (
-    <div>
+  
       <div>
         <User>
           <Img src={data.profileImg || person} alt="사진" />
@@ -130,7 +130,7 @@ const Comment = ({ data }) => {
           </DropDown>
         </div>
       </div>
-    </div>
+   
   );
 };
 
