@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Btn, LineBtn } from "../styles/style";
+import { Btn, GrayLineBtn, LineBtn } from "../styles/style";
 import styled, { keyframes } from "styled-components";
 import { useQueryClient } from "react-query";
 import { usePostApply } from "../hook/useApplyMutation";
@@ -91,10 +91,11 @@ const ApplyBtn = ({ myPostData }) => {
       </div>
       <AlertModal open={modalOpen}>
         <Content>
-          <h3>지원취소를 할건가요 .. ?</h3>
+          <h4>프로젝트 지원을 취소하시겠습니까?</h4>
           <div>
-            <button onClick={applyBtn}> 취소 </button>
-            <button onClick={closeModal}> 닫기 </button>
+            
+            <GrayLineBtn onClick={closeModal}> 닫기 </GrayLineBtn>
+            <Btn onClick={applyBtn}> 지원취소 </Btn>
           </div>
         </Content>
       </AlertModal>
@@ -166,9 +167,14 @@ const Button3 = styled.button`
 const Content = styled.div`
   display: flex;
   flex-direction: column;
-  //background-color:gold;
   align-items: center;
   margin: auto;
+  line-height:3;
+
+  button{
+    width:100px;
+    margin-right:15px;
+  }
 `;
 
 export default ApplyBtn;
