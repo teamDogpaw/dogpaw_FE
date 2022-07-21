@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "react-query";
 import { postApis } from "../api/post";
 
 export function useGetPost(postId) {
@@ -13,4 +13,19 @@ export function useDeletePost() {
 
 export function useGetBookmarkRank() {
   return useQuery("bookmarkRank",postApis.getBookmarkRank);
+}
+
+export function usePostDeadline(){
+  return useMutation(postApis.postDeadlineProject);
+}
+
+export function useGetKeepPostList() {
+  return useInfiniteQuery(
+    "postList",
+    ({ pageParam = 0 }) => postApis.getKeepPostList(pageParam),
+    {
+      getNextPageParam: (lastPage) =>
+        !lastPage.isLast ? lastPage.nextPage : undefined,
+    }
+  );
 }

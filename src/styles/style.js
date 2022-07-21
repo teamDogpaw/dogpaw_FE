@@ -123,34 +123,6 @@ export const LineBtn = styled.button`
   }
 `;
 
-export const ApplyBtn = styled(Btn)`
- height: 52px;
-  width: 180px;
-  padding: 16px 24px;
-  font-size: 17px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  right: 0px;
-  bottom: 0px;
-`;
-
-export const ApplyLineBtn = styled(LineBtn)`
-height: 52px;
-  width: 180px;
-  padding: 16px 24px;
-  font-size: 17px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  right: 200px;
-  bottom: 0px;
-`;
-
 export const GrayLineBtn = styled(LineBtn)`
   border: 1px solid #777777;
   color: #777777;

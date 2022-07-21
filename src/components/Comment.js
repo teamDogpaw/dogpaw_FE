@@ -35,7 +35,7 @@ const Comment = ({ data }) => {
   const { mutateAsync: removeComment } = useRemoveComment();
 
   const modifyCommentClick = async (commentId) => {
-    const commentData = { content: comment_ref.current.value, commentId, id };
+    const commentData = {id,commentId,content:comment_ref.current.value};
     setIsEdit(false);
     await editComment(commentData);
     queryClient.invalidateQueries("commentList");
@@ -64,7 +64,7 @@ const Comment = ({ data }) => {
   };
 
   return (
-    <div>
+  
       <div>
         <User>
           <Img src={data.profileImg || person} alt="사진" />
@@ -130,7 +130,7 @@ const Comment = ({ data }) => {
           </DropDown>
         </div>
       </div>
-    </div>
+   
   );
 };
 

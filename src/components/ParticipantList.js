@@ -14,6 +14,7 @@ import {
 import profilepic from "../styles/icon/global/profile.svg";
 import { useExplusionMateMutation } from "../hook/useProjectMutation";
 import { useWithdrawPartici } from "../hook/useUserData";
+import styled from "styled-components";
 
 const ParticipantList = ({ myPostId, currentTab, setViewApply }) => {
   const { isLoading: isParticipantListLoading, data: participantList } =
@@ -54,7 +55,7 @@ const {mutateAsync : WithdrawPartici} = useWithdrawPartici();
       {participantList.data.map((team) => {
         return (
           <ApplyListContent>
-            <Section>
+            <Secctions>
               <User>
                 {team.profileImg === null ? (
                   <ListProfilePic src={profilepic} />
@@ -71,21 +72,20 @@ const {mutateAsync : WithdrawPartici} = useWithdrawPartici();
                   return <Stack key={index}>#{stack}</Stack>;
                 })}
               </Stacks>
-            </Section>
-           
+
+            </Secctions>
+            <Out>
               {currentTab === 2 ? null : (
-                <span
+                <p
                   onClick={() =>
                     explusionMate({ userId: team.userId, postId: myPostId })
                   }
                 >
-                  
-                 팀원 탈퇴시키기
-                </span>
+             
+                 강퇴하기
+                </p>
               )}
-       
-       
-        
+            </Out>
           </ApplyListContent>
         );
       })}
@@ -96,4 +96,19 @@ const {mutateAsync : WithdrawPartici} = useWithdrawPartici();
   );
 };
 
+const Secctions =styled(Section)`
+width:100%;
+`;
+
+const Out = styled.div`
+cursor: pointer;
+
+p{
+  font-size:14px;
+  color:crimson;
+  position:absolute;
+  top:25px;
+  right:30px;
+}
+`;
 export default ParticipantList;

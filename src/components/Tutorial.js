@@ -49,6 +49,7 @@ const Wrap = styled.div`
   left: 0;
   z-index: 99;
   background-color: rgba(0, 0, 0, 0.4);
+  cursor: pointer;
 
   p {
     color: #fff6c6;

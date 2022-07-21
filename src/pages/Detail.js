@@ -91,7 +91,7 @@ const Detail = () => {
             <div>
               <Title>
                 <p>진행방식</p>
-                <span> {postList?.data.onLine ? "온라인" : "오프라인"}</span>
+                <span> {postList?.data.onLine}</span>
               </Title>
               <Title>
                 <p>구인스택</p>
@@ -171,7 +171,7 @@ const ArticleTop = styled.div`
 
 const User = styled.div`
   height: 153px;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;

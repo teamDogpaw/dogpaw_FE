@@ -92,7 +92,7 @@ export const ApplyListContent = styled.div`
   border-radius: 16px;
   margin-bottom: 16px;
   line-height: normal;
-  
+  position:relative;
 
 
   img {

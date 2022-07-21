@@ -16,7 +16,7 @@ const Comments = () => {
   const queryClient = useQueryClient();
   // 댓글 조회 및 대 댓글 조회
   const { data: commentList } = useGetCommentList(id);
-
+console.log(commentList)
   const { mutateAsync: addComment } = usePostComment();
 
   const onCheckEnter = (e) => {
@@ -56,12 +56,11 @@ const Comments = () => {
           등록하기
         </Button>
       </CommentBox>
-
       <div>
         {commentList?.data.data.map((data) => (
           <>
             {/* 댓글 부분 */}
-            <Comment key={data.commentId} data={data}></Comment>
+            <Comment key={data.commentId} data={data} />
             {data.commentReplyList.map((reply) => (
               /* 대 댓글 부분 */
               <ReplyComment
