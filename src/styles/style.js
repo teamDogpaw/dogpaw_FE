@@ -1,4 +1,5 @@
 import styled, { createGlobalStyle } from "styled-components";
+import { ReactComponent as X } from "../styles/icon/modal/close.svg";
 
 //전역 스타일링
 export const GlobalStyle = createGlobalStyle`
@@ -32,6 +33,7 @@ footer, header, hgroup, main, menu, nav, section {
     display: none;
 }
 body {
+  height: 100%;
   line-height: 1;
   background-color: ${(props) => props.theme.backgroundColor} ;
 }
@@ -53,6 +55,7 @@ table {
 * {
   box-sizing: border-box;
   color:${(props) => props.theme.textColor_sub};
+  
 
 }
 
@@ -265,4 +268,47 @@ export const MypagePostBox = styled.div`
 display: flex;
 flex-direction: column;
 gap: 24px;
+`;
+
+export const Modal = styled.div`
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 50%;
+    margin-top: 133px;
+    transform: translate(-50%, 0%);
+    width: 486px;
+    height: 742px;
+    border-radius: 8px;
+    background: ${(props)=>props.theme.divBackGroundColor};
+    box-shadow: rgb(0 0 0 / 9%) 0px 2px 12px 0px;
+    padding: 30px;
+
+    @media screen and (max-width:600px){
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        margin-top: 0px;
+        border-radius: 0px;
+
+    }
+
+`;
+
+export const ModalBackground = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.3);
+    z-index: 90;
+`;
+
+export const ModalCloseButton = styled(X)`
+margin-left: auto;
+width: 20px;
+height: 20px;
+cursor: pointer;
+fill: ${(props)=>props.theme.keyColor};
 `;

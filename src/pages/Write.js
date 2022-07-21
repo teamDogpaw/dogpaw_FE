@@ -6,24 +6,22 @@ import "../styles/style.css"
 import dayjs from "dayjs";
 import WriteSelect from "../components/WriteSelect";
 import { useEditProject, usePostProject } from "../hook/usePostMutation";
-
 const Write = () => {
+   const location = useLocation()
    const {state} = useLocation()
-   console.log(state)
    const [isEdit, setIsEdit] = useState(false);
    console.log(isEdit)
    const params = useParams()
    const postId = params.id
+   console.log(params)
    const navigate = useNavigate()
-   const {mutateAsync: editProject} = useEditProject();
+   const {mutateAsync : editProject} = useEditProject();
    const {mutateAsync : postProject} = usePostProject();
    const processdetailsRef = useRef(null);
- 
    const perioddetailsRef = useRef(null);
    const capacitydetailsRef = useRef(null);
 
    const [startDate, setStartDate] = useState(new Date());
-   const [stack, setStack] = useState([])
    const [selectedData, setSelectedData] = useState({
       title: "",
       maxCapacity: 1,
@@ -45,7 +43,7 @@ const Write = () => {
    }
 
    const editPost = async () => {
-      await editProject({data:selectedData, postId} )
+      await editProject({ data:selectedData, postId} )
       navigate(`/detail/${postId}`)
 }
 
@@ -88,10 +86,11 @@ const Write = () => {
 
 
    useEffect(() => {
-      console.log(selectedData)
+     
+      console.log(state)
+      console.log(postId)
       if (postId !== undefined) {
          setIsEdit(true);
-         setStack(state.stacks)
          setSelectedData({
             content: state.content,
             online: state.onLine,
@@ -102,10 +101,8 @@ const Write = () => {
             startAt: state.startAt
          })
       }
-   }, [])
-
-
-
+      console.log(selectedData)
+   }, [state])
 
    return (
       <>
@@ -121,7 +118,6 @@ const Write = () => {
                handleProcess={handleProcess}
                handleStartDate={handleStartDate}
                setPeriod={setPeriod}
-               stack={stack}
                startDate={startDate}
                processdetailsRef={processdetailsRef}
                capacitydetailsRef={capacitydetailsRef}

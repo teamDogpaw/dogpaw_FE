@@ -2,18 +2,22 @@ import { MyStack } from "../styles/style";
 import { Option, SelectBox, SelectBoxOpen } from "./WriteSelect";
 import { ReactComponent as Delete } from "../styles/icon/global/stackDelete.svg"
 import { useEffect, useRef, useState } from "react";
+import { useMatch } from "react-router-dom";
 
 const StackSelector = ({
     isEdit,
-    stacks,
     setSelectedData,
+    data,
+    setMyData,
 }) => {
 
-const [stack, setStack] = useState([])
+let [stack, setStack] = useState([])
+const isWrite = useMatch(`/write/*`)
 
+console.log(isWrite)
 useEffect(()=>{
-if(isEdit){
-    setStack(stacks)
+if(isEdit || isWrite === null){
+    setStack(data.stacks)
 }
 },[isEdit])
 
@@ -22,7 +26,12 @@ const stackdetailsRef = useRef(null);
 const addStack = (newStack) => {
     if(!stack.includes(newStack)) {
          stack[stack.length] = newStack;
-         setSelectedData((prev) => ({ ...prev, stacks: stack }))
+         if(isWrite !== null){
+            setSelectedData((prev) => ({ ...prev, stacks: stack }))
+         } else if (isWrite === null) {
+            setMyData((prev) => ({...prev, stacks:stack}))
+         }
+         
       }
       const details = stackdetailsRef.current;
       if (details) {
@@ -33,7 +42,11 @@ const addStack = (newStack) => {
    const removeStack = (selectedStack) => {
     const newStacks = stack.filter((stack) => stack !== selectedStack)
     setStack(newStacks)
-    setSelectedData(prev => ({ ...prev, stacks: newStacks }))
+    if(isWrite !== null){
+        setSelectedData((prev) => ({ ...prev, stacks: newStacks }))
+     } else if (isWrite === null) {
+        setMyData((prev) => ({...prev, stacks:newStacks}))
+     }
  }
 
 const stackOptions = [

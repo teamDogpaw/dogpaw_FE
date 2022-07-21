@@ -51,20 +51,26 @@ const Header = () => {
 
 
   return (
+    <>
+  
+  {isModalOpen ? <ModalOpen style={{zIndex:"99"}}/> : null}
+
     <Wrap>
       <ContentWrap>
+        
         <div onClick={() => {navigate("/")}}>
         {isDark? <Img src={logodark} alt="" /> :<Img src={logolight} alt="" />}
         </div>
         <User>
+     
           {!isLogin ? (
             <Contain>
               
               <span onClick={viewModal}>로그인 </span> 
-              {isModalOpen ? <ModalOpen  /> : "아니"}
-
-              {/* <ModalOpen /> */}
+             
+           
             </Contain>
+            
           ) : (
             <>
             <StyledLink to="/write"><img src={write} alt="" />게시글 작성 </StyledLink>
@@ -91,8 +97,12 @@ const Header = () => {
             </>
           )}
         </User>
+        
       </ContentWrap>
+      
     </Wrap>
+    
+    </>
   );
 };
 

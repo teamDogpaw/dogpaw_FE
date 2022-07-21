@@ -302,7 +302,7 @@ background-color: ${(props) => (props.disabled ? "#f8cbac" : "#ee8548")};
   font-size: large;
   font-family: Jalnan;
   &:hover {
-    background-color: ${(props) => (props.disabled ? "#f8cbac" : "#c64d07;")}
+    background-color: ${(props) => (props.disabled ? "#f8cbac" : "#c64d07;")};
     cursor: pointer;
   }
 `;

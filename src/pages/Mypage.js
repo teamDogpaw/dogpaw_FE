@@ -3,7 +3,7 @@ import Bookmark from "../components/Bookmark";
 import MyProject from "../components/MyProject";
 import JoinProject from "../components/JoinProject";
 import { useNavigate } from "react-router-dom";
-import { Btn, MyStack, Option, SelectBoxOpen, PostBody } from "../styles/style";
+import { Btn, MyStack, PostBody } from "../styles/style";
 import styled from "styled-components";
 import {
   useMyProfileReset,
@@ -12,29 +12,22 @@ import {
 import { useRecoilState, useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/atom";
 import profilepic from "../styles/icon/global/profile.svg";
-import { SelectBox } from "../components/WriteSelect";
-import { ReactComponent as StackDelete } from "../styles/icon/stackSelect/stackDelete.svg";
 import ApplyProject from "../components/ApplyProject";
 import pen from "../styles/icon/myPage/pen.svg";
+import StackSelector from "../components/StackSeletor";
 
 const MyPage = () => {
   const userInfo = useRecoilValue(UserInfoAtom);
-  console.log(userInfo);
   const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(false);
-  const stackdetailsRef = useRef(null);
   const imageRef = useRef();
   const [currentTab, setTab] = useState(1);
   const formData = new FormData();
+  const [imagePreview, setImagePreview] = useState();
 
   const tabList = [
-    {
-      id: 1,
-      name: "관심 프로젝트",
-      content: <Bookmark currentTab={1} />,
-    },
-    {
-      id: 2,
+    {id: 1, name: "관심 프로젝트", content: <Bookmark currentTab={1} /> },
+    {id: 2,
       name: "참여한 프로젝트",
       content: <JoinProject currentTab={2} />,
     },
@@ -58,9 +51,9 @@ const MyPage = () => {
 
   useEffect(() => {
     setMyData(userInfo);
+    setImagePreview(userInfo.profileImg)
   }, [userInfo]);
 
-  //⚠️ 프로필 이미지 넣지 않으면 편집 완료 못함
   const EditMyData = async () => {
     const image = myData.profileImg;
     if (image === null) {
@@ -83,39 +76,28 @@ const MyPage = () => {
     navigate("/mypage");
   };
 
-  //✅
-  // const basic = async () => {
-  //    try {
-  //       await instance.put(`/api/user/profile/basic`)
-  //    } catch (error) {
-  //       alert(error)
-  //    }
-  // }
+  const { mutateAsync: profileEdit } = useMyProfileEdit();
+  const { mutateAsync: imageReSet } = useMyProfileReset();
 
-  const { mutate: profileEdit } = useMyProfileEdit();
-  const { mutate: imageReSet } = useMyProfileReset();
 
-  const addStack = (newStack) => {
-    if (myData.stacks === undefined) {
-      setMyData({ stacks: [newStack] });
-      console.log(myData.stacks);
-    } else if (!myData.stacks.includes(newStack)) {
-      setMyData((prev) => ({ ...prev, stacks: [...myData.stacks, newStack] }));
-    } else {
-      return null;
-    }
-    const details = stackdetailsRef.current;
-    if (details) {
-      details.open = false;
-    }
-  };
-
-  const preview = new FileReader();
-
+  const encodeFileToBase64 = (img) => {
+    console.log(img)
+    const preview = new FileReader();
+    preview.readAsDataURL(img);
+    return new Promise((resolve) => {
+      preview.onload = () => {
+        setImagePreview(preview.result);
+        console.log(imagePreview)
+        resolve();
+      }
+    })
+  }
   const editImg = (e) => {
     const img = e.target.files[0];
+    encodeFileToBase64(img)
     console.log(img);
     setMyData((prev) => ({ ...prev, profileImg: img }));
+    
   };
 
   const editNickname = (e) => {
@@ -123,20 +105,15 @@ const MyPage = () => {
     setMyData((prev) => ({ ...prev, nickname: newNickname }));
   };
 
-  const removeStack = (selectedStack) => {
-    const newStacks = myData.stacks.filter((stack) => stack !== selectedStack);
-    setMyData((prev) => ({ ...prev, stacks: newStacks }));
-  };
-
   return (
     <WholeBody>
       <PostBody>
         {isEdit ? (
           <ProfileWrap>
-            {myData?.profileImg === null ? (
+            {imagePreview === null ? (
               <Profilepic src={profilepic} />
             ) : (
-              <Profilepic src={myData?.profileImg} />
+              <Profilepic src={imagePreview} />
             )}
             <form>
               <File>
@@ -160,43 +137,11 @@ const MyPage = () => {
                   onChange={(event) => editNickname(event)}
                 />
                 <p>{userInfo.username}</p>
-                <details style={{ height: "40px" }} ref={stackdetailsRef}>
-                  <SelectBox>스택을 선택해주세요.</SelectBox>
-                  <SelectBoxOpen>
-                    <Option onClick={() => addStack("Java")}>Java</Option>
-                    <Option onClick={() => addStack("Javascript")}>
-                      Javascript
-                    </Option>
-                    <Option onClick={() => addStack("TypeScript")}>
-                      TypeScript
-                    </Option>
-                    <Option onClick={() => addStack("React")}>React</Option>
-                    <Option onClick={() => addStack("Vue")}>Vue</Option>
-                  </SelectBoxOpen>
-                </details>
 
-                <Stacks>
-                  {myData.stacks?.map((stack, index) => {
-                    return (
-                      <MyStack
-                        style={{
-                          margin: "0px 10px 10px 0px",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "5px",
-                        }}
-                        key={index}
-                      >
-                        #{stack}
-                        <StackDelete
-                          onClick={() => {
-                            removeStack(stack);
-                          }}
-                        />
-                      </MyStack>
-                    );
-                  })}
-                </Stacks>
+                 <StackSelector data={myData} setMyData={setMyData}/>
+ 
+
+
               </Profile>
             </form>
             <Button2 onClick={imageReSet}>기본 이미지로 변경</Button2>
@@ -207,7 +152,7 @@ const MyPage = () => {
             {userInfo?.profileImg === null ? (
               <Profilepic src={profilepic} />
             ) : (
-              <Profilepic src={userInfo?.profileImg} />
+              <Profilepic src={myData?.profileImg} />
             )}
             <Profile>
               <h4>{userInfo?.nickname}</h4>

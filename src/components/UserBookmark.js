@@ -18,25 +18,11 @@ const UserBookmark = ({
     useEffect(() => {
     }, [isMyBookmark])
 
-    // const DoBookmark = async (postId) => {
-    //     setIsMyBookmark((prev) => !prev)
-    //     return await instance.post(`/api/bookMark/${postId}`)
-    // }
-
-    const queryClient = useQueryClient();
-
-    // const bookmarkMutation = useMutation(["bookmark", postId], DoBookmark, {
-    //     onSuccess: () => {
-    //         queryClient.invalidateQueries("applyproject", "joinproject", "mybookmark");
-    //     }
-    // })
-
     const bookmark = () => {
         setIsMyBookmark((prev) => !prev)
         doBookmark(postId)
-        queryClient.invalidateQueries("applyproject", "joinproject", "mybookmark");
     }
-    const {mutate : doBookmark } = usePostBookmark()
+    const {mutateAsync : doBookmark } = usePostBookmark()
 
     if (currentTab === 1) {
         return (
