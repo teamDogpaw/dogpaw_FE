@@ -53,29 +53,16 @@ const ModalBgShow = keyframes`
 `;
 
 const Section = styled.section`
-  width: 100%;
+  width: 50%;
   max-width: 550px;
-  height:400px;
+  height:200px;
   margin: 0 auto;
   display:flex;
   justify-content:center;
   align-items:center;
-  border-radius: 0.3rem;
-  background-color: #fff;
+  border-radius: 15px;
+  background-color: ${(props)=>props.theme.backgroundColor};
   animation: ${ModalShow} 0.3s;
   overflow: hidden;
 `;
-
-const Footer = styled.footer`
-  padding: 12px 0px;
-
-  button {
-    padding: 6px 12px;
-  color: #fff;
-  background-color: #6c757d;
-  border-radius: 5px;
-  font-size: 13px;
-  }
-`;
-
 export default AlertModal;
