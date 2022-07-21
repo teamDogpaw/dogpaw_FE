@@ -8,16 +8,14 @@ import { ReactComponent as CapacityArrowUp } from "../styles/icon/global/arrowUp
 import { useEffect, useRef } from "react"
 import StackSelector from "./StackSeletor"
 
+
 const WriteSelect = ({
     selectedData,
     handleTitle,
     handleCapacity,
-    addStack,
-    removeStack,
     handleProcess,
     handleStartDate,
     setPeriod,
-    stack,
     startDate,
     processdetailsRef,
     capacitydetailsRef,
@@ -26,13 +24,19 @@ const WriteSelect = ({
     setSelectedData
 }) => {
 
-    useEffect(()=>{},[isEdit])
+
     
    console.log(isEdit)
-
+const dateRef = useRef()
     const period = ["1개월 미만", "1개월", "2개월", "3개월", "4개월", "5개월", "6개월", "6개월 이상"];
     const capacity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
+const DATE_FORMAT = 'yyyy/MM/dd (eee)';
+const DATE_FORMAT_CALENDAR = 'yyyy년 MM월';
+
+    useEffect(()=>{
+        console.log(dateRef.current)
+    },[isEdit,dateRef])
     return (
         <>
             <TitleInput placeholder="컨텐츠 제목을 작성해주세요"
@@ -57,9 +61,10 @@ const WriteSelect = ({
                     </SelectBoxOpen>
                 </Detail>
                 <SelectTitle>구인스택</SelectTitle>
-                <StackSelector addStack={addStack} removeStack={removeStack} 
-                stack={stack}  isEdit={isEdit}
-               setSelectedData={setSelectedData} selectedData={selectedData}
+                <StackSelector 
+                isEdit={isEdit}
+                setSelectedData={setSelectedData} 
+                data={selectedData}
                /> 
                 <SelectTitle>예상 진행 기간</SelectTitle>
                 <Detail ref={perioddetailsRef}>
@@ -74,15 +79,22 @@ const WriteSelect = ({
                     </SelectBoxOpen>
                 </Detail>
                 <SelectTitle>시작 예정일 </SelectTitle>
-                <DateInput
+                <Wrapper>
+                     <DateInput
                     showPopperArrow={false}
                     fixedHeight
                     locale={ko}
-                    dateFormat="yyyy/MM/dd (eee)"
-                    selected={startDate}
-                    placeholderText="날짜를 선택하세요"
-                    minDate={new Date()}
-                    onChange={date => handleStartDate(date)} />
+                    dateFormat={DATE_FORMAT}
+                    selected={isEdit ? new Date(selectedData.startAt) : startDate}
+                    dateFormatCalendar={DATE_FORMAT_CALENDAR}
+                    minDate={isEdit? null : new Date()}
+                    onChange={date => handleStartDate(date)} 
+                    shouldCloseOnSelect={false}
+                    openToDate={new Date(selectedData.startAt)}
+                    calendarClassName="calendar"
+                    />
+                </Wrapper>
+               
                 <SelectTitle ref={capacitydetailsRef}>모집인원</SelectTitle>
 
                 <Detail ref={capacitydetailsRef}>
@@ -139,13 +151,98 @@ padding: 5px 10px;
 border: ${(props) => props.theme.border};
 border-radius: 8px;
 font-size: 16px;
+cursor: pointer;
 ::placeholder{
    color:#e2e2e2;
 }
 :focus{
     outline: none;
 }
-cursor: pointer;
+
+
+`;
+
+const Wrapper = styled.div`
+
+.react-datepicker {
+  font-family: "Helvetica Neue", helvetica, arial, sans-serif;
+  font-size: 0.8rem;
+  color: ${(props) => props.theme.textColor};
+  border: transparent;
+  display: inline-block;
+  border-radius: 6px;
+  position: relative;
+  box-shadow:${(props) => props.theme.boxShadow};
+  background-color: transparent;
+}
+
+.react-datepicker__month-container {
+background-color: ${(props) => props.theme.divBackGroundColor};
+border-radius: 6px;
+}
+
+.react-datepicker__header {
+background-color: ${(props) => props.theme.keyColor};
+color:white;
+border-bottom: transparent;
+  border-top-left-radius: 8px;
+  padding: 10px 0;
+}
+
+
+.react-datepicker__day--selected, 
+.react-datepicker__day--in-range
+ {
+  border-radius: 50%;
+  background-color: ${(props) => props.theme.keyColor};
+  :hover {
+    background-color: white;
+}
+}
+
+.react-datepicker__current-month {
+    color:${(props) => props.theme.textColor_btn};
+}
+
+.react-datepicker__tab-loop {
+    position: fixed;
+}
+
+//일자
+.react-datepicker__day{
+  color: ${(props) => props.theme.textColor};
+  display: inline-block;
+  width: 1.7rem;
+  line-height: 1.7rem;
+  text-align: center;
+  margin: 0.166rem;
+  :hover{
+    border-radius:50%;
+    color:${(props) => props.theme.divBackGroundColor};
+    background-color: ${(props)=>props.theme.textColor_sub};
+  }
+}
+
+//요일 전체
+.react-datepicker__day-name{
+    color:${(props) => props.theme.textColor_btn};
+    margin-top: 10px;
+}
+
+.react-datepicker__navigation-icon{
+::before {
+  border-color: ${(props) => props.theme.textColor_btn};
+}
+
+:hover{
+    border-color: #eee;
+}
+}
+
+.react-datepicker__navigation:hover *::before {
+  border-color: #eeeeee;
+}
+
 `;
 
 export const SelectBoxOpen = styled.ul`
@@ -156,7 +253,7 @@ position: absolute;
 width: 200px;
 border: ${(props) => props.theme.border};
 background-color: ${(props) => props.theme.inputBoxBackground};
-box-shadow: 0px 4px 4px 0px rgb(0,0,0,0.1);
+box-shadow: ${(props) => props.theme.boxShadow};
 overflow: scroll;
 margin-top: 4px;
 `;
