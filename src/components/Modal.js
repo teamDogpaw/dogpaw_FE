@@ -1,0 +1,5 @@
+const Modal = () =>{
+    return (
+        null
+    )
+}

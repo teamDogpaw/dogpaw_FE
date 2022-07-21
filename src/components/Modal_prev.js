@@ -33,7 +33,7 @@ const ModalOpen = () => {
 
 export default ModalOpen; */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Login from "./Login";
 import Register from "./Register";
@@ -43,26 +43,40 @@ import { ReactComponent as X } from "../styles/icon/modal/close.svg";
 import { modalChange } from "../atom/atom";
 //import cancle from "../assets/취소 버튼.png";
 import cancel from "../styles/icon/modal/close.svg";
-import { Background, Modal, CloseButton} from "../components/ViewApply"
+import {  CloseButton} from "../components/ViewApply"
+import { Modal, ModalBackground, ModalCloseButton } from "../styles/style";
 
 const ModalOpen = () => {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
   // const onModal = useRecoilValue(modalChange);
   const onModal = useState(<Login/>)
+  const [isModalOpen , setIsModalOpen]= useState(false)
+  const viewModal = () => {
+    setIsModalOpen((prev) => !prev)
+  }
+
+  useEffect(() => {
+    document.body.style.cssText = `position: fixed; top: -${window.scrollY}px`
+  return () => {
+    const scrollY = document.body.style.top
+    document.body.style.cssText = `position: ""; top: "";`
+    window.scrollTo(0, parseInt(scrollY || '0') * -1)
+  }
+}, [])
 
   return (
 
      
-      <Background>
+      <ModalBackground>
             <Modal>
-                <CloseButton >
-                    <X style={{ right: "0" }} />
-                </CloseButton>
+                <ModalCloseButton >
+                    <X onClick={viewModal} style={{ right: "0" }} />
+                </ModalCloseButton>
               
             </Modal>
-        </Background>
+        </ModalBackground>
 
   );
 };
+
 
 export default ModalOpen;
