@@ -1,12 +1,18 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
-import axios from "axios";
 import arrow from "../styles/icon/global/arrowDown.svg";
 import StackSelector from "./StackSeletor"
 import { useSetRecoilState } from "recoil";
 import { modalChange } from "../atom/atom";
+
 import Login, { InputContent, InputWrap, LoginBtn, LoginInput, Redirect, Title, Wrap } from "./Login";
 import { Btn } from "../styles/style";
+import { nickCheck, register } from "../shared/userOauth";
+
+import { MyStack,
+  Option,
+  SelectBoxOpen,
+} from "../styles/style";
 
 const Register = ({setModalContent}) => {
   const setOnModal = useSetRecoilState(modalChange);
@@ -29,43 +35,6 @@ const Register = ({setModalContent}) => {
   const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
-
-  // 회원가입 정보
-  const onSubmit = async () => {
-    let data = {
-      nickname: nickName,
-      password,
-      username: email,
-      stacks: stack,
-    };
-    //console.log(data);
-    try {
-      await axios.post("http://3.35.22.190/user/signup", data).then((res) => {
-        console.log(res, "회원가입");
-        window.alert("회원가입 성공 :)");
-        setModalContent(<Login setModalContent={setModalContent}/>)
-      });
-    } catch (err) {
-      console.log(err);
-      window.alert(err.response.data?.errorMessage);
-    }
-  };
-
-  // 닉네임 중복 확인
-  const nickCheck = async () => {
-    let data = {
-      nickname: nickName,
-    };
-    try {
-      await axios.post("http://3.35.22.190/user/nickname", data).then(
-        (
-          res //console.log(res, "닉네임 중복확인")
-        ) => window.alert(res.data.msg)
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   // 이메일
   const onChangeEmail = useCallback((e) => {
@@ -141,6 +110,17 @@ const Register = ({setModalContent}) => {
     setStack(newStacks);
   };
 
+  const nickData = {
+    nickname: nickName,
+  };
+
+  let data = {
+    nickname: nickName,
+    password: password,
+    username: email,
+    stacks: stack,
+  };
+
   return (
     <Wrap>
       <Title>
@@ -177,7 +157,9 @@ const Register = ({setModalContent}) => {
         />
         <Btn
           disabled={nickName.length < 3 || nickName.length > 10}
-          onClick={nickCheck}
+          onClick={() => {
+            nickCheck(nickData);
+          }}
         >
           중복확인
         </Btn>
@@ -246,7 +228,10 @@ const Register = ({setModalContent}) => {
             stack.length > 0
           )
         }
-        onClick={onSubmit}
+        onClick={() => {
+          register(data);
+          setOnModal(<Login />);
+        }}
       >
         회원가입하기
       </LoginBtn>

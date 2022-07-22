@@ -1,13 +1,11 @@
 import React, { useState, useCallback } from "react";
-import axios from "axios";
 import styled from "styled-components";
 import kakaoBTN from "../styles/icon/login/kakaoLogin.svg";
 import googleBTN from "../styles/icon/login/googleLogin.svg";
 import Register from "./Register";
-
 import {Btn} from "../styles/style";
-
 const Login = ({setModalContent}) => {
+import { login } from "../shared/userOauth";
 
   //아이디, 비밀번호
   const [email, setEmail] = useState("");
@@ -20,34 +18,6 @@ const Login = ({setModalContent}) => {
   // 유효성 검사
   const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
-
-  // 로그인 정보를 보내면 토큰을 받음.
-  const onSubmit = async (e) => {
-    let data = {
-      username: email,
-      password,
-    };
-    //console.log(data);
-
-    try {
-      await axios.post("http://3.35.22.190/user/login", data).then((res) => {
-        const accessToken = res.data.data.token.accessToken;
-        const refreshToken = res.data.data.token.refreshToken;
-        const id = res.data.data.userId;
-        if (accessToken !== null) {
-          localStorage.setItem("token", accessToken);
-          localStorage.setItem("retoken", refreshToken);
-          localStorage.setItem("id", id);
-          console.log(res, "로그인");
-          window.alert(res.data.msg);
-          window.location.replace("/");
-        }
-      });
-    } catch (err) {
-      console.log(err);
-      window.alert(err.response.data.errorMessage);
-    }
-  };
 
   // 아이디
   const onChangeId = useCallback((e) => {
@@ -79,6 +49,11 @@ const Login = ({setModalContent}) => {
       setIsPassword(true);
     }
   }, []);
+
+  const data = {
+    username: email,
+    password,
+  };
 
   const KAKAO_AUTH_URL =
     "https://kauth.kakao.com/oauth/authorize?client_id=3e848df062d2efe2be2266e171f3443c&redirect_uri=http://localhost:3000/user/kakao/login&response_type=code";
@@ -130,7 +105,9 @@ const Login = ({setModalContent}) => {
         <LoginBtn
         type="submit"
         disabled={!(isEmail && isPassword && email && password)}
-        onClick={onSubmit}
+        onClick={() => {
+          login(data);
+        }}
       >
         로그인하기
       </LoginBtn>
