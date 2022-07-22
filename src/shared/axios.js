@@ -5,8 +5,13 @@ const baseURL = process.env.REACT_APP_BASE_URL
 
 const instance = axios.create({baseURL});
 
+const setToken = (config) => {
+    config.headers['Authorization'] = `Bearer ${token}`
+    return config;
+}
+
 if(token){
-    instance.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    instance.interceptors.request.use(setToken);
 }
 
 instance.interceptors.response.use((response) => {
