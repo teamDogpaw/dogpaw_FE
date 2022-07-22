@@ -53,7 +53,7 @@ const Header = () => {
   return (
     <>
   
-  {isModalOpen ? <ModalOpen style={{zIndex:"99"}}/> : null}
+  {isModalOpen ? <ModalOpen viewModal={viewModal}/> : null}
 
     <Wrap>
       <ContentWrap>

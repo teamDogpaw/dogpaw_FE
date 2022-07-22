@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { Tab, TabBody } from "../pages/Mypage";
-import { GrayLineBtn, LineBtn, Modal, ModalBackground, ModalCloseButton } from "../styles/style";
+import { Tab } from "../pages/Mypage";
+import { Modal, ModalBackground, ModalCloseButton, TabBody } from "../styles/style";
 import ApplyList from "./ApplyList";
 import ParticipantList from "./ParticipantList";
 import { ReactComponent as X } from "../styles/icon/modal/close.svg";
@@ -66,8 +66,6 @@ return (
 
     )
 }
-
-
 
 const ModalTabBody = styled(TabBody)`
 grid-template-columns: repeat(2,1fr);

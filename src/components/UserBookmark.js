@@ -8,15 +8,37 @@ import { ReactComponent as BookmarkFill } from "../styles/icon/post/bookmarkFill
 const UserBookmark = ({ postId, currentTab, bookmarkStatus }) => {
   const [isMyBookmark, setIsMyBookmark] = useState(true);
 
-  useEffect(() => {}, [isMyBookmark]);
+const UserBookmark = ({
+    postId,
+    currentTab,
+    bookmarkStatus
+}) => {
 
-  const bookmark = () => {
-    setIsMyBookmark((prev) => !prev);
-    doBookmark(postId);
-  };
-  const { mutateAsync: doBookmark } = usePostBookmark();
+    const [isMyBookmark, setIsMyBookmark] = useState(true);
 
-  if (currentTab === 1) {
+    useEffect(() => {
+    }, [isMyBookmark,])
+
+    const bookmark = () => {
+        setIsMyBookmark((prev) => !prev)
+        doBookmark(postId)
+    }
+    const {mutateAsync : doBookmark } = usePostBookmark()
+
+    if (currentTab === 1) {
+        return (
+            <>
+                {(isMyBookmark) ?
+                    <BookmarkFill style={{ marginLeft: "auto" }} onClick={bookmark} />
+                    : <BookmarkIcon style={{ marginLeft: "auto" }} onClick={bookmark} />
+                }
+            </>
+        )
+    }
+    if (currentTab === 4) {
+        return null
+    }
+
     return (
       <>
         {isMyBookmark ? (

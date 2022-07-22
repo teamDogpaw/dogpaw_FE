@@ -3,7 +3,7 @@ import Bookmark from "../components/Bookmark";
 import MyProject from "../components/MyProject";
 import JoinProject from "../components/JoinProject";
 import { useNavigate } from "react-router-dom";
-import { Btn, MyStack, PostBody } from "../styles/style";
+import { Btn, MyStack, PostBody, TabBody } from "../styles/style";
 import styled from "styled-components";
 import {
   useMyProfileReset,
@@ -242,14 +242,7 @@ export const Tab = styled.div`
   }
 `;
 
-export const TabBody = styled.div`
-background-color: ${(props) => props.theme.backgroundColor};
-display: grid;
-grid-template-columns: repeat(4,1fr);
-text-align: center;
-margin: 24px auto;
-gap: 16px;
-`;
+
 
 const ProfileWrap = styled.div`
   display: flex;
