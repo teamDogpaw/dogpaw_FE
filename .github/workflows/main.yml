@@ -30,7 +30,7 @@ jobs:
             
       - name: Generate Environment Variables File for Production
         run: |
-          echo "REACT_APP_API_BASE_URL=$REACT_APP_BASE_URL" >> .env.production
+          echo "REACT_APP_BASE_URL=$REACT_APP_BASE_URL" >> .env.production
           echo "REACT_APP_SOCKET_BASE_URL=$REACT_APP_SOCKET_BASE_URL" >> .env.production
           echo "REACT_APP_IMAGE_BUCKET=$REACT_APP_IMAGE_BUCKET" >> .env.production
           echo "REACT_APP_ACCESS_KEY=$REACT_APP_ACCESS_KEY" >> .env.production
