@@ -2,7 +2,7 @@ import styled from "styled-components"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import { ko } from "date-fns/esm/locale"
-import { MyStack } from "../styles/style"
+import { MyStack, SelectBox } from "../styles/style"
 import { ReactComponent as CapacityArrowDown } from "../styles/icon/global/arrowDown.svg"
 import { ReactComponent as CapacityArrowUp } from "../styles/icon/global/arrowUp.svg"
 import { useEffect, useRef } from "react"
@@ -25,23 +25,23 @@ const WriteSelect = ({
 }) => {
 
 
-    
-   console.log(isEdit)
-const dateRef = useRef()
+
+    console.log(isEdit)
+    const dateRef = useRef()
     const period = ["1개월 미만", "1개월", "2개월", "3개월", "4개월", "5개월", "6개월", "6개월 이상"];
     const capacity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-const DATE_FORMAT = 'yyyy/MM/dd (eee)';
-const DATE_FORMAT_CALENDAR = 'yyyy년 MM월';
+    const DATE_FORMAT = 'yyyy/MM/dd (eee)';
+    const DATE_FORMAT_CALENDAR = 'yyyy년 MM월';
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log(dateRef.current)
-    },[isEdit,dateRef])
+    }, [isEdit, dateRef])
     return (
         <>
             <TitleInput placeholder="컨텐츠 제목을 작성해주세요"
-                required onChange={(event) => handleTitle(event.target.value)} maxLength={25} 
-                defaultValue={isEdit ? selectedData.title : null }/>
+                required onChange={(event) => handleTitle(event.target.value)} maxLength={25}
+                defaultValue={isEdit ? selectedData.title : null} />
 
             <hr style={{ border: "1px solid #e2e2e2" }} />
 
@@ -61,11 +61,11 @@ const DATE_FORMAT_CALENDAR = 'yyyy년 MM월';
                     </SelectBoxOpen>
                 </Detail>
                 <SelectTitle>구인스택</SelectTitle>
-                <StackSelector 
-                isEdit={isEdit}
-                setSelectedData={setSelectedData} 
-                data={selectedData}
-               /> 
+                <StackSelector
+                    isEdit={isEdit}
+                    setSelectedData={setSelectedData}
+                    data={selectedData}
+                />
                 <SelectTitle>예상 진행 기간</SelectTitle>
                 <Detail ref={perioddetailsRef}>
 
@@ -80,21 +80,21 @@ const DATE_FORMAT_CALENDAR = 'yyyy년 MM월';
                 </Detail>
                 <SelectTitle>시작 예정일 </SelectTitle>
                 <Wrapper>
-                     <DateInput
-                    showPopperArrow={false}
-                    fixedHeight
-                    locale={ko}
-                    dateFormat={DATE_FORMAT}
-                    selected={isEdit ? new Date(selectedData.startAt) : startDate}
-                    dateFormatCalendar={DATE_FORMAT_CALENDAR}
-                    minDate={isEdit? null : new Date()}
-                    onChange={date => handleStartDate(date)} 
-                    shouldCloseOnSelect={false}
-                    openToDate={new Date(selectedData.startAt)}
-                    calendarClassName="calendar"
+                    <DateInput
+                        showPopperArrow={false}
+                        fixedHeight
+                        locale={ko}
+                        dateFormat={DATE_FORMAT}
+                        selected={isEdit ? new Date(selectedData.startAt) : startDate}
+                        dateFormatCalendar={DATE_FORMAT_CALENDAR}
+                        minDate={isEdit ? null : new Date()}
+                        onChange={date => handleStartDate(date)}
+                        shouldCloseOnSelect={false}
+                        openToDate={new Date(selectedData.startAt)}
+                        calendarClassName="calendar"
                     />
                 </Wrapper>
-               
+
                 <SelectTitle ref={capacitydetailsRef}>모집인원</SelectTitle>
 
                 <Detail ref={capacitydetailsRef}>
@@ -118,17 +118,6 @@ display: flex;
 align-items: center;
 `;
 
-export const SelectBox = styled.summary`
-line-height: 25px;
-width: 200px;
-height: 37px;
-padding: 5px 10px;
-border: ${(props) => props.theme.border};
-border-radius: 8px;
-font-size: 16px;
-background-color: ${(props) => props.theme.inputBoxBackground};
-list-style: none;
-`;
 
 export const TitleInput = styled.input`
 font-size: 40px;
@@ -219,7 +208,7 @@ border-bottom: transparent;
   :hover{
     border-radius:50%;
     color:${(props) => props.theme.divBackGroundColor};
-    background-color: ${(props)=>props.theme.textColor_sub};
+    background-color: ${(props) => props.theme.textColor_sub};
   }
 }
 

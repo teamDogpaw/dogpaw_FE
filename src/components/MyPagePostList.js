@@ -25,14 +25,16 @@ const MyPagePostList = ({
                 <HeadBody>
                     {currentTab !== 4 ? 
                     <>
-                    <ListProfilePic src={data.profileImg === null ? DefaultProfile : data.profileImg} />
-                    {data?.nickname}
+                    <ListProfilePic src={data.profileImg === null ? 
+                    DefaultProfile 
+                    : data.profileImg} />
+                    {data.nickname}
                     </>
                     : null }
                     
                     {data.bookMarkStatus ?
-                        <UserBookmark postId={data.postId}
-                            bookmarkStatus={data.bookMarkStatus}
+                    <UserBookmark postId={data.postId}
+                    bookmarkStatus={data.bookMarkStatus}
                             currentTab={currentTab} />
                         :
                         <UserBookmark postId={data.postId} currentTab={currentTab} />}

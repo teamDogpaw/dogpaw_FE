@@ -16,7 +16,7 @@ const UserBookmark = ({
     const [isMyBookmark, setIsMyBookmark] = useState(true);
 
     useEffect(() => {
-    }, [isMyBookmark])
+    }, [isMyBookmark,])
 
     const bookmark = () => {
         setIsMyBookmark((prev) => !prev)
@@ -26,14 +26,11 @@ const UserBookmark = ({
 
     if (currentTab === 1) {
         return (
-
             <>
-
                 {(isMyBookmark) ?
                     <BookmarkFill style={{ marginLeft: "auto" }} onClick={bookmark} />
                     : <BookmarkIcon style={{ marginLeft: "auto" }} onClick={bookmark} />
                 }
-
             </>
         )
     }

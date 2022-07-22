@@ -36,6 +36,7 @@ body {
   height: 100%;
   line-height: 1;
   background-color: ${(props) => props.theme.backgroundColor} ;
+  font-size: 16px;
 }
 menu, ol, ul {
   list-style: none;
@@ -54,7 +55,7 @@ table {
 }
 * {
   box-sizing: border-box;
-  color:${(props) => props.theme.textColor_sub};
+  color:${(props) => props.theme.textColor};
   
 
 }
@@ -99,6 +100,7 @@ border-radius: 8px;
 padding: 12px 16px;
 border: 0px transparent;
 color: ${(props) => props.theme.textColor_btn};
+word-break: keep-all;
 font-weight: bold;
 :hover {
    background-color: #FF891C;
@@ -165,6 +167,45 @@ export const Option = styled.li`
     background-color: ${(props) => props.theme.keyColor};
     color: ${(props) => props.theme.stackColor};
   }
+
+
+`;
+
+
+export const SelectBox = styled.summary`
+line-height: 25px;
+width: 200px;
+height: 37px;
+padding: 5px 10px;
+border: ${(props) => props.theme.border};
+border-radius: 8px;
+font-size: 16px;
+background-color: ${(props) => props.theme.inputBoxBackground};
+list-style: none;
+
+&.Login{
+  line-height: normal;
+  font-size: 0.875rem;
+  line-height: auto;
+  color:#9f9f9f;
+  width: 100%;
+  height: 44px;
+  background-color: #fff;
+  border: 2px solid #eee;
+  border-radius: 12px;
+  padding: 12px;
+
+  :focus{
+    outline: none;
+  }
+  @media screen and (max-width:600px){
+  width: 100%;
+    }
+
+  @media screen and (max-width:375px){
+  width: 100%;
+    }
+}
 `;
 
 export const SelectBoxOpen = styled.ul`
@@ -178,74 +219,25 @@ background-color: ${(props) => props.theme.inputBoxBackground};
 box-shadow: 0px 4px 4px 0px rgb(0,0,0,0.1);
 overflow: scroll;
 margin-top: 4px;
-`;
 
-// 모달
-export const ModalAll = styled.div`
-  background-color: transparent;
+&.Login{
   width: 384px;
-  height: 433px;
-`;
-
-export const ModalComments = styled.div`
-  margin-top: 40px;
-  color: #292929;
-`;
-
-export const ModalTitle = styled.h3`
-  font-size: 14px;
-  margin-top: 24px;
-  padding: 4px 0;
-`;
-
-export const ModalIdPut = styled.input`
-  background-color: #fff;
   border: 2px solid #eee;
-  border-radius: 8px;
-  width: 384px;
-  height: 44px;
-  font-size: 14px;
-  font-weight: regular;
-  font-family: Jalnan;
-  color: black;
-  ::placeholder {
-    font-size: 14px;
-    color: #9f9f9f;
+  border-radius: 12px;
+
+  :focus{
+    outline: none;
   }
+  @media screen and (max-width:600px){
+    width: 100%;
+    }
+
+  @media screen and (max-width:375px){
+  width: 100%;
+    }
+}
 `;
 
-export const ModalPone = styled.p`
-  margin: auto;
-  margin-top: 10px;
-  > span {
-    font-size: 14px;
-    color: #d26500;
-  }
-`;
-
-export const ModalSignUpBtn = styled.button`
-  color: #ffffff;
-  background-color: ${(props) => (props.disabled ? "#FFD6B0" : "#FF891C")};
-  border: none;
-  width: 384px;
-  height: 44px;
-  margin-top: 24px;
-  border-radius: 10px;
-  font-size: 14px;
-  font-family: Jalnan;
-  &:hover {
-    background-color: ${(props) => (props.disabled ? "#FFD6B0" : "#D26500;")};
-    cursor: pointer;
-  }
-`;
-
-export const ModalLog = styled.p`
-  margin-top: 48px;
-  margin-bottom: 0;
-  color: #a3a3a3;
-  font-size: 12px;
-  padding: 0 0 0 80px;
-`;
 
 export const ModalRegisterBtn = styled.span`
   color: #9f9f9f;
@@ -277,8 +269,7 @@ export const Modal = styled.div`
     left: 50%;
     margin-top: 133px;
     transform: translate(-50%, 0%);
-    width: 486px;
-    height: 742px;
+
     border-radius: 8px;
     background: ${(props)=>props.theme.divBackGroundColor};
     box-shadow: rgb(0 0 0 / 9%) 0px 2px 12px 0px;
@@ -287,10 +278,13 @@ export const Modal = styled.div`
     @media screen and (max-width:600px){
         width: 100%;
         height: 100%;
-        padding: 20px;
+        padding: 24px;
         margin-top: 0px;
         border-radius: 0px;
+    }
 
+    @media screen and (max-width:375px){
+    padding: 24px;
     }
 
 `;
@@ -311,4 +305,13 @@ width: 20px;
 height: 20px;
 cursor: pointer;
 fill: ${(props)=>props.theme.keyColor};
+`;
+
+export const TabBody = styled.div`
+background-color: ${(props) => props.theme.backgroundColor};
+display: grid;
+grid-template-columns: repeat(4,1fr);
+text-align: center;
+margin: 24px auto;
+gap: 16px;
 `;

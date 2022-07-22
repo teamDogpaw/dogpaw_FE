@@ -5,7 +5,9 @@ export function usePostBookmark() {
   const queryClient = useQueryClient();
   return useMutation(userApis.postBookmark, 
     {onSuccess: () => {
-          queryClient.invalidateQueries("applyproject", "joinproject", "mybookmark");
+          queryClient.invalidateQueries("applyproject");
+          queryClient.invalidateQueries("joinproject");
+          queryClient.invalidateQueries("mybookmark");
         },
   });
 }

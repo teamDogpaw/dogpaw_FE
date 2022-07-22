@@ -2,27 +2,13 @@ import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import arrow from "../styles/icon/global/arrowDown.svg";
-
+import StackSelector from "./StackSeletor"
 import { useSetRecoilState } from "recoil";
 import { modalChange } from "../atom/atom";
-import Login from "./Login";
-import {
-  KakaoImg,
-  ModalAll,
-  ModalComments,
-  ModalIdPut,
-  ModalLog,
-  ModalPone,
-  ModalRegisterBtn,
-  ModalSignUpBtn,
-  ModalTitle,
-  MyStack,
-  Option,
-  SelectBoxOpen,
-  SelectTitle,
-} from "../styles/style";
+import Login, { InputContent, InputWrap, LoginBtn, LoginInput, Redirect, Title, Wrap } from "./Login";
+import { Btn } from "../styles/style";
 
-const Register = () => {
+const Register = ({setModalContent}) => {
   const setOnModal = useSetRecoilState(modalChange);
 
   //닉네임, 이메일, 비밀번호, 비밀번호 확인, 스택
@@ -57,7 +43,7 @@ const Register = () => {
       await axios.post("http://3.35.22.190/user/signup", data).then((res) => {
         console.log(res, "회원가입");
         window.alert("회원가입 성공 :)");
-        setOnModal(<Login />);
+        setModalContent(<Login setModalContent={setModalContent}/>)
       });
     } catch (err) {
       console.log(err);
@@ -156,73 +142,82 @@ const Register = () => {
   };
 
   return (
-    <ModalAll2>
-      <p>
-        <span style={{ fontSize: "32px", fontWeight: "bold" }}>RGISTER</span>
-        <span>회원가입</span>
-      </p>
-      <ModalComments>
-        <ModalTitle>이메일</ModalTitle>
-        <ModalIdPut
+    <Wrap>
+      <Title>
+        REGISTER
+        <span> 회원가입</span>
+      </Title>
+      <InputWrap>
+      <InputContent>
+          이메일
+        <LoginInput
           text="이메일"
           type="email"
           typeName="email"
           onChange={onChangeEmail}
           placeholder="이메일을 입력해주세요."
         />
-        <ModalPone>
+        <p>
           {email.length > 0 && (
             <span className={`message ${isEmail ? "success" : "error"}`}>
               {emailMessage}
             </span>
           )}
-        </ModalPone>
-        <ModalTitle>닉네임</ModalTitle>
-        <ModalNickPut
+        </p>
+        </InputContent>
+        <InputContent>
+        닉네임
+        <NicknameWrap>
+        <LoginInput
           text="ID"
           type="text"
           typeName="id"
           onChange={onChangeId}
           placeholder="닉네임을 입력해주세요."
         />
-        <ModalNICKBTN
+        <Btn
           disabled={nickName.length < 3 || nickName.length > 10}
           onClick={nickCheck}
         >
           중복확인
-        </ModalNICKBTN>
-        <ModalPone>
+        </Btn>
+        </NicknameWrap>
+        
+        <p>
           {nickName.length > 0 && (
             <span className={`message ${isNick ? "success" : "error"}`}>
               {nickMessage}
             </span>
           )}
-        </ModalPone>
-
-        <ModalTitle>비밀번호</ModalTitle>
-        <ModalIdPut
+        </p>
+        </InputContent>
+        <InputContent>
+        비밀번호
+        <LoginInput
           onChange={onChangePassword}
           title="비밀번호"
           typeTitle="password"
           type="password"
           placeholder="비밀번호를 입력해주세요."
         />
-        <ModalPone>
+        <p>
           {password.length > 0 && (
             <span className={`message ${isPassword ? "success" : "error"}`}>
               {passwordMessage}
             </span>
           )}
-        </ModalPone>
-        <ModalTitle>비밀번호 확인</ModalTitle>
-        <ModalIdPut
+        </p>
+        </InputContent>
+        <InputContent>
+        비밀번호 확인
+        <LoginInput
           onChange={onChangePasswordConfirm}
           title="비밀번호 확인"
           typeTitle="passwordConfirm"
           type="password"
           placeholder="비밀번호를 다시 한번 입력해주세요."
         />
-        <ModalPone>
+        <p>
           {passwordConfirm.length > 0 && (
             <span
               className={`message ${isPasswordConfirm ? "success" : "error"}`}
@@ -230,64 +225,13 @@ const Register = () => {
               {passwordConfirmMessage}
             </span>
           )}
-        </ModalPone>
-      </ModalComments>
-      <ModalTitle>구인스택</ModalTitle>
-      <div>
-        <details>
-          <SelectBox>
-            해당하는 기술 스텍을 선택해주세요. (중복 가능)
-            <ArrowImg src={arrow} alt="" />
-          </SelectBox>
-          <SelectBoxOpen>
-            <Option onClick={() => addStack("Java")}>Java</Option>
-            <Option onClick={() => addStack("Javascript")}>Javascript</Option>
-            <Option onClick={() => addStack("TypeScript")}>TypeScript</Option>
-            <Option onClick={() => addStack("React")}>React</Option>
-            <Option onClick={() => addStack("Vue")}>Vue</Option>
-          </SelectBoxOpen>
-        </details>
-        <div style={{ display: "flex", flexWrap: "wrap", marginTop: "10px" }}>
-          {stack.map((stack, index) => {
-            return (
-              <MyStack key={index}>
-                #{stack}{" "}
-                <svg
-                  onClick={() => removeStack(stack)}
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M9.99996 18.3327C14.6023 18.3327 18.3333 14.6017 18.3333 9.99935C18.3333 5.39698 14.6023 1.66602 9.99996 1.66602C5.39759 1.66602 1.66663 5.39698 1.66663 9.99935C1.66663 14.6017 5.39759 18.3327 9.99996 18.3327Z"
-                    stroke="#FFB673"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M12.5 7.5L7.5 12.5"
-                    stroke="#FFB673"
-                    strokeWidth="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M7.5 7.5L12.5 12.5"
-                    stroke="#FFB673"
-                    strokeWidth="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </MyStack>
-            );
-          })}
-        </div>
-      </div>
-      <ModalSignUpBtn
+        </p>
+        </InputContent>
+        <InputContent>
+      기술 스택
+      <StackSelector setRegisterData={setStack}/>
+      </InputContent>
+      <LoginBtn
         type="submit"
         disabled={
           !(
@@ -305,57 +249,30 @@ const Register = () => {
         onClick={onSubmit}
       >
         회원가입하기
-      </ModalSignUpBtn>
-      <ModalLog>
+      </LoginBtn>
+      </InputWrap>
+
+      
+      <Redirect>
         계정이 있으셨나요?
-        <ModalRegisterBtn
+        <span
           onClick={() => {
-            setOnModal(<Login />);
+            setModalContent(<Login setModalContent={setModalContent}/>);
           }}
         >
           로그인
-        </ModalRegisterBtn>
+        </span>
         하러가기
-      </ModalLog>
-    </ModalAll2>
+      </Redirect>
+    </Wrap>
   );
 };
 
-const ModalAll2 = styled(ModalAll)`
-  width: 384px;
-  height: 673px;
-`;
 
-const ModalNickPut = styled(ModalIdPut)`
-  width: 294px;
-`;
-
-const ModalNICKBTN = styled(ModalSignUpBtn)`
-  width: 78px;
-  height: 44px;
-  font-size: 14px;
-  margin: 0px 0px 0px 12px;
-  padding: 0;
-`;
-
-const SelectBox = styled.summary`
-  line-height: 42px;
-  background-color: #fff;
-  border: 2px solid #eee;
-  border-radius: 8px;
-  width: 384px;
-  height: 44px;
-  font-size: 14px;
-  color: #9f9f9f;
-  list-style: none;
-  position: relative;
-`;
-
-const ArrowImg = styled.img`
-  position: absolute;
-  left: 88%;
-  width: 40px;
-  height: 40px;
+const NicknameWrap = styled.div`
+width: 100%;
+display: flex;
+gap: 12px;
 `;
 
 export default Register;

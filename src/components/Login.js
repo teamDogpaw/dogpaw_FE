@@ -3,24 +3,11 @@ import axios from "axios";
 import styled from "styled-components";
 import kakaoBTN from "../styles/icon/login/kakaoLogin.svg";
 import googleBTN from "../styles/icon/login/googleLogin.svg";
-import { useSetRecoilState } from "recoil";
-import { modalChange } from "../atom/atom";
 import Register from "./Register";
 
-import {
-  ModalAll,
-  ModalComments,
-  ModalIdPut,
-  ModalLog,
-  ModalPone,
-  ModalRegisterBtn,
-  ModalSignUpBtn,
-  ModalTitle,
-} from "../styles/style";
+import {Btn} from "../styles/style";
 
-import cancel from "../styles/icon/modal/close.svg";
-const Login = () => {
-  const setOnModal = useSetRecoilState(modalChange);
+const Login = ({setModalContent}) => {
 
   //아이디, 비밀번호
   const [email, setEmail] = useState("");
@@ -99,77 +86,176 @@ const Login = () => {
   const GOOGLE_AUTH_URL = "";
 
   return (
-    <ModalAll>
-      <img src={cancel} alt="" />
-      <p>
-        <span style={{ fontSize: "32px", fontWeight: "bold" }}>LOGIN</span>
-        <span>로그인</span>
-      </p>
+    <Wrap>
+      <Title>
+        LOGIN
+        <span> 로그인</span>
+      </Title>
 
-      <ModalComments>
-        <ModalTitle>이메일</ModalTitle>
-        <ModalIdPut
+      <InputWrap>
+      <InputContent>
+        이메일
+        <LoginInput
           text="ID"
           type="text"
           typeName="id"
           onChange={onChangeId}
           placeholder="이메일을 입력해주세요."
         />
-        <ModalPone>
+        <p>
           {email.length > 0 && (
             <span className={`message ${isEmail ? "success" : "error"}`}>
               {emailMessage}
             </span>
           )}
-        </ModalPone>
-        <ModalTitle>비밀번호</ModalTitle>
-        <ModalIdPut
+        </p>
+        </InputContent>
+        <InputContent>
+        비밀번호
+        <LoginInput
           onChange={onChangePassword}
           title="비밀번호"
           typeTitle="password"
           type="password"
           placeholder="비밀번호를 입력해주세요."
         />
-        <ModalPone>
+        <p>
           {password.length > 0 && (
             <span className={`message ${isPassword ? "success" : "error"}`}>
               {passwordMessage}
             </span>
           )}
-        </ModalPone>
-      </ModalComments>
-
-      <ModalSignUpBtn
+        </p>
+        </InputContent>
+        <LoginBtn
         type="submit"
         disabled={!(isEmail && isPassword && email && password)}
         onClick={onSubmit}
       >
-        로그인
-      </ModalSignUpBtn>
+        로그인하기
+      </LoginBtn>
+      </InputWrap>
+
+      <SocialWrap>
       <a href={KAKAO_AUTH_URL}>
         <IMG src={kakaoBTN} alt="카카오" />
       </a>
       <a href={GOOGLE_AUTH_URL}>
         <IMG src={googleBTN} alt="구글" />
       </a>
-      <ModalLog>
+      </SocialWrap>
+     
+      <Redirect>
         아직 계정이 없으신가요?
-        <ModalRegisterBtn
+        <span
           onClick={() => {
-            setOnModal(<Register />);
+            setModalContent(<Register setModalContent={setModalContent}/>);
           }}
         >
           회원가입
-        </ModalRegisterBtn>
+        </span>
         하러가기
-      </ModalLog>
-    </ModalAll>
+      </Redirect>
+    </Wrap>
   );
 };
 
 const IMG = styled.img`
   width: 48px;
   height: 48px;
+`;
+
+export const Wrap = styled.div`
+width: 384px;
+margin: 24px 72px 8px;
+
+@media screen and (max-width:600px){
+  width: 100%;
+margin: 0px auto ;
+    }
+
+@media screen and (max-width:375px){
+  width: 100%;
+margin: 0px auto ;
+    }
+`;
+
+export const Title = styled.div`
+font-size: 32px;
+font-weight: bold;
+text-align: center;
+
+span{
+  font-size: 16px;
+  font-weight: normal;
+}
+`;
+
+export const InputWrap = styled.div`
+margin-top: 40px;
+display: flex;
+flex-direction: column;
+gap: 24px;
+`;
+
+export const InputContent = styled.div`
+display: flex;
+flex-direction: column;
+gap: 6px;
+width: 100%;
+span{
+  font-size: 14px;
+  color:${(props)=>props.theme.keyColor}
+
+}
+`;
+
+export const LoginBtn = styled(Btn)`
+cursor: pointer;
+width: 100%;
+`;
+
+const SocialWrap = styled.div`
+display: flex;
+gap: 16px;
+justify-content: center;
+margin: 16px 0px 0px;
+`;
+
+export const LoginInput = styled.input`
+  width: 100%;
+  height: 44px;
+  background-color: #fff;
+  border: 2px solid #eee;
+  border-radius: 12px;
+  padding: 12px;
+  ::placeholder {
+    color: #9f9f9f;
+  }
+  :focus{
+    outline: none;
+  }
+
+`;
+
+export const Redirect = styled.div`
+margin-top: 32px;
+color:${(props) => props.theme.textColor_sub};
+font-size: 0.75rem;
+text-align: center;
+
+span{
+  font-weight: bold;
+  color:#9f9f9f;
+  cursor: pointer;
+  :hover{
+    color:${(props) => props.theme.textColor};
+  }
+  
+}
+
+
+
 `;
 
 export default Login;
