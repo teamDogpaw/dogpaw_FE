@@ -52,7 +52,7 @@ const Register = () => {
     };
     //console.log(data);
     try {
-      await axios.post("https://my1stdomain.shop/user/signup", data).then((res) => {
+      await axios.post("https://dogflow.dasole.shop/user/signup", data).then((res) => {
         console.log(res, "회원가입");
         window.alert("회원가입 성공 :)");
         setOnModal(<Login />);
@@ -69,7 +69,7 @@ const Register = () => {
       nickname: nickName,
     };
     try {
-      await axios.post("http://3.35.22.190/user/nickname", data).then(
+      await axios.post("https://dogflow.dasole.shop/user/nickname", data).then(
         (
           res //console.log(res, "닉네임 중복확인")
         ) => window.alert(res.data.msg)

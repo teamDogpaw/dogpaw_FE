@@ -1,3 +1,7 @@
 
 node_modules/
 yarn-error.log
+src/components/Login.js
+src/components/Register.js
+src/components/SocialModal.js
+src/shared/axios.js
