@@ -48,10 +48,8 @@ const Detail = () => {
       <Wrap>
         <ArticleTop>
           <User>
-            <h1>{postList?.data.title}</h1>
-
+            <h3>{postList?.data.title}</h3>
             <img src={postList?.data.profileImg || person} alt="profile" />
-
             <p>{author}</p>
           </User>
           <Leftarrow
@@ -60,13 +58,12 @@ const Detail = () => {
             }}
           />
           <Mark>
-            {userStatus === "author" ? (
-              ""
-            ) : postList?.data.bookMarkStatus ? (
-              <BookmarkFill onClick={bookMark} />
-            ) : (
-              <BookmarkIcon onClick={bookMark} />
-            )}
+            {userStatus !== "author" &&
+              (postList?.data.bookMarkStatus ? (
+                <BookmarkFill onClick={bookMark} />
+              ) : (
+                <BookmarkIcon onClick={bookMark} />
+              ))}
           </Mark>
           <Userbtn>
             {userStatus === "author" && (
@@ -112,18 +109,17 @@ const Detail = () => {
               <Title>
                 <p>모집 인원</p>
                 <span>
-                  {postList?.data.currentMember} / {postList?.data.maxCapacity}{" "}
+                  {postList?.data.currentMember} / {postList?.data.maxCapacity}
                   명
                 </span>
               </Title>
             </div>
-
             <ApplyBtn myPostData={postList?.data} />
           </ContentWrap>
         </ArticleTop>
         <Article>
           <div>
-            <h1>프로젝트 소개</h1>
+            <h3>프로젝트 소개</h3>
           </div>
           <pre>{postList?.data.content}</pre>
           <div>
@@ -141,7 +137,7 @@ const Wrap = styled.div`
   margin: auto;
   margin-bottom: 100px;
 
-  h1 {
+  h3 {
     font-size: 25px;
   }
 
