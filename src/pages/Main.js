@@ -218,7 +218,7 @@ const Main = () => {
         </ArticleWrap>
         {isFetchingNextPage ? <Loading /> : <div ref={ref}></div>}
       </>
-      {isModalOpen ? <ModalOpen isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/> : null}
+     
     </Wrap>
   );
 };
