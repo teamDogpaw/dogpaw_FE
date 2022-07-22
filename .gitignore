@@ -1,3 +1,7 @@
 
 node_modules/
 yarn-error.log
+
+/build
+
+src/shared/axios.js

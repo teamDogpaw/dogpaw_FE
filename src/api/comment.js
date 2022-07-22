@@ -1,4 +1,4 @@
-import instance from "../shared/userOauth";
+import instance from "../shared/axios";
 
 export const commentApis = {
   getCommentList: async (id) => await instance.get(`api/posts/${id}/comments`),

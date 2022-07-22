@@ -1,4 +1,4 @@
-import instance from "../shared/userOauth";
+import instance from "../shared/axios";
 
 export const projectApis = {
   getApplicantLists: async (postId) =>

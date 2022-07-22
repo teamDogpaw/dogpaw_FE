@@ -4,8 +4,10 @@ import kakaoBTN from "../styles/icon/login/kakaoLogin.svg";
 import googleBTN from "../styles/icon/login/googleLogin.svg";
 import Register from "./Register";
 import {Btn} from "../styles/style";
-const Login = ({setModalContent}) => {
 import { login } from "../shared/userOauth";
+
+const Login = ({setModalContent}) => {
+
 
   //아이디, 비밀번호
   const [email, setEmail] = useState("");

@@ -1,4 +1,4 @@
-import instance from "../shared/userOauth";
+import instance from "../shared/axios";
 
 export const userApis = {
   postApply: async (postId) => await instance.post(`/api/apply/${postId}`),

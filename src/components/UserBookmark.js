@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
 import { QueryClient, useMutation, useQueryClient } from "react-query";
 import { usePostBookmark } from "../hook/useUserData";
-import instance from "../shared/userOauth";
+import {instance} from "../shared/axios";
 import { ReactComponent as BookmarkIcon } from "../styles/icon/post/bookmark.svg";
 import { ReactComponent as BookmarkFill } from "../styles/icon/post/bookmarkFill.svg";
-
-const UserBookmark = ({ postId, currentTab, bookmarkStatus }) => {
-  const [isMyBookmark, setIsMyBookmark] = useState(true);
 
 const UserBookmark = ({
     postId,
@@ -39,19 +36,7 @@ const UserBookmark = ({
         return null
     }
 
-    return (
-      <>
-        {isMyBookmark ? (
-          <BookmarkFill style={{ marginLeft: "auto" }} onClick={bookmark} />
-        ) : (
-          <BookmarkIcon style={{ marginLeft: "auto" }} onClick={bookmark} />
-        )}
-      </>
-    );
-  }
-  if (currentTab === 4) {
-    return null;
-  }
+  
   return (
     <>
       {bookmarkStatus ? (
@@ -61,6 +46,6 @@ const UserBookmark = ({
       )}
     </>
   );
-};
+      };
 
 export default UserBookmark;

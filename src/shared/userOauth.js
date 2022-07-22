@@ -1,15 +1,7 @@
-import axios from "axios";
-const token = localStorage.getItem("token");
+import { instance } from "./axios";
+
 let debounce = null;
 
-export const instance = axios.create({
-  baseURL: "http://3.35.22.190",
-  headers: token ? { Authorization: `Bearer ${token}` } : {},
-});
-
-instance.interceptors.response.use((response) => {
-  return response;
-});
 
 // 로그인 정보를 보내면 토큰을 받음.
 export const login = (props) => {
@@ -18,8 +10,8 @@ export const login = (props) => {
   }
 
   debounce = setTimeout(() => {
-    axios
-      .post("http://3.35.22.190/user/login", props)
+    instance
+      .post("/user/login", props)
       .then((res) => {
         const accessToken = res.data.data.token.accessToken;
         const refreshToken = res.data.data.token.refreshToken;
@@ -45,8 +37,8 @@ export const register = (props) => {
   }
 
   debounce = setTimeout(async () => {
-    await axios
-      .post("http://3.35.22.190/user/signup", props)
+    await instance
+      .post("/user/signup", props)
       .then((res) => {
         window.alert("회원 가입 성공 :)");
       })
@@ -62,8 +54,8 @@ export const nickCheck = (props) => {
     clearTimeout(debounce);
   }
   debounce = setTimeout(async () => {
-    await axios
-      .post("http://3.35.22.190/user/nickname", props)
+    await instance
+      .post("/user/nickname", props)
       .then((res) => window.alert("중복되지 않은 닉네임입니다. :)"))
       .catch((err) => {
         window.alert("중복된 닉네임입니다. :(");
@@ -71,4 +63,4 @@ export const nickCheck = (props) => {
   }, 500);
 };
 
-export default instance;
+

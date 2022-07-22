@@ -7,7 +7,7 @@ import { lightTheme, darkTheme } from "./styles/theme";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { DarkThemeAtom } from "./atom/theme";
 import { useQuery } from "react-query";
-import instance from "./shared/userOauth";
+import instance from "./shared/axios";
 import { UserInfoAtom } from "./atom/atom";
 import Loading from "./shared/Loading";
 import Toggle from "./components/Toggle";
