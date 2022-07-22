@@ -28,14 +28,14 @@ const Tutoral = () => {
           <img src={arrowDetail} alt="" />
         </ArrowDetail>
       </Content>
-      <ArrowMode>
+      {/* <ArrowMode>
         <p>
           밝은 테마 / 어두운 테마로 <br />
           바꿔보세요!
         </p>
         <br/>
         <img src={arrowMode} alt="" />
-      </ArrowMode>
+      </ArrowMode> */}
     </Wrap>
   );
 };
@@ -49,6 +49,7 @@ const Wrap = styled.div`
   left: 0;
   z-index: 99;
   background-color: rgba(0, 0, 0, 0.4);
+  cursor: pointer;
 
   p {
     color: #fff6c6;

@@ -1,18 +1,20 @@
 import { useRecoilValue } from "recoil";
 import { DarkThemeAtom } from "../atom/theme";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { UserInfoAtom } from "../atom/atom";
-import ModalOpen from "./Modal";
+import ModalOpen from "./Modal_prev";
 
 import logolight from "../styles/logo/logoLight.svg";
 import logodark from "../styles/logo/logoDark.svg";
 import person from "../styles/icon/global/profile.svg";
 import arrowdown from "../styles/icon/global/arrowDown.svg";
+import write from "../styles/icon/detail/edit.svg";
 
 const Header = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const isDark = useRecoilValue(DarkThemeAtom);
   const userInfo = useRecoilValue(UserInfoAtom);
@@ -20,9 +22,14 @@ const Header = () => {
   const isLogin = localStorage.getItem("token");
 
   const details = detailsRef.current;
-  if (details) {
-    details.open = false;
-  }
+
+    if (details) {
+      details.open = false;
+    }
+    const viewModal = () => {
+      setIsModalOpen((prev) => !prev)
+    }
+
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -42,28 +49,29 @@ const Header = () => {
   };
 
   return (
+    <>
+  
+  {isModalOpen ? <ModalOpen viewModal={viewModal}/> : null}
+
     <Wrap>
       <ContentWrap>
-        <div
-          onClick={() => {
-            navigate("/");
-          }}
-        >
-          {isDark ? (
-            <Img src={logodark} alt="" />
-          ) : (
-            <Img src={logolight} alt="" />
-          )}
+        <div onClick={() => {navigate("/")}}>
+        {isDark? <Img src={logodark} alt="" /> :<Img src={logolight} alt="" />}
         </div>
         <User>
+     
           {!isLogin ? (
             <Contain>
-              <StyledLink to="/write">게시글 작성</StyledLink>
-              <ModalOpen />
+              
+              <span onClick={viewModal}>로그인 </span> 
+             
+           
             </Contain>
+            
           ) : (
             <>
-              <StyledLink to="/write">게시글 작성</StyledLink>
+            <StyledLink to="/write"><img src={write} alt="" />게시글 작성 </StyledLink>
+              {/* <StyledLink to="/write">게시글 작성</StyledLink> */}
               <Details ref={detailsRef}>
                 <Summary>
                   <Profile src={userInfo?.profileImg || person} alt="" />
@@ -83,23 +91,26 @@ const Header = () => {
             </>
           )}
         </User>
+        
       </ContentWrap>
+      
     </Wrap>
+    
+    </>
   );
 };
 
 const Wrap = styled.div`
   background-color: ${(props) => props.theme.BackGroundColor};
-  //box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  box-shadow: -2px 1px 6px rgba(0, 0, 0, 0.2);
   width: 100%;
-  height: 80px;
-  margin-bottom: 50px;
+  height: 90px;
+  margin-bottom:10px;
   display: flex;
   align-items: center;
   p {
     font-size: 16px;
   }
+
 `;
 
 const Img = styled.img`
@@ -125,18 +136,14 @@ const User = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 180px;
-  //background-color:gold;
+  width:180px;
 `;
 
 const Profile = styled.img`
-
-width:35px;
-height:35px;
+width:30px;
+height:30px;
 border-radius:50%;
 margin-right:10px;
-//box-shadow: -2px 1px 6px rgba(0, 0, 0, 0.2);
-
 `;
 
 const Details = styled.details`
@@ -163,6 +170,8 @@ const Select = styled.ul`
   border: ${(props) => props.theme.border};
   background-color: ${(props) => props.theme.inputBoxBackground};
   box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.1);
+  
+
 
   button {
     border: none;
@@ -174,7 +183,12 @@ const Select = styled.ul`
 `;
 
 const StyledLink = styled(Link)`
+img {
+padding-right:5px;
+}
   text-decoration: none;
+  color: #777777;
+  font-weight:500;
 `;
 
 const Option = styled.li`

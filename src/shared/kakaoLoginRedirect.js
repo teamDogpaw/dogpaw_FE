@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import ModalOpen from "../components/Modal_prev";
 import Modal from "react-modal";
 import SocialModal from "../components/SocialModal";
 

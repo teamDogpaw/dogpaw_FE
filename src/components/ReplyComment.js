@@ -1,12 +1,11 @@
 import React, { useRef, useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { useQueryClient } from "react-query";
 import { useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/atom";
-import instance from "../shared/axios";
 import person from "../styles/images/person.png";
-
 import styled from "styled-components";
-import arrow from "../styles/icon/replyarrow.png";
+import arrow from "../styles/icon/detail/replyarrow.svg";
+import { useEditReply, useRemoveReply } from "../hook/useCommentData";
 
 const ReplyComment = (props) => {
   const [isEdit, setIsEdit] = useState(false);
@@ -15,54 +14,31 @@ const ReplyComment = (props) => {
 
   const loginUser = isLogin.nickname;
   const writeUser = props.data.nickname;
-  //console.log(writeUser, "글쓴이");
 
-  const comment_ref = useRef("");
+  const id = props.commentId;
 
-  //답글 수정 액션
-  const modifyReply = (data) => {
-    return instance.put(
-      `api/comments/${props.commentId}/${props.data.id}`,
-      data
-    );
-  };
-
-  //답글 삭제 액션
-  const removeReply = (data) => {
-    return instance.delete(
-      `api/comments/${props.commentId}/${props.data.id}`,
-      data
-    );
-  };
+  const replyRef = useRef("");
 
   const queryClient = useQueryClient();
 
-  // 답글 수정
-  const { mutate: modifyReplies } = useMutation(modifyReply, {
-    onSuccess: (data) => {
-      queryClient.invalidateQueries("commentList");
-      console.log(data);
-    },
-  });
+  // 대 댓글 수정
+  const { mutateAsync: editReply } = useEditReply();
 
-  const modifyReplyClick = () => {
-    modifyReplies({ content: comment_ref.current.value });
+  const modifyReplyClick = async (replyId) => {
+    const replyData = { content: replyRef.current.value, replyId, id };
     setIsEdit(false);
+    await editReply(replyData);
+    queryClient.invalidateQueries("commentList");
   };
 
-  // 답글 삭제
-  const { mutate: deleteReplies } = useMutation(removeReply, {
-    onSuccess: (data) => {
-      queryClient.invalidateQueries("commentList");
-      console.log(data);
-    },
-  });
+  // 대 댓글 삭제
+  const { mutateAsync: removeReply } = useRemoveReply();
 
-  const deleteReplyClick = (id) => {
-    deleteReplies(id);
+  const deleteReplyClick = async (replyId) => {
+    const replyData = { replyId, id };
+    await removeReply(replyData);
+    queryClient.invalidateQueries("commentList");
   };
-
-  console.log(props, "답글");
 
   return (
     <Contain>
@@ -77,7 +53,8 @@ const ReplyComment = (props) => {
             <input
               type="text"
               defaultValue={props.data.content}
-              ref={comment_ref}
+              ref={replyRef}
+
             />
           ) : (
             <p>{props.data.content}</p>

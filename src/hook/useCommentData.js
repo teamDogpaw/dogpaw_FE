@@ -1,43 +1,44 @@
-import axios from "axios";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery } from "react-query";
+import { commentApis } from "../api/comment";
 
-import instance from "../shared/axios";
-
-
-const getCommentList = () => {
-  return axios.get("http://localhost:5001/comment/");
-};
-const addComment = () => {
-  return instance.post("http://13.125.213.81/api/posts/comments");
-};
-const removeComment = (id) => {
-    return axios.delete("http://localhost:5001/comment", id);
-  };
-const editComment = (id) => {
-    return axios.put("http://localhost:5001/comment", id);
-};
-
-export const useCommentData = (onSuccess, onError) => {
-  return useQuery("commentList", getCommentList, {
-    refetchOnWindowFocus: false,
-    onSuccess,
-    onError,
+export function useGetCommentList(postId) {
+  return useQuery(["commentList"], () => {
+    return commentApis.getCommentList(postId);
   });
-};
+}
 
-export const useAddCommentData = () => {
-  const queryClient = useQueryClient();
-  return useMutation(addComment, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("commentList"); // 새로 추가 요청을 했기 때문에 상한 쿼리는 무효화 시켜
-    },
+export function usePostComment() {
+  return useMutation((commentData) => {
+    return commentApis.postComment(commentData);
   });
-};
+}
 
-export const useDeleteCommentData = () => {
-  return useMutation(removeComment);
-};
+export function useEditComment() {
+  return useMutation((commentData) => {
+    return commentApis.editComment(commentData);
+  });
+}
 
-export const useEditCommentData = () => {
-    return useMutation(removeComment);
-  };
+export function useRemoveComment() {
+  return useMutation((commentData) => {
+    return commentApis.removeComment(commentData);
+  });
+}
+
+export function usePostReply() {
+  return useMutation((replyData) => {
+    return commentApis.postReply(replyData);
+  });
+}
+
+export function useEditReply() {
+  return useMutation((replyData) => {
+    return commentApis.editReply(replyData);
+  });
+}
+
+export function useRemoveReply() {
+  return useMutation((replyData) => {
+    return commentApis.removeReply(replyData);
+  });
+}

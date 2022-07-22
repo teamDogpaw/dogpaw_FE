@@ -12,7 +12,7 @@ const Loading = () => {
 const Wrap = styled.div`
 height:100%;
 width:100%;
-background-color:#fff;
+background-color:${(props)=>props.theme.backgroundColor};
 display:flex;
 justify-content:center;
 align-items:center;

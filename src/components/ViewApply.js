@@ -1,51 +1,83 @@
+import { useState } from "react";
 import styled from "styled-components";
-import { ReactComponent as X } from "../styles/icon/modal/close.svg";
-import { GrayLineBtn, LineBtn } from "../styles/style";
+import { Tab } from "../pages/Mypage";
+import { Modal, ModalBackground, ModalCloseButton, TabBody } from "../styles/style";
 import ApplyList from "./ApplyList";
+import ParticipantList from "./ParticipantList";
+import { ReactComponent as X } from "../styles/icon/modal/close.svg";
 
 const ViewApply = ({
     viewApplyModal,
-    myPostId
+    myPostData,
+    currentTab,
+    setViewApply
 }) => {
-console.log(myPostId)
-    return (
-        <Background>
+console.log(currentTab)
+    console.log(myPostData)
+
+
+const [isApplyList, setIsApplyList] = useState(false);
+    
+return (
+        <ModalBackground>
             <Modal>
-                <CloseButton onClick={viewApplyModal}>
+                <ModalCloseButton onClick={viewApplyModal}>
                     <X style={{ right: "0" }} />
-                </CloseButton>
-                <ApplyList myPostId={myPostId}/>
+                </ModalCloseButton>
+                <h1>{myPostData.title} </h1>
+                    {currentTab === 2 ?
+                       <ModalTabBody className="participant">
+                    <Tab className="focused"
+                    onClick={()=>setIsApplyList(false)}>
+                    팀원 목록
+                    </Tab>
+                    </ModalTabBody>
+                     : 
+                     <ModalTabBody>
+                      <Tab className={isApplyList ? null : "focused"}
+                     onClick={()=>setIsApplyList(false)}>
+                     팀원 목록 {myPostData.currentMember} 
+                     </Tab>
+                     <Tab className={isApplyList ? "focused" : null}
+                     onClick={()=>setIsApplyList(true)}>
+                     신청자 목록
+                     </Tab>
+                     </ModalTabBody>
+                    
+                     }
+                   
+              
+
+
+                <ModalContent>
+                {isApplyList ?  <ApplyList myPostId={myPostData.postId}/> : 
+                <ParticipantList 
+                myPostId={myPostData.postId} 
+                currentTab={currentTab}
+                setViewApply={setViewApply}
+                />}
+
+                </ModalContent>
+                
+            
+                
             </Modal>
-        </Background>
+        </ModalBackground>
 
     )
 }
-const CloseButton = styled.div`
-margin-left: auto;
+
+const ModalTabBody = styled(TabBody)`
+grid-template-columns: repeat(2,1fr);
+margin: 16px 0px 20px;
+background: ${(props)=>props.theme.divBackGroundColor};
+
+&.participant{
+    grid-template-columns: 1fr;
+}
 `;
 
-const Modal = styled.div`
-display: flex;
-flex-direction: column;
-  position: absolute;
-  left: 50%;
-    margin-top: 133px;
-    margin-left: -243px;
-    width: 486px;
-    height: 742px;
-    border-radius: 8px;
-    background: white;
-    box-shadow: rgb(0 0 0 / 9%) 0px 2px 12px 0px;
-    padding: 30px;
-`;
-
-const Background = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-color: rgba(0,0,0,0.3);
-    z-index: 0;
+const ModalContent = styled.div`
+overflow-y: auto;
 `;
 export default ViewApply;

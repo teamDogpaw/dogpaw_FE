@@ -1,153 +1,128 @@
-import React, { useRef, useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+
+import { useRef, useState } from "react";
+import { useQueryClient } from "react-query";
+
 import { useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/atom";
-import instance from "../shared/axios";
 
 import styled from "styled-components";
 import person from "../styles/images/person.png";
-
+import {
+  useEditComment,
+  useRemoveComment,
+  usePostReply,
+} from "../hook/useCommentData";
 import DropDown from "./DropDown";
 
-const Comment = (props) => {
+const Comment = ({ data }) => {
   //대댓글 드롭다운 열기/닫기
-  const [dropdownVisibility, setDropdownVisibility] = React.useState(false);
+  const [dropdownVisibility, setDropdownVisibility] = useState(false);
 
+  const params = useParams();
+  const id = params.postId;
+  const replyId = data.commentId;
+  const comment_ref = useRef("");
+  const replyRef = useRef("");
   const [isEdit, setIsEdit] = useState(false);
 
   const isLogin = useRecoilValue(UserInfoAtom);
 
   const loginUser = isLogin.nickname;
-  const writeUser = props.data.nickname;
+  const writeUser = data.nickname;
   //console.log(writeUser, "글쓴이");
 
-  const params = useParams();
-  const id = params.postId;
-  const comment_ref = useRef("");
-  const ReplyRef = useRef("");
-
-  //수정 액션
-  const modifyComment = (data) => {
-    return instance.put(
-      `api/posts/${id}/comments/${props.data.commentId}`,
-      data
-    );
-  };
-
-  //삭제 액션
-  const removeComment = (commentId, data) => {
-    return instance.delete(`api/posts/${id}/comments/${commentId}`, data);
-  };
 
   const queryClient = useQueryClient();
+  const { mutateAsync: editComment } = useEditComment();
+  const { mutateAsync: removeComment } = useRemoveComment();
 
-  // 댓글 수정
-  const { mutate: modifyComments } = useMutation(modifyComment, {
-    onSuccess: (data) => {
-      queryClient.invalidateQueries("commentList");
-      console.log(data);
-    },
-  });
 
-  const modifyCommentClick = (commentId) => {
-    modifyComments({ content: comment_ref.current.value, commentId });
+  const modifyCommentClick = async (commentId) => {
+    const commentData = {id,commentId,content:comment_ref.current.value};
     setIsEdit(false);
+    await editComment(commentData);
+    queryClient.invalidateQueries("commentList");
   };
 
-  // 댓글 삭제
-  const { mutate: deleteComments } = useMutation(removeComment, {
-    onSuccess: (data) => {
-      queryClient.invalidateQueries("commentList");
-      // console.log(data)
-    },
-  });
-
-  const deleteCommentClick = (commentId) => {
-    deleteComments(commentId);
+  const deleteCommentClick = async (commentId) => {
+    const commentData = { commentId, id };
+    await removeComment(commentData);
+    queryClient.invalidateQueries("commentList");
   };
 
-  // 답글 작성  액션
-  const addReply = (data) => {
-    console.log(props.data.commentId, "대댓글 주소");
-    return instance.post(
-      `/api/comments/${props.data.commentId}/commentReply`,
-      data
-    );
-  };
-
-  const { mutate: addReplies } = useMutation(addReply, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("commentList");
-    },
-  });
+  // 대 댓글 작성
+  const { mutateAsync: addReply } = usePostReply();
 
   const onCheckEnter = (e) => {
     if (e.key === "Enter") {
-      const replyData = { content: ReplyRef.current.value };
-      ReplyRef.current.value = "";
-      addReplies(replyData);
+      addReplyClick();
     }
   };
 
-  const handleAddCommentClick = () => {
-    const reply = { content: ReplyRef.current.value };
-    ReplyRef.current.value = "";
-    addReplies(reply);
-    //console.log(reply);
+  const addReplyClick = async () => {
+    const replyData = { replyId, content: replyRef.current.value };
+    await addReply(replyData);
+    replyRef.current.value = "";
+    queryClient.invalidateQueries("commentList");
   };
 
+
+
+
+
   return (
-    <div>
+  
       <div>
         <User>
-          <Img src={props.data.profileImg || person} alt="사진" />
-          <p>{props.data.nickname}</p>
+          <Img src={data.profileImg || person} alt="사진" />
+          <p>{data.nickname}</p>
         </User>
         <Content>
           {isEdit ? (
             <input
               type="text"
-              defaultValue={props.data.content}
+              defaultValue={data.content}
               ref={comment_ref}
             />
           ) : (
-            <p>{props.data.content}</p>
+            <p>{data.content}</p>
           )}
-          <Date>
-            {props.data.modifiedAt.substring(0, 10)}
-            <button
-              style={{ marginLeft: "10px" }}
-              onClick={(e) => setDropdownVisibility(!dropdownVisibility)}
-            >
-              {dropdownVisibility ? "닫기" : "답글 쓰기"}
-            </button>
-          </Date>
-          <Btn>
-            {loginUser === writeUser && (
-              <>
-                {isEdit ? (
-                  <UpdateBtn
-                    onClick={() => {
-                      modifyCommentClick(props.data.commentId);
-                    }}
-                  >
-                    등록
-                  </UpdateBtn>
-                ) : (
-                  <ModiBtn onClick={() => setIsEdit(true)}>수정</ModiBtn>
-                )}
-                <DeleteBtn
+          <p>{data.modifiedAt.substring(0, 10)}</p>
+          <button
+            style={{ marginLeft: "10px" }}
+            onClick={(e) => setDropdownVisibility(!dropdownVisibility)}
+          >
+            {dropdownVisibility ? "닫기" : "답글 쓰기"}
+          </button>
+        </Content>
+
+        <Btn>
+          {loginUser === writeUser && (
+            <>
+              {isEdit ? (
+                <UpdateBtn
+
                   onClick={() => {
-                    deleteCommentClick(props.data.commentId);
+                    modifyCommentClick(data.commentId);
                   }}
                 >
-                  삭제
-                </DeleteBtn>
-              </>
-            )}
-          </Btn>
-        </Content>
+                  등록
+                </UpdateBtn>
+              ) : (
+                <ModiBtn onClick={() => setIsEdit(true)}>수정</ModiBtn>
+              )}
+              <DeleteBtn
+                onClick={() => {
+                  deleteCommentClick(data.commentId);
+                }}
+              >
+                삭제
+              </DeleteBtn>
+            </>
+          )}
+        </Btn>
+        {/* 대 댓글 작성할 수 있는 input 박스 */}
         <div className="commentList">
           <DropDown visibility={dropdownVisibility}>
             <ul>
@@ -157,10 +132,10 @@ const Comment = (props) => {
                     <Input
                       type="text"
                       placeholder="댓글을 남겨주세요"
-                      ref={ReplyRef}
+                      ref={replyRef}
                       onKeyPress={onCheckEnter}
                     />
-                    <Button onClick={handleAddCommentClick}>등록하기</Button>
+                    <Button onClick={addReplyClick}>등록하기</Button>
                   </CommentBox>
                 </Wrap>
               </li>
@@ -168,7 +143,7 @@ const Comment = (props) => {
           </DropDown>
         </div>
       </div>
-    </div>
+   
   );
 };
 
@@ -278,5 +253,4 @@ const Button = styled.button`
     background-color: #d26500;
   }
 `;
-
 export default Comment;

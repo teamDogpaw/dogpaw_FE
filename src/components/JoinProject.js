@@ -1,48 +1,67 @@
 
-import axios from "axios"
-import { useEffect, useState } from "react"
-import { useQuery } from "react-query"
-import instance from "../shared/axios"
-import { Btn, ListProfilePic, ListStack, MypagePostBox } from "../styles/style"
+import { useState } from "react"
+import { MypagePostBox } from "../styles/style"
+import { useGetMyParticipatePost } from "../hook/usePostListData"
 import MyPagePostList from "./MyPagePostList"
-
+import ViewApply from "./ViewApply";
+import { EmptyBody, EmptyImg } from "./ApplyList";
 
 const JoinProject = ({
-  viewApplyModal,
   currentTab
 }) => {
-  const [isApply, setIsApply] = useState(true);
-  const GetJoinProject = async () => {
-    try {
-      const response = await instance.get(`/api/user/participation`);
-      console.log(response.data);
-      return response.data;
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  const{isLoading, data, isError} = useQuery("joinproject", GetJoinProject);
+  const {
+    data:myParticipatePost, 
+    isLoading : isLoadingPartiPost} 
+    = useGetMyParticipatePost();
 
+  const [viewApply, setViewApply] = useState(false);
+  const [myPostData,setMyPostData] = useState({
+    id:1,
+    title:"",
+    deadline:false
+  })
 
-
-  if (isLoading) {
-    return <h1>loading...</h1>;
+  function viewApplyModal(data) {
+    setViewApply((prev) => !prev);
+    setMyPostData(()=> ({
+      postId: data.postId,
+      title:data.title,
+      deadline:data.deadline
+    }))
   }
+
+  if (isLoadingPartiPost) {
+    return (
+      <EmptyBody>
+        <EmptyImg />
+      </EmptyBody>
+    )
+  }
+
   return (
+    <>
+    
+    {viewApply ?
+      <ViewApply viewApplyModal={viewApplyModal}
+        myPostData={myPostData}
+        currentTab={currentTab}
+        setViewApply={setViewApply}
+      />
+      : null}
     <MypagePostBox>
-      {data?.map((content) => {
+      {myParticipatePost?.data.map((content) => {
         return (
           <MyPagePostList key={content.postId} 
           data={content} 
           viewApplyModal={viewApplyModal}
-          isApply={isApply}
           currentTab={currentTab}
           />
         )
-
       })}
     </MypagePostBox>
+    </>
+    
   );
 };
 

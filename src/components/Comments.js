@@ -1,10 +1,10 @@
 import { useRef, useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
-import instance from "../shared/axios";
-import ReplyComment from "./ReplyComment";
+import { useGetCommentList, usePostComment } from "../hook/useCommentData";
 import Comment from "./Comment";
+import ReplyComment from "./ReplyComment";
 
 const Comments = () => {
   const params = useParams();
@@ -13,59 +13,27 @@ const Comments = () => {
 
   const id = params.postId;
 
-  // 댓글 조회 액션
-  const getCommentList = () => {
-    return instance.get(`api/posts/${id}/comments`);
-  };
-
-  // 댓글 작성  액션
-  const addComment = (data) => {
-    return instance.post(`api/posts/${id}/comments`, data);
-  };
-
-  const { isLoading, isError, data, error } = useQuery(
-    "commentList",
-    getCommentList,
-    {
-      refetchOnWindowFocus: false,
-      onSuccess: (data) => {
-        console.log(data);
-      },
-      onError: (e) => {
-        console.log(e.message);
-      },
-    }
-  );
 
   const queryClient = useQueryClient();
+  // 댓글 조회 및 대 댓글 조회
+  const { data: commentList } = useGetCommentList(id);
+console.log(commentList)
+  const { mutateAsync: addComment } = usePostComment();
 
-  const { mutate: addComments } = useMutation(addComment, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("commentList");
-    },
-  });
 
   const onCheckEnter = (e) => {
     if (e.key === "Enter") {
-      const commentData = { content: comment_ref.current.value };
-      comment_ref.current.value = "";
-      addComments(commentData);
+      addCommentClick();
     }
   };
 
-  const handleAddCommentClick = () => {
-    const comment = { content: comment_ref.current.value };
+  const addCommentClick = async () => {
+    const commentData = { id, content: comment_ref.current.value };
+    await addComment(commentData);
     comment_ref.current.value = "";
-    addComments(comment);
+    queryClient.invalidateQueries("commentList");
   };
 
-  if (isLoading) {
-    return <h1>로딩중</h1>;
-  }
-
-  if (isError) {
-    return <span>Error:{error.message}</span>;
-  }
 
   const onChange = (e) => {
     const commentText = comment_ref.current.value;
@@ -76,11 +44,10 @@ const Comments = () => {
     }
   };
 
-  console.log(data.data, "댓글");
 
   return (
     <Wrap>
-      <h3>댓글 {data.data.length}개</h3>
+      <h3>댓글 {commentList?.data.data.length}개</h3>
       <CommentBox>
         <Input
           type="text"
@@ -89,15 +56,19 @@ const Comments = () => {
           onKeyPress={onCheckEnter}
           onChange={onChange}
         />
-        <Button onClick={handleAddCommentClick} isActive={btnState}>
+
+        <Button onClick={addCommentClick} isActive={btnState}>
           등록하기
         </Button>
       </CommentBox>
-      <CommentList>
-        {data.data.map((data) => (
+      <div>
+        {commentList?.data.data.map((data) => (
           <>
-            <Comment key={data.commentId} data={data}></Comment>
+            {/* 댓글 부분 */}
+            <Comment key={data.commentId} data={data} />
             {data.commentReplyList.map((reply) => (
+              /* 대 댓글 부분 */
+
               <ReplyComment
                 key={reply.id}
                 data={reply}
@@ -107,7 +78,9 @@ const Comments = () => {
             <hr style={{ color: "#e2e2e2" }} />
           </>
         ))}
-      </CommentList>
+
+      </div>
+
     </Wrap>
   );
 };
@@ -119,17 +92,13 @@ const Wrap = styled.div`
   box-sizing: border-box;
 `;
 const CommentBox = styled.div`
-  //display: flex;
-  //flex-direction: column;
   position: relative;
   height: 140px;
   margin-top: 20px;
 `;
 const Input = styled.input`
   width: 100%;
-  //height: 88px;
   padding: 15px 12px 55px 12px;
-  //padding-bottom:60px;
   border: 1px solid #e2e2e2;
   border-radius: 8px;
   outline: none;
@@ -150,7 +119,6 @@ const Button = styled.button`
   bottom: 0;
   font-size: 15px;
   cursor: pointer;
-
   ${(props) =>
     props.isActive
       ? css`
@@ -160,28 +128,4 @@ const Button = styled.button`
           background-color: #ffb673;
         `}
 `;
-
-const CommentList = styled.div`
-  //background-color:olive;
-`;
-// const User = styled.div`
-//   display: flex;
-//   align-items: center;
-//   margin: 10px 0;
-// `;
-
-// const Img = styled.img`
-//   width: 40px;
-//   height: 40px;
-//   border-radius: 50%;
-//   margin-right: 10px;
-// `;
-// const Comment = styled.div`
-//   margin-top: 10px;
-//   & p:last-child {
-//     color: #777777;
-//     padding-top: 10px;
-//   }
-// `;
-
 export default Comments;

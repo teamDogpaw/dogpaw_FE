@@ -1,51 +1,27 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
-import ReactDatePicker from "react-datepicker";
-
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
+import { useNavigate, useParams,useLocation } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
-import { MainBody, Btn, LineBtn, MyStack, GrayLineBtn } from "../styles/style";
+import { MainBody, Btn, GrayLineBtn } from "../styles/style";
 import styled from "styled-components";
 import "../styles/style.css"
-import { Mutation, useMutation, useQuery } from "react-query"
-
 import dayjs from "dayjs";
-import axios from "axios";
-import instance from "../shared/axios";
 import WriteSelect from "../components/WriteSelect";
-
+import { useEditProject, usePostProject } from "../hook/usePostMutation";
 const Write = () => {
+   const location = useLocation()
+   const {state} = useLocation()
    const [isEdit, setIsEdit] = useState(false);
+   console.log(isEdit)
    const params = useParams()
    const postId = params.id
+   console.log(params)
    const navigate = useNavigate()
-
+   const {mutateAsync : editProject} = useEditProject();
+   const {mutateAsync : postProject} = usePostProject();
    const processdetailsRef = useRef(null);
-   const stackdetailsRef = useRef(null);
    const perioddetailsRef = useRef(null);
    const capacitydetailsRef = useRef(null);
 
-   //⚠️ 데이터 부르지말고 detail에서 가져와서 쓰기
-   const getPostData = () => {
-      if(isEdit){
-return instance.get(`api/post/detail/${postId}`);
-      }
-      
-   };
-
-   const { isLoading, error, data } = useQuery("detailList", getPostData, {
-      refetchOnWindowFocus: false,
-      onSuccess: (data) => {
-         const PostData = data?.data
-         return PostData
-      },
-      onError: (e) => {
-         console.log(e.message);
-      },
-   });
-
    const [startDate, setStartDate] = useState(new Date());
-   const [stack, setStack] = useState([])
    const [selectedData, setSelectedData] = useState({
       title: "",
       maxCapacity: 1,
@@ -56,9 +32,9 @@ return instance.get(`api/post/detail/${postId}`);
       startAt: dayjs(new Date()).format("YYYY/MM/DD")
    })
 
-   const PostPublish = async () => {
+   const publishPost = async () => {
       try {
-         await instance.post(`/api/post`, selectedData)
+         await postProject(selectedData)
          navigate("/")
       }
       catch (error) {
@@ -66,13 +42,11 @@ return instance.get(`api/post/detail/${postId}`);
       }
    }
 
-   const PostEdit = useMutation(() => {
-      instance.put(`/api/post/${postId}`, selectedData)
-      navigate("/")
-})
+   const editPost = async () => {
+      await editProject({ data:selectedData, postId} )
+      navigate(`/detail/${postId}`)
+}
 
-
-   
    const handleStartDate = startDate => {
       setStartDate(startDate)
       setSelectedData(prev => ({ ...prev, startAt: dayjs(startDate).format("YYYY/MM/DD") }))
@@ -111,50 +85,24 @@ return instance.get(`api/post/detail/${postId}`);
    }
 
 
-
    useEffect(() => {
-      console.log(selectedData)
+     
+      console.log(state)
       console.log(postId)
       if (postId !== undefined) {
          setIsEdit(true);
-         console.log(data?.data.stacks)
-         setStack(data?.data.stacks)
          setSelectedData({
-            content: data?.data.content,
-            online: data?.data.onLine,
-            stacks: data?.data.stacks,
-            title: data?.data.title,
-            maxCapacity: data?.data.maxCapacity,
-            period: data?.data.period,
-            startAt: data?.data.startAt
+            content: state.content,
+            online: state.onLine,
+            stacks: state.stacks,
+            title: state.title,
+            maxCapacity: state.maxCapacity,
+            period: state.period,
+            startAt: state.startAt
          })
-
       }
-   }, [])
-
-   const addStack = (newStack) => {
-
-      if (!stack.includes(newStack)) {
-         setStack([...stack, newStack])
-         setSelectedData(prev => ({ ...prev, stacks: stack }))
-      } else {
-         return null
-      }
-      const details = stackdetailsRef.current;
-      if (details) {
-         details.open = false;
-      }
-
-   }
-
-   const removeStack = (selectedStack) => {
-      console.log(stack)
-      console.log(selectedStack)
-      const newStacks = stack.filter((stack) => stack !== selectedStack)
-      console.log(newStacks)
-      setStack(newStacks)
-      setSelectedData(prev => ({ ...prev, stacks: newStacks }))
-   }
+      console.log(selectedData)
+   }, [state])
 
    return (
       <>
@@ -165,18 +113,19 @@ return instance.get(`api/post/detail/${postId}`);
                selectedData={selectedData}
                handleTitle={handleTitle}
                handleCapacity={handleCapacity}
-               addStack={addStack}
-               removeStack={removeStack}
+               
+             
                handleProcess={handleProcess}
                handleStartDate={handleStartDate}
                setPeriod={setPeriod}
-               stack={stack}
                startDate={startDate}
                processdetailsRef={processdetailsRef}
                capacitydetailsRef={capacitydetailsRef}
-               stackdetailsRef={stackdetailsRef}
+             
                perioddetailsRef={perioddetailsRef}
                isEdit={isEdit}
+               setSelectedData={setSelectedData}
+             
             />
          </WriteBody>
 
@@ -191,8 +140,8 @@ return instance.get(`api/post/detail/${postId}`);
          <Publish>
             <GrayLineBtn>전체 삭제</GrayLineBtn>
             {isEdit ? 
-            <Btn type="submit" onClick={()=>{PostEdit.mutate(selectedData)}}>프로젝트 수정하기</Btn>: 
-            <Btn type="submit" onClick={PostPublish}>프로젝트 등록하기</Btn>}
+            <Btn type="submit" onClick={editPost}>프로젝트 수정하기</Btn>: 
+            <Btn type="submit" onClick={publishPost}>프로젝트 등록하기</Btn>}
             
          </Publish>
       </>
@@ -204,8 +153,6 @@ const WriteBody = styled(MainBody)`
   margin-bottom: 40px;
   margin-top: 143px;
 `;
-
-
 
 const ProjectTextarea = styled.textarea`
 margin: 24px 0px;
@@ -222,15 +169,12 @@ font-size: 16px;
 }
 `;
 
-
 const Publish = styled.div`
   display: flex;
   justify-content: center;
   margin: 80px;
   gap:26px;
 `;
-
-
 
 export default Write;
 
