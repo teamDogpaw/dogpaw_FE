@@ -36,7 +36,7 @@ return (
                      <ModalTabBody>
                       <Tab className={isApplyList ? null : "focused"}
                      onClick={()=>setIsApplyList(false)}>
-                     팀원 목록 {myPostData.currentMember}
+                     팀원 목록 {myPostData.currentMember} 
                      </Tab>
                      <Tab className={isApplyList ? "focused" : null}
                      onClick={()=>setIsApplyList(true)}>

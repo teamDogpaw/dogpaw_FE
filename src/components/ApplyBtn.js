@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Btn, GrayLineBtn, LineBtn } from "../styles/style";
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { useQueryClient } from "react-query";
 import { usePostApply } from "../hook/useApplyMutation";
 import ViewApply from "../components/ViewApply";
@@ -48,7 +48,7 @@ const ApplyBtn = ({ myPostData }) => {
   };
 
   return (
-    <div>
+    <Wrap>
       {userStatus === "author" && (
         <>
           <Button2
@@ -78,10 +78,10 @@ const ApplyBtn = ({ myPostData }) => {
         {deadline === false ? (
           userStatus === "MEMBER" ? (
             <Button onClick={applyBtn}>프로젝트 지원하기</Button>
+          ) : userStatus === "applicant" ? (
+            <Button onClick={openModal}>지원 취소하기</Button>
           ) : (
-            userStatus === "applicant" && (
-              <Button onClick={openModal}>지원 취소하기</Button>
-            )
+            userStatus === "participant" && <Button> 참여 완료</Button>
           )
         ) : (
           userStatus !== "author" && (
@@ -93,7 +93,6 @@ const ApplyBtn = ({ myPostData }) => {
         <Content>
           <h4>프로젝트 지원을 취소하시겠습니까?</h4>
           <div>
-            
             <GrayLineBtn onClick={closeModal}> 닫기 </GrayLineBtn>
             <Btn onClick={applyBtn}> 지원취소 </Btn>
           </div>
@@ -103,9 +102,26 @@ const ApplyBtn = ({ myPostData }) => {
       {viewApply && (
         <ViewApply viewApplyModal={viewApplyModal} myPostData={myPostData} />
       )}
-    </div>
+    </Wrap>
   );
 };
+const style = css`
+  height: 52px;
+  width: 180px;
+  padding: 16px 24px;
+  font-size: 17px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+`;
+
+const Wrap = styled.div`
+  button {
+    cursor: pointer;
+  }
+`;
 
 const alertAni = keyframes`
 from {
@@ -124,56 +140,33 @@ const Alert = styled.div`
 `;
 
 const Button = styled(Btn)`
-  height: 52px;
-  width: 180px;
-  padding: 16px 24px;
-  font-size: 17px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
+  ${style}
   right: 0px;
   bottom: 0px;
 `;
 const Button2 = styled(LineBtn)`
-  height: 52px;
-  width: 180px;
-  padding: 16px 24px;
-  font-size: 17px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
+  ${style}
   right: 200px;
   bottom: 0px;
 `;
 
 const Button3 = styled.button`
-  height: 52px;
-  width: 180px;
-  padding: 16px 24px;
-  font-size: 17px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
+  ${style}
   right: 0px;
   bottom: 0px;
 `;
 
-const Content = styled.div`
+export const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: auto;
-  line-height:3;
+  width: 380px;
+  line-height: 3;
 
-  button{
-    width:100px;
-    margin-right:15px;
+  button {
+    width: 100px;
+    margin-right: 15px;
   }
 `;
 

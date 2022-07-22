@@ -1,6 +1,7 @@
 import styled, { css, keyframes } from "styled-components";
 
 const AlertModal = (props) => {
+  //console.log(props)
   const { open } = props;
   return (
     <Wrap open={open}>
@@ -14,6 +15,7 @@ const AlertModal = (props) => {
 };
 
 const Wrap = styled.div`
+
   ${(props) =>
     props.open &&
     css`
@@ -23,10 +25,9 @@ const Wrap = styled.div`
       bottom: 0;
       left: 0;
       z-index: 99;
-      background-color: rgba(0, 0, 0, 0.6);
+      background-color: rgba(0, 0, 0, 0.3);
       display: flex;
-      align-items: center;
-
+      align-items: center;''
       animation: ${ModalBgShow} 0.3s;
     `}
 `;
@@ -53,8 +54,6 @@ const ModalBgShow = keyframes`
 `;
 
 const Section = styled.section`
-  width: 50%;
-  max-width: 550px;
   height:200px;
   margin: 0 auto;
   display:flex;

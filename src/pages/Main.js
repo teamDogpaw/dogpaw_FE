@@ -228,7 +228,7 @@ const Wrap = styled.div`
   width: 1200px;
   margin: auto;
   @media screen and (max-width: 996px) {
-    margin: 0px 40px;
+    margin: 0 40px;
   }
   ul {
     display: flex;
@@ -331,17 +331,16 @@ const Circle = styled.div`
   flex-direction: center;
   align-items: center;
   background-color: #ff891c;
-  //background-color: #ffb673;
   width: 52px;
   height: 34px;
   border-radius: 50px;
   position: absolute;
-  left: 2%;
+  left: 6%;
   transition: all 0.4s ease-in-out;
   ${(props) =>
     props.toggle &&
     css`
-      transform: translate(95%, 0); // 44px
+      transform: translate(44px, 0); // 44px
       transition: all 0.4s ease-in-out;
     `}
   p {
@@ -372,6 +371,8 @@ const Article = styled.li`
   &:hover {
     transform: scale(1.02);
   }
+
+ 
 `;
 const Article2 = styled(Article)`
   width: 32%;
@@ -460,7 +461,6 @@ const Bookmark = styled.div`
 `;
 const Date = styled.p`
   color: #8b8b8b;
-  //width: 203px;
   display: flex;
   justify-content: flex-end;
 `;

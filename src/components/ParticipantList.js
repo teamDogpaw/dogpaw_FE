@@ -1,5 +1,5 @@
 import { useGetParticipantsLists } from "../hook/useProjectData";
-import { LineBtn, ListProfilePic } from "../styles/style";
+import { Btn, GrayLineBtn, LineBtn, ListProfilePic } from "../styles/style";
 import {
   ApplyListContent,
   EmptyBody,
@@ -15,24 +15,33 @@ import profilepic from "../styles/icon/global/profile.svg";
 import { useExplusionMateMutation } from "../hook/useProjectMutation";
 import { useWithdrawPartici } from "../hook/useUserData";
 import styled from "styled-components";
+import { useState } from "react";
+import { Content } from "./ApplyBtn";
+import WithdrawModal from "./WithdrawalModal";
 
 const ParticipantList = ({ myPostId, currentTab, setViewApply }) => {
-  const { isLoading: isParticipantListLoading, data: participantList } =
-    useGetParticipantsLists(myPostId);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [itemState, setItemState] = useState(null);
+
+  const { isLoading: isParticipantListLoading, data: participantList } = useGetParticipantsLists(myPostId);
   const { mutate: ExplusionMate } = useExplusionMateMutation();
   console.log(participantList);
-const {mutateAsync : WithdrawPartici} = useWithdrawPartici();
+  const { mutateAsync: WithdrawPartici } = useWithdrawPartici();
+
   const explusionMate = (data) => {
-    console.log(data);
-    window.confirm("해당 팀원을 프로젝트에서 강퇴시키겠습니까?");
+    //console.log(data);
     ExplusionMate(data);
+    setModalOpen(false);
   };
 
   const withDrawParticipate = () => {
-    window.confirm("정말 탈퇴하시겠어요?")
-    WithdrawPartici(myPostId)
-    setViewApply(false)
-  }
+    if (window.confirm("정말 탈퇴하시겠어요?")) {
+      WithdrawPartici(myPostId);
+      setViewApply(false);
+    } else {
+      return;
+    }
+  };
 
   if (isParticipantListLoading) {
     return (
@@ -43,6 +52,15 @@ const {mutateAsync : WithdrawPartici} = useWithdrawPartici();
       </EmptyBody>
     );
   }
+
+  const openModal = (team) => {
+    setModalOpen(true);
+    setItemState(team);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   return (
     <>
       {participantList.data.length === 0 ? (
@@ -55,7 +73,7 @@ const {mutateAsync : WithdrawPartici} = useWithdrawPartici();
       {participantList.data.map((team) => {
         return (
           <ApplyListContent>
-            <Secctions>
+            <Sections>
               <User>
                 {team.profileImg === null ? (
                   <ListProfilePic src={profilepic} />
@@ -66,49 +84,54 @@ const {mutateAsync : WithdrawPartici} = useWithdrawPartici();
                 {/* <span> {team.username} </span> */}
               </User>
               {team.username}
-
               <Stacks>
                 {team.stacks?.map((stack, index) => {
                   return <Stack key={index}>#{stack}</Stack>;
                 })}
               </Stacks>
-
-            </Secctions>
+            </Sections>
             <Out>
               {currentTab === 2 ? null : (
                 <p
-                  onClick={() =>
-                    explusionMate({ userId: team.userId, postId: myPostId })
-                  }
+                  onClick={() => {
+                    openModal(team);
+                  }}
                 >
-             
-                 강퇴하기
+                  강퇴하기
                 </p>
               )}
             </Out>
           </ApplyListContent>
         );
       })}
-      <div onClick={withDrawParticipate}>
-                탈퇴하기
-                </div> 
+      {itemState && (
+        <WithdrawModal
+          open={modalOpen}
+          explusionMate={explusionMate}
+          closeModal={closeModal}
+          team={itemState}
+          myPostId={myPostId}
+        />
+      )}
+      <div onClick={withDrawParticipate}>탈퇴하기</div>
     </>
   );
 };
 
-const Secctions =styled(Section)`
-width:100%;
+const Sections = styled(Section)`
+  width: 100%;
 `;
 
 const Out = styled.div`
-cursor: pointer;
-
-p{
-  font-size:14px;
-  color:crimson;
-  position:absolute;
-  top:25px;
-  right:30px;
-}
+  cursor: pointer;
+  
+  p {
+    font-size: 14px;
+    color: crimson;
+    position: absolute;
+    top: 25px;
+    right: 30px;
+  }
 `;
+
 export default ParticipantList;
