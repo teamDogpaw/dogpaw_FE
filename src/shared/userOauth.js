@@ -2,7 +2,6 @@ import { instance } from "./axios";
 
 let debounce = null;
 
-
 // 로그인 정보를 보내면 토큰을 받음.
 export const login = (props) => {
   if (debounce) {
@@ -31,9 +30,9 @@ export const login = (props) => {
 };
 
 // 회원가입 정보
-export const register = (props) => {
+export const register = async (props) => {
   if (debounce) {
-    clearTimeout(debounce);
+    await clearTimeout(debounce);
   }
 
   debounce = setTimeout(async () => {

@@ -17,13 +17,14 @@ const StackSelector = ({
     const isWrite = useMatch(`/write/*`)
     console.log(isEdit)
     console.log(isMypage)
+    console.log(data)
     useEffect(() => {
         if (isEdit === true || isMypage !== null) {
             setStack(data.stacks)
             console.log(stack)
             console.log(data.stacks)
         }
-    }, [])
+    }, [isEdit])
 
     const stackdetailsRef = useRef(null);
 
