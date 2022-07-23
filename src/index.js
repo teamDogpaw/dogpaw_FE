@@ -8,7 +8,11 @@ import { BrowserRouter } from "react-router-dom";
 
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import { RecoilRoot } from "recoil";
+import { RecoilRoot } from 'recoil';
+import ScrollToTop from './shared/ScrollTop';
+
+
+
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,8 +26,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <QueryClientProvider client={queryClient}>
     <RecoilRoot>
-      <BrowserRouter>
-        <ReactQueryDevtools initialIsOpen={true} />
+    <BrowserRouter>
+    <ScrollToTop />
+      <ReactQueryDevtools initialIsOpen={true} />
         <App />
       </BrowserRouter>
     </RecoilRoot>

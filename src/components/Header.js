@@ -78,10 +78,11 @@ const Header = () => {
                   <img src={arrowdown} alt="" style={{ width: "15px" }} />
                 </Summary>
                 <Select>
+                  <Option2>
+                  <p onClick={()=>navigate("/write")}>게시글 작성</p>
+                  </Option2>
                   <Option>
-                    <p>
-                      <StyledLink to="/mypage">마이페이지</StyledLink>
-                    </p>
+                      <p onClick={()=>navigate("/mypage")}>마이페이지</p>
                   </Option>
                   <Option>
                     <p onClick={logout}>로그아웃</p>
@@ -125,6 +126,10 @@ const ContentWrap = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: auto;
+
+  @media  (max-width: 1200px) {
+    margin: 0px 40px;
+  }
 `;
 
 const Contain = styled.div`
@@ -137,6 +142,11 @@ const User = styled.div`
   align-items: center;
   justify-content: space-between;
   width:180px;
+
+  @media screen and (max-width:500px){
+    justify-content:flex-end;
+    width:100px;
+  }
 `;
 
 const Profile = styled.img`
@@ -170,7 +180,9 @@ const Select = styled.ul`
   border: ${(props) => props.theme.border};
   background-color: ${(props) => props.theme.inputBoxBackground};
   box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.1);
-  
+  @media screen and (max-width: 500px){
+    height:120px;
+  }
 
 
   button {
@@ -189,6 +201,10 @@ padding-right:5px;
   text-decoration: none;
   color: #777777;
   font-weight:500;
+
+  @media screen and (max-width:500px){
+    display:none;
+  }
 `;
 
 const Option = styled.li`
@@ -198,6 +214,12 @@ const Option = styled.li`
   align-items: center;
   padding-top: 13px;
   padding-bottom: 10px;
+`;
+
+const Option2 = styled(Option)`
+@media screen and (min-width:501px) {
+  display:none;
+}
 `;
 
 export default Header;
