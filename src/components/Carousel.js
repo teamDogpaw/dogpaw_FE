@@ -34,7 +34,14 @@ const Carousel = () => {
 };
 
 const Wrap = styled.div`
-  .slick-list{
+  img {
+    max-width: 100%;
+  }
+  .slick-slide {
+    width: 30px;
+  }
+
+  .slick-list {
     border-radius: 15px;
   }
 
