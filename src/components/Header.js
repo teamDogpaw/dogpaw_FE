@@ -12,6 +12,7 @@ import logodark from "../styles/logo/logoDark.svg";
 import person from "../styles/icon/global/profile.svg";
 import arrowdown from "../styles/icon/global/arrowDown.svg";
 import write from "../styles/icon/detail/edit.svg";
+import bell from "../styles/icon/header/bell.svg";
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -72,6 +73,7 @@ const Header = () => {
             <>
             <StyledLink to="/write"><img src={write} alt="" />게시글 작성 </StyledLink>
               {/* <StyledLink to="/write">게시글 작성</StyledLink> */}
+              <img src={bell} alt=""/>
               <Details ref={detailsRef}>
                 <Summary>
                   <Profile src={userInfo?.profileImg || person} alt="" />
@@ -104,14 +106,13 @@ const Header = () => {
 const Wrap = styled.div`
   background-color: ${(props) => props.theme.BackGroundColor};
   width: 100%;
-  height: 90px;
+  height: 80px;
   margin-bottom:10px;
   display: flex;
   align-items: center;
   p {
     font-size: 16px;
   }
-
 `;
 
 const Img = styled.img`
@@ -125,10 +126,10 @@ const ContentWrap = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: auto;
+  margin : 0px 40px;
 
-  @media  (max-width: 1200px) {
-    margin: 0px 40px;
+  @media (max-width:770px){
+    margin: 0px 20px;
   }
 `;
 
@@ -140,18 +141,20 @@ const Contain = styled.div`
 const User = styled.div`
   display: flex;
   align-items: center;
+  text-align:center;
   justify-content: space-between;
-  width:180px;
+  width:250px;
+
+  
 
   @media screen and (max-width:500px){
-    justify-content:flex-end;
     width:100px;
   }
 `;
 
 const Profile = styled.img`
-width:30px;
-height:30px;
+width:35px;
+height:35px;
 border-radius:50%;
 margin-right:10px;
 `;
@@ -164,8 +167,8 @@ const Summary = styled.summary`
   cursor: pointer;
   list-style: none;
   img {
-    width: 48px;
-    height: 48px;
+    width: 35px;
+    height: 35px;
   }
 `;
 

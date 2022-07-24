@@ -13,7 +13,7 @@ import remove from "../styles/icon/detail/remove.svg";
 import { usePostBookmark } from "../hook/useUserData";
 import ApplyBtn from "../components/ApplyBtn";
 import Loading from "../shared/Loading";
-
+import { Stacks } from "../components/ApplyList";
 
 const Detail = () => {
   const navigate = useNavigate();
@@ -42,31 +42,33 @@ const Detail = () => {
   const bookMark = async () => {
     await bookmark(id);
     queryClient.invalidateQueries("detailPost");
-
   };
 
   return (
     <>
       <Wrap>
         <ArticleTop>
+          <LinkBtn>
+            <ArrowBtn
+              onClick={() => {
+                navigate(-1);
+              }}
+            />
+            <div>
+              {userStatus !== "author" &&
+                (postList?.data.bookMarkStatus ? (
+                  <BookmarkFill onClick={bookMark} />
+                ) : (
+                  <BookmarkIcon onClick={bookMark} />
+                ))}
+            </div>
+          </LinkBtn>
           <User>
             <h3>{postList?.data.title}</h3>
             <img src={postList?.data.profileImg || person} alt="profile" />
             <p>{author}</p>
           </User>
-          <Leftarrow
-            onClick={() => {
-              navigate(-1);
-            }}
-          />
-          <Mark>
-            {userStatus !== "author" &&
-              (postList?.data.bookMarkStatus ? (
-                <BookmarkFill onClick={bookMark} />
-              ) : (
-                <BookmarkIcon onClick={bookMark} />
-              ))}
-          </Mark>
+
           <Userbtn>
             {userStatus === "author" && (
               <>
@@ -94,11 +96,13 @@ const Detail = () => {
               </Title>
               <Title>
                 <p>구인스택</p>
-                <Stack>
-                  {postList?.data.stacks?.map((lang, idx) => (
-                    <span key={idx}> #{lang}</span>
-                  ))}
-                </Stack>
+                
+                  <Stack>
+                    {postList?.data.stacks?.map((lang, idx) => (
+                      <span key={idx}>#{lang}</span>
+                    ))}
+                  </Stack>
+               
               </Title>
               <Title>
                 <p>예상 진행 기간</p>
@@ -124,9 +128,9 @@ const Detail = () => {
             <h3>프로젝트 소개</h3>
           </div>
           <pre>{postList?.data.content}</pre>
-          <div>
+          <Paw>
             <img src={paw} alt="" />
-          </div>
+          </Paw>
         </Article>
         <Comments />
       </Wrap>
@@ -136,6 +140,7 @@ const Detail = () => {
 
 const Wrap = styled.div`
   max-width: 996px;
+  min-width: 375px;
   margin: auto;
   margin-bottom: 100px;
 
@@ -156,7 +161,9 @@ const Wrap = styled.div`
   }
 
   @media screen and (max-width: 996px) {
-    margin: 0px 40px;
+    margin: 0px;
+    background-color: #fff8e5;
+    margin-bottom: 150px;
   }
 `;
 const ArticleTop = styled.div`
@@ -164,12 +171,19 @@ const ArticleTop = styled.div`
   height: 514px;
   margin: auto;
   padding: 32px;
+  padding-top: 16px;
   position: relative;
+
+  @media (max-width:770px){
+    height:580px;
+    padding-top:0px;
+  }
+
 `;
 
 const User = styled.div`
   height: 153px;
-  margin-bottom: 10px;
+  //margin-bottom: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -181,8 +195,17 @@ const User = styled.div`
     height: 40px;
     border-radius: 50%;
   }
-`;
 
+  @media screen and (max-width:770px){
+    line-height:30px;
+  }
+`;
+const ArrowBtn = styled(Arrow)`
+  stroke: ${(props) => props.theme.toggleFontColor};
+  @media screen and (max-width:770px){
+    width:10px;
+  }
+`;
 const Userbtn = styled.div`
   display: flex;
   position: absolute;
@@ -208,6 +231,17 @@ const ModifyBtn = styled.button`
   display: flex;
   align-items: center;
   cursor: pointer;
+
+  @media screen and (max-width: 770px) {
+    span {
+      display: none;
+    }
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    justify-content: center;
+  }
 `;
 
 const DeleteBtn = styled(ModifyBtn)`
@@ -219,16 +253,10 @@ const DeleteBtn = styled(ModifyBtn)`
   }
 `;
 
-const Leftarrow = styled(Arrow)`
-  position: absolute;
-  top: 25px;
-  left: 30px;
-`;
-
-const Mark = styled.div`
-  position: absolute;
-  top: 25px;
-  right: 30px;
+const LinkBtn = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px;
 `;
 
 const ContentWrap = styled.div`
@@ -248,6 +276,8 @@ const Title = styled.div`
 
 const Stack = styled.div`
   display: flex;
+
+  max-width: 700px;
   align-items: center;
 
   span {
@@ -260,15 +290,25 @@ const Stack = styled.div`
     margin-right: 16px;
     color: ${(props) => props.theme.stackColor};
   }
+
+  @media screen and (max-width: 770px) {
+    max-width: 220px;
+    overflow-x: auto;
+    white-space: nowrap;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 `;
 
 const Article = styled.div`
   background-color: ${(props) => props.theme.divBackGroundColor};
   margin: auto;
-
+  margin-top: 20px;
   line-height: 1.5;
   letter-spacing: -0.004em;
   padding: 32px;
+
 
   div {
     display: flex;
@@ -279,6 +319,18 @@ const Article = styled.div`
   pre {
     white-space: pre-wrap;
   }
+`;
+
+const Paw = styled.div`
+  img {
+    width: 80px;
+  }
+
+  @media screen and (max-width:770px){
+    img {
+      display:none;
+  }
+}
 `;
 
 export default Detail;

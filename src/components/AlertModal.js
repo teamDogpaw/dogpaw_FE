@@ -63,5 +63,9 @@ const Section = styled.section`
   background-color: ${(props)=>props.theme.backgroundColor};
   animation: ${ModalShow} 0.3s;
   overflow: hidden;
+
+  /* @media screen and (max-width:500px) {
+    width:200px;
+  } */
 `;
 export default AlertModal;
