@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import arrow from "../styles/icon/global/arrowDown.svg";
+import { nickCheck } from "../shared/userOauth";
 
 const SocialModal = (props) => {
   //console.log(props);
@@ -14,23 +15,6 @@ const SocialModal = (props) => {
 
   // 유효성 검사
   const [isNick, setIsNick] = useState(false);
-
-  // 닉네임 중복 확인
-  const nickCheck = async () => {
-    let data = {
-      nickname: nickName,
-    };
-    try {
-      await axios.post("https://dogflow.dasole.shop/user/nickname", data).then(
-        (
-          res //console.log(res, "닉네임 중복확인")
-        ) => window.alert(res.data.msg)
-      );
-    } catch (err) {
-      console.log(err.response.data.errorMessage);
-      window.alert(err.response.data.errorMessage);
-    }
-  };
 
   // 닉네임
   const onChangeId = useCallback((e) => {
@@ -81,6 +65,8 @@ const SocialModal = (props) => {
     }
   };
 
+  const nickData = { nickname: nickName };
+
   return (
     <All>
       <p>
@@ -99,7 +85,9 @@ const SocialModal = (props) => {
         />
         <NICK_BTN
           disabled={nickName.length < 3 || nickName.length > 10}
-          onClick={nickCheck}
+          onClick={() => {
+            nickCheck(nickData);
+          }}
         >
           중복확인
         </NICK_BTN>
@@ -292,8 +280,8 @@ const Option = styled.li`
 `;
 
 const SignUpBtn = styled.button`
-color: ${(props) => (props.disabled ? "black" : "white")};
-background-color: ${(props) => (props.disabled ? "#f8cbac" : "#ee8548")};
+  color: ${(props) => (props.disabled ? "black" : "white")};
+  background-color: ${(props) => (props.disabled ? "#f8cbac" : "#ee8548")};
   border: none;
   padding: 1rem;
   width: 500px;
