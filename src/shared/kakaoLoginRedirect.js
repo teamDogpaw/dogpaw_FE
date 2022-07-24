@@ -38,13 +38,13 @@ const KakaoLoginRedirect = () => {
     window.location.replace("/");
   }, []); */
   useEffect(() => {
-    let code = new URL(window.location.href).searchParams.get("code");
-    console.log(code);
+    let token = new URL(window.location.href).searchParams.get("token");
+    console.log(token);
 
     //window.location.replace("/");
   }, []);
 
-  const code = new URL(window.location.href).searchParams.get("code");
+  const token = new URL(window.location.href).searchParams.get("token");
 
   useEffect(() => {
     handleOpen();
@@ -65,7 +65,7 @@ const KakaoLoginRedirect = () => {
           },
         }}
       >
-        <SocialModal element={code} />
+        <SocialModal element={token} />
         <div>
           <button onClick={() => setModalIsOpen(false)}>닫기</button>
         </div>
