@@ -14,9 +14,9 @@ const ModalOpen = ({ viewModal, match }) => {
   const [modalContent, setModalContent] = useState();
 
   useEffect(() => {
-    if (match !== null) {
+    /*  if (match !== null) {
       if (match.params !== null) {
-        setModalContent(<SocialModal />);
+        setModalContent(<SocialModal setModalContent={setModalContent} />);
       }
     } else {
       setModalContent(<Login setModalContent={setModalContent} />);
@@ -26,7 +26,11 @@ const ModalOpen = ({ viewModal, match }) => {
       const scrollY = document.body.style.top;
       document.body.style.cssText = `position: ""; top: "";`;
       window.scrollTo(0, parseInt(scrollY || "0") * -1);
-    };
+    }; */
+    setModalContent(<Login setModalContent={setModalContent} />);
+    const scrollY = document.body.style.top;
+    document.body.style.cssText = `position: ""; top: "";`;
+    window.scrollTo(0, parseInt(scrollY || "0") * -1);
   }, []);
 
   return (
