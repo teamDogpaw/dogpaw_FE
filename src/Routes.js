@@ -26,7 +26,7 @@ const Router = () => {
       <Route path="/mypage/*" element={<MyPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/user/kakao/login" element={<KakaoLoginRedirect />} />
+      <Route path="/user/kakao/login/*" element={<KakaoLoginRedirect />} />
     </Routes>
   );
 };
