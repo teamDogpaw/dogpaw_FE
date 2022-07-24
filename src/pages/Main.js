@@ -233,11 +233,10 @@ const ToggleWrap = styled.div`
   align-items: center;
   margin-top: 20px;
   margin-bottom: 20px;
-
 `;
 const ToggleBtn = styled.button`
   // width: 106px;
-  height: 48px;
+  height: 44px;
   border-radius: 30px;
   border: 2px solid #ffb673;
   cursor: pointer;
@@ -259,7 +258,7 @@ const All = styled.span`
 `;
 const Ing = styled(All)`
   //width: 55px;
-  padding-left: 15px;
+  padding-left: 12px;
   flex-direction: row-reverse;
 `;
 const Circle = styled.div`
@@ -348,21 +347,15 @@ export const Content = styled.div`
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
-    
   }
 `;
 export const Hashtag = styled.div`
-
-width:90%;
   position: absolute;
   bottom: 100px;
   li {
     margin-right: 5px;
     color: #ffb673;
   }
-  overflow:hidden;
-  white-space:wrap;
-  text-overflow:ellipsis;
 `;
 
 const Deadline = styled.div`

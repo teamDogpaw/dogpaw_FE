@@ -59,7 +59,7 @@ const ApplyBtn = ({ myPostData }) => {
             지원자 보기
           </Button2>
           {deadline === false ? (
-            <Button onClick={deadlineBtn}>프로젝트 마감</Button>
+            <Button onClick={deadlineBtn}>프로젝트 마감하기</Button>
           ) : (
             <Button onClick={deadlineBtn}>마감 취소하기</Button>
           )}
@@ -115,12 +115,6 @@ const style = css`
   align-items: center;
   justify-content: center;
   position: absolute;
-
-  @media screen and (max-width:770px) {
-    font-size:15px;
-    width:150px;
-    padding:14px 20px;
-  }
 `;
 
 const Wrap = styled.div`
@@ -149,22 +143,11 @@ const Button = styled(Btn)`
   ${style}
   right: 0px;
   bottom: 0px;
-  @media screen and (max-width:770px){
-    bottom :-70px;
-    //right:-30px;
-  }
 `;
 const Button2 = styled(LineBtn)`
   ${style}
   right: 200px;
   bottom: 0px;
-
-  @media screen and (max-width:770px){
-    bottom :-70px;
-    right:165px;
-    
-  }
-
 `;
 
 const Button3 = styled.button`
@@ -178,19 +161,12 @@ export const Content = styled.div`
   flex-direction: column;
   align-items: center;
   margin: auto;
-  width: 350px;
+  width: 380px;
   line-height: 3;
-  background-color:gold;
 
   button {
     width: 100px;
     margin-right: 15px;
-  }
-
-  @media screen and (max-width:500){
-    margin:0;
-    width:100px;
-
   }
 `;
 

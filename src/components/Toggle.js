@@ -12,7 +12,7 @@ const Toggle = () => {
   return (
     <Wrap>
       <ModeBtn onClick={() => setIsDark((prev) => !prev)} isDark={isDark}>
-        <Web>{isDark ? <span>라이트 모드</span> : <span>다크 모드</span>}</Web>
+        {isDark ? <span>라이트 모드</span> : <span>다크 모드</span>}
         <ModeCircle isDark={isDark} />
       </ModeBtn>
       <TopBtn
@@ -41,34 +41,20 @@ const Wrap = styled.div`
     color: ${(props) => props.theme.toggleFontColor};
   }
 `;
-
-const Web = styled.div`
-@media screen and (max-width:500px){
-  display:none;
-} `;
-
-
-const ModeBtn = styled.div`
+const ModeBtn = styled.button`
   background-color: ${(props) => props.theme.toggleBtnColor};
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+  //width: 134px;
   height: 50px;
   border-radius: 100px;
   border: none;
-  padding: ${(props) => props.isDark ? "15px 57px 15px 15px" : "15px 15px 15px 50px"};
+  padding: ${(props) => props.isDark ? "15px 53px 15px 15px" : "15px 15px 15px 50px"};
   margin-right: 15px;
   position: relative;
   display: flex;
   justify-content: ${(props) => (props.isDark ? "flex-start" : "flex-end")};
   align-items: center;
   transition: all 0.5s ease-in-out;
-
-  @media screen and (max-width:500px){
-    width:50px;
-   //justify-content:center;
-   // border-radius:50%;
-   padding:10px;
-    
-  }
 `;
 
 const ModeCircle = styled.div`
@@ -77,6 +63,7 @@ const ModeCircle = styled.div`
   align-items: center;
   background-image: url(${(props) => props.isDark ? `${lightMode}` : `${darkMode}`});
   background-size: cover;
+
   width: 50px;
   height: 50px;
   border-radius: 50px;
@@ -90,11 +77,6 @@ const ModeCircle = styled.div`
       transform: translate(85px, 0);
       transition: all 0.4s ease-in-out;
     `}
-    @media screen and (max-width:499px) {
-      transform:none;
-      
-    }
-
 `;
 
 const TopBtn = styled.button`
