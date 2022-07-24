@@ -90,6 +90,7 @@ const Wrap = styled.div`
   margin: auto;
   padding: 32px;
   box-sizing: border-box;
+  margin-top:20px;
 `;
 const CommentBox = styled.div`
   position: relative;
