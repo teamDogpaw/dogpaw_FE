@@ -13,13 +13,11 @@ const Comments = () => {
 
   const id = params.postId;
 
-
   const queryClient = useQueryClient();
   // 댓글 조회 및 대 댓글 조회
   const { data: commentList } = useGetCommentList(id);
-console.log(commentList)
+  //console.log(commentList)
   const { mutateAsync: addComment } = usePostComment();
-
 
   const onCheckEnter = (e) => {
     if (e.key === "Enter") {
@@ -34,7 +32,6 @@ console.log(commentList)
     queryClient.invalidateQueries("commentList");
   };
 
-
   const onChange = (e) => {
     const commentText = comment_ref.current.value;
     if (commentText.length > 0) {
@@ -43,7 +40,6 @@ console.log(commentList)
       setBtnState(false);
     }
   };
-
 
   return (
     <Wrap>
@@ -78,9 +74,7 @@ console.log(commentList)
             <hr style={{ color: "#e2e2e2" }} />
           </>
         ))}
-
       </div>
-
     </Wrap>
   );
 };
