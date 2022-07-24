@@ -1,7 +1,7 @@
 import { useRecoilValue } from "recoil";
 import { DarkThemeAtom } from "../atom/theme";
-import React, { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useMatch } from "react-router-dom";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { UserInfoAtom } from "../atom/atom";
@@ -20,6 +20,9 @@ const Header = () => {
   const userInfo = useRecoilValue(UserInfoAtom);
   const detailsRef = useRef(null);
   const isLogin = localStorage.getItem("token");
+
+  const match = useMatch("/");
+  console.log(match);
 
   const details = detailsRef.current;
   if (details) {
@@ -46,9 +49,17 @@ const Header = () => {
     // }
   };
 
+  useEffect(() => {
+    if (match !== null) {
+      if (match.params !== null) {
+        setIsModalOpen(true);
+      }
+    }
+  }, []);
+
   return (
     <>
-      {isModalOpen ? <ModalOpen viewModal={viewModal} /> : null}
+      {isModalOpen ? <ModalOpen viewModal={viewModal} match={match} /> : null}
 
       <Wrap>
         <ContentWrap>
