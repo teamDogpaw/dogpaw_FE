@@ -3,6 +3,7 @@ import axios from "axios";
 import styled from "styled-components";
 import arrow from "../styles/icon/global/arrowDown.svg";
 import { nickCheck } from "../shared/userOauth";
+import instance from "../shared/axios";
 
 const SocialModal = (props) => {
   //console.log(props);
@@ -50,14 +51,20 @@ const SocialModal = (props) => {
       stacks: stack,
     };
     try {
-      await axios
-        .post("http://3.35.22.190/user/signup/addInfo", data, {
+      await instance
+        .post("user/signup/addInfo", data, {
           headers: { Authorization: `Bearer ${props.element}` },
         })
         .then((res) => {
-          console.log(res, "회원가입");
-          window.alert(res);
-          //window.location.replace("/login");
+          window.alert("추가 정보를 기입해 주세요. :)");
+          const accessToken = res.data.data.token.accessToken;
+          const refreshToken = res.data.data.token.refreshToken;
+          if (accessToken !== null) {
+            localStorage.setItem("token", accessToken);
+            localStorage.setItem("retoken", refreshToken);
+            window.alert("로그인 성공 :)");
+            //window.location.replace("/");
+          }
         });
     } catch (err) {
       console.log(err);
