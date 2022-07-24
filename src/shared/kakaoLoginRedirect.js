@@ -37,21 +37,15 @@ const KakaoLoginRedirect = () => {
     //메인으로 보내기
     window.location.replace("/");
   }, []); */
-  useEffect(() => {
-    let token = new URL(window.location.href).searchParams.get("token");
-    console.log(token);
-
-    //window.location.replace("/");
-  }, []);
-
-  const token = new URL(window.location.href).searchParams.get("token");
 
   useEffect(() => {
+    const token = new URL(window.location.href).searchParams.get("token");
+    localStorage.setItem("token", token);
     handleOpen();
   }, []);
 
-  return (
-    <>
+  return {
+    /* <>
       <Modal
         isOpen={modalIsOpen}
         shouldCloseOnOverlayClick={false}
@@ -70,8 +64,8 @@ const KakaoLoginRedirect = () => {
           <button onClick={() => setModalIsOpen(false)}>닫기</button>
         </div>
       </Modal>
-    </>
-  );
+    </> */
+  };
 };
 
 export default KakaoLoginRedirect;
