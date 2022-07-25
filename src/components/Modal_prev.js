@@ -19,6 +19,7 @@ const ModalOpen = ({ viewModal, token }) => {
       setModalContent(<Login setModalContent={setModalContent} />);
       document.body.style.cssText = `position: fixed; top: 0px`;
     }
+
     return () => {
       const scrollY = document.body.style.top;
       document.body.style.cssText = `position: ""; top: "";`;
