@@ -7,7 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 
 import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
+
 import { RecoilRoot } from 'recoil';
 import ScrollToTop from './shared/ScrollTop';
 
@@ -28,7 +28,7 @@ root.render(
     <RecoilRoot>
     <BrowserRouter>
     <ScrollToTop />
-      <ReactQueryDevtools initialIsOpen={true} />
+     
         <App />
       </BrowserRouter>
     </RecoilRoot>
