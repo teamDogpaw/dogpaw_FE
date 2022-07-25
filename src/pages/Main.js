@@ -87,9 +87,9 @@ const Main = () => {
   let token = new URL(window.location.href).searchParams.get("token");
   console.log(token);
   //localStorage.setItem("token", token);
-  window.alert(
-    "사이트 이용 원활을 위해 마이페이지에서 추가 정보를 기입하세요.:)"
-  );
+  // window.alert(
+  //   "사이트 이용 원활을 위해 마이페이지에서 추가 정보를 기입하세요.:)"
+  // );
   //window.location.replace("/");
 
   return (
