@@ -29,7 +29,6 @@ const Main = () => {
   const [isHover, setIsHover] = useState(false);
   const { ref, inView } = useInView();
   const [isFilter, setIsFilter] = useState(false);
-  const { data: rankList } = useGetBookmarkRank();
 
 
   const userMe = user?.nickname;
