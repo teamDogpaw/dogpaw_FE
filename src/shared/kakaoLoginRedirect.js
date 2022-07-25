@@ -40,8 +40,7 @@ const KakaoLoginRedirect = () => {
   useEffect(() => {
     let code = new URL(window.location.href).searchParams.get("code");
     console.log(code);
-
-    //window.location.replace("/");
+    window.location.replace("/");
   }, []);
 
   const code = new URL(window.location.href).searchParams.get("code");
@@ -60,9 +59,7 @@ const KakaoLoginRedirect = () => {
           overlay: {
             backgroundColor: "rgb(0,0,0,0.3)",
           },
-          content: {
-            color: "orange",
-          },
+          content: {},
         }}
       >
         <SocialModal element={code} />
