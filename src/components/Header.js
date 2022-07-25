@@ -31,11 +31,15 @@ const isKakao = searchParams.get('nickname');
 
 useEffect(()=>{
   if(isKakao){
-    setIsModalOpen(true);
     const token = searchParams.get('token');
     const retoken = searchParams.get('refreshtoken');
+    const userId = searchParams.get('userId')
+    localStorage.setItem("id", userId)
     localStorage.setItem("token", token)
     localStorage.setItem("retoken",retoken)
+  }
+  if(isKakao === "default"){
+    setIsModalOpen(true);
   } else {
     setIsModalOpen(false);
   }
@@ -56,7 +60,6 @@ useEffect(()=>{
     localStorage.removeItem("id");
     window.location.replace("/");
   };
-
 
   return (
     <>
