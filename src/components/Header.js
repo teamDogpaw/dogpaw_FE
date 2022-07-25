@@ -61,6 +61,7 @@ useEffect(()=>{
     window.location.replace("/");
   };
 
+
   return (
     <>
       {isModalOpen ? <ModalOpen viewModal={viewModal} isKakao={isKakao} searchParams={searchParams}/> : null}
@@ -154,6 +155,7 @@ const Wrap = styled.div`
   summary::marker {
     font-size: 0;
   }
+
 `;
 
 const Img = styled.img`

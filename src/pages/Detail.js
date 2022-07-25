@@ -14,7 +14,6 @@ import { usePostBookmark } from "../hook/useUserData";
 import ApplyBtn from "../components/ApplyBtn";
 import Loading from "../shared/Loading";
 
-
 const Detail = () => {
   const navigate = useNavigate();
   const params = useParams();
@@ -42,7 +41,6 @@ const Detail = () => {
   const bookMark = async () => {
     await bookmark(id);
     queryClient.invalidateQueries("detailPost");
-
   };
 
   return (
@@ -142,27 +140,25 @@ const Detail = () => {
 
 const Wrap = styled.div`
   max-width: 996px;
+  min-width: 375px;
   margin: auto;
   margin-bottom: 100px;
-
   h3 {
     font-size: 25px;
   }
-
   p {
     font-size: 16px;
   }
-
   hr {
     border: 1px solid #e2e2e2;
   }
-
   span {
     font-weight: 500;
   }
-
   @media screen and (max-width: 996px) {
-    margin: 0px 40px;
+    margin: 0px;
+    background-color: #fff8e5;
+    margin-bottom: 150px;
   }
 `;
 const ArticleTop = styled.div`
@@ -170,45 +166,46 @@ const ArticleTop = styled.div`
   height: 514px;
   margin: auto;
   padding: 32px;
+  padding-top: 16px;
   position: relative;
+  @media (max-width: 770px) {
+    height: 580px;
+    padding-top: 0px;
+  }
 `;
 
 const User = styled.div`
-position:relative;
+  position: relative;
   height: 153px;
-  margin-bottom: 10px;
+  //margin-bottom: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   line-height: 30px;
-
-  div{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-
-   p{
-    padding-top:5px;
-   } 
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    p {
+      padding-top: 5px;
+    }
   }
-
-  h3{
-    padding-bottom:15px;
+  h3 {
+    padding-bottom: 15px;
   }
   img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
   }
-
-  @media screen and (max-width:770px){
-    height:120px;
-    h3{
+  @media screen and (max-width: 770px) {
+    height: 120px;
+    h3 {
       //padding-bottom: 30px;
     }
-    div{
+    div {
       /* display:flex;
       align-items:center; */
       /* flex-direction:row;
@@ -216,37 +213,31 @@ position:relative;
       bottom:0;
       left:0; */
     }
-
     /* img{
       margin-right:10px;
     } */
   }
 `;
-
 const ArrowBtn = styled(Arrow)`
   stroke: ${(props) => props.theme.toggleFontColor};
-  @media screen and (max-width:786px){
-    width:12px;
+  @media screen and (max-width: 786px) {
+    width: 12px;
   }
 `;
-
 const Userbtn = styled.div`
   display: flex;
   position: absolute;
   right: 30px;
   top: 150px;
-
   span {
     font-size: 12px;
     color: #777;
   }
-
   img {
     margin: 0 5px;
   }
-
-  @media screen and (max-width:786px) {
-    top:115px;
+  @media screen and (max-width: 786px) {
+    top: 115px;
   }
 `;
 
@@ -259,12 +250,22 @@ const ModifyBtn = styled.button`
   display: flex;
   align-items: center;
   cursor: pointer;
+  
+  @media screen and (max-width: 770px) {
+    span {
+      display: none;
+    }
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    justify-content: center;
+  }
 `;
 
 export const DeleteBtn = styled(ModifyBtn)`
   border: 1px solid #ff0000;
   margin-left: 10px;
-  
 
   span {
     color: #ff0000;
@@ -274,14 +275,13 @@ export const DeleteBtn = styled(ModifyBtn)`
 
 const LinkBtn = styled.div`
   display: flex;
-  
+
   justify-content: space-between;
   padding-bottom: 10px;
-
-  @media screen and(max-width:768){
-position:absolute;
-  right:0;
-  bottom:0;
+  @media screen and(max-width:768) {
+    position: absolute;
+    right: 0;
+    bottom: 0;
   }
 `;
 export const Leftarrow = styled(Arrow)`
@@ -306,7 +306,6 @@ cursor: pointer;
 
 const Title = styled.div`
   display: flex;
-
   p:first-child {
     width: 120px;
   }
@@ -314,8 +313,8 @@ const Title = styled.div`
 
 const Stack = styled.div`
   display: flex;
+  max-width: 700px;
   align-items: center;
-
   span {
     background-color: ${(props) => props.theme.stackBackground};
     height: 38px;
@@ -326,22 +325,28 @@ const Stack = styled.div`
     margin-right: 16px;
     color: ${(props) => props.theme.stackColor};
   }
+  @media screen and (max-width: 770px) {
+    max-width: 220px;
+    overflow-x: auto;
+    white-space: nowrap;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 `;
 
 const Article = styled.div`
   background-color: ${(props) => props.theme.divBackGroundColor};
   margin: auto;
-
+  margin-top: 20px;
   line-height: 1.5;
   letter-spacing: -0.004em;
   padding: 32px;
-
   div {
     display: flex;
     justify-content: center;
     padding: 32px;
   }
-
   pre {
     white-space: pre-wrap;
   }
@@ -351,11 +356,10 @@ const Paw = styled.div`
   img {
     width: 80px;
   }
-  @media screen and (max-width:770px){
+  @media screen and (max-width: 770px) {
     img {
-      display:none;
+      display: none;
+    }
   }
-}
 `;
-
 export default Detail;
