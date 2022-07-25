@@ -1,7 +1,9 @@
-import { MyStack, SelectBoxOpen, SelectBox ,Option } from "../styles/style";
+import { MyStack, SelectBoxOpen, SelectBox, Option } from "../styles/style";
 import { ReactComponent as Delete } from "../styles/icon/global/stackDelete.svg"
 import { useEffect, useRef, useState } from "react";
 import { useMatch } from "react-router-dom";
+import { Stacks } from "../utils/enums";
+import { SelectArrow } from "./WriteSelect";
 
 const StackSelector = ({
     isEdit,
@@ -10,6 +12,8 @@ const StackSelector = ({
     setMyData,
     setRegisterData
 }) => {
+
+    const ALL_STACK = Object.values(Stacks)
 
     let [stack, setStack] = useState([])
     const isMypage = useMatch(`/mypage`);
@@ -58,28 +62,16 @@ const StackSelector = ({
         }
     }
 
-    const stackOptions = [
-        { id: 1, stack: "Java" },
-        { id: 2, stack: "Javascript" },
-        { id: 3, stack: "TypeScript" },
-        { id: 4, stack: "React" },
-        { id: 5, stack: "Vue" },
-        { id: 6, stack: "Java" },
-        { id: 7, stack: "Nodejs" },
-        { id: 8, stack: "Spring" },
-        { id: 9, stack: "Nextjs" },
-        { id: 10, stack: "Nestjs" }
-    ]
     return (
         <div>
             <details style={{ height: "40px" }} ref={stackdetailsRef}>
-                <SelectBox className={isMain !== null ? "Login" : null}> 스택을 선택해주세요.</SelectBox>
+                <SelectBox className={isMain !== null ? "Login" : null}> 스택을 선택해주세요.<SelectArrow /></SelectBox>
                 <SelectBoxOpen className={isMain !== null ? "Login" : null}>
-                    {stackOptions.map((stack) => {
+                    {ALL_STACK.map((stack, index) => {
                         return (
-                            <Option className={isMain !== null ? "Login" : null} key={stack.id}
-                                onClick={() => addStack(stack.stack)}>
-                                {stack.stack}</Option>
+                            <Option className={isMain !== null ? "Login" : null} key={index}
+                                onClick={() => addStack(stack)}>
+                                {stack}</Option>
                         )
                     })}
                 </SelectBoxOpen>

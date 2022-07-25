@@ -6,6 +6,8 @@ import "../styles/style.css"
 import dayjs from "dayjs";
 import WriteSelect from "../components/WriteSelect";
 import { useEditProject, usePostProject } from "../hook/usePostMutation";
+import { ReactComponent as Arrow } from "../styles/icon/detail/backArrow.svg";
+
 const Write = () => {
    const location = useLocation()
    const {state} = useLocation()
@@ -105,10 +107,14 @@ const Write = () => {
    }, [state])
 
    return (
-      <>
-         <span onClick={() => navigate(-1)}> ⬅️ </span>
-         <br />
+      <Wrap>
+     <Leftarrow
+            onClick={() => {
+              navigate(-1);
+            }}
+          />
          <WriteBody>
+      
             <WriteSelect
                selectedData={selectedData}
                handleTitle={handleTitle}
@@ -130,7 +136,7 @@ const Write = () => {
          </WriteBody>
 
          <MainBody>
-            <h3>프로젝트 소개</h3>
+            <TextareaTitle>프로젝트 소개</TextareaTitle>
             <ProjectTextarea placeholder="컨텐츠에 대한 설명을 작성해주세요."
                onChange={(event) => { handleContent(event.target.value) }}
                defaultValue={isEdit ? selectedData.content : null}
@@ -144,14 +150,25 @@ const Write = () => {
             <Btn type="submit" onClick={publishPost}>프로젝트 등록하기</Btn>}
             
          </Publish>
-      </>
+      </Wrap>
    )
 }
 
+const Wrap = styled.div`
+max-width: 996px;
+  margin: auto;
+  margin-bottom: 100px;
+  position: relative;
+  `;
 
 const WriteBody = styled(MainBody)`
   margin-bottom: 40px;
-  margin-top: 143px;
+padding-top: 80px;
+
+`;
+
+const TextareaTitle = styled.h3`
+text-align: center;
 `;
 
 const ProjectTextarea = styled.textarea`
@@ -167,6 +184,7 @@ font-size: 16px;
 :focus{
    outline: none;
 }
+
 `;
 
 const Publish = styled.div`
@@ -174,6 +192,13 @@ const Publish = styled.div`
   justify-content: center;
   margin: 80px;
   gap:26px;
+`;
+
+const Leftarrow = styled(Arrow)`
+  position: absolute;
+  top:25px;
+  left: 30px;
+
 `;
 
 export default Write;

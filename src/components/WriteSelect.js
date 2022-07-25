@@ -7,6 +7,7 @@ import { ReactComponent as CapacityArrowDown } from "../styles/icon/global/arrow
 import { ReactComponent as CapacityArrowUp } from "../styles/icon/global/arrowUp.svg"
 import { useEffect, useRef } from "react"
 import StackSelector from "./StackSeletor"
+import { Capacity, Period } from "../utils/enums"
 
 
 const WriteSelect = ({
@@ -24,12 +25,11 @@ const WriteSelect = ({
     setSelectedData
 }) => {
 
-
+    const ALL_PERIOD = Object.values(Period)
+    const ALL_CAPACITY = Object.values(Capacity)
 
     console.log(isEdit)
     const dateRef = useRef()
-    const period = ["1개월 미만", "1개월", "2개월", "3개월", "4개월", "5개월", "6개월", "6개월 이상"];
-    const capacity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
     const DATE_FORMAT = 'yyyy/MM/dd (eee)';
     const DATE_FORMAT_CALENDAR = 'yyyy년 MM월';
@@ -54,7 +54,7 @@ const WriteSelect = ({
 
                 <SelectTitle>진행방식</SelectTitle>
                 <Detail ref={processdetailsRef}>
-                    <SelectBox>{selectedData.online}</SelectBox>
+                    <SelectBox>{selectedData.online}<SelectArrow /></SelectBox>
                     <SelectBoxOpen>
                         <Option onClick={() => handleProcess("온라인")}>온라인</Option>
                         <Option onClick={() => handleProcess("오프라인")}>오프라인</Option>
@@ -69,9 +69,9 @@ const WriteSelect = ({
                 <SelectTitle>예상 진행 기간</SelectTitle>
                 <Detail ref={perioddetailsRef}>
 
-                    <SelectBox>{selectedData.period}<CapacityArrowDown /></SelectBox>
+                    <SelectBox>{selectedData.period}<SelectArrow /></SelectBox>
                     <SelectBoxOpen>
-                        {period.map(month => (
+                        {ALL_PERIOD.map(month => (
                             <Option key={month}
                                 onClick={() => { setPeriod(month) }}>{month}</Option>
                         ))}
@@ -99,15 +99,36 @@ const WriteSelect = ({
 
                 <Detail ref={capacitydetailsRef}>
 
-                    <SelectBox>{selectedData.maxCapacity}명 <CapacityArrowDown /></SelectBox>
+                    <SelectBox>{selectedData.maxCapacity}명 <SelectArrow /></SelectBox>
                     <SelectBoxOpen>
-                        {capacity.map(member => (
+                        {ALL_CAPACITY.map(member => (
                             <Option key={member}
                                 onClick={() => { handleCapacity(member) }}>{member}명</Option>
                         ))}
 
                     </SelectBoxOpen>
                 </Detail>
+                <SelectTitle ref={capacitydetailsRef}>연락방법</SelectTitle>
+                <div>
+
+                    <Detail ref={capacitydetailsRef}>
+
+                        <SelectBox>{selectedData.maxCapacity}명 <SelectArrow /></SelectBox>
+                        <SelectBoxOpen>
+                            {ALL_CAPACITY.map(member => (
+                                <Option key={member}
+                                    onClick={() => { handleCapacity(member) }}>{member}명</Option>
+                            ))}
+
+                        </SelectBoxOpen>
+                    </Detail>
+
+
+                    <input />
+
+
+                </div>
+
             </div>
         </>
     )
@@ -125,6 +146,7 @@ width: 100%;
 font-weight: bold;
 border: 0px transparent;
 background-color: transparent;
+text-align: center;
 :focus{
    outline: none;
 }
@@ -258,6 +280,13 @@ padding: 8px 12px;
 
 export const Detail = styled.details`
 height: 40px;
+
+`;
+
+export const SelectArrow = styled(CapacityArrowDown)`
+position: absolute;
+margin-top: 8px;
+right: 10px;
 `;
 
 export default WriteSelect;

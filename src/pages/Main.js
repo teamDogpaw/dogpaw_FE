@@ -18,17 +18,20 @@ import silver from "../styles/icon/main/medal1.svg";
 import bronze from "../styles/icon/main/medal2.svg";
 import person from "../styles/icon/global/profile.svg";
 import help from "../styles/icon/main/help.svg";
-import ModalOpen from "../components/Modal_prev";
+import StackFilter from "../components/StackFilter";
 
 
 const Main = () => {
+  const [mainSelectedStack, setMainSelectedStack] = useState([])
+ const [filterList, setFilterList] = useState([]);
   const navigate = useNavigate();
   const user = useRecoilValue(UserInfoAtom);
   const [mark, setMark] = useState(false);
   const [toggle, setToggle] = useState(true);
   const [isHover, setIsHover] = useState(false);
   const { ref, inView } = useInView();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isFilter, setIsFilter] = useState(false);
+
   const { data: rankList } = useGetBookmarkRank();
   //console.log(rankList)
 
@@ -38,8 +41,10 @@ const Main = () => {
   const { data, status, fetchNextPage, isFetchingNextPage } = useGetKeepPostList();
   
   useEffect(() => {
+ 
     if (inView) fetchNextPage();
-  }, [fetchNextPage, inView]);
+    
+  }, [fetchNextPage, inView, filterList]);
   if (status === "loading") {
     return <Loading />;
   }
@@ -48,12 +53,30 @@ const Main = () => {
   }
   console.log(data);
 
+  const setFilter = () => {
+    setIsFilter((prev) => !prev)
+  }
+
+
 
   const dataList = data?.pages.map(arr => arr.postList);
   const postList = dataList.reduce((acc, cur) => acc.concat(cur));
-  const list = toggle
+  var list = toggle
     ? postList.filter(post => post.deadline === false)
     : postList;
+
+
+    // const selectStackFilter = () => {
+    //   console.log(selectedStack)
+    //   let newList = [];
+    //   selectedStack.map((stack)=>{
+    //     console.log(stack)
+    //     return newList = filterList.concat(list.filter((arr) => arr.stacks.includes(stack)))
+    //   })
+    //   setFilterList(newList)
+    // }
+    // console.log(filterList)
+
 
   const bookMark = () => {
     if (mark === false) {
@@ -157,63 +180,146 @@ const Main = () => {
             <p>{toggle ? "모집중" : "ALL"}</p>
           </Circle>
         </ToggleBtn>
+        {/* <button onClick={setFilter} style={{marginLeft:"auto"}}>
+        스택필터
+        </button> */}
       </ToggleWrap>
       <>
+        {isFilter ? <StackFilter 
+    setMainSelectedStack={setMainSelectedStack}
+    mainSelectedStack={mainSelectedStack}
+        filterList={filterList}
+        list={list}
+        setFilterList={setFilterList}
+        /> : null}
         <ArticleWrap>
-          {list.map((post) => (
-          <Article
-              key={post.postId}
-              onClick={() => {
-                if (!isLogin) {
-                  window.alert("로그인이 필요한 서비스입니다!");
-                  return;
-                }
-                navigate("/detail/" + post.postId);
-              }}
-            >
-              <Content>
-                <h1>{post.title}</h1>
-                <p>{post.content}</p>
-              </Content>
-              <Hashtag>
-                <ul>
-                  {post.stacks.map((lang, idx) => (
-                    <li key={idx}>#{lang}</li>
-                  ))}
-                </ul>
-                <p style={{ color: "#ffb673" }}>
-                  #{post.online}
-                </p>
-              </Hashtag>
-              <Info>
-                <div>
-                  <Comment>
-                    <CommentIcon />
-                    <p>{post.commentCnt}</p>
-                  </Comment>
-                  <Bookmark>
-                    <BookmarkIcon style={{ width: "10", height: "14" }} />
-                    <p>{post.bookmarkCnt}</p>
-                  </Bookmark>
-                </div>
-                <Date>시작예정일 {post.startAt}</Date>
-              </Info>
-              <Footer>
-                <User>
-                  <img src={post.profileImg || person} alt="profileImg" />
-                  <p>{post.nickname}</p>
-                </User>
-                {userMe === post.nickname ? (
-                  ""
-                ) : post.bookMarkStatus ? (
-                  <BookmarkFill onClick={bookMark} />
-                ) : (
-                  <BookmarkIcon onClick={bookMark} />
-                )}
-              </Footer>
-              {post.deadline === true && <Deadline>모집마감</Deadline>}
-            </Article>
-          ))}
+{filterList.length !== 0 ? <>
+  {filterList.map((post) => {
+  return (
+    <>
+    <Article
+    key={post.postId}
+    onClick={() => {
+      if (!isLogin) {
+        window.alert("로그인이 필요한 서비스입니다!");
+        return;
+      }
+      navigate("/detail/" + post.postId);
+    }}
+  >
+    <Content>
+      <h1>{post.title}</h1>
+      <p>{post.content}</p>
+    </Content>
+    <Hashtag>
+      <ul>
+        {post.stacks.map((lang, idx) => (
+          <li key={idx}>#{lang}</li>
+        ))}
+      </ul>
+      <p style={{ color: "#ffb673" }}>
+        #{post.online}
+      </p>
+    </Hashtag>
+    <Info>
+      <div>
+        <Comment>
+          <CommentIcon />
+          <p>{post.commentCnt}</p>
+        </Comment>
+        <Bookmark>
+          <BookmarkIcon style={{ width: "10", height: "14" }} />
+          <p>{post.bookmarkCnt}</p>
+        </Bookmark>
+      </div>
+      <Date>시작예정일 {post.startAt}</Date>
+    </Info>
+    <Footer>
+      <User>
+        <img src={post.profileImg || person} alt="profileImg" />
+        <p>{post.nickname}</p>
+      </User>
+      {userMe === post.nickname ? (
+        ""
+      ) : post.bookMarkStatus ? (
+        <BookmarkFill onClick={bookMark} />
+      ) : (
+        <BookmarkIcon onClick={bookMark} />
+      )}
+    </Footer>
+    {post.deadline === true && <Deadline>모집마감</Deadline>}
+  </Article>
+    </>
+  
+  )}
+)} 
+</>
+:
+<>
+{list.map((post) => {
+  return (
+    <>
+    <Article
+    key={post.postId}
+    onClick={() => {
+      if (!isLogin) {
+        window.alert("로그인이 필요한 서비스입니다!");
+        return;
+      }
+      navigate("/detail/" + post.postId);
+    }}
+  >
+    <Content>
+      <h1>{post.title}</h1>
+      <p>{post.content}</p>
+    </Content>
+    <Hashtag>
+      <ul>
+        {post.stacks.map((lang, idx) => (
+          <li key={idx}>#{lang}</li>
+        ))}
+      </ul>
+      <p style={{ color: "#ffb673" }}>
+        #{post.online}
+      </p>
+    </Hashtag>
+    <Info>
+      <div>
+        <Comment>
+          <CommentIcon />
+          <p>{post.commentCnt}</p>
+        </Comment>
+        <Bookmark>
+          <BookmarkIcon style={{ width: "10", height: "14" }} />
+          <p>{post.bookmarkCnt}</p>
+        </Bookmark>
+      </div>
+      <Date>시작예정일 {post.startAt}</Date>
+    </Info>
+    <Footer>
+      <User>
+        <img src={post.profileImg || person} alt="profileImg" />
+        <p>{post.nickname}</p>
+      </User>
+      {userMe === post.nickname ? (
+        ""
+      ) : post.bookMarkStatus ? (
+        <BookmarkFill onClick={bookMark} />
+      ) : (
+        <BookmarkIcon onClick={bookMark} />
+      )}
+    </Footer>
+    {post.deadline === true && <Deadline>모집마감</Deadline>}
+  </Article>
+    </>
+  
+  )}
+)} 
+</>
+
+
+}
+         
           
         </ArticleWrap>
         {isFetchingNextPage ? <Loading /> : <div ref={ref}></div>}
@@ -225,6 +331,7 @@ const Main = () => {
 const Wrap = styled.div`
   width: 1200px;
   margin: auto;
+  margin-bottom: 200px;
   @media screen and (max-width: 996px) {
     margin: 0 40px;
   }
