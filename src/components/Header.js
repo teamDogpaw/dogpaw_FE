@@ -49,13 +49,13 @@ const Header = () => {
     // }
   };
 
-  /*   useEffect(() => {
+  useEffect(() => {
     if (match === null) {
       if (match.params !== null) {
         setIsModalOpen(true);
       }
     }
-  }, []); */
+  }, []);
 
   return (
     <>
