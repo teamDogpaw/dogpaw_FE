@@ -13,7 +13,7 @@ import remove from "../styles/icon/detail/remove.svg";
 import { usePostBookmark } from "../hook/useUserData";
 import ApplyBtn from "../components/ApplyBtn";
 import Loading from "../shared/Loading";
-import { Stacks } from "../components/ApplyList";
+
 
 const Detail = () => {
   const navigate = useNavigate();
@@ -65,8 +65,10 @@ const Detail = () => {
           </LinkBtn>
           <User>
             <h3>{postList?.data.title}</h3>
-            <img src={postList?.data.profileImg || person} alt="profile" />
-            <p>{author}</p>
+            <div>
+              <img src={postList?.data.profileImg || person} alt="profile" />
+              <p>{author}</p>
+            </div>
           </User>
 
           <Userbtn>
@@ -96,13 +98,12 @@ const Detail = () => {
               </Title>
               <Title>
                 <p>구인스택</p>
-                
-                  <Stack>
-                    {postList?.data.stacks?.map((lang, idx) => (
-                      <span key={idx}>#{lang}</span>
-                    ))}
-                  </Stack>
-               
+
+                <Stack>
+                  {postList?.data.stacks?.map((lang, idx) => (
+                    <span key={idx}>#{lang}</span>
+                  ))}
+                </Stack>
               </Title>
               <Title>
                 <p>예상 진행 기간</p>
@@ -182,14 +183,29 @@ const ArticleTop = styled.div`
 `;
 
 const User = styled.div`
+position:relative;
   height: 153px;
   //margin-bottom: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  line-height: 50px;
+  line-height: 30px;
 
+  div{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+   p{
+    padding-top:5px;
+   } 
+  }
+
+  h3{
+    padding-bottom:15px;
+  }
   img {
     width: 40px;
     height: 40px;
@@ -197,13 +213,28 @@ const User = styled.div`
   }
 
   @media screen and (max-width:770px){
-    line-height:30px;
+    height:120px;
+    h3{
+      //padding-bottom: 30px;
+    }
+    div{
+      /* display:flex;
+      align-items:center; */
+      /* flex-direction:row;
+      position:absolute;
+      bottom:0;
+      left:0; */
+    }
+
+    /* img{
+      margin-right:10px;
+    } */
   }
 `;
 const ArrowBtn = styled(Arrow)`
   stroke: ${(props) => props.theme.toggleFontColor};
-  @media screen and (max-width:770px){
-    width:10px;
+  @media screen and (max-width:786px){
+    width:12px;
   }
 `;
 const Userbtn = styled.div`
@@ -219,6 +250,10 @@ const Userbtn = styled.div`
 
   img {
     margin: 0 5px;
+  }
+
+  @media screen and (max-width:786px) {
+    top:115px;
   }
 `;
 
@@ -244,9 +279,10 @@ const ModifyBtn = styled.button`
   }
 `;
 
-const DeleteBtn = styled(ModifyBtn)`
+export const DeleteBtn = styled(ModifyBtn)`
   border: 1px solid #ff0000;
   margin-left: 10px;
+  
 
   span {
     color: #ff0000;
@@ -255,8 +291,15 @@ const DeleteBtn = styled(ModifyBtn)`
 
 const LinkBtn = styled.div`
   display: flex;
+  
   justify-content: space-between;
   padding-bottom: 10px;
+
+  @media screen and(max-width:768){
+position:absolute;
+  right:0;
+  bottom:0;
+  }
 `;
 
 const ContentWrap = styled.div`
