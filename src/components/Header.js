@@ -21,8 +21,7 @@ const Header = () => {
   const detailsRef = useRef(null);
   const isLogin = localStorage.getItem("token");
 
-  const match = useMatch("/*");
-  console.log(match);
+  let token = new URL(window.location.href).searchParams.get("token");
 
   const details = detailsRef.current;
   if (details) {
@@ -48,16 +47,16 @@ const Header = () => {
     //   console.log(err);
     // }
   };
-
+  /* 
   useEffect(() => {
-    if (match !== null) {
+    if (token) {
       setIsModalOpen(true);
     }
-  }, []);
+  }, []); */
 
   return (
     <>
-      {isModalOpen ? <ModalOpen viewModal={viewModal} match={match} /> : null}
+      {isModalOpen ? <ModalOpen viewModal={viewModal} token={token} /> : null}
 
       <Wrap>
         <ContentWrap>

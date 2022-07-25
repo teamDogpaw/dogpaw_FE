@@ -4,6 +4,7 @@ import Modal from "react-modal";
 import SocialModal from "../components/SocialModal";
 
 const KakaoLoginRedirect = () => {
+  console.log("확인용");
   //const [modalIsOpen, setModalIsOpen] = useState(true);
   //const handleOpen = () => setModalIsOpen(true);
 
@@ -51,8 +52,8 @@ const KakaoLoginRedirect = () => {
     handleOpen();
   }, []); */
 
-  return {
-    /* <>
+  return null;
+  /* <>
       <Modal
         isOpen={modalIsOpen}
         shouldCloseOnOverlayClick={false}
@@ -70,7 +71,6 @@ const KakaoLoginRedirect = () => {
         </div>
       </Modal>
     </> */
-  };
 };
 
 export default KakaoLoginRedirect;
