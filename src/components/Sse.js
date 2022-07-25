@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
+import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill"
 import {
   useDeleteAlert,
   useDeleteAlertAll,
