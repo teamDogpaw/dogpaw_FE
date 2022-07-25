@@ -7,6 +7,7 @@ import { Route, Routes } from "react-router-dom";
 // import Login from "./components/Login"
 // import Register from "./components/Register"
 import { lazy } from "react";
+import UserPage from "./pages/UserPage";
 
 
 const Detail = lazy(()=> import("./pages/Detail"));
@@ -25,10 +26,11 @@ const Router = () => {
       <Route path="/detail/:postId" element={<Detail />} />
       <Route path="/write" element={<Write />} />
       <Route path="/write/:id" element={<Write />} />
-      <Route path="/mypage/*" element={<MyPage />} />
+      <Route path="/mypage" element={<MyPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/user/kakao/login" element={<KakaoLoginRedirect />} />
+      <Route path="/mypage/:userNickname" element={<UserPage />}/>
 
     </Routes>
   );

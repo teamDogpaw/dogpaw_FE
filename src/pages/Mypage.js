@@ -194,7 +194,7 @@ const MyPage = () => {
   );
 };
 
-const Profilepic = styled.img`
+export const Profilepic = styled.img`
   width: 160px;
   height: 160px;
   border-radius: 80px;
@@ -220,7 +220,7 @@ const File = styled.div`
     display: none;
   }
 `;
-const WholeBody = styled.div`
+export const WholeBody = styled.div`
   max-width: 996px;
   margin: 0px auto 200px auto;
   @media screen and (max-width: 996px) {
@@ -244,13 +244,13 @@ export const Tab = styled.div`
 
 
 
-const ProfileWrap = styled.div`
+export const ProfileWrap = styled.div`
   display: flex;
   align-items: center;
   position: relative;
 `;
 
-const Profile = styled.div`
+export const Profile = styled.div`
   margin-left: 50px;
 
   p {
@@ -273,7 +273,7 @@ const Profile = styled.div`
   }
 `;
 
-const Stacks = styled.div`
+export const Stacks = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 370px;

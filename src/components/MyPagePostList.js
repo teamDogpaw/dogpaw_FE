@@ -1,7 +1,7 @@
 import { Btn, LineBtn, ListProfilePic, ListStack, ListTitle, PostBody } from "../styles/style"
 import { useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/atom";
-import { useNavigate } from "react-router-dom";
+import { useMatch, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import DefaultProfile from "../styles/icon/global/profile.svg"
 import { ReactComponent as CommentCnt } from "../styles/icon/post/commentCnt.svg";
@@ -14,6 +14,8 @@ const MyPagePostList = ({
     viewApplyModal,
     currentTab
 }) => {
+
+    const isMypage = useMatch("/mypage")
 
     console.log(currentTab)
     const navigate = useNavigate()
@@ -69,8 +71,7 @@ const MyPagePostList = ({
                     <MyPageBtn onClick={() => postApply(data.postId)} >지원 취소하기</MyPageBtn>
                     : null}
 
-
-                {currentTab === 2 ?
+                {isMypage !== null && currentTab === 2  || currentTab === 4  ?
                     <MyPageBtn
                         onClick={() =>
                             viewApplyModal({
@@ -79,7 +80,7 @@ const MyPagePostList = ({
                                 deadline: data.deadline
                             })} >팀원 목록 보기</MyPageBtn>
                     : null}
-                {currentTab === 4 ?
+                {/* {currentTab === 4 ?
                     <MyPageBtn
                         onClick={() =>
                             viewApplyModal({
@@ -87,7 +88,7 @@ const MyPagePostList = ({
                                 title: data.title,
                                 deadline: data.deadline
                             })} >팀원 목록 보기</MyPageBtn>
-                    : null}
+                    : null} */}
             </PostBody>
 
 
