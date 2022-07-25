@@ -2,9 +2,9 @@ import { useRecoilState } from "recoil";
 import styled, { css } from "styled-components";
 import { DarkThemeAtom } from "../atom/theme";
 import arrowtopLight from "../styles/icon/toggle/arrowUpLight.svg";
-import darkMode from "../styles/icon/toggle/darkMode.svg";
-import lightMode from "../styles/icon/toggle/lightMode.svg";
 import arrowtop from "../styles/icon/toggle/scrollToTop.svg";
+import moon from "../styles/icon/toggle/moon.svg";
+import sun from "../styles/icon/toggle/sun.svg";
 
 const Toggle = () => {
   const [isDark, setIsDark] = useRecoilState(DarkThemeAtom);
@@ -12,7 +12,26 @@ const Toggle = () => {
   return (
     <Wrap>
       <ModeBtn onClick={() => setIsDark((prev) => !prev)} isDark={isDark}>
-        <Web>{isDark ? <span>라이트 모드</span> : <span>다크 모드</span>}</Web>
+        <Web>
+          {isDark ? (
+            <span>라이트 모드로 보기</span>
+          ) : (
+            <span>다크 모드로 보기</span>
+          )}
+        </Web>
+        <Mobile>
+          {isDark ? (
+            <div>
+              <img src={moon} alt="" />
+              <img src={sun} alt="" />
+            </div>
+          ) : (
+            <div>
+              <img src={moon} alt="" />
+              <img src={sun} alt="" />
+            </div>
+          )}
+        </Mobile>
         <ModeCircle isDark={isDark} />
       </ModeBtn>
       <TopBtn
@@ -43,31 +62,42 @@ const Wrap = styled.div`
 `;
 
 const Web = styled.div`
-@media screen and (max-width:500px){
-  display:none;
-} `;
+  display: flex;
+  justify-content: flex-end;
 
+  @media screen and (max-width: 786px) {
+    display: none;
+  }
+`;
+
+const Mobile = styled.div`
+  width: 100%;
+  div {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  @media screen and (min-width: 785px) {
+    display: none;
+  }
+`;
 
 const ModeBtn = styled.div`
+cursor: pointer;
   background-color: ${(props) => props.theme.toggleBtnColor};
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
   height: 50px;
   border-radius: 100px;
   border: none;
-  padding: ${(props) => props.isDark ? "15px 57px 15px 15px" : "15px 15px 15px 50px"};
   margin-right: 15px;
+  padding: 15px 15px 15px 55px;
   position: relative;
   display: flex;
-  justify-content: ${(props) => (props.isDark ? "flex-start" : "flex-end")};
   align-items: center;
-  transition: all 0.5s ease-in-out;
 
-  @media screen and (max-width:500px){
-    width:50px;
-   //justify-content:center;
-   // border-radius:50%;
-   padding:10px;
-    
+  @media screen and (max-width: 500px) {
+    width: 90px;
+    padding: 10px 12px;
   }
 `;
 
@@ -75,26 +105,26 @@ const ModeCircle = styled.div`
   display: flex;
   flex-direction: center;
   align-items: center;
-  background-image: url(${(props) => props.isDark ? `${lightMode}` : `${darkMode}`});
-  background-size: cover;
-  width: 50px;
-  height: 50px;
+  background-color: ${(props) => (props.isDark ? "#FFB673" : "#777777")};
+  background-image: url(${(props) => (props.isDark ? `${sun}` : `${moon}`)});
+  background-repeat: no-repeat;
+  background-position: center;
+
+  width: 40px;
+  height: 40px;
   border-radius: 50px;
   position: absolute;
-  left: 0%;
-  top: 2%;
-  transition: all 0.4s ease-in-out;
-  ${(props) =>
-    props.isDark &&
-    css`
-      transform: translate(85px, 0);
-      transition: all 0.4s ease-in-out;
-    `}
-    @media screen and (max-width:499px) {
-      transform:none;
-      
-    }
+  left: 5%;
 
+  @media screen and (max-width: 787px) {
+    transition: all 0.2s ease-in-out;
+    ${(props) =>
+      props.isDark &&
+      css`
+        transform: translate(100%, 0);
+        transition: all 0.2s ease-in-out;
+      `}
+  }
 `;
 
 const TopBtn = styled.button`
