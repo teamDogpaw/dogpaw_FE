@@ -14,14 +14,9 @@ const ModalOpen = ({ viewModal, match }) => {
   const [modalContent, setModalContent] = useState();
 
   useEffect(() => {
-    if (match !== null) {
-      if (match.params !== null) {
-        setModalContent(<SocialModal setModalContent={setModalContent} />);
-      }
-    } else {
-      setModalContent(<Login setModalContent={setModalContent} />);
-      document.body.style.cssText = `position: fixed; top: 0px`;
-    }
+  setModalContent(<Login setModalContent={setModalContent} />);
+  document.body.style.cssText = `position: fixed; top: 0px`;
+
     return () => {
       const scrollY = document.body.style.top;
       document.body.style.cssText = `position: ""; top: "";`;
