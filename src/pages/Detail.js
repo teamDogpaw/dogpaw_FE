@@ -66,9 +66,9 @@ const Detail = () => {
           </LinkBtn>
           <User>
             <h3>{postList?.data.title}</h3>
-            <div>
-              <img src={postList?.data.profileImg || person} alt="profile" />
-              <p>{author}</p>
+            <div onClick={()=>{userStatus==="author" ? navigate(`/mypage`) : navigate(`/mypage/${author}`)}}>
+            <img src={postList?.data.profileImg || person} alt="profile" />
+            <p>{author}</p>
             </div>
           </User>
 
@@ -271,6 +271,7 @@ export const DeleteBtn = styled(ModifyBtn)`
   }
 `;
 
+
 const LinkBtn = styled.div`
   display: flex;
   
@@ -283,12 +284,24 @@ position:absolute;
   bottom:0;
   }
 `;
+export const Leftarrow = styled(Arrow)`
+  position: absolute;
+  top: 25px;
+  left: 30px;
+`;
 
 const ContentWrap = styled.div`
   display: flex;
   padding-top: 10px;
   line-height: 48px;
   position: relative;
+`;
+
+const Author = styled.div`
+display: flex;
+flex-direction: column;
+margin-top: 10px;
+cursor: pointer;
 `;
 
 const Title = styled.div`

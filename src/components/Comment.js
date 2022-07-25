@@ -75,7 +75,7 @@ const Comment = ({ data }) => {
   return (
   
       <div>
-        <User>
+        <User >
           <Img src={data.profileImg || person} alt="사진" />
           <p>{data.nickname}</p>
         </User>
