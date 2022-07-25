@@ -36,6 +36,8 @@ const SocialModal = (props) => {
     }
   }, []);
 
+  const token = localStorage.getItem("token");
+
   const onSubmit = async () => {
     console.log(nickName);
     console.log(JSON.stringify(stack));
@@ -44,24 +46,26 @@ const SocialModal = (props) => {
       stacks: stack,
     };
     try {
-      await instance
-        .post("user/signup/addInfo", data, {
-          headers: { Authorization: `Bearer ${props.element}` },
-        })
-        .then((res) => {
-          window.alert("추가 정보를 기입해 주세요. :)");
-          const accessToken = res.data.data.token.accessToken;
-          const refreshToken = res.data.data.token.refreshToken;
-          if (accessToken !== null) {
-            localStorage.setItem("token", accessToken);
-            localStorage.setItem("retoken", refreshToken);
-            window.alert("로그인 성공 :)");
+      const response = await instance.post("user/signup/addInfo", data
+      // , 
+      // {
+      //     headers: { Authorization: `Bearer ${token}` },
+      //   }
+        )
+        console.log(response)
+        // .then((res) => {
+          // window.alert("추가 정보를 기입해 주세요. :)");
+          // const accessToken = res.data.data.token.accessToken;
+          // const refreshToken = res.data.data.token.refreshToken;
+          // if (e) {
+            // localStorage.setItem("token", accessToken);
+            // localStorage.setItem("retoken", refreshToken);
+            // window.alert("로그인 성공 :)");
             //window.location.replace("/");
           }
-        });
-    } catch (err) {
+     catch (err) {
       console.log(err);
-      window.alert(err.response.data.errorMessage);
+      console.log(err.response.data.errorMessage);
     }
   };
 
