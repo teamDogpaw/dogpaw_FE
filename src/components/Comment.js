@@ -33,11 +33,9 @@ const Comment = ({ data }) => {
   const writeUser = data.nickname;
   //console.log(writeUser, "글쓴이");
 
-
   const queryClient = useQueryClient();
   const { mutateAsync: editComment } = useEditComment();
   const { mutateAsync: removeComment } = useRemoveComment();
-
 
   const modifyCommentClick = async (commentId) => {
     const commentData = {id,commentId,content:comment_ref.current.value};
@@ -67,10 +65,6 @@ const Comment = ({ data }) => {
     replyRef.current.value = "";
     queryClient.invalidateQueries("commentList");
   };
-
-
-
-
 
   return (
   
@@ -164,6 +158,7 @@ const Img = styled.img`
   border-radius: 50%;
   margin-right: 10px;
 `;
+
 const Content = styled.div`
   margin-top: 10px;
   line-height: 2;

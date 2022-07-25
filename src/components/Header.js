@@ -159,6 +159,7 @@ const Wrap = styled.div`
 `;
 
 const Img = styled.img`
+cursor: pointer;
   width: 167px;
   height: 46px;
 
@@ -181,10 +182,10 @@ const ContentWrap = styled.div`
 `;
 
 const Contain = styled.div`
-  //position: relative;
   display: flex;
   justify-content: flex-end;
   width: 100%;
+  cursor: pointer;
 `;
 
 const User = styled.div`

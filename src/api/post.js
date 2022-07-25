@@ -13,7 +13,7 @@ export const postApis = {
   getMyApplyPost: async () => await instance.get(`/api/user/mypage/apply`),
   getMyProjectPost: async () => await instance.get(`/api/user/mypage/post`),
   postDeadlineProject: async (postId) => await instance.post(`api/post/${postId}/deadline`),
-  getKeepPostList: async (pageParam) => {const res = await instance.get(`/api/allpost?page=${pageParam}`);
+  getKeepPostList: async (pageParam) => {const res = await instance.get(`/api/all/post?page=${pageParam}`);
     const { postList, isLast } = res.data;
     return { postList, nextPage: pageParam + 1, isLast };
   },

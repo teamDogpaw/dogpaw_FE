@@ -20,17 +20,10 @@ const Toggle = () => {
           )}
         </Web>
         <Mobile>
-          {isDark ? (
             <div>
               <img src={moon} alt="" />
               <img src={sun} alt="" />
             </div>
-          ) : (
-            <div>
-              <img src={moon} alt="" />
-              <img src={sun} alt="" />
-            </div>
-          )}
         </Mobile>
         <ModeCircle isDark={isDark} />
       </ModeBtn>
@@ -83,7 +76,6 @@ const Mobile = styled.div`
 `;
 
 const ModeBtn = styled.div`
-cursor: pointer;
   background-color: ${(props) => props.theme.toggleBtnColor};
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
   //width: 134px;
@@ -103,6 +95,7 @@ cursor: pointer;
 `;
 
 const ModeCircle = styled.div`
+  cursor: pointer;
   display: flex;
   flex-direction: center;
   align-items: center;
@@ -129,6 +122,7 @@ const ModeCircle = styled.div`
 `;
 
 const TopBtn = styled.button`
+  cursor: pointer;
   width: 50px;
   height: 50px;
   border-radius: 50%;
