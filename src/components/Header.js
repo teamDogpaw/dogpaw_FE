@@ -21,7 +21,7 @@ const Header = () => {
   const detailsRef = useRef(null);
   const isLogin = localStorage.getItem("token");
 
-  const match = useMatch("/");
+  const match = useMatch("/*");
   console.log(match);
 
   const details = detailsRef.current;
@@ -50,10 +50,8 @@ const Header = () => {
   };
 
   useEffect(() => {
-    if (match === null) {
-      if (match.params !== null) {
-        setIsModalOpen(true);
-      }
+    if (match !== null) {
+      setIsModalOpen(true);
     }
   }, []);
 

@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import SocialModal from "../components/SocialModal";
@@ -40,12 +41,10 @@ const KakaoLoginRedirect = () => {
   useEffect(() => {
     let token = new URL(window.location.href).searchParams.get("token");
     console.log(token);
+    //axios.post("/~~",token).then(res => )
     localStorage.setItem("token", token);
-    window.alert(
-      "사이트 이용 원활을 위해 마이페이지에서 추가 정보를 기입하세요.:)"
-    );
-    window.location.replace("/");
-    //window.location.replace("/");
+    //window.alert("사이트 이용 원활을 위해 마이페이지에서 추가 정보를 기입하세요.:)");
+    //window.location.replace("/main");
   }, []);
 
   /* useEffect(() => {

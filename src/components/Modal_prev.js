@@ -6,7 +6,6 @@ import SocialModal from "./SocialModal";
 
 const ModalOpen = ({ viewModal, match }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   /*  const viewModal = () => {
     setIsModalOpen((prev) => !prev);
   }; */
@@ -14,10 +13,8 @@ const ModalOpen = ({ viewModal, match }) => {
   const [modalContent, setModalContent] = useState();
 
   useEffect(() => {
-    if (match !== null) {
-      if (match.params !== null) {
-        setModalContent(<SocialModal setModalContent={setModalContent} />);
-      }
+    if (match !== null && match.pathname !== match.pathnameBase) {
+      setModalContent(<SocialModal setModalContent={setModalContent} />);
     } else {
       setModalContent(<Login setModalContent={setModalContent} />);
       document.body.style.cssText = `position: fixed; top: 0px`;

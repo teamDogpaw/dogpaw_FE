@@ -37,8 +37,7 @@ const SocialModal = (props) => {
   }, []);
 
   const onSubmit = async () => {
-    console.log(nickName);
-    console.log(JSON.stringify(stack));
+    const token = localStorage.getItem("token");
     let data = {
       nickname: nickName,
       stacks: stack,
@@ -46,10 +45,11 @@ const SocialModal = (props) => {
     try {
       await instance
         .post("user/signup/addInfo", data, {
-          headers: { Authorization: `Bearer ${props.element}` },
+          headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
-          window.alert("추가 정보를 기입해 주세요. :)");
+          console.log(res);
+          /* window.alert("추가 정보를 기입해 주세요. :)");
           const accessToken = res.data.data.token.accessToken;
           const refreshToken = res.data.data.token.refreshToken;
           if (accessToken !== null) {
@@ -57,11 +57,11 @@ const SocialModal = (props) => {
             localStorage.setItem("retoken", refreshToken);
             window.alert("로그인 성공 :)");
             //window.location.replace("/");
-          }
+          } */
         });
     } catch (err) {
       console.log(err);
-      window.alert(err.response.data.errorMessage);
+      window.alert(err);
     }
   };
 
