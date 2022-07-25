@@ -13,8 +13,6 @@ import remove from "../styles/icon/detail/remove.svg";
 import { useRecoilState } from "recoil";
 import { alertListAtom } from "../atom/atom";
 
-
-
 const Sse = () => {
   const token = localStorage.getItem("token");
   const EventSource = EventSourcePolyfill || NativeEventSource;
@@ -95,7 +93,6 @@ const Sse = () => {
             return (
               <ul key={list.id}>
                 <ListWrap >
-                  
                   <List
                     onClick={() => {
                       messageRead(list.id, list.url, list.status);

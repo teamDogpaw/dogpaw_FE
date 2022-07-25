@@ -20,8 +20,8 @@ import BookmarkRank from "../components/BookmarkRank";
 import StackFilter from "../components/StackFilter";
 
 const Main = () => {
-  const [mainSelectedStack, setMainSelectedStack] = useState([])
- const [filterList, setFilterList] = useState([]);
+  const [mainSelectedStack, setMainSelectedStack] = useState([]);
+  const [filterList, setFilterList] = useState([]);
   const navigate = useNavigate();
   const user = useRecoilValue(UserInfoAtom);
   const [mark, setMark] = useState(false);
@@ -30,7 +30,6 @@ const Main = () => {
   const { ref, inView } = useInView();
   const [isFilter, setIsFilter] = useState(false);
 
-
   const userMe = user?.nickname;
   const isLogin = localStorage.getItem("token");
 
@@ -38,9 +37,7 @@ const Main = () => {
     useGetKeepPostList();
 
   useEffect(() => {
- 
     if (inView) fetchNextPage();
-    
   }, [fetchNextPage, inView, filterList]);
   if (status === "loading") {
     return <Loading />;
@@ -51,27 +48,25 @@ const Main = () => {
   console.log(data);
 
   const setFilter = () => {
-    setIsFilter((prev) => !prev)
-  }
+    setIsFilter((prev) => !prev);
+  };
 
-  const dataList = data?.pages.map(arr => arr.postList);
+  const dataList = data?.pages.map((arr) => arr.postList);
   const postList = dataList.reduce((acc, cur) => acc.concat(cur));
   var list = toggle
-    ? postList.filter(post => post.deadline === false)
+    ? postList.filter((post) => post.deadline === false)
     : postList;
 
-
-    // const selectStackFilter = () => {
-    //   console.log(selectedStack)
-    //   let newList = [];
-    //   selectedStack.map((stack)=>{
-    //     console.log(stack)
-    //     return newList = filterList.concat(list.filter((arr) => arr.stacks.includes(stack)))
-    //   })
-    //   setFilterList(newList)
-    // }
-    // console.log(filterList)
-
+  // const selectStackFilter = () => {
+  //   console.log(selectedStack)
+  //   let newList = [];
+  //   selectedStack.map((stack)=>{
+  //     console.log(stack)
+  //     return newList = filterList.concat(list.filter((arr) => arr.stacks.includes(stack)))
+  //   })
+  //   setFilterList(newList)
+  // }
+  // console.log(filterList)
 
   const bookMark = () => {
     if (mark === false) {
@@ -126,153 +121,166 @@ const Main = () => {
         </button> */}
       </ToggleWrap>
       <>
-        {isFilter ? <StackFilter 
-    setMainSelectedStack={setMainSelectedStack}
-    mainSelectedStack={mainSelectedStack}
-        filterList={filterList}
-        list={list}
-        setFilterList={setFilterList}
-        /> : null}
+        {isFilter ? (
+          <StackFilter
+            setMainSelectedStack={setMainSelectedStack}
+            mainSelectedStack={mainSelectedStack}
+            filterList={filterList}
+            list={list}
+            setFilterList={setFilterList}
+          />
+        ) : null}
         <ArticleWrap>
-{filterList.length !== 0 ? <>
-  {filterList.map((post) => {
-  return (
-    <>
-    <Article
-    key={post.postId}
-    onClick={() => {
-      if (!isLogin) {
-        window.alert("로그인이 필요한 서비스입니다!");
-        return;
-      }
-      navigate("/detail/" + post.postId);
-    }}
-  >
-    <Content>
-      <h1>{post.title}</h1>
-      <p>{post.content}</p>
-    </Content>
-    <Hashtag>
-      <ul>
-        {post.stacks.map((lang, idx) => (
-          <li key={idx}>#{lang}</li>
-        ))}
-      </ul>
-      <p style={{ color: "#ffb673" }}>
-        #{post.online}
-      </p>
-    </Hashtag>
-    <Info>
-      <div>
-        <Comment>
-          <CommentIcon />
-          <p>{post.commentCnt}</p>
-        </Comment>
-        <Bookmark>
-          <BookmarkIcon style={{ width: "10", height: "14" }} />
-          <p>{post.bookmarkCnt}</p>
-        </Bookmark>
-      </div>
-      <Date>시작예정일 {post.startAt}</Date>
-    </Info>
-    <Footer>
-      <User>
-        <img src={post.profileImg || person} alt="profileImg" />
-        <p>{post.nickname}</p>
-      </User>
-      {userMe === post.nickname ? (
-        ""
-      ) : post.bookMarkStatus ? (
-        <BookmarkFill onClick={bookMark} />
-      ) : (
-        <BookmarkIcon onClick={bookMark} />
-      )}
-    </Footer>
-    {post.deadline === true && <Deadline>모집마감</Deadline>}
-  </Article>
-    </>
-  
-  )}
-)} 
-</>
-:
-<>
-{list.map((post) => {
-  return (
-    <>
-    <Article
-    key={post.postId}
-    onClick={() => {
-      if (!isLogin) {
-        window.alert("로그인이 필요한 서비스입니다!");
-        return;
-      }
-      navigate("/detail/" + post.postId);
-    }}
-  >
-    <Content>
-      <h1>{post.title}</h1>
-      <p>{post.content}</p>
-    </Content>
-    <Hashtag>
-      <ul>
-        {post.stacks.map((lang, idx) => (
-          <li key={idx}>#{lang}</li>
-        ))}
-      </ul>
-      <p style={{ color: "#ffb673" }}>
-        #{post.online}
-      </p>
-    </Hashtag>
-    <Info>
-      <div>
-        <Comment>
-          <CommentIcon />
-          <p>{post.commentCnt}</p>
-        </Comment>
-        <Bookmark>
-          <BookmarkIcon style={{ width: "10", height: "14" }} />
-          <p>{post.bookmarkCnt}</p>
-        </Bookmark>
-      </div>
-      <Date>시작예정일 {post.startAt}</Date>
-    </Info>
-    <Footer>
-      <User>
-        <img src={post.profileImg || person} alt="profileImg" />
-        <p>{post.nickname}</p>
-      </User>
-      {userMe === post.nickname ? (
-        ""
-      ) : post.bookMarkStatus ? (
-        <BookmarkFill onClick={bookMark} />
-      ) : (
-        <BookmarkIcon onClick={bookMark} />
-      )}
-    </Footer>
-    {post.deadline === true && <Deadline>모집마감</Deadline>}
-  </Article>
-    </>
-  
-  )}
-)} 
-</>
-
-
-}
-         
-          
+          {filterList.length !== 0 ? (
+            <>
+              {filterList.map((post) => {
+                return (
+                  <>
+                    <Article
+                      key={post.postId}
+                      onClick={() => {
+                        if (!isLogin) {
+                          window.alert("로그인이 필요한 서비스입니다!");
+                          return;
+                        }
+                        navigate("/detail/" + post.postId);
+                      }}
+                    >
+                      <Content>
+                        <h1>{post.title}</h1>
+                        <p>{post.content}</p>
+                      </Content>
+                      <Hashtag>
+                        <ul>
+                          {post.stacks.map((lang, idx) => (
+                            <li key={idx}>#{lang}</li>
+                          ))}
+                        </ul>
+                        <p style={{ color: "#ffb673" }}>#{post.online}</p>
+                      </Hashtag>
+                      <Info>
+                        <div>
+                          <Comment>
+                            <CommentIcon />
+                            <p>{post.commentCnt}</p>
+                          </Comment>
+                          <Bookmark>
+                            <BookmarkIcon
+                              style={{ width: "10", height: "14" }}
+                            />
+                            <p>{post.bookmarkCnt}</p>
+                          </Bookmark>
+                        </div>
+                        <Date>시작예정일 {post.startAt}</Date>
+                      </Info>
+                      <Footer>
+                        <User>
+                          <img
+                            src={post.profileImg || person}
+                            alt="profileImg"
+                          />
+                          <p>{post.nickname}</p>
+                        </User>
+                        {userMe === post.nickname ? (
+                          ""
+                        ) : post.bookMarkStatus ? (
+                          <BookmarkFill onClick={bookMark} />
+                        ) : (
+                          <BookmarkIcon onClick={bookMark} />
+                        )}
+                      </Footer>
+                      {post.deadline === true && <Deadline>모집마감</Deadline>}
+                    </Article>
+                  </>
+                );
+              })}
+            </>
+          ) : (
+            <>
+              {list.map((post) => {
+                return (
+                  <>
+                    <Article
+                      key={post.postId}
+                      onClick={() => {
+                        if (!isLogin) {
+                          window.alert("로그인이 필요한 서비스입니다!");
+                          return;
+                        }
+                        navigate("/detail/" + post.postId);
+                      }}
+                    >
+                      <Content>
+                        <h1>{post.title}</h1>
+                        <p>{post.content}</p>
+                      </Content>
+                      <Hashtag>
+                        <ul>
+                          {post.stacks.map((lang, idx) => (
+                            <li key={idx}>#{lang}</li>
+                          ))}
+                        </ul>
+                        <p style={{ color: "#ffb673" }}>#{post.online}</p>
+                      </Hashtag>
+                      <Info>
+                        <div>
+                          <Comment>
+                            <CommentIcon />
+                            <p>{post.commentCnt}</p>
+                          </Comment>
+                          <Bookmark>
+                            <BookmarkIcon
+                              style={{ width: "10", height: "14" }}
+                            />
+                            <p>{post.bookmarkCnt}</p>
+                          </Bookmark>
+                        </div>
+                        <Date>시작예정일 {post.startAt}</Date>
+                      </Info>
+                      <Footer>
+                        <User>
+                          <img
+                            src={post.profileImg || person}
+                            alt="profileImg"
+                          />
+                          <p>{post.nickname}</p>
+                        </User>
+                        {userMe === post.nickname ? (
+                          ""
+                        ) : post.bookMarkStatus ? (
+                          <BookmarkFill onClick={bookMark} />
+                        ) : (
+                          <BookmarkIcon onClick={bookMark} />
+                        )}
+                      </Footer>
+                      {post.deadline === true && <Deadline>모집마감</Deadline>}
+                    </Article>
+                  </>
+                );
+              })}
+            </>
+          )}
         </ArticleWrap>
         {isFetchingNextPage ? <Loading /> : <div ref={ref}></div>}
       </>
-     
     </Wrap>
   );
 };
+const ellipsisText = css`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+`;
+const displyStyle = css`
+  display: flex;
+  align-items: center;
+`;
+
 const Wrap = styled.div`
   max-width: 1200px;
   margin: auto;
-  margin-bottom:100px;
+  margin-bottom: 100px;
 
   ul {
     display: flex;
@@ -286,14 +294,14 @@ const Wrap = styled.div`
   p {
     font-size: 15px;
   }
+
   @media screen and (max-width: 1200px) {
     margin: 0px 30px;
   }
 `;
 
 const Help = styled.div`
-  display: flex;
-  align-items: center;
+  ${displyStyle}
   justify-content: end;
   margin-bottom: 10px;
   span {
@@ -334,8 +342,7 @@ const Tuto = styled.div`
 `;
 
 const Award = styled.div`
-  display: flex;
-  align-items: center;
+  ${displyStyle}
   margin-top: 20px;
   span {
     font-weight: 500;
@@ -345,12 +352,12 @@ const Award = styled.div`
 
 // 토글 스위치
 const ToggleWrap = styled.div`
-  display: flex;
-  align-items: center;
+  ${displyStyle}
   margin-top: 20px;
   margin-bottom: 20px;
 `;
 const ToggleBtn = styled.button`
+  ${displyStyle}
   // width: 106px;
   height: 44px;
   border-radius: 30px;
@@ -358,8 +365,6 @@ const ToggleBtn = styled.button`
   cursor: pointer;
   background-color: ${(props) => props.theme.divBackGroundColor};
   position: relative;
-  display: flex;
-  align-items: center;
   transition: all 0.5s ease-in-out;
 `;
 const All = styled.span`
@@ -368,8 +373,7 @@ const All = styled.span`
   font-weight: 700;
   color: #ffb673;
   opacity: 0.5;
-  display: flex;
-  align-items: center;
+  ${displyStyle}
   padding-left: 6px;
 `;
 const Ing = styled(All)`
@@ -378,9 +382,8 @@ const Ing = styled(All)`
   flex-direction: row-reverse;
 `;
 const Circle = styled.div`
-  display: flex;
+  ${displyStyle}
   flex-direction: center;
-  align-items: center;
   background-color: #ff891c;
   width: 52px;
   height: 34px;
@@ -445,38 +448,32 @@ const Article = styled.li`
 
 export const Content = styled.div`
   margin: 20px 0;
+
   h1 {
     padding-bottom: 20px;
-    text-overflow: ellipsis;
-    display: -webkit-box;
+
+    ${ellipsisText}
     -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
     word-break: break-all;
   }
   p {
     line-height: 20px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
+    ${ellipsisText}
     -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
   }
 `;
 export const Hashtag = styled.div`
-
-  width:85%;
+  width: 85%;
   position: absolute;
   bottom: 100px;
+
   li {
     margin-right: 5px;
     color: #ffb673;
   }
-  overflow:hidden;
-  //white-space:wrap;
-  text-overflow:ellipsis;
-  display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
+
+  ${ellipsisText}
+  -webkit-line-clamp: 1;
 `;
 
 const Deadline = styled.div`
@@ -490,10 +487,9 @@ const Deadline = styled.div`
   border-radius: 6px;
 `;
 export const Footer = styled.div`
-  display: flex;
-  width: 88%;
+  ${displyStyle}
   justify-content: space-between;
-  align-items: center;
+  width: 88%;
   position: absolute;
   bottom: 20px;
   svg {
@@ -501,8 +497,7 @@ export const Footer = styled.div`
   }
 `;
 export const User = styled.div`
-  display: flex;
-  align-items: center;
+  ${displyStyle}
   img {
     width: 30px;
     height: 30px;

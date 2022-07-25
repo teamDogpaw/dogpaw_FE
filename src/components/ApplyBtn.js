@@ -115,6 +115,7 @@ const style = css`
   align-items: center;
   justify-content: center;
   position: absolute;
+
   @media screen and (max-width:770px) {
     font-size:15px;
     width:150px;
@@ -142,6 +143,7 @@ const Alert = styled.div`
   right: 28px;
   bottom: 20%;
   animation: ${alertAni} 0.2s linear;
+
   @media screen and (max-width:770px){
   display:none;
   }
@@ -151,6 +153,7 @@ const Button = styled(Btn)`
   ${style}
   right: 0px;
   bottom: 0px;
+
   @media screen and (max-width:770px){
     bottom :-70px;
     //right:-30px;
@@ -160,6 +163,7 @@ const Button2 = styled(LineBtn)`
   ${style}
   right: 200px;
   bottom: 0px;
+
   @media screen and (max-width:770px){
     bottom :-70px;
     right:165px;
@@ -185,6 +189,7 @@ export const Content = styled.div`
     width: 100px;
     margin-right: 15px;
   }
+  
   @media screen and (max-width:500){
     margin:0;
     width:100px;
