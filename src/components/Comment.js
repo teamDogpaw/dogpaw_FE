@@ -29,7 +29,7 @@ const Comment = ({ data }) => {
 
   const isLogin = useRecoilValue(UserInfoAtom);
 
-  const loginUser = isLogin.nickname;
+  const loginUser = isLogin?.nickname;
   const writeUser = data.nickname;
   //console.log(writeUser, "글쓴이");
 

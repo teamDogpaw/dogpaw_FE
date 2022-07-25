@@ -16,7 +16,6 @@ import award from "../styles/icon/main/award.svg";
 
 import person from "../styles/icon/global/profile.svg";
 import help from "../styles/icon/main/help.svg";
-import ModalOpen from "../components/Modal_prev";
 import BookmarkRank from "../components/BookmarkRank";
 
 const Main = () => {
@@ -151,6 +150,7 @@ const Main = () => {
 const Wrap = styled.div`
   max-width: 1200px;
   margin: auto;
+  margin-bottom:100px;
   ul {
     display: flex;
   }
@@ -353,7 +353,7 @@ export const Content = styled.div`
 `;
 export const Hashtag = styled.div`
 
-width:90%;
+  width:85%;
   position: absolute;
   bottom: 100px;
   li {
@@ -361,8 +361,11 @@ width:90%;
     color: #ffb673;
   }
   overflow:hidden;
-  white-space:wrap;
+  //white-space:wrap;
   text-overflow:ellipsis;
+  display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
 `;
 
 const Deadline = styled.div`

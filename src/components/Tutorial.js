@@ -28,14 +28,14 @@ const Tutoral = () => {
           <img src={arrowDetail} alt="" />
         </ArrowDetail>
       </Content>
-      {/* <ArrowMode>
+      <ArrowMode>
         <p>
           밝은 테마 / 어두운 테마로 <br />
           바꿔보세요!
         </p>
         <br/>
         <img src={arrowMode} alt="" />
-      </ArrowMode> */}
+      </ArrowMode>
     </Wrap>
   );
 };
@@ -67,7 +67,7 @@ const Content = styled.div`
 
 const ArrowPost = styled.div`
   position: absolute;
-  right: 30px;
+  right: 100px;
   top: 5%;
 `;
 
