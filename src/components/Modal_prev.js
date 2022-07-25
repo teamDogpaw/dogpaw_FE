@@ -4,7 +4,11 @@ import { ReactComponent as X } from "../styles/icon/modal/close.svg";
 import { Modal, ModalBackground, ModalCloseButton } from "../styles/style";
 import SocialModal from "./SocialModal";
 
-const ModalOpen = ({ viewModal, match }) => {
+const ModalOpen = ({ 
+  viewModal,
+  isKakao,
+  searchParams
+ }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   /*  const viewModal = () => {
@@ -14,18 +18,18 @@ const ModalOpen = ({ viewModal, match }) => {
   const [modalContent, setModalContent] = useState();
 
   useEffect(() => {
-  setModalContent(<Login setModalContent={setModalContent} />);
+    if(!isKakao){
+      setModalContent(<Login setModalContent={setModalContent} />);
+    } else if (isKakao){
+      setModalContent(<SocialModal /> )
+      
+    }
   document.body.style.cssText = `position: fixed; top: 0px`;
-
     return () => {
       const scrollY = document.body.style.top;
-      document.body.style.cssText = `position: ""; top: "";`;
+      // document.body.style.cssText = `position: ""; top: "";`;
       window.scrollTo(0, parseInt(scrollY || "0") * -1);
     };
-    /*  setModalContent(<Login setModalContent={setModalContent} />);
-    const scrollY = document.body.style.top;
-    document.body.style.cssText = `position: ""; top: "";`;
-    window.scrollTo(0, parseInt(scrollY || "0") * -1); */
   }, []);
 
   return (

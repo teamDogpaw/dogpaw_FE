@@ -2,7 +2,7 @@ import { useRecoilValue } from "recoil";
 import { DarkThemeAtom } from "../atom/theme";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useMatch } from "react-router-dom";
+import { Link, useMatch, useSearchParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { alertListAtom, UserInfoAtom } from "../atom/atom";
@@ -26,13 +26,30 @@ const Header = () => {
   const detailsRef = useRef(null);
   const isLogin = localStorage.getItem("token");
 
-  const match = useMatch("/");
-  console.log(match);
+let [searchParams, setSearchParams] = useSearchParams();
+const isKakao = searchParams.get('nickname');
+
+useEffect(()=>{
+  if(isKakao){
+    const token = searchParams.get('token');
+    const retoken = searchParams.get('refreshtoken');
+    const userId = searchParams.get('userId')
+    localStorage.setItem("id", userId)
+    localStorage.setItem("token", token)
+    localStorage.setItem("retoken",retoken)
+  }
+  if(isKakao === "default"){
+    setIsModalOpen(true);
+  } else {
+    setIsModalOpen(false);
+  }
+},[])
 
   const details = detailsRef.current;
   if (details) {
     details.open = false;
   }
+
   const viewModal = () => {
     setIsModalOpen((prev) => !prev);
   };
@@ -44,18 +61,10 @@ const Header = () => {
     window.location.replace("/");
   };
 
-  useEffect(() => {
-    if (match === null) {
-      if (match.params !== null) {
-        setIsModalOpen(true);
-      }
-    }
-  }, [match]);
 
   return (
     <>
-
-      {isModalOpen ? <ModalOpen viewModal={viewModal} match={match} /> : null}
+      {isModalOpen ? <ModalOpen viewModal={viewModal} isKakao={isKakao} searchParams={searchParams}/> : null}
       <Wrap>
         <ContentWrap>
           <div
