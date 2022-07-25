@@ -28,7 +28,7 @@ const Comment = ({ data }) => {
 
   const isLogin = useRecoilValue(UserInfoAtom);
 
-  const loginUser = isLogin.nickname;
+  const loginUser = isLogin?.nickname;
   const writeUser = data.nickname;
   //console.log(writeUser, "글쓴이");
 
@@ -74,7 +74,7 @@ const Comment = ({ data }) => {
   return (
   
       <div>
-        <User>
+        <User >
           <Img src={data.profileImg || person} alt="사진" />
           <p>{data.nickname}</p>
         </User>

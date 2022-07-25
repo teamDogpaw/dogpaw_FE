@@ -49,10 +49,13 @@ const Detail = () => {
     <>
       <Wrap>
         <ArticleTop>
-          <User>
+          <User >
             <h3>{postList?.data.title}</h3>
+            <Author onClick={()=>{userStatus==="author" ? navigate(`/mypage`) : navigate(`/mypage/${author}`)}}>
             <img src={postList?.data.profileImg || person} alt="profile" />
-            <p>{author}</p>
+            {author}
+            </Author>
+          
           </User>
           <Leftarrow
             onClick={() => {
@@ -219,7 +222,7 @@ const DeleteBtn = styled(ModifyBtn)`
   }
 `;
 
-const Leftarrow = styled(Arrow)`
+export const Leftarrow = styled(Arrow)`
   position: absolute;
   top: 25px;
   left: 30px;
@@ -236,6 +239,13 @@ const ContentWrap = styled.div`
   padding-top: 10px;
   line-height: 48px;
   position: relative;
+`;
+
+const Author = styled.div`
+display: flex;
+flex-direction: column;
+margin-top: 10px;
+cursor: pointer;
 `;
 
 const Title = styled.div`
