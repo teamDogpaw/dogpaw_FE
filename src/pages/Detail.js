@@ -1,5 +1,5 @@
 import { useQueryClient } from "react-query";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Comments from "../components/Comments";
 import { useDeletePost, useGetPost } from "../hook/usePostData";
 import styled from "styled-components";

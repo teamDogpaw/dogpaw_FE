@@ -1,15 +1,13 @@
 import React, { useState, useCallback } from "react";
-import axios from "axios";
 import styled from "styled-components";
 import kakaoBTN from "../styles/icon/login/kakaoLogin.svg";
 import googleBTN from "../styles/icon/login/googleLogin.svg";
 import Register from "./Register";
 
-import {Btn} from "../styles/style";
+import { Btn } from "../styles/style";
 import { login } from "../shared/userOauth";
 
-const Login = ({setModalContent}) => {
-
+const Login = ({ setModalContent }) => {
   //아이디, 비밀번호
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -59,7 +57,7 @@ const Login = ({setModalContent}) => {
   };
 
   const KAKAO_AUTH_URL =
-    "https://kauth.kakao.com/oauth/authorize?client_id=3e848df062d2efe2be2266e171f3443c&redirect_uri=http://localhost:3000/user/kakao/login&response_type=code";
+    "https://kauth.kakao.com/oauth/authorize?client_id=3e848df062d2efe2be2266e171f3443c&redirect_uri=https://dogfaw.dasole.shop/user/kakao/login&response_type=code";
 
   const GOOGLE_AUTH_URL = "";
 
@@ -71,65 +69,65 @@ const Login = ({setModalContent}) => {
       </Title>
 
       <InputWrap>
-      <InputContent>
-        이메일
-        <LoginInput
-          text="ID"
-          type="text"
-          typeName="id"
-          onChange={onChangeId}
-          placeholder="이메일을 입력해주세요."
-        />
-        <p>
-          {email.length > 0 && (
-            <span className={`message ${isEmail ? "success" : "error"}`}>
-              {emailMessage}
-            </span>
-          )}
-        </p>
+        <InputContent>
+          이메일
+          <LoginInput
+            text="ID"
+            type="text"
+            typeName="id"
+            onChange={onChangeId}
+            placeholder="이메일을 입력해주세요."
+          />
+          <p>
+            {email.length > 0 && (
+              <span className={`message ${isEmail ? "success" : "error"}`}>
+                {emailMessage}
+              </span>
+            )}
+          </p>
         </InputContent>
         <InputContent>
-        비밀번호
-        <LoginInput
-          onChange={onChangePassword}
-          title="비밀번호"
-          typeTitle="password"
-          type="password"
-          placeholder="비밀번호를 입력해주세요."
-        />
-        <p>
-          {password.length > 0 && (
-            <span className={`message ${isPassword ? "success" : "error"}`}>
-              {passwordMessage}
-            </span>
-          )}
-        </p>
+          비밀번호
+          <LoginInput
+            onChange={onChangePassword}
+            title="비밀번호"
+            typeTitle="password"
+            type="password"
+            placeholder="비밀번호를 입력해주세요."
+          />
+          <p>
+            {password.length > 0 && (
+              <span className={`message ${isPassword ? "success" : "error"}`}>
+                {passwordMessage}
+              </span>
+            )}
+          </p>
         </InputContent>
         <LoginBtn
-        type="submit"
-        disabled={!(isEmail && isPassword && email && password)}
-        onClick={() => {
-          login(data);
-        }}
-      >
-        로그인하기
-      </LoginBtn>
+          type="submit"
+          disabled={!(isEmail && isPassword && email && password)}
+          onClick={() => {
+            login(data);
+          }}
+        >
+          로그인하기
+        </LoginBtn>
       </InputWrap>
 
       <SocialWrap>
-      <a href={KAKAO_AUTH_URL}>
-        <IMG src={kakaoBTN} alt="카카오" />
-      </a>
-      <a href={GOOGLE_AUTH_URL}>
-        <IMG src={googleBTN} alt="구글" />
-      </a>
+        <a href={KAKAO_AUTH_URL}>
+          <IMG src={kakaoBTN} alt="카카오" />
+        </a>
+        <a href={GOOGLE_AUTH_URL}>
+          <IMG src={googleBTN} alt="구글" />
+        </a>
       </SocialWrap>
-     
+
       <Redirect>
         아직 계정이 없으신가요?
         <span
           onClick={() => {
-            setModalContent(<Register setModalContent={setModalContent}/>);
+            setModalContent(<Register setModalContent={setModalContent} />);
           }}
         >
           회원가입
@@ -145,62 +143,60 @@ const IMG = styled.img`
   height: 48px;
 `;
 
-
 export const Wrap = styled.div`
-width: 384px;
-margin: 24px 72px 8px;
+  width: 384px;
+  margin: 24px 72px 8px;
 
-@media screen and (max-width:600px){
-  width: 100%;
-margin: 0px auto ;
-    }
+  @media screen and (max-width: 600px) {
+    width: 100%;
+    margin: 0px auto;
+  }
 
-@media screen and (max-width:375px){
-  width: 100%;
-margin: 0px auto ;
-    }
+  @media screen and (max-width: 375px) {
+    width: 100%;
+    margin: 0px auto;
+  }
 `;
 
 export const Title = styled.div`
-font-size: 32px;
-font-weight: bold;
-text-align: center;
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
 
-span{
-  font-size: 16px;
-  font-weight: normal;
-}
+  span {
+    font-size: 16px;
+    font-weight: normal;
+  }
 `;
 
 export const InputWrap = styled.div`
-margin-top: 40px;
-display: flex;
-flex-direction: column;
-gap: 24px;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 `;
 
 export const InputContent = styled.div`
-display: flex;
-flex-direction: column;
-gap: 6px;
-width: 100%;
-span{
-  font-size: 14px;
-  color:${(props)=>props.theme.keyColor}
-
-}
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  span {
+    font-size: 14px;
+    color: ${(props) => props.theme.keyColor};
+  }
 `;
 
 export const LoginBtn = styled(Btn)`
-cursor: pointer;
-width: 100%;
+  cursor: pointer;
+  width: 100%;
 `;
 
 const SocialWrap = styled.div`
-display: flex;
-gap: 16px;
-justify-content: center;
-margin: 16px 0px 0px;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin: 16px 0px 0px;
 `;
 
 export const LoginInput = styled.input`
@@ -213,29 +209,25 @@ export const LoginInput = styled.input`
   ::placeholder {
     color: #9f9f9f;
   }
-  :focus{
+  :focus {
     outline: none;
   }
-
 `;
 
 export const Redirect = styled.div`
-margin-top: 32px;
-color:${(props) => props.theme.textColor_sub};
-font-size: 0.75rem;
-text-align: center;
+  margin-top: 32px;
+  color: ${(props) => props.theme.textColor_sub};
+  font-size: 0.75rem;
+  text-align: center;
 
-span{
-  font-weight: bold;
-  color:#9f9f9f;
-  cursor: pointer;
-  :hover{
-    color:${(props) => props.theme.textColor};
+  span {
+    font-weight: bold;
+    color: #9f9f9f;
+    cursor: pointer;
+    :hover {
+      color: ${(props) => props.theme.textColor};
+    }
   }
-  
-}
-
 `;
-
 
 export default Login;

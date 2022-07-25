@@ -1,8 +1,8 @@
 import { useRecoilValue } from "recoil";
 import { DarkThemeAtom } from "../atom/theme";
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import styled, { css } from "styled-components";
+import { Link, useMatch } from "react-router-dom";
+import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { UserInfoAtom } from "../atom/atom";
 import ModalOpen from "./Modal_prev";
@@ -21,15 +21,16 @@ const Header = () => {
   const detailsRef = useRef(null);
   const isLogin = localStorage.getItem("token");
 
+  const match = useMatch("/");
+  console.log(match);
+
   const details = detailsRef.current;
-
-    if (details) {
-      details.open = false;
-    }
-    const viewModal = () => {
-      setIsModalOpen((prev) => !prev)
-    }
-
+  if (details) {
+    details.open = false;
+  }
+  const viewModal = () => {
+    setIsModalOpen((prev) => !prev);
+  };
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -48,54 +49,64 @@ const Header = () => {
     // }
   };
 
+  useEffect(() => {
+    if (match === null) {
+      if (match.params !== null) {
+        setIsModalOpen(true);
+      }
+    }
+  }, []);
+
   return (
     <>
-  
-  {isModalOpen ? <ModalOpen viewModal={viewModal}/> : null}
+      {isModalOpen ? <ModalOpen viewModal={viewModal} match={match} /> : null}
 
-    <Wrap>
-      <ContentWrap>
-        <div onClick={() => {navigate("/")}}>
-        {isDark? <Img src={logodark} alt="" /> :<Img src={logolight} alt="" />}
-        </div>
-        <User>
-     
-          {!isLogin ? (
-            <Contain>
-              
-              <span onClick={viewModal}>로그인 </span> 
-             
-           
-            </Contain>
-            
-          ) : (
-            <>
-            <StyledLink to="/write"><img src={write} alt="" />게시글 작성 </StyledLink>
-              {/* <StyledLink to="/write">게시글 작성</StyledLink> */}
-              <Details ref={detailsRef}>
-                <Summary>
-                  <Profile src={userInfo?.profileImg || person} alt="" />
-                  <img src={arrowdown} alt="" style={{ width: "15px" }} />
-                </Summary>
-                <Select>
-                  <Option>
-                    <p>
-                      <StyledLink to="/mypage">마이페이지</StyledLink>
-                    </p>
-                  </Option>
-                  <Option>
-                    <p onClick={logout}>로그아웃</p>
-                  </Option>
-                </Select>
-              </Details>
-            </>
-          )}
-        </User>
-        
-      </ContentWrap>
-      
-    </Wrap>
-    
+      <Wrap>
+        <ContentWrap>
+          <div
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            {isDark ? (
+              <Img src={logodark} alt="" />
+            ) : (
+              <Img src={logolight} alt="" />
+            )}
+          </div>
+          <User>
+            {!isLogin ? (
+              <Contain>
+                <span onClick={viewModal}>로그인 </span>
+              </Contain>
+            ) : (
+              <>
+                <StyledLink to="/write">
+                  <img src={write} alt="" />
+                  게시글 작성{" "}
+                </StyledLink>
+                {/* <StyledLink to="/write">게시글 작성</StyledLink> */}
+                <Details ref={detailsRef}>
+                  <Summary>
+                    <Profile src={userInfo?.profileImg || person} alt="" />
+                    <img src={arrowdown} alt="" style={{ width: "15px" }} />
+                  </Summary>
+                  <Select>
+                    <Option>
+                      <p>
+                        <StyledLink to="/mypage">마이페이지</StyledLink>
+                      </p>
+                    </Option>
+                    <Option>
+                      <p onClick={logout}>로그아웃</p>
+                    </Option>
+                  </Select>
+                </Details>
+              </>
+            )}
+          </User>
+        </ContentWrap>
+      </Wrap>
     </>
   );
 };
@@ -104,13 +115,12 @@ const Wrap = styled.div`
   background-color: ${(props) => props.theme.BackGroundColor};
   width: 100%;
   height: 90px;
-  margin-bottom:10px;
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
   p {
     font-size: 16px;
   }
-
 `;
 
 const Img = styled.img`
@@ -136,14 +146,14 @@ const User = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width:180px;
+  width: 180px;
 `;
 
 const Profile = styled.img`
-width:30px;
-height:30px;
-border-radius:50%;
-margin-right:10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
 `;
 
 const Details = styled.details`
@@ -170,8 +180,6 @@ const Select = styled.ul`
   border: ${(props) => props.theme.border};
   background-color: ${(props) => props.theme.inputBoxBackground};
   box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.1);
-  
-
 
   button {
     border: none;
@@ -183,12 +191,12 @@ const Select = styled.ul`
 `;
 
 const StyledLink = styled(Link)`
-img {
-padding-right:5px;
-}
+  img {
+    padding-right: 5px;
+  }
   text-decoration: none;
   color: #777777;
-  font-weight:500;
+  font-weight: 500;
 `;
 
 const Option = styled.li`

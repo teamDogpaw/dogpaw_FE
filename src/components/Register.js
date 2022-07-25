@@ -1,15 +1,20 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
-import arrow from "../styles/icon/global/arrowDown.svg";
-import StackSelector from "./StackSeletor"
-import { useSetRecoilState } from "recoil";
-import { modalChange } from "../atom/atom";
-import Login, { InputContent, InputWrap, LoginBtn, LoginInput, Redirect, Title, Wrap } from "./Login";
+import StackSelector from "./StackSeletor";
+import Login, {
+  InputContent,
+  InputWrap,
+  LoginBtn,
+  LoginInput,
+  Redirect,
+  Title,
+  Wrap,
+} from "./Login";
 import { Btn } from "../styles/style";
 import { nickCheck, register } from "../shared/userOauth";
 
-const Register = ({setModalContent}) => {
-  const setOnModal = useSetRecoilState(modalChange);
+const Register = ({ setModalContent }) => {
+  //const setOnModal = useSetRecoilState(modalChange);
 
   //닉네임, 이메일, 비밀번호, 비밀번호 확인, 스택
   const [nickName, setNickName] = useState("");
@@ -90,8 +95,7 @@ const Register = ({setModalContent}) => {
     [password]
   );
 
-
-  const nickData = {nickname: nickName};
+  const nickData = { nickname: nickName };
 
   let data = {
     nickname: nickName,
@@ -107,121 +111,119 @@ const Register = ({setModalContent}) => {
         <span> 회원가입</span>
       </Title>
       <InputWrap>
-      <InputContent>
+        <InputContent>
           이메일
-        <LoginInput
-          text="이메일"
-          type="email"
-          typeName="email"
-          onChange={onChangeEmail}
-          placeholder="이메일을 입력해주세요."
-        />
-        <p>
-          {email.length > 0 && (
-            <span className={`message ${isEmail ? "success" : "error"}`}>
-              {emailMessage}
-            </span>
-          )}
-        </p>
+          <LoginInput
+            text="이메일"
+            type="email"
+            typeName="email"
+            onChange={onChangeEmail}
+            placeholder="이메일을 입력해주세요."
+          />
+          <p>
+            {email.length > 0 && (
+              <span className={`message ${isEmail ? "success" : "error"}`}>
+                {emailMessage}
+              </span>
+            )}
+          </p>
         </InputContent>
         <InputContent>
-        닉네임
-        <NicknameWrap>
-        <LoginInput
-          text="ID"
-          type="text"
-          typeName="id"
-          onChange={onChangeId}
-          placeholder="닉네임을 입력해주세요."
-        />
-        <Btn
-          disabled={nickName.length < 3 || nickName.length > 10}
+          닉네임
+          <NicknameWrap>
+            <LoginInput
+              text="ID"
+              type="text"
+              typeName="id"
+              onChange={onChangeId}
+              placeholder="닉네임을 입력해주세요."
+            />
+            <Btn
+              disabled={nickName.length < 3 || nickName.length > 10}
+              onClick={() => {
+                nickCheck(nickData);
+              }}
+            >
+              중복확인
+            </Btn>
+          </NicknameWrap>
+          <p>
+            {nickName.length > 0 && (
+              <span className={`message ${isNick ? "success" : "error"}`}>
+                {nickMessage}
+              </span>
+            )}
+          </p>
+        </InputContent>
+        <InputContent>
+          비밀번호
+          <LoginInput
+            onChange={onChangePassword}
+            title="비밀번호"
+            typeTitle="password"
+            type="password"
+            placeholder="비밀번호를 입력해주세요."
+          />
+          <p>
+            {password.length > 0 && (
+              <span className={`message ${isPassword ? "success" : "error"}`}>
+                {passwordMessage}
+              </span>
+            )}
+          </p>
+        </InputContent>
+        <InputContent>
+          비밀번호 확인
+          <LoginInput
+            onChange={onChangePasswordConfirm}
+            title="비밀번호 확인"
+            typeTitle="passwordConfirm"
+            type="password"
+            placeholder="비밀번호를 다시 한번 입력해주세요."
+          />
+          <p>
+            {passwordConfirm.length > 0 && (
+              <span
+                className={`message ${isPasswordConfirm ? "success" : "error"}`}
+              >
+                {passwordConfirmMessage}
+              </span>
+            )}
+          </p>
+        </InputContent>
+        <InputContent>
+          기술 스택
+          <StackSelector setRegisterData={setStack} />
+        </InputContent>
+        <LoginBtn
+          type="submit"
+          disabled={
+            !(
+              isNick &&
+              isEmail &&
+              isPassword &&
+              isPasswordConfirm &&
+              nickName &&
+              email &&
+              password &&
+              passwordConfirm &&
+              stack.length > 0
+            )
+          }
           onClick={() => {
-            nickCheck(nickData);
+            register(data, (setModalContent = { setModalContent }));
+            //setModalContent(<Login setModalContent={setModalContent}/>);
           }}
         >
-          중복확인
-        </Btn>
-        </NicknameWrap>
-        
-        <p>
-          {nickName.length > 0 && (
-            <span className={`message ${isNick ? "success" : "error"}`}>
-              {nickMessage}
-            </span>
-          )}
-        </p>
-        </InputContent>
-        <InputContent>
-        비밀번호
-        <LoginInput
-          onChange={onChangePassword}
-          title="비밀번호"
-          typeTitle="password"
-          type="password"
-          placeholder="비밀번호를 입력해주세요."
-        />
-        <p>
-          {password.length > 0 && (
-            <span className={`message ${isPassword ? "success" : "error"}`}>
-              {passwordMessage}
-            </span>
-          )}
-        </p>
-        </InputContent>
-        <InputContent>
-        비밀번호 확인
-        <LoginInput
-          onChange={onChangePasswordConfirm}
-          title="비밀번호 확인"
-          typeTitle="passwordConfirm"
-          type="password"
-          placeholder="비밀번호를 다시 한번 입력해주세요."
-        />
-        <p>
-          {passwordConfirm.length > 0 && (
-            <span
-              className={`message ${isPasswordConfirm ? "success" : "error"}`}
-            >
-              {passwordConfirmMessage}
-            </span>
-          )}
-        </p>
-        </InputContent>
-        <InputContent>
-      기술 스택
-      <StackSelector setRegisterData={setStack}/>
-      </InputContent>
-      <LoginBtn
-        type="submit"
-        disabled={
-          !(
-            isNick &&
-            isEmail &&
-            isPassword &&
-            isPasswordConfirm &&
-            nickName &&
-            email &&
-            password &&
-            passwordConfirm &&
-            stack.length > 0
-          )
-        }
-        onClick={ () => {
-          register(data);
-          setModalContent(<Login setModalContent={setModalContent}/>);
-        }}
-      >
-        회원가입하기
-      </LoginBtn>
+          회원가입하기
+        </LoginBtn>
       </InputWrap>
 
-      
       <Redirect>
         계정이 있으셨나요?
         <span
           onClick={() => {
-            setModalContent(<Login setModalContent={setModalContent}/>);
+            setModalContent(<Login setModalContent={setModalContent} />);
           }}
         >
           로그인
@@ -232,11 +234,10 @@ const Register = ({setModalContent}) => {
   );
 };
 
-
 const NicknameWrap = styled.div`
-width: 100%;
-display: flex;
-gap: 12px;
+  width: 100%;
+  display: flex;
+  gap: 12px;
 `;
 
 export default Register;

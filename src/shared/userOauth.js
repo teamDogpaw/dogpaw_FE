@@ -1,4 +1,5 @@
 import instance from "./axios";
+import Login from "../components/Login";
 
 let debounce = null;
 
@@ -12,6 +13,7 @@ export const login = (props) => {
     instance
       .post("/user/login", props)
       .then((res) => {
+        console.log(res);
         const accessToken = res.data.data.token.accessToken;
         const refreshToken = res.data.data.token.refreshToken;
         const id = res.data.data.userId;
@@ -24,15 +26,16 @@ export const login = (props) => {
         }
       })
       .catch((err) => {
+        console.log(err);
         window.alert("로그인 실패 :(");
       });
   }, 500);
 };
 
 // 회원가입 정보
-export const register = async (props) => {
+export const register = (props, setModalContent = { setModalContent }) => {
   if (debounce) {
-    await clearTimeout(debounce);
+    clearTimeout(debounce);
   }
 
   debounce = setTimeout(async () => {
@@ -40,6 +43,7 @@ export const register = async (props) => {
       .post("/user/signup", props)
       .then((res) => {
         window.alert("회원 가입 성공 :)");
+        window.location.replace(<Login setModalContent={setModalContent} />);
       })
       .catch((err) => {
         window.alert("회원 가입 실패 :(");
@@ -55,11 +59,11 @@ export const nickCheck = (props) => {
   debounce = setTimeout(async () => {
     await instance
       .post("/user/nickname", props)
-      .then((res) => window.alert("중복되지 않은 닉네임입니다. :)"))
+      .then((res) => {
+        window.alert("중복되지 않은 닉네임입니다. :)");
+      })
       .catch((err) => {
         window.alert("중복된 닉네임입니다. :(");
       });
   }, 500);
 };
-
-

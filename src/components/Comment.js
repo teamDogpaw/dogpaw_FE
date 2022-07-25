@@ -22,6 +22,7 @@ const Comment = ({ data }) => {
   const params = useParams();
   const id = params.postId;
   const replyId = data.commentId;
+
   const comment_ref = useRef("");
   const replyRef = useRef("");
   const [isEdit, setIsEdit] = useState(false);

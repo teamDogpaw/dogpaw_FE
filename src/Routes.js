@@ -9,15 +9,13 @@ import { Route, Routes } from "react-router-dom";
 import { lazy } from "react";
 import UserPage from "./pages/UserPage";
 
-
-const Detail = lazy(()=> import("./pages/Detail"));
-const Main = lazy(()=> import("./pages/Main"));
-const MyPage = lazy(()=> import("./pages/Mypage"));
-const Write = lazy(()=> import("./pages/Write"));
-const Login = lazy(()=> import("./components/Login"));
-const Register = lazy(()=> import("./components/Register"));
-const KakaoLoginRedirect = lazy(()=> import ("./shared/kakaoLoginRedirect"))
-
+const Detail = lazy(() => import("./pages/Detail"));
+const Main = lazy(() => import("./pages/Main"));
+const MyPage = lazy(() => import("./pages/Mypage"));
+const Write = lazy(() => import("./pages/Write"));
+const Login = lazy(() => import("./components/Login"));
+const Register = lazy(() => import("./components/Register"));
+const KakaoLoginRedirect = lazy(() => import("./shared/kakaoLoginRedirect"));
 
 const Router = () => {
   return (
@@ -31,7 +29,7 @@ const Router = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/user/kakao/login" element={<KakaoLoginRedirect />} />
       <Route path="/mypage/:userNickname" element={<UserPage />}/>
-
+      <Route path="/" element={<KakaoLoginRedirect />} />
     </Routes>
   );
 };
