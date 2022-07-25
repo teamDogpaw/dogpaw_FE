@@ -42,16 +42,6 @@ const Header = () => {
     localStorage.removeItem("retoken");
     localStorage.removeItem("id");
     window.location.replace("/");
-    // const data = {
-    //   userId: localStorage.getItem("id"),
-    // };
-    // try {
-    //   await axios
-    //     .post("http://13.125.213.81/user/signup/addInfo", data)
-    //     .then((res) => console.log(res, "로그아웃"));
-    // } catch (err) {
-    //   console.log(err);
-    // }
   };
 
   useEffect(() => {
@@ -60,7 +50,7 @@ const Header = () => {
         setIsModalOpen(true);
       }
     }
-  }, []);
+  }, [match]);
 
   return (
     <>
@@ -156,6 +146,7 @@ const Wrap = styled.div`
   summary::marker {
     font-size: 0;
   }
+
 `;
 
 const Img = styled.img`

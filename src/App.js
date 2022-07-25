@@ -1,3 +1,4 @@
+import './App.css';
 import React, { Suspense } from "react";
 import { GlobalStyle } from "./styles/style";
 import Router from "./Routes";
