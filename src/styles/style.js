@@ -148,7 +148,7 @@ export const ListStack = styled.span`
 
 export const MyStack = styled.div`
 background-color: ${(props) => props.theme.stackBackground};
-padding: 8px 12px;
+padding: 12px 12px;
 border-radius: 30px;
 margin-right: 16px;
 color: ${(props) => props.theme.stackColor};
@@ -182,6 +182,7 @@ border-radius: 8px;
 font-size: 16px;
 background-color: ${(props) => props.theme.inputBoxBackground};
 list-style: none;
+position: relative;
 
 &.Login{
   line-height: normal;
