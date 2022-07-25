@@ -32,7 +32,7 @@ const Main = () => {
   const { ref, inView } = useInView();
   const [isFilter, setIsFilter] = useState(false);
   
-  const { data: rankList } = useGetBookmarkRank();
+  
 
   const userMe = user?.nickname;
   const isLogin = localStorage.getItem("token");
