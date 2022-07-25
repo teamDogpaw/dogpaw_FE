@@ -137,6 +137,9 @@ const Alert = styled.div`
   right: 28px;
   bottom: 20%;
   animation: ${alertAni} 0.2s linear;
+  @media screen and (max-width:770px){
+  display:none;
+  }
 `;
 
 const Button = styled(Btn)`

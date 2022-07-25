@@ -49,24 +49,29 @@ const Detail = () => {
     <>
       <Wrap>
         <ArticleTop>
+          <LinkBtn>
+            <ArrowBtn
+              onClick={() => {
+                navigate(-1);
+              }}
+            />
+            <div>
+              {userStatus !== "author" &&
+                (postList?.data.bookMarkStatus ? (
+                  <BookmarkFill onClick={bookMark} />
+                ) : (
+                  <BookmarkIcon onClick={bookMark} />
+                ))}
+            </div>
+          </LinkBtn>
           <User>
             <h3>{postList?.data.title}</h3>
-            <img src={postList?.data.profileImg || person} alt="profile" />
-            <p>{author}</p>
+            <div>
+              <img src={postList?.data.profileImg || person} alt="profile" />
+              <p>{author}</p>
+            </div>
           </User>
-          <Leftarrow
-            onClick={() => {
-              navigate(-1);
-            }}
-          />
-          <Mark>
-            {userStatus !== "author" &&
-              (postList?.data.bookMarkStatus ? (
-                <BookmarkFill onClick={bookMark} />
-              ) : (
-                <BookmarkIcon onClick={bookMark} />
-              ))}
-          </Mark>
+
           <Userbtn>
             {userStatus === "author" && (
               <>
@@ -94,9 +99,10 @@ const Detail = () => {
               </Title>
               <Title>
                 <p>구인스택</p>
+
                 <Stack>
                   {postList?.data.stacks?.map((lang, idx) => (
-                    <span key={idx}> #{lang}</span>
+                    <span key={idx}>#{lang}</span>
                   ))}
                 </Stack>
               </Title>
@@ -124,9 +130,9 @@ const Detail = () => {
             <h3>프로젝트 소개</h3>
           </div>
           <pre>{postList?.data.content}</pre>
-          <div>
+          <Paw>
             <img src={paw} alt="" />
-          </div>
+          </Paw>
         </Article>
         <Comments />
       </Wrap>
@@ -168,18 +174,59 @@ const ArticleTop = styled.div`
 `;
 
 const User = styled.div`
+position:relative;
   height: 153px;
   margin-bottom: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  line-height: 50px;
+  line-height: 30px;
 
+  div{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+   p{
+    padding-top:5px;
+   } 
+  }
+
+  h3{
+    padding-bottom:15px;
+  }
   img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
+  }
+
+  @media screen and (max-width:770px){
+    height:120px;
+    h3{
+      //padding-bottom: 30px;
+    }
+    div{
+      /* display:flex;
+      align-items:center; */
+      /* flex-direction:row;
+      position:absolute;
+      bottom:0;
+      left:0; */
+    }
+
+    /* img{
+      margin-right:10px;
+    } */
+  }
+`;
+
+const ArrowBtn = styled(Arrow)`
+  stroke: ${(props) => props.theme.toggleFontColor};
+  @media screen and (max-width:786px){
+    width:12px;
   }
 `;
 
@@ -197,6 +244,10 @@ const Userbtn = styled.div`
   img {
     margin: 0 5px;
   }
+
+  @media screen and (max-width:786px) {
+    top:115px;
+  }
 `;
 
 const ModifyBtn = styled.button`
@@ -210,25 +261,27 @@ const ModifyBtn = styled.button`
   cursor: pointer;
 `;
 
-const DeleteBtn = styled(ModifyBtn)`
+export const DeleteBtn = styled(ModifyBtn)`
   border: 1px solid #ff0000;
   margin-left: 10px;
+  
 
   span {
     color: #ff0000;
   }
 `;
 
-const Leftarrow = styled(Arrow)`
-  position: absolute;
-  top: 25px;
-  left: 30px;
-`;
+const LinkBtn = styled.div`
+  display: flex;
+  
+  justify-content: space-between;
+  padding-bottom: 10px;
 
-const Mark = styled.div`
-  position: absolute;
-  top: 25px;
-  right: 30px;
+  @media screen and(max-width:768){
+position:absolute;
+  right:0;
+  bottom:0;
+  }
 `;
 
 const ContentWrap = styled.div`
@@ -279,6 +332,17 @@ const Article = styled.div`
   pre {
     white-space: pre-wrap;
   }
+`;
+
+const Paw = styled.div`
+  img {
+    width: 80px;
+  }
+  @media screen and (max-width:770px){
+    img {
+      display:none;
+  }
+}
 `;
 
 export default Detail;

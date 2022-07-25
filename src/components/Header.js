@@ -1,19 +1,24 @@
 import { useRecoilValue } from "recoil";
 import { DarkThemeAtom } from "../atom/theme";
+
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useMatch } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { UserInfoAtom } from "../atom/atom";
+import { alertListAtom, UserInfoAtom } from "../atom/atom";
 import ModalOpen from "./Modal_prev";
+import Sse from "./Sse";
 
 import logolight from "../styles/logo/logoLight.svg";
 import logodark from "../styles/logo/logoDark.svg";
 import person from "../styles/icon/global/profile.svg";
 import arrowdown from "../styles/icon/global/arrowDown.svg";
 import write from "../styles/icon/detail/edit.svg";
+import bell from "../styles/icon/header/bell.svg";
+import newBell from "../styles/icon/header/newBell.svg";
 
 const Header = () => {
+  const alert = useRecoilValue(alertListAtom);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const isDark = useRecoilValue(DarkThemeAtom);
@@ -59,8 +64,8 @@ const Header = () => {
 
   return (
     <>
-      {isModalOpen ? <ModalOpen viewModal={viewModal} match={match} /> : null}
 
+      {isModalOpen ? <ModalOpen viewModal={viewModal} match={match} /> : null}
       <Wrap>
         <ContentWrap>
           <div
@@ -85,17 +90,36 @@ const Header = () => {
                   <img src={write} alt="" />
                   게시글 작성{" "}
                 </StyledLink>
-                {/* <StyledLink to="/write">게시글 작성</StyledLink> */}
+                <Details>
+                  <MessageList>
+                    
+                    {alert?.length === 0 ? (
+                      <img src={bell} alt="" />
+                    ) : (
+                      <img src={newBell} alt="" />
+                    )}
+                  </MessageList>
+                  <Message>
+                    <div>
+                      <h4>나의 알림</h4>
+                    </div>
+                    
+                    <li>
+                      <Sse />
+                    </li>
+                  </Message>
+                </Details>
                 <Details ref={detailsRef}>
                   <Summary>
                     <Profile src={userInfo?.profileImg || person} alt="" />
                     <img src={arrowdown} alt="" style={{ width: "15px" }} />
                   </Summary>
                   <Select>
+                    <Option2>
+                      <p onClick={() => navigate("/write")}>게시글 작성</p>
+                    </Option2>
                     <Option>
-                      <p>
-                        <StyledLink to="/mypage">마이페이지</StyledLink>
-                      </p>
+                      <p onClick={() => navigate("/mypage")}>마이페이지</p>
                     </Option>
                     <Option>
                       <p onClick={logout}>로그아웃</p>
@@ -111,21 +135,36 @@ const Header = () => {
   );
 };
 
+const summaryStyle = css`
+  border-radius: 8px;
+  position: absolute;
+  border: ${(props) => props.theme.border};
+  background-color: ${(props) => props.theme.inputBoxBackground};
+  box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.1);
+`;
+
 const Wrap = styled.div`
   background-color: ${(props) => props.theme.BackGroundColor};
   width: 100%;
-  height: 90px;
+  height: 80px;
   margin-bottom: 10px;
   display: flex;
   align-items: center;
   p {
     font-size: 16px;
   }
+  summary::marker {
+    font-size: 0;
+  }
 `;
 
 const Img = styled.img`
   width: 167px;
   height: 46px;
+
+  @media screen and (max-width: 786px){
+    width:130px;
+  }
 `;
 
 const ContentWrap = styled.div`
@@ -135,51 +174,70 @@ const ContentWrap = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: auto;
+
+  @media (max-width: 770px) {
+    margin: 0px 20px;
+  }
 `;
 
 const Contain = styled.div`
-  position: relative;
+  //position: relative;
   display: flex;
+  justify-content: flex-end;
+  width: 100%;
 `;
 
 const User = styled.div`
   display: flex;
   align-items: center;
+  text-align: center;
   justify-content: space-between;
-  width: 180px;
+  width: 250px;
+
+  @media screen and (max-width: 500px) {
+    width: 100px;
+  }
 `;
 
 const Profile = styled.img`
-  width: 30px;
-  height: 30px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   margin-right: 10px;
 `;
 
 const Details = styled.details`
   position: relative;
+  cursor: pointer;
 `;
 
 const Summary = styled.summary`
   cursor: pointer;
   list-style: none;
+
   img {
-    width: 48px;
-    height: 48px;
+    width: 38px;
+    height: 38px;
+  }
+
+  @media screen and (max-width: 786px){
+    img {
+      width: 34px;
+      height: 34px;
+    }
   }
 `;
 
 const Select = styled.ul`
+  ${summaryStyle}
+  right: 0;
   width: 100px;
   height: 80px;
   z-index: 10;
-  border-radius: 8px;
-  position: absolute;
-  right: 0;
 
-  border: ${(props) => props.theme.border};
-  background-color: ${(props) => props.theme.inputBoxBackground};
-  box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.1);
+  @media screen and (max-width: 500px) {
+    height: 120px;
+  }
 
   button {
     border: none;
@@ -197,6 +255,10 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   color: #777777;
   font-weight: 500;
+
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
 `;
 
 const Option = styled.li`
@@ -206,6 +268,40 @@ const Option = styled.li`
   align-items: center;
   padding-top: 13px;
   padding-bottom: 10px;
+`;
+
+const Option2 = styled(Option)`
+  @media screen and (min-width: 501px) {
+    display: none;
+  }
+`;
+
+const Message = styled.ul`
+  ${summaryStyle}
+  right:0;
+  width: 350px;
+  padding: 16px;
+  z-index: 99;
+
+
+  h4 {
+    margin-bottom: 10px;
+    display:flex;
+    justify-content:flex-start;
+  }
+
+  li {
+    padding: 16px 0;
+  }
+
+@media screen and (max-width:500px) {
+ right:-60px;
+ width:250px;
+}
+`;
+
+const MessageList = styled.summary`
+
 `;
 
 export default Header;

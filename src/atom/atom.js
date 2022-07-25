@@ -11,5 +11,9 @@ export const modalChange = atom({
   default: <Login />,
 });
 
+export const alertListAtom = atom({
+  key:'alertList',
+  default:[]
+})
 
 

@@ -10,12 +10,16 @@ const Loading = () => {
 };
 
 const Wrap = styled.div`
-height:100%;
+height:100vh;
 width:100%;
 background-color:${(props)=>props.theme.backgroundColor};
 display:flex;
 justify-content:center;
 align-items:center;
+
+img{
+  width:50%;
+}
 
 `;
 
