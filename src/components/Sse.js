@@ -134,7 +134,6 @@ const List = styled.li`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  //border:1px solid black;
 `;
 
 const AllDelete = styled.div`

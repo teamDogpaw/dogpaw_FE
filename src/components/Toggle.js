@@ -96,7 +96,7 @@ cursor: pointer;
   display: flex;
   align-items: center;
 
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 786px) {
     width: 90px;
     padding: 10px 12px;
   }
