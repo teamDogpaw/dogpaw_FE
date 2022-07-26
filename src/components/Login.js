@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import kakaoBTN from "../styles/icon/login/kakaoLogin.svg";
-import googleBTN from "../styles/icon/login/googleLogin.svg";
 import Register from "./Register";
+//import googleBTN from "../styles/icon/login/googleLogin.svg";
 
 import { Btn } from "../styles/style";
 import { login } from "../shared/userOauth";
@@ -59,7 +59,7 @@ const Login = ({ setModalContent }) => {
   const KAKAO_AUTH_URL =
     "https://kauth.kakao.com/oauth/authorize?client_id=3e848df062d2efe2be2266e171f3443c&redirect_uri=https://dogfaw.dasole.shop/user/kakao/login&response_type=code";
 
-  const GOOGLE_AUTH_URL = "";
+  //const GOOGLE_AUTH_URL = "";
 
   return (
     <Wrap>
@@ -72,7 +72,7 @@ const Login = ({ setModalContent }) => {
         <InputContent>
           이메일
           <LoginInput
-             autocomplete="email"
+            autocomplete="email"
             text="ID"
             type="email"
             typeName="id"
@@ -119,9 +119,9 @@ const Login = ({ setModalContent }) => {
         <a href={KAKAO_AUTH_URL}>
           <IMG src={kakaoBTN} alt="카카오" />
         </a>
-        <a href={GOOGLE_AUTH_URL}>
+        {/* <a href={GOOGLE_AUTH_URL}>
           <IMG src={googleBTN} alt="구글" />
-        </a>
+        </a> */}
       </SocialWrap>
 
       <Redirect>
@@ -203,8 +203,8 @@ const SocialWrap = styled.div`
 export const LoginInput = styled.input`
   width: 100%;
   height: 44px;
-  background-color: ${(props)=>props.theme.divBackGroundColor};
-  border: ${(props)=>props.theme.border};
+  background-color: ${(props) => props.theme.divBackGroundColor};
+  border: ${(props) => props.theme.border};
   border-radius: 12px;
   padding: 12px;
   ::placeholder {
@@ -217,10 +217,8 @@ export const LoginInput = styled.input`
   &:-webkit-autofill:hover,
   &:-webkit-autofill:focus,
   &:-webkit-autofill:active {
-    background-color: ${(props)=>props.theme.divBackGroundColor};
+    background-color: ${(props) => props.theme.divBackGroundColor};
   } */
- 
-  
 `;
 
 export const Redirect = styled.div`
