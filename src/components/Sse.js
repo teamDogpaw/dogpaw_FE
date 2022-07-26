@@ -46,11 +46,11 @@ const Sse = () => {
       });
 
       sse.addEventListener("open", (e) => {
-        console.log(e);
+        //console.log(e);
       });
 
       sse.addEventListener("error", (e) => {
-        console.log("에러", e);
+        //console.log("에러", e);
       });
     }
   }, [token, setAlert,EventSource]);
