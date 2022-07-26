@@ -1,5 +1,0 @@
-const Modal = () =>{
-    return (
-        null
-    )
-}

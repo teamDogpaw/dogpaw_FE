@@ -32,7 +32,7 @@ instance.interceptors.response.use(
         userId,
       };
       if (refreshToken) {
-        console.log(refreshToken);
+        console.log(refreshToken); 
         const { data } = await checkToken(tokens);
         console.log(data);
         const access = data.data.accessToken;
@@ -55,7 +55,7 @@ instance.interceptors.response.use(
 );
 
 const checkToken = async ({ accessToken, refreshToken, userId }) => {
-  const response = await axios.post("http://15.164.231.83/user/reissue", {
+  const response = await axios.post(`${baseURL}/user/reissue`, {
     accessToken,
     refreshToken,
     userId,
