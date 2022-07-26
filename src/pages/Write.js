@@ -213,15 +213,15 @@ font-size: 16px;
    width: 100%;
    padding: 12px;
    height: 300px;
+   font-size: 14px;
   }
 
 `;
 
 const Publish = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 80px;
-  gap:26px;
+position: absolute;
+right: 32px;
+margin-bottom: 200px;
 `;
 
 const Leftarrow = styled(Arrow)`

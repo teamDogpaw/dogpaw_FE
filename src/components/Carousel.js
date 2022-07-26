@@ -7,6 +7,7 @@ import banner from "../styles/images/main_banner02.png";
 import banner_gift from "../styles/images/main_banner.png";
 import bannerMobile from "../styles/images/mobile/main_mo01.png";
 import bannerMobileGift from "../styles/images/mobile/main_mo02.png";
+import { useEffect, useState } from "react";
 
 const Carousel = () => {
   const settings = {
@@ -21,14 +22,36 @@ const Carousel = () => {
     pauseOnHover: true,
   };
 
+  const [windowSize, setWindowSize] = useState({
+    width: undefined,
+    height: undefined
+  });
+  const [isMobile, setIsMobile] = useState();
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    }
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    if (windowSize.width < 600) {
+      setIsMobile(true);
+    } else if (windowSize.width >= 600) {
+      setIsMobile(false);
+    }
+    return () => window.removeEventListener('resize', handleResize)
+  }, [windowSize.width])
   return (
     <Wrap>
       <Slider {...settings}>
         <div>
-          <img src={banner} alt="" />
+          <img src={isMobile ? bannerMobile   : banner} alt="" />
         </div>
         <div>
-          <img src={banner_gift} alt="" />
+          <img src={isMobile ?  bannerMobileGift : banner_gift} alt="" />
         </div>
       </Slider>
     </Wrap>
@@ -61,6 +84,8 @@ const Wrap = styled.div`
       top: -40px;
     }
   }
+
+
 `;
 
 

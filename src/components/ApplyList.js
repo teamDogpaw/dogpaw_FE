@@ -112,12 +112,20 @@ gap: 10px;
     color: ${(props) => props.theme.keyColor};
     font-size: 20px;
     font-weight: bold;
+
+    @media screen and (max-width:600px){
+      font-size: 16px;
+  }
   }
 `;
 
 export const EmptyImg = styled(Empty)`
   width: 200px;
   height: 200px;
+  @media screen and (max-width:600px){
+   width:100px;
+   height:100px ;
+  }
 `;
 
 export const Section = styled.div`
