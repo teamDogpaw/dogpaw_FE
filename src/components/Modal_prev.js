@@ -3,15 +3,12 @@ import Login from "./Login";
 import { ReactComponent as X } from "../styles/icon/modal/close.svg";
 import { Modal, ModalBackground, ModalCloseButton } from "../styles/style";
 import SocialModal from "./SocialModal";
+import styled from "styled-components";
 
 const ModalOpen = ({ 
   viewModal,
   isKakao
  }) => {
-
-  /*  const viewModal = () => {
-    setIsModalOpen((prev) => !prev);
-  }; */
 
   const [modalContent, setModalContent] = useState();
 
@@ -22,24 +19,25 @@ const ModalOpen = ({
       setModalContent(<SocialModal /> )
 
     }
-  document.body.style.cssText = `position: fixed; top: 0px`;
-    return () => {
       const scrollY = document.body.style.top;
-      // document.body.style.cssText = `position: ""; top: "";`;
       window.scrollTo(0, parseInt(scrollY || "0") * -1);
-    };
+      return(()=>{
+        window.scrollTo(0, parseInt(scrollY || "0") * -1);
+      })
   }, []);
 
   return (
     <ModalBackground>
       <Modal>
         <ModalCloseButton onClick={viewModal}>
-          <X style={{ right: "0" }} />
+          <X />
         </ModalCloseButton>
         {modalContent}
       </Modal>
     </ModalBackground>
   );
 };
+
+
 
 export default ModalOpen;
