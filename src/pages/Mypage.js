@@ -3,7 +3,15 @@ import Bookmark from "../components/Bookmark";
 import MyProject from "../components/MyProject";
 import JoinProject from "../components/JoinProject";
 import { useNavigate } from "react-router-dom";
-import { Btn, MyStack, Option, PostBody, SelectBox, SelectBoxOpen, TabBody } from "../styles/style";
+import {
+  Btn,
+  MyStack,
+  Option,
+  PostBody,
+  SelectBox,
+  SelectBoxOpen,
+  TabBody,
+} from "../styles/style";
 import styled from "styled-components";
 import { ReactComponent as Arrow } from "../styles/icon/detail/backArrow.svg";
 
@@ -50,31 +58,25 @@ const MyPage = () => {
 
   const [windowSize, setWindowSize] = useState({
     width: undefined,
-    height: undefined
+    height: undefined,
   });
 
-
-  useEffect(()=>{
+  useEffect(() => {
     function handleResize() {
       setWindowSize({
         width: window.innerWidth,
-        height: window.innerHeight
+        height: window.innerHeight,
       });
     }
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     handleResize();
     if (windowSize.width < 600) {
       setIsMobile(true);
     } else if (windowSize.width >= 600) {
       setIsMobile(false);
     }
-    return () => window.removeEventListener('resize', handleResize)
-  },[windowSize.width])
-
-
-
-
-
+    return () => window.removeEventListener("resize", handleResize);
+  }, [windowSize.width]);
 
   const [myData, setMyData] = useState({
     profileImg: userInfo?.profileImg,
@@ -138,14 +140,15 @@ const MyPage = () => {
 
   return (
     <WholeBody>
-      {isMobile ?  <Leftarrow
-            onClick={() => {
-              navigate(-1);
-            }}
-          /> : null }
- 
+      {isMobile ? (
+        <Leftarrow
+          onClick={() => {
+            navigate(-1);
+          }}
+        />
+      ) : null}
+
       <PostBody>
-    
         {isEdit ? (
           <ProfileWrap>
             {imagePreview === null ? (
@@ -179,22 +182,19 @@ const MyPage = () => {
                 <StackSelector data={myData} setMyData={setMyData} />
               </Profile>
             </form>
-          <BtnWrap>
+            <BtnWrap>
+              <Button3
+                onClick={() => {
+                  withDraw(userId, token);
+                }}
+              >
+                회원 정보 삭제
+              </Button3>
 
-          <span
-              onClick={() => {
-                withDraw(userId, token);
-              }}
-            >
-              회원탈퇴
-            </span>
+              <Button2 onClick={imageReSet}>기본 이미지로 변경</Button2>
+            </BtnWrap>
 
-            <Button2 onClick={imageReSet}>기본 이미지로 변경</Button2>
-          </BtnWrap>
-         
             <Button onClick={EditMyData}>편집 완료</Button>
-        
-            
           </ProfileWrap>
         ) : (
           <ProfileWrap>
@@ -216,118 +216,113 @@ const MyPage = () => {
                 })}
               </Stacks>
             </Profile>
-        
-            <Button onClick={() => setIsEdit(true)}>프로필 편집</Button>
-           
-          
-          </ProfileWrap>
 
+            <Button onClick={() => setIsEdit(true)}>프로필 편집</Button>
+          </ProfileWrap>
         )}
       </PostBody>
 
-{isMobile ?  <><details>
+      {isMobile ? (
+        <>
+          <details>
+            <TabBox>
+              {tabList[currentTab - 1].name} <MySelectArrow />
+            </TabBox>
 
-  <TabBox>{tabList[currentTab - 1].name} <MySelectArrow /></TabBox>
+            <MySelectBoxOpen>
+              {tabList.map((tab) => {
+                return (
+                  <MyOption
+                    onClick={() => {
+                      setTab(tab.id);
+                    }}
+                    key={tab.id}
+                    className={currentTab === tab.id ? "focused" : null}
+                  >
+                    {tab.name}
+                  </MyOption>
+                );
+              })}
+            </MySelectBoxOpen>
+          </details>{" "}
+          <MyPageHr />
+        </>
+      ) : (
+        <TabBody>
+          {tabList.map((tab) => {
+            return (
+              <>
+                <Tab
+                  onClick={() => {
+                    setTab(tab.id);
+                  }}
+                  key={tab.id}
+                  className={currentTab === tab.id ? "focused" : null}
+                >
+                  {tab.name}
+                </Tab>
+              </>
+            );
+          })}
+        </TabBody>
+      )}
 
-  <MySelectBoxOpen>
-  {tabList.map((tab) => {
-          return (
-              <MyOption
-                onClick={() => {
-                  setTab(tab.id);
-                }}
-                key={tab.id}
-                className={currentTab === tab.id ? "focused" : null}
-              >
-                {tab.name}
-              </MyOption>
-          );
-        })}
-    
-  </MySelectBoxOpen>
-  
-</details> <MyPageHr/></>:  <TabBody>
-        {tabList.map((tab) => {
-          return (
-            <>
-              <Tab
-                onClick={() => {
-                  setTab(tab.id);
-                }}
-                key={tab.id}
-                className={currentTab === tab.id ? "focused" : null}
-              >
-                {tab.name}
-              </Tab>
-            </>
-          );
-        })}
-        
-      </TabBody>}
-  
       <div>{tabList[currentTab - 1].content}</div>
     </WholeBody>
   );
 };
 const MyOption = styled(Option)`
-  padding-top:10px;
+  padding-top: 10px;
   padding-bottom: 10px;
 `;
 const TabBox = styled.summary`
-width: 90%;
-padding: 6px 24px;
-margin: 24px 0px;
-font-weight: bold;
-font-size: 16px;
-position: relative;
+  width: 90%;
+  padding: 6px 24px;
+  margin: 24px 0px;
+  font-weight: bold;
+  font-size: 16px;
+  position: relative;
 
-::marker{
-  font-size: 0;
-}
+  ::marker {
+    font-size: 0;
+  }
 
-::-webkit-details-marker {
-  display: none;
-}
-
-
+  ::-webkit-details-marker {
+    display: none;
+  }
 `;
 
 const BtnWrap = styled.div`
-top: 0;
-margin-left: auto;
-display: flex;
-flex-direction: column;
-text-align: right;
-gap: 10px;
-span{
-  color:${(props)=> props.theme.errorColor};
-  font-size:14px
-}
+  top: 0;
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  gap: 10px;
+  span {
+    color: ${(props) => props.theme.errorColor};
+    font-size: 14px;
+  }
 `;
 
 const MySelectBoxOpen = styled(SelectBoxOpen)`
+  position: absolute;
+  min-width: 375px;
 
-position: absolute;
-min-width:375px;
-
-margin-left:15px;
-border:transparent;
-
-
+  margin-left: 15px;
+  border: transparent;
 `;
 
 const MyPageHr = styled.hr`
-border:1px solid #FFB673;
+  border: 1px solid #ffb673;
 `;
 
 const Leftarrow = styled(Arrow)`
   position: absolute;
-  top:0px;
+  top: 0px;
   left: 27px;
 
   stroke: ${(props) => props.theme.toggleFontColor};
-
-
 `;
 
 export const Profilepic = styled.img`
@@ -335,7 +330,7 @@ export const Profilepic = styled.img`
   height: 160px;
   border-radius: 80px;
 
-  @media screen and (max-width:600px){
+  @media screen and (max-width: 600px) {
     width: 72px;
     height: 72px;
     border-radius: 36px;
@@ -354,9 +349,9 @@ const File = styled.div`
     border-radius: 50%;
     background-color: ${(props) => props.theme.keyColor};
 
-    @media screen and (max-width:600px){
+    @media screen and (max-width: 600px) {
       left: 45px;
-      top:95px;
+      top: 95px;
     }
   }
 
@@ -375,7 +370,7 @@ export const WholeBody = styled.div`
   }
   @media screen and (max-width: 600px) {
     margin: 0px;
-    width:100%;
+    width: 100%;
     margin: auto;
   }
   position: relative;
@@ -400,7 +395,7 @@ export const ProfileWrap = styled.div`
   align-items: center;
   position: relative;
 
-  @media screen and (max-width:600px) {
+  @media screen and (max-width: 600px) {
     width: 100%;
     margin-top: 20px;
     font-size: 14px;
@@ -430,51 +425,40 @@ export const Profile = styled.div`
   details {
     margin: 5px 0;
   }
-  
-  @media screen and (max-width:600px){
+
+  @media screen and (max-width: 600px) {
     margin-left: 16px;
   }
 `;
 
 const MySelectArrow = styled(SelectArrow)`
-right: 0;
-margin-top: 0px;
-width: 12px;
-height: 12px;
-text-align: right;
+  right: 0;
+  margin-top: 0px;
+  width: 12px;
+  height: 12px;
+  text-align: right;
 
-cursor: pointer;
+  cursor: pointer;
 `;
 
 export const Stacks = styled.div`
   display: flex;
   flex-wrap: nowrap;
-
 `;
 
 const Button = styled(Btn)`
   position: absolute;
   right: 0;
   bottom: 0;
-@media screen and (max-width: 600px) {
-  width:100%;
-}
-
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
 `;
-
 
 const Button2 = styled(Btn)`
-
+  margin-bottom: 30px;
 `;
 
-const Button3 = styled(Btn)`
-  border: 1px solid #ff0000;
-  /* margin-left: 10px; */
-  right: 300px;
-  span {
-    color: #ff0000;
-  }
-
-`;
+const Button3 = styled(Btn)``;
 
 export default MyPage;
