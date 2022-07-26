@@ -1,22 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>dogpaw 개발바닥</title>
-    <meta charset="utf-8" />
-    <meta name="description" content="개발바닥에서 열정 넘치는 팀원을, 다양한 프로젝트를 만나보세요.">
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta data-rh="true" property="og:image" content="/public/kakao_banner.png">
-    <meta data-rh="true" property="og:title" content="개발바닥">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
 
-    <!--
+<head>
+  <title>dogpaw 개발바닥</title>
+  <meta charset="utf-8" />
+  <meta name="description" content="개발바닥에서 열정 넘치는 팀원을, 다양한 프로젝트를 만나보세요.">
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta data-rh="true" property="og:image" content="/public/kakao_banner.png">
+  <meta data-rh="true" property="og:title" content="개발바닥">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0QMB72K7NC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-0QMB72K7NC');
+  </script>
+
+  <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -26,11 +37,13 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
 
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
+
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -40,5 +53,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  </body>
+</body>
+
 </html>

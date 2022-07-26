@@ -5,7 +5,6 @@ import instance from "../shared/axios";
 import {
   InputContent,
   InputWrap,
-  LoginBtn,
   LoginInput,
   Title,
   Wrap,
@@ -40,7 +39,7 @@ const SocialModal = () => {
 
   const onSubmit = async () => {
     console.log(nickName);
-    console.log(JSON.stringify(stack));
+    console.log(stack);
     let data = {
       nickname: nickName,
       stacks: stack,
@@ -56,11 +55,10 @@ const SocialModal = () => {
             // localStorage.setItem("token", accessToken);
             // localStorage.setItem("retoken", refreshToken);
             // window.alert("로그인 성공 :)");
-            //window.location.replace("/");
+            window.location.replace("/");
           }
      catch (err) {
       console.log(err);
-      console.log(err.response.data.errorMessage);
     }
   };
 
@@ -104,13 +102,13 @@ const SocialModal = () => {
           기술 스택
           <StackSelector setRegisterData={setStack} />
         </InputContent>
-        <LoginBtn
+        <SocialBtn
           type="submit"
           disabled={!(isNick && nickName && stack.length > 0)}
           onClick={onSubmit}
         >
           회원가입하기
-        </LoginBtn>
+        </SocialBtn>
       </InputWrap>
     </Wrap>
   );
@@ -121,4 +119,11 @@ const NicknameWrap = styled.div`
   display: flex;
   gap: 12px;
 `;
+
+export const SocialBtn = styled(Btn)`
+margin-bottom: 45px;
+cursor: pointer;
+  width: 100%;
+`;
+
 export default SocialModal;

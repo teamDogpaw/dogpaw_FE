@@ -6,6 +6,7 @@ import Register from "./Register";
 
 import { Btn } from "../styles/style";
 import { login } from "../shared/userOauth";
+import SocialModal from "./SocialModal";
 
 const Login = ({ setModalContent }) => {
   //아이디, 비밀번호
@@ -56,8 +57,7 @@ const Login = ({ setModalContent }) => {
     password,
   };
 
-  const KAKAO_AUTH_URL =
-    "https://kauth.kakao.com/oauth/authorize?client_id=3e848df062d2efe2be2266e171f3443c&redirect_uri=https://dogfaw.dasole.shop/user/kakao/login&response_type=code";
+  const KakaoURL = process.env.REACT_APP_SOCIAL_URL;
 
   const GOOGLE_AUTH_URL = "";
 
@@ -116,7 +116,7 @@ const Login = ({ setModalContent }) => {
       </InputWrap>
 
       <SocialWrap>
-        <a href={KAKAO_AUTH_URL}>
+        <a href={KakaoURL}>
           <IMG src={kakaoBTN} alt="카카오" />
         </a>
         <a href={GOOGLE_AUTH_URL}>
@@ -128,7 +128,7 @@ const Login = ({ setModalContent }) => {
         아직 계정이 없으신가요?
         <span
           onClick={() => {
-            setModalContent(<Register setModalContent={setModalContent} />);
+            setModalContent(<SocialModal setModalContent={setModalContent} />);
           }}
         >
           회원가입
