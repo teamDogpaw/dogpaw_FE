@@ -5,13 +5,13 @@ import { Modal, ModalBackground, ModalCloseButton } from "../styles/style";
 import SocialModal from "./SocialModal";
 import styled from "styled-components";
 
-const ModalOpen = ({ viewModal, isKakao }) => {
+const ModalOpen = ({ viewModal, kakaoNick }) => {
   const [modalContent, setModalContent] = useState();
 
   useEffect(() => {
-    if (!isKakao) {
+    if (!kakaoNick) {
       setModalContent(<Login setModalContent={setModalContent} />);
-    } else if (isKakao) {
+    } else if (kakaoNick) {
       setModalContent(<SocialModal />);
     }
     const scrollY = document.body.style.top;
