@@ -83,7 +83,7 @@ h4{
 `;
 
 export const MainBody = styled.div`
-background-color: ${(props) => props.theme.divBackGroundColor};
+/* background-color: ${(props) => props.theme.divBackGroundColor}; */
 max-width: 996px;
 margin: auto;
 border-radius: 16px;
@@ -183,6 +183,11 @@ font-size: 16px;
 background-color: ${(props) => props.theme.inputBoxBackground};
 list-style: none;
 position: relative;
+
+::-webkit-details-marker {
+  display: none;
+}
+
 
 &.Login{
   line-height: normal;
