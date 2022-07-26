@@ -15,6 +15,7 @@ import profilepic from "../styles/icon/global/profile.svg";
 import ApplyProject from "../components/ApplyProject";
 import pen from "../styles/icon/myPage/pen.svg";
 import StackSelector from "../components/StackSeletor";
+import { withDraw } from "../shared/userOauth";
 
 const MyPage = () => {
   const userInfo = useRecoilValue(UserInfoAtom);
@@ -25,12 +26,12 @@ const MyPage = () => {
   const formData = new FormData();
   const [imagePreview, setImagePreview] = useState();
 
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("id");
+
   const tabList = [
-    {id: 1, name: "관심 프로젝트", content: <Bookmark currentTab={1} /> },
-    {id: 2,
-      name: "참여한 프로젝트",
-      content: <JoinProject currentTab={2} />,
-    },
+    { id: 1, name: "관심 프로젝트", content: <Bookmark currentTab={1} /> },
+    { id: 2, name: "참여한 프로젝트", content: <JoinProject currentTab={2} /> },
     {
       id: 3,
       name: "신청한 프로젝트",
@@ -51,7 +52,7 @@ const MyPage = () => {
 
   useEffect(() => {
     setMyData(userInfo);
-    setImagePreview(userInfo.profileImg)
+    setImagePreview(userInfo.profileImg);
   }, [userInfo]);
 
   const EditMyData = async () => {
@@ -79,25 +80,23 @@ const MyPage = () => {
   const { mutateAsync: profileEdit } = useMyProfileEdit();
   const { mutateAsync: imageReSet } = useMyProfileReset();
 
-
   const encodeFileToBase64 = (img) => {
-    console.log(img)
+    console.log(img);
     const preview = new FileReader();
     preview.readAsDataURL(img);
     return new Promise((resolve) => {
       preview.onload = () => {
         setImagePreview(preview.result);
-        console.log(imagePreview)
+        console.log(imagePreview);
         resolve();
-      }
-    })
-  }
+      };
+    });
+  };
   const editImg = (e) => {
     const img = e.target.files[0];
-    encodeFileToBase64(img)
+    encodeFileToBase64(img);
     console.log(img);
     setMyData((prev) => ({ ...prev, profileImg: img }));
-    
   };
 
   const editNickname = (e) => {
@@ -138,12 +137,16 @@ const MyPage = () => {
                 />
                 <p>{userInfo.username}</p>
 
-                 <StackSelector data={myData} setMyData={setMyData}/>
- 
-
-
+                <StackSelector data={myData} setMyData={setMyData} />
               </Profile>
             </form>
+            <Button3
+              onClick={() => {
+                withDraw(userId, token);
+              }}
+            >
+              회원탈퇴
+            </Button3>
             <Button2 onClick={imageReSet}>기본 이미지로 변경</Button2>
             <Button onClick={EditMyData}>편집 완료</Button>
           </ProfileWrap>
@@ -236,13 +239,11 @@ export const Tab = styled.div`
   cursor: pointer;
 
   &.focused {
-   box-shadow: rgb(255 182 115 / 50%) 0px 2px 12px 0px ;
-   background-color: ${(props) => props.theme.keyColor};
-   color: ${(props)=>props.theme.textColor_btn}
+    box-shadow: rgb(255 182 115 / 50%) 0px 2px 12px 0px;
+    background-color: ${(props) => props.theme.keyColor};
+    color: ${(props) => props.theme.textColor_btn};
   }
 `;
-
-
 
 export const ProfileWrap = styled.div`
   display: flex;
@@ -265,7 +266,7 @@ export const Profile = styled.div`
     border: ${(props) => props.theme.border};
     border-radius: 8px;
     font-size: 16px;
-    background-color:${(props)=>props.theme.inputBoxBackground};
+    background-color: ${(props) => props.theme.inputBoxBackground};
   }
 
   details {
@@ -287,6 +288,15 @@ const Button = styled(Btn)`
 
 const Button2 = styled(Button)`
   right: 100px;
+`;
+
+const Button3 = styled(Button)`
+  border: 1px solid #ff0000;
+  /* margin-left: 10px; */
+  right: 300px;
+  span {
+    color: #ff0000;
+  }
 `;
 
 export default MyPage;

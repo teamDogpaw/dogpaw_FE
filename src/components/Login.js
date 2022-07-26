@@ -59,8 +59,6 @@ const Login = ({ setModalContent }) => {
 
   const KakaoURL = process.env.REACT_APP_SOCIAL_URL;
 
-  const GOOGLE_AUTH_URL = "";
-
   return (
     <Wrap>
       <Title>
@@ -72,7 +70,7 @@ const Login = ({ setModalContent }) => {
         <InputContent>
           이메일
           <LoginInput
-             autocomplete="email"
+            autocomplete="email"
             text="ID"
             type="email"
             typeName="id"
@@ -118,9 +116,6 @@ const Login = ({ setModalContent }) => {
       <SocialWrap>
         <a href={KakaoURL}>
           <IMG src={kakaoBTN} alt="카카오" />
-        </a>
-        <a href={GOOGLE_AUTH_URL}>
-          <IMG src={googleBTN} alt="구글" />
         </a>
       </SocialWrap>
 
@@ -203,8 +198,8 @@ const SocialWrap = styled.div`
 export const LoginInput = styled.input`
   width: 100%;
   height: 44px;
-  background-color: ${(props)=>props.theme.divBackGroundColor};
-  border: ${(props)=>props.theme.border};
+  background-color: ${(props) => props.theme.divBackGroundColor};
+  border: ${(props) => props.theme.border};
   border-radius: 12px;
   padding: 12px;
   ::placeholder {
@@ -217,10 +212,8 @@ export const LoginInput = styled.input`
   &:-webkit-autofill:hover,
   &:-webkit-autofill:focus,
   &:-webkit-autofill:active {
-    background-color: ${(props)=>props.theme.divBackGroundColor};
+    background-color: ${(props) => props.theme.divBackGroundColor};
   } */
- 
-  
 `;
 
 export const Redirect = styled.div`
