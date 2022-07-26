@@ -108,10 +108,10 @@ const Main = () => {
       <BookmarkRank />
       <ToggleWrap>
         <ToggleBtn onClick={clickedToggle} toggle={toggle}>
-          <div style={{ display: "flex" }}>
-            <All>ALL</All>
-            <Ing>모집중</Ing>
-          </div>
+          <Toggle>
+            <p>ALL</p>
+            <p>모집중</p>
+          </Toggle>
           <Circle toggle={toggle}>
             <p>{toggle ? "모집중" : "ALL"}</p>
           </Circle>
@@ -350,60 +350,77 @@ const Award = styled.div`
   }
 `;
 
-// 토글 스위치
 const ToggleWrap = styled.div`
   ${displyStyle}
   margin-top: 20px;
   margin-bottom: 20px;
 `;
-const ToggleBtn = styled.button`
+const ToggleBtn = styled.div`
   ${displyStyle}
-  // width: 106px;
-  height: 44px;
+  position: relative;
+  height: 45px;
+  //padding:2px 0;
   border-radius: 30px;
   border: 2px solid #ffb673;
   cursor: pointer;
   background-color: ${(props) => props.theme.divBackGroundColor};
-  position: relative;
   transition: all 0.5s ease-in-out;
 `;
-const All = styled.span`
-  //width: 40px;
-  padding-right: 4px;
-  font-weight: 700;
-  color: #ffb673;
-  opacity: 0.5;
-  ${displyStyle}
-  padding-left: 6px;
+
+const Toggle = styled.div`
+ // ${displyStyle}
+ // justify-content:space-around;
+
+ & p:first-child{
+
+    margin-left:3px;
+    padding:0 10px;
+
+  }
+
+  & p:nth-child(2){
+
+    padding:0 5px;
+
+  }
+
+
+  p {
+
+    font-weight: 700;
+    color: #ffb673;
+    opacity: 0.5;
+    margin-right:3px;
+  }
+
+ 
 `;
-const Ing = styled(All)`
-  //width: 55px;
-  padding-left: 12px;
-  flex-direction: row-reverse;
-`;
+
 const Circle = styled.div`
   ${displyStyle}
   flex-direction: center;
   background-color: #ff891c;
   width: 52px;
-  height: 34px;
+  height: 35px;
   border-radius: 50px;
   position: absolute;
-  left: 6%;
+  left: 2px;
   transition: all 0.4s ease-in-out;
   ${(props) =>
     props.toggle &&
     css`
-      transform: translate(44px, 0); // 44px
+      transform: translate(90%, 0); 
       transition: all 0.4s ease-in-out;
     `}
+
   p {
     width: 100%;
     color: white;
     font-weight: 700;
+    text-align: center;
   }
 `;
-// 토글 스위치 끝
+
 const ArticleWrap = styled.ul`
   max-width: 1200px;
   gap: 2%;
