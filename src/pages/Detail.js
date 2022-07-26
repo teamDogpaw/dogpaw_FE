@@ -70,11 +70,11 @@ const Detail = () => {
           <User>
             <h3>{postList?.data.title}</h3>
             <div
-              onClick={() => {
-                userStatus === "author"
-                  ? navigate(`/mypage`)
-                  : navigate(`/mypage/${author}`);
-              }}
+              // onClick={() => {
+              //   userStatus === "author"
+              //     ? navigate(`/mypage`)
+              //     : navigate(`/mypage/${author}`);
+              // }}
             >
               <img src={postList?.data.profileImg || person} alt="profile" />
               <p>{author}</p>

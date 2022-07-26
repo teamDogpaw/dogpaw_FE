@@ -78,6 +78,17 @@ background: ${(props)=>props.theme.divBackGroundColor};
 `;
 
 const ModalContent = styled.div`
-overflow-y: auto;
+  width: 384px;
+  margin: 24px 72px 100px;
+
+  @media screen and (max-width: 600px) {
+    width: 100%;
+    margin: 0px auto;
+  }
+
+  @media screen and (max-width: 375px) {
+    width: 100%;
+    margin: 0px auto;
+  }
 `;
 export default ViewApply;

@@ -19,6 +19,15 @@ const ApplyProject = ({
       </EmptyBody>
     )
   }
+  if(myApplyPost.data.length === 0){
+    return(
+      <EmptyBody>
+      <EmptyImg />
+     <span>아직 신청한 프로젝트가 없습니다.
+      </span> 
+    </EmptyBody>
+    )
+  }
 
   return (
     <MypagePostBox>

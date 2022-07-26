@@ -14,7 +14,7 @@ const JoinProject = ({
     data:myParticipatePost, 
     isLoading : isLoadingPartiPost} 
     = useGetMyParticipatePost();
-
+console.log(myParticipatePost)
   const [viewApply, setViewApply] = useState(false);
   const [myPostData,setMyPostData] = useState({
     id:1,
@@ -36,6 +36,16 @@ const JoinProject = ({
       <EmptyBody>
         <EmptyImg />
       </EmptyBody>
+    )
+  }
+
+  if(myParticipatePost.data.length === 0){
+    return(
+      <EmptyBody>
+      <EmptyImg />
+     <span>아직 참여한 프로젝트가 없습니다.
+      </span> 
+    </EmptyBody>
     )
   }
 

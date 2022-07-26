@@ -113,7 +113,8 @@ const ParticipantList = ({ myPostId, currentTab, setViewApply }) => {
           myPostId={myPostId}
         />
       )}
-      <div onClick={withDrawParticipate}>탈퇴하기</div>
+      {currentTab !== 4 ? null : <div onClick={withDrawParticipate}>탈퇴하기</div>}
+      
     </>
   );
 };

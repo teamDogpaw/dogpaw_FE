@@ -21,6 +21,9 @@ const MyPagePostList = ({
     const navigate = useNavigate()
     const { mutate: postApply } = usePostApply()
 
+    // const cancelApply = () => {
+    //     if(confirm('지원을 취소하시겠어요?'))
+    // };
     return (
         <>
             <PostBody key={data.postId} >
