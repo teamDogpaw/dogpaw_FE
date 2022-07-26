@@ -264,7 +264,7 @@ export const Modal = styled.div`
     flex-direction: column;
     position: fixed;
     left: 50%;
-    margin-top: 133px;
+    margin-top: 100px;
     transform: translate(-50%, 0%);
 
     border-radius: 8px;
@@ -297,11 +297,20 @@ export const ModalBackground = styled.div`
 `;
 
 export const ModalCloseButton = styled(X)`
+display: relative;
 margin-left: auto;
 width: 20px;
 height: 20px;
 cursor: pointer;
 fill: ${(props)=>props.theme.keyColor};
+
+@media screen and (max-width:600px){
+    }
+
+    @media screen and (max-width:375px){
+      position: absolute;
+   right: 24px;
+    }
 `;
 
 export const TabBody = styled.div`
