@@ -13,7 +13,7 @@ import logolight from "../styles/logo/logoLight.svg";
 import logodark from "../styles/logo/logoDark.svg";
 import person from "../styles/icon/global/profile.svg";
 import arrowdown from "../styles/icon/global/arrowDown.svg";
-import write from "../styles/icon/detail/edit.svg";
+import {ReactComponent as Write} from "../styles/icon/detail/edit.svg";
 import bell from "../styles/icon/header/bell.svg";
 import newBell from "../styles/icon/header/newBell.svg";
 
@@ -90,7 +90,7 @@ const Header = () => {
             ) : (
               <>
                 <StyledLink to="/write">
-                  <img src={write} alt="" />
+                 <Write />
                   게시글 작성{" "}
                 </StyledLink>
                 <Details>
@@ -158,6 +158,11 @@ const Wrap = styled.div`
   summary::marker {
     font-size: 0;
   }
+
+  summary::-webkit-details-marker {
+  display: none;
+}
+
 `;
 
 const Img = styled.img`
@@ -252,11 +257,11 @@ const Select = styled.ul`
 `;
 
 const StyledLink = styled(Link)`
-  img {
-    padding-right: 5px;
-  }
+  display: flex;
+  align-items: center;
+  stroke: ${(props) => props.theme.headerTextColor};
   text-decoration: none;
-  color: #777777;
+  color: ${(props) => props.theme.headerTextColor};
   font-weight: 500;
 
   @media screen and (max-width: 500px) {
