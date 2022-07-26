@@ -3,7 +3,7 @@ import Login from "../components/Login";
 
 export const UserInfoAtom = atom({
   key: "UserInfo",
-  default: []
+  default: [],
 });
 
 export const modalChange = atom({
@@ -12,8 +12,11 @@ export const modalChange = atom({
 });
 
 export const alertListAtom = atom({
-  key:'alertList',
-  default:[]
-})
+  key: "alertList",
+  default: [],
+});
 
-
+export const newAlertListAtom = atom({
+  key: "newAlertList",
+  default: [],
+});

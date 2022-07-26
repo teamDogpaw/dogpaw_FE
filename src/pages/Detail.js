@@ -13,12 +13,15 @@ import {ReactComponent as Remove} from "../styles/icon/detail/remove.svg";
 import { usePostBookmark } from "../hook/useUserData";
 import ApplyBtn from "../components/ApplyBtn";
 import Loading from "../shared/Loading";
+import { useRecoilValue } from "recoil";
+import { UserInfoAtom } from "../atom/atom";
 
 const Detail = () => {
   const navigate = useNavigate();
   const params = useParams();
   const id = params.postId;
-
+  const isLogin = localStorage.getItem("token");
+ 
   const { data: postList, isLoading: isLoadingPost } = useGetPost(id);
   console.log(postList?.data);
 
@@ -54,12 +57,14 @@ const Detail = () => {
               }}
             />
             <div>
-              {userStatus !== "author" &&
-                (postList?.data.bookMarkStatus ? (
-                  <BookmarkFill onClick={bookMark} />
-                ) : (
-                  <BookmarkIcon onClick={bookMark} />
-                ))}
+              {isLogin && 
+                  userStatus !== "author" &&
+                  (postList?.data.bookMarkStatus ? (
+                    <BookmarkFill onClick={bookMark} />
+                  ) : (
+                    <BookmarkIcon onClick={bookMark} />
+                  ))
+              }
             </div>
           </LinkBtn>
           <User>
