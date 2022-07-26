@@ -4,7 +4,7 @@ import { useRecoilValue } from "recoil";
 
 let debounce = null;
 
-// 로그인 정보를 보내면 토큰을 받음.
+// 로그인
 export const login = (props) => {
   if (debounce) {
     clearTimeout(debounce);
@@ -33,7 +33,7 @@ export const login = (props) => {
   }, 500);
 };
 
-// 회원가입 정보
+// 회원가입
 export const register = (props) => {
   if (debounce) {
     clearTimeout(debounce);
@@ -44,6 +44,7 @@ export const register = (props) => {
       .post("/user/signup", props)
       .then((res) => {
         window.alert("회원 가입 성공 :)");
+        window.location.replace("/");
       })
       .catch((err) => {
         window.alert("회원 가입 실패 :(");

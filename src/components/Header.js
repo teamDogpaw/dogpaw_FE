@@ -61,6 +61,7 @@ const Header = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("retoken");
     localStorage.removeItem("id");
+    localStorage.removeItem("socialNick");
     window.location.replace("/");
   };
 
