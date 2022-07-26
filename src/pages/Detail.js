@@ -64,9 +64,15 @@ const Detail = () => {
           </LinkBtn>
           <User>
             <h3>{postList?.data.title}</h3>
-            <div onClick={()=>{userStatus==="author" ? navigate(`/mypage`) : navigate(`/mypage/${author}`)}}>
-            <img src={postList?.data.profileImg || person} alt="profile" />
-            <p>{author}</p>
+            <div
+              onClick={() => {
+                userStatus === "author"
+                  ? navigate(`/mypage`)
+                  : navigate(`/mypage/${author}`);
+              }}
+            >
+              <img src={postList?.data.profileImg || person} alt="profile" />
+              <p>{author}</p>
             </div>
           </User>
 
@@ -168,21 +174,22 @@ const ArticleTop = styled.div`
   padding: 32px;
   padding-top: 16px;
   position: relative;
-  @media (max-width: 770px) {
+
+  @media (max-width: 786px) {
     height: 580px;
-    padding-top: 0px;
+    padding: 0 16px 16px 16px;
   }
 `;
 
 const User = styled.div`
   position: relative;
   height: 153px;
-  //margin-bottom: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   line-height: 30px;
+
   div {
     display: flex;
     flex-direction: column;
@@ -192,34 +199,27 @@ const User = styled.div`
       padding-top: 5px;
     }
   }
+
   h3 {
     padding-bottom: 15px;
   }
+
   img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
   }
-  @media screen and (max-width: 770px) {
-    height: 120px;
+
+  @media screen and (max-width: 786px) {
     h3 {
-      //padding-bottom: 30px;
+      padding:0 15px;
+      padding-bottom:5px;
     }
-    div {
-      /* display:flex;
-      align-items:center; */
-      /* flex-direction:row;
-      position:absolute;
-      bottom:0;
-      left:0; */
-    }
-    /* img{
-      margin-right:10px;
-    } */
   }
 `;
 const ArrowBtn = styled(Arrow)`
   stroke: ${(props) => props.theme.toggleFontColor};
+
   @media screen and (max-width: 786px) {
     width: 12px;
   }
@@ -236,8 +236,9 @@ const Userbtn = styled.div`
   img {
     margin: 0 5px;
   }
+
   @media screen and (max-width: 786px) {
-    top: 115px;
+    top:130px;
   }
 `;
 
@@ -250,7 +251,7 @@ const ModifyBtn = styled.button`
   display: flex;
   align-items: center;
   cursor: pointer;
-  
+
   @media screen and (max-width: 770px) {
     span {
       display: none;
@@ -272,12 +273,11 @@ export const DeleteBtn = styled(ModifyBtn)`
   }
 `;
 
-
 const LinkBtn = styled.div`
   display: flex;
-
+  
   justify-content: space-between;
-  padding-bottom: 10px;
+  //padding-bottom: 10px;
   @media screen and(max-width:768) {
     position: absolute;
     right: 0;
@@ -295,13 +295,6 @@ const ContentWrap = styled.div`
   padding-top: 10px;
   line-height: 48px;
   position: relative;
-`;
-
-const Author = styled.div`
-display: flex;
-flex-direction: column;
-margin-top: 10px;
-cursor: pointer;
 `;
 
 const Title = styled.div`

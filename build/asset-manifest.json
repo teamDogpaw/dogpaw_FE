@@ -1,15 +1,24 @@
 {
   "files": {
-    "main.css": "/static/css/main.0e8d310f.css",
-    "main.js": "/static/js/main.9a798755.js",
-    "static/js/656.9fd2c5c3.chunk.js": "/static/js/656.9fd2c5c3.chunk.js",
+    "main.css": "/static/css/main.899f8cc0.css",
+    "main.js": "/static/js/main.06bb140d.js",
+    "static/js/656.1d7ef875.chunk.js": "/static/js/656.1d7ef875.chunk.js",
     "static/css/987.07965fa4.chunk.css": "/static/css/987.07965fa4.chunk.css",
-    "static/js/987.1ea85c56.chunk.js": "/static/js/987.1ea85c56.chunk.js",
+    "static/js/987.2e424bc2.chunk.js": "/static/js/987.2e424bc2.chunk.js",
     "static/css/297.31d6cfe0.chunk.css": "/static/css/297.31d6cfe0.chunk.css",
     "static/js/297.c4e16deb.chunk.js": "/static/js/297.c4e16deb.chunk.js",
     "static/js/886.83fdd24d.chunk.js": "/static/js/886.83fdd24d.chunk.js",
     "static/js/787.e1c2799a.chunk.js": "/static/js/787.e1c2799a.chunk.js",
     "static/js/610.ca62037f.chunk.js": "/static/js/610.ca62037f.chunk.js",
+    "static/media/NotoSansKR-Light.otf": "/static/media/NotoSansKR-Light.7d4ce2f6f92cffc70600.otf",
+    "static/media/NotoSansKR-Bold.otf": "/static/media/NotoSansKR-Bold.bbb4ca5df6c6540f4af8.otf",
+    "static/media/NotoSansKR-Regular.otf": "/static/media/NotoSansKR-Regular.bf54b090356010039bab.otf",
+    "static/media/NotoSansKR-Bold.woff": "/static/media/NotoSansKR-Bold.bccfd5fe964d7e12ae44.woff",
+    "static/media/NotoSansKR-Regular.woff": "/static/media/NotoSansKR-Regular.957d49ad23632e4a9349.woff",
+    "static/media/NotoSansKR-Light.woff": "/static/media/NotoSansKR-Light.45736342560b8c933202.woff",
+    "static/media/NotoSansKR-Regular.woff2": "/static/media/NotoSansKR-Regular.e95adf0e9aeddac43f42.woff2",
+    "static/media/NotoSansKR-Bold.woff2": "/static/media/NotoSansKR-Bold.a4ecc3f7a43f7d43ce24.woff2",
+    "static/media/NotoSansKR-Light.woff2": "/static/media/NotoSansKR-Light.e2557c2be18ddd169ee9.woff2",
     "static/media/main_banner.png": "/static/media/main_banner.83abe7609bf296050565.png",
     "static/media/main_banner02.png": "/static/media/main_banner02.1f110a1692ac71641c95.png",
     "static/media/main_mo02.png": "/static/media/main_mo02.7f9ce2299af0f3dedbc5.png",
@@ -56,18 +65,18 @@
     "static/media/arrowUpLight.svg": "/static/media/arrowUpLight.5edfe7d4bb739de026121d7cd4e76066.svg",
     "static/media/scrollToTop.svg": "/static/media/scrollToTop.d2bd9fda9551c074e4b81eab47167f6f.svg",
     "static/media/backArrow.svg": "/static/media/backArrow.6802d07028851e6597e629c7ea47fd10.svg",
-    "main.0e8d310f.css.map": "/static/css/main.0e8d310f.css.map",
-    "main.9a798755.js.map": "/static/js/main.9a798755.js.map",
-    "656.9fd2c5c3.chunk.js.map": "/static/js/656.9fd2c5c3.chunk.js.map",
+    "main.899f8cc0.css.map": "/static/css/main.899f8cc0.css.map",
+    "main.06bb140d.js.map": "/static/js/main.06bb140d.js.map",
+    "656.1d7ef875.chunk.js.map": "/static/js/656.1d7ef875.chunk.js.map",
     "987.07965fa4.chunk.css.map": "/static/css/987.07965fa4.chunk.css.map",
-    "987.1ea85c56.chunk.js.map": "/static/js/987.1ea85c56.chunk.js.map",
+    "987.2e424bc2.chunk.js.map": "/static/js/987.2e424bc2.chunk.js.map",
     "297.c4e16deb.chunk.js.map": "/static/js/297.c4e16deb.chunk.js.map",
     "886.83fdd24d.chunk.js.map": "/static/js/886.83fdd24d.chunk.js.map",
     "787.e1c2799a.chunk.js.map": "/static/js/787.e1c2799a.chunk.js.map",
     "610.ca62037f.chunk.js.map": "/static/js/610.ca62037f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.0e8d310f.css",
-    "static/js/main.9a798755.js"
+    "static/css/main.899f8cc0.css",
+    "static/js/main.06bb140d.js"
   ]
 }
