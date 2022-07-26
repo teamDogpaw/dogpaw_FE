@@ -16,7 +16,6 @@ import { useState } from "react";
 const BookmarkRank = () => {
     const navigate = useNavigate();
     const [mark, setMark] = useState(false);
-    const isLogin = localStorage.getItem("token");
     const { data: rankList } = useGetBookmarkRank();
     //console.log(rankList)
 
@@ -36,10 +35,6 @@ const BookmarkRank = () => {
             <Article2
               key={list.postId}
               onClick={() => {
-                if (!isLogin) {
-                  window.alert("로그인이 필요한 서비스입니다!");
-                  return;
-                }
                 navigate("/detail/" + list.postId);
               }}
             >
