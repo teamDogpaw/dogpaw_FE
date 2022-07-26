@@ -24,7 +24,7 @@ return (
                 <ModalCloseButton onClick={viewApplyModal}>
                     <X style={{ right: "0" }} />
                 </ModalCloseButton>
-                <h1>{myPostData.title} </h1>
+                <h3>{myPostData.title}</h3>
                     {currentTab === 2 ?
                        <ModalTabBody className="participant">
                     <Tab className="focused"
@@ -36,7 +36,7 @@ return (
                      <ModalTabBody>
                       <Tab className={isApplyList ? null : "focused"}
                      onClick={()=>setIsApplyList(false)}>
-                     팀원 목록 {myPostData.currentMember} 
+                     팀원 목록 {myPostData.currentMember}
                      </Tab>
                      <Tab className={isApplyList ? "focused" : null}
                      onClick={()=>setIsApplyList(true)}>
