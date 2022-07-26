@@ -7,11 +7,14 @@ import dayjs from "dayjs";
 import WriteSelect from "../components/WriteSelect";
 import { useEditProject, usePostProject } from "../hook/usePostMutation";
 import { ReactComponent as Arrow } from "../styles/icon/detail/backArrow.svg";
+import AlertModal from "../components/AlertModal";
+import { Content } from "../components/ApplyBtn";
 
 const Write = () => {
    const location = useLocation()
    const {state} = useLocation()
    const [isEdit, setIsEdit] = useState(false);
+   const [modalOpen, setModalOpen] = useState(false);
    console.log(isEdit)
    const params = useParams()
    const postId = params.id
@@ -34,15 +37,25 @@ const Write = () => {
       startAt: dayjs(new Date()).format("YYYY/MM/DD")
    })
 
+   const openModal = () => {
+      setModalOpen(true);
+    };
+    const closeModal = () => {
+      setModalOpen(false);
+    };
+
    const publishPost = async () => {
-      try {
-         await postProject(selectedData)
-         navigate("/")
-      }
-      catch (error) {
-         alert(error)
-      }
-   }
+     if (selectedData.title.length === 0) {
+      openModal();
+     } else {
+       try {
+         await postProject(selectedData);
+         navigate("/");
+       } catch (error) {
+         alert(error);
+       }
+     }
+   };
 
    const editPost = async () => {
       await editProject({ data:selectedData, postId} )
@@ -85,7 +98,6 @@ const Write = () => {
          details.open = false;
       }
    }
-
 
    useEffect(() => {
      
@@ -150,6 +162,14 @@ const Write = () => {
             <Btn type="submit" onClick={publishPost}>프로젝트 등록하기</Btn>}
             
          </Publish>
+         <AlertModal open={modalOpen}>
+        <Content>
+          <h4>글 제목을 입력해 주세요!</h4>
+          <div>
+            <Btn onClick={closeModal}> 닫기 </Btn>
+          </div>
+        </Content>
+      </AlertModal>
       </Wrap>
    )
 }

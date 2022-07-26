@@ -1,5 +1,5 @@
 import { useQueryClient } from "react-query";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Comments from "../components/Comments";
 import { useDeletePost, useGetPost } from "../hook/usePostData";
 import styled from "styled-components";
@@ -13,8 +13,7 @@ import {ReactComponent as Remove} from "../styles/icon/detail/remove.svg";
 import { usePostBookmark } from "../hook/useUserData";
 import ApplyBtn from "../components/ApplyBtn";
 import Loading from "../shared/Loading";
-import { useRecoilValue } from "recoil";
-import { UserInfoAtom } from "../atom/atom";
+
 
 const Detail = () => {
   const navigate = useNavigate();
@@ -195,11 +194,14 @@ const User = styled.div`
   justify-content: center;
   line-height: 30px;
 
+
   div {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    margin-top:15px;
+
+    
     p {
       padding-top: 5px;
     }
@@ -207,6 +209,7 @@ const User = styled.div`
 
   h3 {
     padding-bottom: 15px;
+
   }
 
   img {
@@ -218,8 +221,11 @@ const User = styled.div`
   @media screen and (max-width: 786px) {
     h3 {
       padding:0 10px;
-      padding-bottom:5px;
+      
     }
+   
+
+    
   }
 `;
 const ArrowBtn = styled(Arrow)`

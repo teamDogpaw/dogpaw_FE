@@ -292,8 +292,9 @@ const Wrap = styled.div`
   }
 
   @media screen and (max-width: 1200px) {
-    margin: 0px 30px;
+    margin: 0px 30px 100px 30px;
   }
+
 `;
 
 const Help = styled.div`

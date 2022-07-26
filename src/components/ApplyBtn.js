@@ -184,7 +184,7 @@ export const Content = styled.div`
   margin: auto;
   width: 350px;
   line-height: 3;
-  border:${props => props.theme.border};
+  //border:${props => props.theme.border};
   button {
     width: 100px;
     margin-right: 15px;
