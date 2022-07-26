@@ -155,6 +155,10 @@ const Wrap = styled.div`
   summary::marker {
     font-size: 0;
   }
+  summary::-webkit-details-marker {
+  display: none;
+}
+
 
 `;
 

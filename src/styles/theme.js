@@ -12,6 +12,8 @@ export const darkTheme = {
     stackColor: "#292929",
     toggleBtnColor:"#444449",
     toggleFontColor:"#FFC692",
+    removeBtnColor:"#FF6955",
+    alertBorder:"1px solid #FF6955",
     boxShadow:"rgb(168 168 168 / 16%) 0px 2px 12px 0px"
 }
 
@@ -28,6 +30,8 @@ export const lightTheme = {
     stackBackground: "#fff6c6",
     stackColor: "#292929",
     toggleBtnColor:"#fff",
+    removeBtnColor:"#ff0000",
+    alertBorder:"1px solid #ff0000",
     toggleFontColor:"#292929",
     boxShadow:"rgb(0 0 0 / 8%) 0px 2px 12px 0px"
 }
