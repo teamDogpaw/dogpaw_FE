@@ -144,7 +144,7 @@ const Write = () => {
          </MainBody>
 
          <Publish>
-            <GrayLineBtn>전체 삭제</GrayLineBtn>
+            {/* <GrayLineBtn>전체 삭제</GrayLineBtn> */}
             {isEdit ? 
             <Btn type="submit" onClick={editPost}>프로젝트 수정하기</Btn>: 
             <Btn type="submit" onClick={publishPost}>프로젝트 등록하기</Btn>}
@@ -174,7 +174,7 @@ text-align: center;
 const ProjectTextarea = styled.textarea`
 margin: 24px 0px;
 border: ${(props) => props.theme.border};
-background-color: ${(props) => props.theme.textareaBackground};
+background-color: ${(props) => props.theme.backgroundColor};
 resize: none;
 width:100%;
 height: 160px;
@@ -198,6 +198,8 @@ const Leftarrow = styled(Arrow)`
   position: absolute;
   top:25px;
   left: 30px;
+  stroke: ${(props) => props.theme.toggleFontColor};
+
 
 `;
 

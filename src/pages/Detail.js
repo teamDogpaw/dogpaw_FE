@@ -161,7 +161,7 @@ const Wrap = styled.div`
     font-size: 16px;
   }
   hr {
-    border: 1px solid #e2e2e2;
+    border: ${(props)=>props.theme.border};
   }
   span {
     font-weight: 500;
@@ -173,7 +173,7 @@ const Wrap = styled.div`
   }
 `;
 const ArticleTop = styled.div`
-  background-color: ${(props) => props.theme.divBackGroundColor};
+  background-color: ${(props) => props.theme.backgroundColor};
   height: 514px;
   margin: auto;
   padding: 32px;
@@ -347,7 +347,7 @@ const Stack = styled.div`
 `;
 
 const Article = styled.div`
-  background-color: ${(props) => props.theme.divBackGroundColor};
+  background-color: ${(props) => props.theme.backgroundColor};
   margin: auto;
   margin-top: 20px;
   line-height: 1.5;

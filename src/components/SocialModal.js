@@ -2,13 +2,7 @@ import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { nickCheck } from "../shared/userOauth";
 import instance from "../shared/axios";
-import {
-  InputContent,
-  InputWrap,
-  LoginInput,
-  Title,
-  Wrap,
-} from "./Login";
+import { InputContent, InputWrap, LoginInput, Title, Wrap } from "./Login";
 import { Btn } from "../styles/style";
 import StackSelector from "./StackSeletor";
 import axios from "axios";
@@ -47,23 +41,27 @@ const SocialModal = () => {
       stacks: stack,
     };
     try {
-      const response = await axios.post(`${baseURL}/user/signup/addInfo`, data,{
-        headers:{
-          Authorization:`Bearer ${token}`
+      const response = await axios.post(
+        `${baseURL}/user/signup/addInfo`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      })
-        console.log(response)
-        // .then((res) => {
-          // window.alert("추가 정보를 기입해 주세요. :)");
-          // const accessToken = res.data.data.token.accessToken;
-          // const refreshToken = res.data.data.token.refreshToken;
-          // if (e) {
-            // localStorage.setItem("token", accessToken);
-            // localStorage.setItem("retoken", refreshToken);
-            // window.alert("로그인 성공 :)");
-            window.location.replace("/");
-          }
-     catch (err) {
+      );
+      console.log(response);
+      // .then((res) => {
+      // window.alert("추가 정보를 기입해 주세요. :)");
+      // const accessToken = res.data.data.token.accessToken;
+      // const refreshToken = res.data.data.token.refreshToken;
+      // if (e) {
+      // localStorage.setItem("token", accessToken);
+      // localStorage.setItem("retoken", refreshToken);
+      // window.alert("로그인 성공 :)");
+      localStorage.removeItem("socialNick");
+      window.location.replace("/");
+    } catch (err) {
       console.log(err);
     }
   };
@@ -77,7 +75,8 @@ const SocialModal = () => {
         <span>회원가입</span>
       </Title>
       <InputWrap>
-        <InputContent>
+      <Mobile>
+      <InputContent>
           닉네임
           <NicknameWrap>
             <LoginInput
@@ -104,6 +103,8 @@ const SocialModal = () => {
             )}
           </p>
         </InputContent>
+      </Mobile>
+        
         <InputContent>
           기술 스택
           <StackSelector setRegisterData={setStack} />
@@ -127,9 +128,15 @@ const NicknameWrap = styled.div`
 `;
 
 export const SocialBtn = styled(Btn)`
-margin-bottom: 45px;
-cursor: pointer;
+  margin-bottom: 45px;
+  cursor: pointer;
   width: 100%;
+
+  
+`;
+
+const Mobile = styled.div`
+display: none;
 `;
 
 export default SocialModal;
