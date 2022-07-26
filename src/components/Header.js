@@ -13,7 +13,7 @@ import logolight from "../styles/logo/logoLight.svg";
 import logodark from "../styles/logo/logoDark.svg";
 import person from "../styles/icon/global/profile.svg";
 import arrowdown from "../styles/icon/global/arrowDown.svg";
-import {ReactComponent as Write} from "../styles/icon/detail/edit.svg";
+import { ReactComponent as Write } from "../styles/icon/detail/edit.svg";
 import bell from "../styles/icon/header/bell.svg";
 import newBell from "../styles/icon/header/newBell.svg";
 
@@ -67,7 +67,7 @@ const Header = () => {
   return (
     <>
       {isModalOpen ? (
-        <ModalOpen viewModal={viewModal} isKakao={isKakao} />
+        <ModalOpen viewModal={viewModal} kakaoNick={kakaoNick} />
       ) : null}
       <Wrap>
         <ContentWrap>
@@ -90,7 +90,7 @@ const Header = () => {
             ) : (
               <>
                 <StyledLink to="/write">
-                 <Write />
+                  <Write />
                   게시글 작성{" "}
                 </StyledLink>
                 <Details>
@@ -160,9 +160,8 @@ const Wrap = styled.div`
   }
 
   summary::-webkit-details-marker {
-  display: none;
-}
-
+    display: none;
+  }
 `;
 
 const Img = styled.img`
