@@ -15,6 +15,10 @@ export const darkTheme = {
     toggleFontColor:"#FFC692",
     boxShadow:"rgb(168 168 168 / 16%) 0px 2px 12px 0px",
     errorColor:"#FF3D22"
+    removeBtnColor:"#FF6955",
+    alertBorder:"1px solid #FF6955",
+    headerTextColor:"#E2E2E2",
+    modifyBtnBorder:"1px solid #E2E2E2"
 }
 
 export const lightTheme = {
@@ -34,5 +38,9 @@ export const lightTheme = {
     toggleFontColor:"#292929",
     boxShadow:"rgb(0 0 0 / 8%) 0px 2px 12px 0px",
     errorColor:"crimson"
+    removeBtnColor:"#ff0000",
+    alertBorder:"1px solid #ff0000",
+    headerTextColor:"#777777",
+    modifyBtnBorder:"1px solid #777777"
 }
 

@@ -317,6 +317,7 @@ const Register = ({ setModalContent }) => {
         {isMobile ? null : <InputContent>
           기술 스택
           <StackSelector setRegisterData={setStack} />
+
         </InputContent>}
 
         {isMobile ?
@@ -343,6 +344,7 @@ const Register = ({ setModalContent }) => {
           >
             회원가입하기
           </LoginBtn>}
+
 
       </InputWrap>
 

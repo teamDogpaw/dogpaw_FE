@@ -70,7 +70,7 @@ const Login = ({ setModalContent }) => {
         <InputContent>
           이메일
           <LoginInput
-             autocomplete="email"
+            autocomplete="email"
             text="ID"
             type="email"
             typeName="id"
@@ -202,8 +202,8 @@ const SocialWrap = styled.div`
 export const LoginInput = styled.input`
   width: 100%;
   height: 44px;
-  background-color: ${(props)=>props.theme.divBackGroundColor};
-  border: ${(props)=>props.theme.border};
+  background-color: ${(props) => props.theme.divBackGroundColor};
+  border: ${(props) => props.theme.border};
   border-radius: 12px;
   padding: 12px;
   ::placeholder {
@@ -216,10 +216,8 @@ export const LoginInput = styled.input`
   &:-webkit-autofill:hover,
   &:-webkit-autofill:focus,
   &:-webkit-autofill:active {
-    background-color: ${(props)=>props.theme.divBackGroundColor};
+    background-color: ${(props) => props.theme.divBackGroundColor};
   } */
- 
-  
 `;
 
 export const Redirect = styled.div`

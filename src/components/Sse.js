@@ -9,9 +9,10 @@ import {
 } from "../hook/useNotification";
 import { useQueryClient } from "react-query";
 import styled from "styled-components";
-import remove from "../styles/icon/detail/remove.svg";
+import {ReactComponent as Remove} from "../styles/icon/detail/remove.svg";
 import { useRecoilState } from "recoil";
 import { alertListAtom } from "../atom/atom";
+import { useLocation } from "react-router-dom";
 
 const Sse = () => {
   const token = localStorage.getItem("token");
@@ -73,7 +74,7 @@ const Sse = () => {
   };
 
   const messageRead = async (id, url, status) => {
-   // window.location.href = url;
+   window.location.href = url;
     console.log(id, url, status);
     await readAlert(id);
     queryClient.invalidateQueries("alertList");
@@ -86,7 +87,7 @@ const Sse = () => {
       ) : (
         <>
           <AllDelete onClick={messageAllDelete}>
-          <img src={remove} alt="" />
+         <RemoveIcon/>
           <span>전체삭제</span>
           </AllDelete>
           {alert?.map((list) => {
@@ -106,7 +107,7 @@ const Sse = () => {
                       messageDelete(list.id);
                     }}
                   >
-                    <img src={remove} alt=""/>
+                    <RemoveIcon/>
                   </span>
                 </ListWrap>
               </ul>
@@ -141,16 +142,22 @@ const AllDelete = styled.div`
   padding: 10px;
   height: 32px;
   border-radius: 50px;
-  border: 1px solid #ff0000;
+  border:${props => props.theme.alertBorder};
   cursor: pointer;
   position:absolute;
   top:10px;
   right:10px;
 
+
   span {
-    color: #ff0000;
+    color: ${props => props.theme.removeBtnColor};
     font-size:14px;
   }
+`;
+
+const RemoveIcon = styled(Remove)`
+stroke:${props => props.theme.removeBtnColor};
+
 `;
 
 export default Sse;

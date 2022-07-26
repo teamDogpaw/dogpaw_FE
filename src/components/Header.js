@@ -13,7 +13,7 @@ import logolight from "../styles/logo/logoLight.svg";
 import logodark from "../styles/logo/logoDark.svg";
 import person from "../styles/icon/global/profile.svg";
 import arrowdown from "../styles/icon/global/arrowDown.svg";
-import write from "../styles/icon/detail/edit.svg";
+import { ReactComponent as Write } from "../styles/icon/detail/edit.svg";
 import bell from "../styles/icon/header/bell.svg";
 import newBell from "../styles/icon/header/newBell.svg";
 
@@ -26,24 +26,27 @@ const Header = () => {
   const detailsRef = useRef(null);
   const isLogin = localStorage.getItem("token");
 
-let [searchParams, setSearchParams] = useSearchParams();
-const isKakao = searchParams.get('nickname');
+  let [searchParams, setSearchParams] = useSearchParams();
+  const isKakao = searchParams.get("nickname");
+  const kakaoNick = localStorage.getItem("socialNick");
+  useEffect(() => {
+    if (isKakao) {
+      const token = searchParams.get("token");
+      const retoken = searchParams.get("refreshtoken");
+      const userId = searchParams.get("userId");
+      localStorage.setItem("id", userId);
+      localStorage.setItem("token", token);
+      localStorage.setItem("retoken", retoken);
+      localStorage.setItem("socialNick", isKakao);
+      window.location.replace("/");
+    }
 
-useEffect(()=>{
-  if(isKakao){
-    const token = searchParams.get('token');
-    const retoken = searchParams.get('refreshtoken');
-    const userId = searchParams.get('userId')
-    localStorage.setItem("id", userId)
-    localStorage.setItem("token", token)
-    localStorage.setItem("retoken",retoken)
-  }
-  if(isKakao === "default"){
-    setIsModalOpen(true);
-  } else {
-    setIsModalOpen(false);
-  }
-},[])
+    if (kakaoNick === "default") {
+      setIsModalOpen(true);
+    } else {
+      setIsModalOpen(false);
+    }
+  }, []);
 
   const details = detailsRef.current;
   if (details) {
@@ -58,13 +61,15 @@ useEffect(()=>{
     localStorage.removeItem("token");
     localStorage.removeItem("retoken");
     localStorage.removeItem("id");
+    localStorage.removeItem("socialNick");
     window.location.replace("/");
   };
 
-
   return (
     <>
-      {isModalOpen ? <ModalOpen viewModal={viewModal} isKakao={isKakao} /> : null}
+      {isModalOpen ? (
+        <ModalOpen viewModal={viewModal} kakaoNick={kakaoNick} />
+      ) : null}
       <Wrap>
         <ContentWrap>
           <div
@@ -86,12 +91,11 @@ useEffect(()=>{
             ) : (
               <>
                 <StyledLink to="/write">
-                  <img src={write} alt="" />
+                  <Write />
                   게시글 작성{" "}
                 </StyledLink>
                 <Details>
                   <MessageList>
-                    
                     {alert?.length === 0 ? (
                       <img src={bell} alt="" />
                     ) : (
@@ -102,7 +106,7 @@ useEffect(()=>{
                     <div>
                       <h4>나의 알림</h4>
                     </div>
-                    
+
                     <li>
                       <Sse />
                     </li>
@@ -158,15 +162,18 @@ const Wrap = styled.div`
   display: none;
 }
 
+  summary::-webkit-details-marker {
+    display: none;
+  }
 `;
 
 const Img = styled.img`
-cursor: pointer;
+  cursor: pointer;
   width: 167px;
   height: 46px;
 
-  @media screen and (max-width: 786px){
-    width:130px;
+  @media screen and (max-width: 786px) {
+    width: 130px;
   }
 `;
 
@@ -223,7 +230,7 @@ const Summary = styled.summary`
     height: 38px;
   }
 
-  @media screen and (max-width: 786px){
+  @media screen and (max-width: 786px) {
     img {
       width: 34px;
       height: 34px;
@@ -252,11 +259,11 @@ const Select = styled.ul`
 `;
 
 const StyledLink = styled(Link)`
-  img {
-    padding-right: 5px;
-  }
+  display: flex;
+  align-items: center;
+  stroke: ${(props) => props.theme.headerTextColor};
   text-decoration: none;
-  color: #777777;
+  color: ${(props) => props.theme.headerTextColor};
   font-weight: 500;
 
   @media screen and (max-width: 500px) {
@@ -286,25 +293,22 @@ const Message = styled.ul`
   padding: 16px;
   z-index: 99;
 
-
   h4 {
     margin-bottom: 10px;
-    display:flex;
-    justify-content:flex-start;
+    display: flex;
+    justify-content: flex-start;
   }
 
   li {
     padding: 16px 0;
   }
 
-@media screen and (max-width:500px) {
- right:-60px;
- width:250px;
-}
+  @media screen and (max-width: 500px) {
+    right: -60px;
+    width: 250px;
+  }
 `;
 
-const MessageList = styled.summary`
-
-`;
+const MessageList = styled.summary``;
 
 export default Header;

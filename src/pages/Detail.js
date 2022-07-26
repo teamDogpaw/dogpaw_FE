@@ -8,8 +8,8 @@ import { ReactComponent as BookmarkFill } from "../styles/icon/post/bookmarkFill
 import { ReactComponent as Arrow } from "../styles/icon/detail/backArrow.svg";
 import person from "../styles/icon/global/profile.svg";
 import paw from "../styles/icon/detail/paw.svg";
-import edit from "../styles/icon/detail/edit.svg";
-import remove from "../styles/icon/detail/remove.svg";
+import {ReactComponent as Edit} from "../styles/icon/detail/edit.svg";
+import {ReactComponent as Remove} from "../styles/icon/detail/remove.svg";
 import { usePostBookmark } from "../hook/useUserData";
 import ApplyBtn from "../components/ApplyBtn";
 import Loading from "../shared/Loading";
@@ -64,9 +64,15 @@ const Detail = () => {
           </LinkBtn>
           <User>
             <h3>{postList?.data.title}</h3>
-            <div onClick={()=>{userStatus==="author" ? navigate(`/mypage`) : navigate(`/mypage/${author}`)}}>
-            <img src={postList?.data.profileImg || person} alt="profile" />
-            <p>{author}</p>
+            <div
+              onClick={() => {
+                userStatus === "author"
+                  ? navigate(`/mypage`)
+                  : navigate(`/mypage/${author}`);
+              }}
+            >
+              <img src={postList?.data.profileImg || person} alt="profile" />
+              <p>{author}</p>
             </div>
           </User>
 
@@ -78,11 +84,11 @@ const Detail = () => {
                     navigate(`/write/${id}`, { state: postList.data })
                   }
                 >
-                  <img src={edit} alt="" />
+                  <Edit />
                   <span>게시글 수정</span>
                 </ModifyBtn>
                 <DeleteBtn onClick={deletePostClick}>
-                  <img src={remove} alt="" />
+                  <Remove/>
                   <span>게시글 삭제</span>
                 </DeleteBtn>
               </>
@@ -168,21 +174,22 @@ const ArticleTop = styled.div`
   padding: 32px;
   padding-top: 16px;
   position: relative;
-  @media (max-width: 770px) {
+
+  @media (max-width: 786px) {
     height: 580px;
-    padding-top: 0px;
+    padding: 0 16px 16px 16px;
   }
 `;
 
 const User = styled.div`
   position: relative;
   height: 153px;
-  //margin-bottom: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   line-height: 30px;
+
   div {
     display: flex;
     flex-direction: column;
@@ -192,34 +199,27 @@ const User = styled.div`
       padding-top: 5px;
     }
   }
+
   h3 {
     padding-bottom: 15px;
   }
+
   img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
   }
-  @media screen and (max-width: 770px) {
-    height: 120px;
+
+  @media screen and (max-width: 786px) {
     h3 {
-      //padding-bottom: 30px;
+      padding:0 10px;
+      padding-bottom:5px;
     }
-    div {
-      /* display:flex;
-      align-items:center; */
-      /* flex-direction:row;
-      position:absolute;
-      bottom:0;
-      left:0; */
-    }
-    /* img{
-      margin-right:10px;
-    } */
   }
 `;
 const ArrowBtn = styled(Arrow)`
   stroke: ${(props) => props.theme.toggleFontColor};
+
   @media screen and (max-width: 786px) {
     width: 12px;
   }
@@ -236,21 +236,28 @@ const Userbtn = styled.div`
   img {
     margin: 0 5px;
   }
+
   @media screen and (max-width: 786px) {
-    top: 115px;
+    top:130px;
   }
 `;
 
 const ModifyBtn = styled.button`
   background-color: ${(props) => props.theme.divBackGroundColor};
-  padding: 0 10px 0 5px;
+  padding:0 10px 0 5px;
   height: 32px;
-  border: 1px solid #777;
+  border: ${(props) => props.theme.modifyBtnBorder};
   border-radius: 8px;
   display: flex;
   align-items: center;
   cursor: pointer;
-  
+  stroke: ${props => props.theme.headerTextColor};
+
+  span {
+    color: ${(props) => props.theme.headerTextColor};
+    padding-left:5px;
+  }
+
   @media screen and (max-width: 770px) {
     span {
       display: none;
@@ -264,20 +271,26 @@ const ModifyBtn = styled.button`
 `;
 
 export const DeleteBtn = styled(ModifyBtn)`
-  border: 1px solid #FF6955;
+  border: ${props => props.theme.alertBorder};
   margin-left: 10px;
+  stroke: ${props => props.theme.removeBtnColor};
 
   span {
-    color: #FF6955;
+    color: ${props => props.theme.removeBtnColor};
+    
   }
-`;
 
+
+    
+    
+
+`;
 
 const LinkBtn = styled.div`
   display: flex;
-
+  
   justify-content: space-between;
-  padding-bottom: 10px;
+  //padding-bottom: 10px;
   @media screen and(max-width:768) {
     position: absolute;
     right: 0;
@@ -295,13 +308,6 @@ const ContentWrap = styled.div`
   padding-top: 10px;
   line-height: 48px;
   position: relative;
-`;
-
-const Author = styled.div`
-display: flex;
-flex-direction: column;
-margin-top: 10px;
-cursor: pointer;
 `;
 
 const Title = styled.div`

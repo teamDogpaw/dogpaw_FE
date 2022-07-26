@@ -31,10 +31,22 @@ const Main = () => {
   const [isFilter, setIsFilter] = useState(false);
 
   const userMe = user?.nickname;
-  const isLogin = localStorage.getItem("token");
 
   const { data, status, fetchNextPage, isFetchingNextPage } =
     useGetKeepPostList();
+
+  /*   useEffect(() => {
+    let token = new URL(window.location.href).searchParams.get("token");
+    console.log(token);
+    localStorage.setItem("token", token);
+    localStorage.setItem
+    // window.alert(
+    //   "사이트 이용 원활을 위해 마이페이지에서 추가 정보를 기입하세요.:)"
+    // );
+    if (token) {
+      window.location.replace("/");
+    }
+  }, []); */
 
   useEffect(() => {
     if (inView) fetchNextPage();
@@ -78,14 +90,6 @@ const Main = () => {
   const clickedToggle = () => {
     setToggle((prev) => !prev);
   };
-
-  let token = new URL(window.location.href).searchParams.get("token");
-  console.log(token);
-  //localStorage.setItem("token", token);
-  // window.alert(
-  //   "사이트 이용 원활을 위해 마이페이지에서 추가 정보를 기입하세요.:)"
-  // );
-  //window.location.replace("/");
 
   return (
     <Wrap>
@@ -139,10 +143,6 @@ const Main = () => {
                     <Article
                       key={post.postId}
                       onClick={() => {
-                        if (!isLogin) {
-                          window.alert("로그인이 필요한 서비스입니다!");
-                          return;
-                        }
                         navigate("/detail/" + post.postId);
                       }}
                     >
@@ -156,7 +156,7 @@ const Main = () => {
                             <li key={idx}>#{lang}</li>
                           ))}
                         </ul>
-                        <p style={{ color: "#ffb673" }}>#{post.online}</p>
+                        <p style={{ color: "#ffb673",marginTop:"5px" }}>#{post.online}</p>
                       </Hashtag>
                       <Info>
                         <div>
@@ -203,10 +203,6 @@ const Main = () => {
                     <Article
                       key={post.postId}
                       onClick={() => {
-                        if (!isLogin) {
-                          window.alert("로그인이 필요한 서비스입니다!");
-                          return;
-                        }
                         navigate("/detail/" + post.postId);
                       }}
                     >
@@ -368,32 +364,26 @@ const ToggleBtn = styled.div`
 `;
 
 const Toggle = styled.div`
- // ${displyStyle}
- // justify-content:space-around;
 
- & p:first-child{
+  ${displyStyle}
+  justify-content:space-around;
 
-    margin-left:3px;
-    padding:0 10px;
 
+  & p:first-child {
+    margin-left: 3px;
+    padding: 0 10px;
   }
 
-  & p:nth-child(2){
-
-    padding:0 5px;
-
+  & p:nth-child(2) {
+    padding: 0 5px;
   }
-
 
   p {
-
     font-weight: 700;
     color: #ffb673;
     opacity: 0.5;
-    margin-right:3px;
+    margin-right: 3px;
   }
-
- 
 `;
 
 const Circle = styled.div`
@@ -409,7 +399,7 @@ const Circle = styled.div`
   ${(props) =>
     props.toggle &&
     css`
-      transform: translate(90%, 0); 
+      transform: translate(95%, 0);
       transition: all 0.4s ease-in-out;
     `}
 
@@ -483,10 +473,15 @@ export const Hashtag = styled.div`
   width: 85%;
   position: absolute;
   bottom: 100px;
+  
 
   li {
     margin-right: 5px;
     color: #ffb673;
+  }
+
+  p{
+    margin-top:5px;
   }
 
   ${ellipsisText}
