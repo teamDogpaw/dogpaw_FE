@@ -157,10 +157,9 @@ const Wrap = styled.div`
     font-size: 16px;
   }
 
-
-  summary::-webkit-details-marker {
-  display: none;
-}
+  summary::marker {
+    font-size: 0;
+  }
 
   summary::-webkit-details-marker {
     display: none;
