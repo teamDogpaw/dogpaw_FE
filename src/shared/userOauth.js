@@ -77,7 +77,10 @@ export const withDraw = () => {
   debounce = setTimeout(async () => {
     await instance
       .put(`/user/delete`)
-      .then((res) => window.alert("성공적으로 회원탈퇴를 마쳤습니다. :)"))
+      .then((res) => {
+        window.alert("성공적으로 회원탈퇴를 마쳤습니다. :)");
+        window.location.replace("/");
+      })
       .catch((err) => window.alert("다시한번 회원탈퇴를 눌러주세요. :("));
   });
 };
