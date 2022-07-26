@@ -60,6 +60,7 @@ const Section = styled.section`
   justify-content:center;
   align-items:center;
   border-radius: 15px;
+  border:${props => props.theme.border};
   background-color: ${(props)=>props.theme.backgroundColor};
   animation: ${ModalShow} 0.3s;
   overflow: hidden;

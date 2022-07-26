@@ -1,17 +1,19 @@
 import { useRef, useState } from "react";
 import { useQueryClient } from "react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { useGetCommentList, usePostComment } from "../hook/useCommentData";
 import { Btn } from "../styles/style";
 import Comment from "./Comment";
+import ModalOpen from "./Modal_prev";
 import ReplyComment from "./ReplyComment";
 
 const Comments = () => {
+  const navigate = useNavigate();
   const params = useParams();
   const comment_ref = useRef("");
   const [btnState, setBtnState] = useState(false);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const id = params.postId;
 
   const queryClient = useQueryClient();
@@ -42,6 +44,17 @@ const Comments = () => {
     }
   };
 
+  const viewModal = () => {
+    setIsModalOpen((prev) => !prev);
+  };
+
+  const userChk = () =>{
+    const isLogin = localStorage.getItem("token");
+    if(!isLogin){
+      viewModal();
+    }
+  }
+
   return (
     <Wrap>
       <h3>댓글 {commentList?.data.data.length}개</h3>
@@ -54,7 +67,11 @@ const Comments = () => {
           onChange={onChange}
         />
 
-        <Button onClick={addCommentClick} isActive={btnState}>
+        <Button onClick={()=>{
+          userChk();
+          addCommentClick();
+          
+        }} isActive={btnState}>
           등록하기
         </Button>
       </CommentBox>
@@ -76,6 +93,7 @@ const Comments = () => {
           </>
         ))}
       </div>
+      {isModalOpen && <ModalOpen viewModal={viewModal}/>}
     </Wrap>
   );
 };
@@ -122,4 +140,6 @@ const Button = styled(Btn)`
           background-color: #ffb673;
         `}
 `;
+
+
 export default Comments;

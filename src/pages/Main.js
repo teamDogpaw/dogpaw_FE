@@ -488,7 +488,7 @@ export const Hashtag = styled.div`
   -webkit-line-clamp: 1;
 `;
 
-const Deadline = styled.div`
+export const Deadline = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -498,6 +498,7 @@ const Deadline = styled.div`
   background-color: black;
   border-radius: 6px;
 `;
+
 export const Footer = styled.div`
   ${displyStyle}
   justify-content: space-between;
