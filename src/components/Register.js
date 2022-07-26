@@ -211,7 +211,7 @@ const Register = ({ setModalContent }) => {
             )
           }
           onClick={() => {
-            register(data, (setModalContent = { setModalContent }));
+            register(data);
             //setModalContent(<Login setModalContent={setModalContent}/>);
           }}
         >

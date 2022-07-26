@@ -26,24 +26,27 @@ const Header = () => {
   const detailsRef = useRef(null);
   const isLogin = localStorage.getItem("token");
 
-let [searchParams, setSearchParams] = useSearchParams();
-const isKakao = searchParams.get('nickname');
+  let [searchParams, setSearchParams] = useSearchParams();
+  const isKakao = searchParams.get("nickname");
+  const kakaoNick = localStorage.getItem("socialNick");
+  useEffect(() => {
+    if (isKakao) {
+      const token = searchParams.get("token");
+      const retoken = searchParams.get("refreshtoken");
+      const userId = searchParams.get("userId");
+      localStorage.setItem("id", userId);
+      localStorage.setItem("token", token);
+      localStorage.setItem("retoken", retoken);
+      localStorage.setItem("socialNick", isKakao);
+      window.location.replace("/");
+    }
 
-useEffect(()=>{
-  if(isKakao){
-    const token = searchParams.get('token');
-    const retoken = searchParams.get('refreshtoken');
-    const userId = searchParams.get('userId')
-    localStorage.setItem("id", userId)
-    localStorage.setItem("token", token)
-    localStorage.setItem("retoken",retoken)
-  }
-  if(isKakao === "default"){
-    setIsModalOpen(true);
-  } else {
-    setIsModalOpen(false);
-  }
-},[])
+    if (kakaoNick === "default") {
+      setIsModalOpen(true);
+    } else {
+      setIsModalOpen(false);
+    }
+  }, []);
 
   const details = detailsRef.current;
   if (details) {
@@ -61,10 +64,11 @@ useEffect(()=>{
     window.location.replace("/");
   };
 
-
   return (
     <>
-      {isModalOpen ? <ModalOpen viewModal={viewModal} isKakao={isKakao} /> : null}
+      {isModalOpen ? (
+        <ModalOpen viewModal={viewModal} isKakao={isKakao} />
+      ) : null}
       <Wrap>
         <ContentWrap>
           <div
@@ -91,7 +95,6 @@ useEffect(()=>{
                 </StyledLink>
                 <Details>
                   <MessageList>
-                    
                     {alert?.length === 0 ? (
                       <img src={bell} alt="" />
                     ) : (
@@ -102,7 +105,7 @@ useEffect(()=>{
                     <div>
                       <h4>나의 알림</h4>
                     </div>
-                    
+
                     <li>
                       <Sse />
                     </li>
@@ -155,16 +158,15 @@ const Wrap = styled.div`
   summary::marker {
     font-size: 0;
   }
-
 `;
 
 const Img = styled.img`
-cursor: pointer;
+  cursor: pointer;
   width: 167px;
   height: 46px;
 
-  @media screen and (max-width: 786px){
-    width:130px;
+  @media screen and (max-width: 786px) {
+    width: 130px;
   }
 `;
 
@@ -221,7 +223,7 @@ const Summary = styled.summary`
     height: 38px;
   }
 
-  @media screen and (max-width: 786px){
+  @media screen and (max-width: 786px) {
     img {
       width: 34px;
       height: 34px;
@@ -284,25 +286,22 @@ const Message = styled.ul`
   padding: 16px;
   z-index: 99;
 
-
   h4 {
     margin-bottom: 10px;
-    display:flex;
-    justify-content:flex-start;
+    display: flex;
+    justify-content: flex-start;
   }
 
   li {
     padding: 16px 0;
   }
 
-@media screen and (max-width:500px) {
- right:-60px;
- width:250px;
-}
+  @media screen and (max-width: 500px) {
+    right: -60px;
+    width: 250px;
+  }
 `;
 
-const MessageList = styled.summary`
-
-`;
+const MessageList = styled.summary``;
 
 export default Header;

@@ -35,6 +35,19 @@ const Main = () => {
   const { data, status, fetchNextPage, isFetchingNextPage } =
     useGetKeepPostList();
 
+  /*   useEffect(() => {
+    let token = new URL(window.location.href).searchParams.get("token");
+    console.log(token);
+    localStorage.setItem("token", token);
+    localStorage.setItem
+    // window.alert(
+    //   "사이트 이용 원활을 위해 마이페이지에서 추가 정보를 기입하세요.:)"
+    // );
+    if (token) {
+      window.location.replace("/");
+    }
+  }, []); */
+
   useEffect(() => {
     if (inView) fetchNextPage();
   }, [fetchNextPage, inView, filterList]);
@@ -77,14 +90,6 @@ const Main = () => {
   const clickedToggle = () => {
     setToggle((prev) => !prev);
   };
-
-  let token = new URL(window.location.href).searchParams.get("token");
-  console.log(token);
-  //localStorage.setItem("token", token);
-  // window.alert(
-  //   "사이트 이용 원활을 위해 마이페이지에서 추가 정보를 기입하세요.:)"
-  // );
-  //window.location.replace("/");
 
   return (
     <Wrap>
@@ -359,32 +364,24 @@ const ToggleBtn = styled.div`
 `;
 
 const Toggle = styled.div`
- // ${displyStyle}
- // justify-content:space-around;
+  // ${displyStyle}
+  // justify-content:space-around;
 
- & p:first-child{
-
-    margin-left:3px;
-    padding:0 10px;
-
+  & p:first-child {
+    margin-left: 3px;
+    padding: 0 10px;
   }
 
-  & p:nth-child(2){
-
-    padding:0 5px;
-
+  & p:nth-child(2) {
+    padding: 0 5px;
   }
-
 
   p {
-
     font-weight: 700;
     color: #ffb673;
     opacity: 0.5;
-    margin-right:3px;
+    margin-right: 3px;
   }
-
- 
 `;
 
 const Circle = styled.div`
@@ -400,7 +397,7 @@ const Circle = styled.div`
   ${(props) =>
     props.toggle &&
     css`
-      transform: translate(95%, 0); 
+      transform: translate(95%, 0);
       transition: all 0.4s ease-in-out;
     `}
 

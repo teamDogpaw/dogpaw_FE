@@ -1,5 +1,6 @@
 import instance from "./axios";
 import Login from "../components/Login";
+import { useRecoilValue } from "recoil";
 
 let debounce = null;
 
@@ -33,7 +34,7 @@ export const login = (props) => {
 };
 
 // 회원가입 정보
-export const register = (props, setModalContent = { setModalContent }) => {
+export const register = (props) => {
   if (debounce) {
     clearTimeout(debounce);
   }
@@ -43,7 +44,6 @@ export const register = (props, setModalContent = { setModalContent }) => {
       .post("/user/signup", props)
       .then((res) => {
         window.alert("회원 가입 성공 :)");
-        window.location.replace(<Login setModalContent={setModalContent} />);
       })
       .catch((err) => {
         window.alert("회원 가입 실패 :(");
@@ -66,4 +66,17 @@ export const nickCheck = (props) => {
         window.alert("중복된 닉네임입니다. :(");
       });
   }, 500);
+};
+
+//회원 탈퇴 기능.
+export const withDraw = () => {
+  if (debounce) {
+    clearTimeout(debounce);
+  }
+  debounce = setTimeout(async () => {
+    await instance
+      .put(`/user/delete`)
+      .then((res) => window.alert("성공적으로 회원탈퇴를 마쳤습니다. :)"))
+      .catch((err) => window.alert("다시한번 회원탈퇴를 눌러주세요. :("));
+  });
 };
