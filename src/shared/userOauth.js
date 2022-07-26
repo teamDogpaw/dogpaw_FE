@@ -35,7 +35,7 @@ export const login = (props) => {
 
 
 // 회원가입
-export const register = (props) => {
+export const register = (data) => {
 
   if (debounce) {
     clearTimeout(debounce);
