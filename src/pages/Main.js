@@ -31,7 +31,6 @@ const Main = () => {
   const [isFilter, setIsFilter] = useState(false);
 
   const userMe = user?.nickname;
-  const isLogin = localStorage.getItem("token");
 
   const { data, status, fetchNextPage, isFetchingNextPage } =
     useGetKeepPostList();
@@ -139,10 +138,6 @@ const Main = () => {
                     <Article
                       key={post.postId}
                       onClick={() => {
-                        if (!isLogin) {
-                          window.alert("로그인이 필요한 서비스입니다!");
-                          return;
-                        }
                         navigate("/detail/" + post.postId);
                       }}
                     >
@@ -203,10 +198,6 @@ const Main = () => {
                     <Article
                       key={post.postId}
                       onClick={() => {
-                        if (!isLogin) {
-                          window.alert("로그인이 필요한 서비스입니다!");
-                          return;
-                        }
                         navigate("/detail/" + post.postId);
                       }}
                     >
@@ -409,7 +400,7 @@ const Circle = styled.div`
   ${(props) =>
     props.toggle &&
     css`
-      transform: translate(90%, 0); 
+      transform: translate(95%, 0); 
       transition: all 0.4s ease-in-out;
     `}
 

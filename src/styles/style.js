@@ -37,6 +37,7 @@ body {
   line-height: 1;
   background-color: ${(props) => props.theme.backgroundColor} ;
   font-size: 16px;
+  font-family: 'Noto Sans CJK KR';
 }
 menu, ol, ul {
   list-style: none;

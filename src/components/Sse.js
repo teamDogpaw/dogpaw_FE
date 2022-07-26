@@ -12,6 +12,7 @@ import styled from "styled-components";
 import remove from "../styles/icon/detail/remove.svg";
 import { useRecoilState } from "recoil";
 import { alertListAtom } from "../atom/atom";
+import { useLocation } from "react-router-dom";
 
 const Sse = () => {
   const token = localStorage.getItem("token");
