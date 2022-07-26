@@ -82,7 +82,6 @@ const Comments = () => {
             <Comment key={data.commentId} data={data} />
             {data.commentReplyList.map((reply) => (
               /* 대 댓글 부분 */
-
               <ReplyComment
                 key={reply.id}
                 data={reply}

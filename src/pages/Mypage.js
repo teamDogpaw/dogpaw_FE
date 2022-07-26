@@ -145,7 +145,7 @@ const MyPage = () => {
                 withDraw(userId, token);
               }}
             >
-              회원탈퇴
+              회원 탈퇴
             </Button3>
             <Button2 onClick={imageReSet}>기본 이미지로 변경</Button2>
             <Button onClick={EditMyData}>편집 완료</Button>
@@ -287,16 +287,11 @@ const Button = styled(Btn)`
 `;
 
 const Button2 = styled(Button)`
-  right: 100px;
+  margin-right: 97px;
 `;
 
-const Button3 = styled(Button)`
-  border: 1px solid #ff0000;
-  /* margin-left: 10px; */
-  right: 300px;
-  span {
-    color: #ff0000;
-  }
+const Button3 = styled(Button2)`
+  margin-right: 251px;
 `;
 
 export default MyPage;
