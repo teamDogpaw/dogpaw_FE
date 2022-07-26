@@ -151,7 +151,7 @@ const Main = () => {
                             <li key={idx}>#{lang}</li>
                           ))}
                         </ul>
-                        <p style={{ color: "#ffb673" }}>#{post.online}</p>
+                        <p style={{ color: "#ffb673",marginTop:"5px" }}>#{post.online}</p>
                       </Hashtag>
                       <Info>
                         <div>
@@ -466,10 +466,15 @@ export const Hashtag = styled.div`
   width: 85%;
   position: absolute;
   bottom: 100px;
+  
 
   li {
     margin-right: 5px;
     color: #ffb673;
+  }
+
+  p{
+    margin-top:5px;
   }
 
   ${ellipsisText}

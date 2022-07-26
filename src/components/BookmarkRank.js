@@ -45,9 +45,10 @@ const BookmarkRank = () => {
               ) : (
                 <img src={bronze} alt="" />
               )}
+              <h1>{list.title}</h1>
               <Content>
-                <h1>{list.title}</h1>
-                <p>{list.content}</p>
+                
+                <p style={{paddingBottom:"10"}}>{list.content}</p>
               </Content>
               <Hashtag>
                 <ul>
@@ -96,6 +97,7 @@ const ArticleWrap2 = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin-top: 20px;
+
 `;
 
 const Article2 = styled.div`

@@ -8,8 +8,8 @@ import { ReactComponent as BookmarkFill } from "../styles/icon/post/bookmarkFill
 import { ReactComponent as Arrow } from "../styles/icon/detail/backArrow.svg";
 import person from "../styles/icon/global/profile.svg";
 import paw from "../styles/icon/detail/paw.svg";
-import edit from "../styles/icon/detail/edit.svg";
-import remove from "../styles/icon/detail/remove.svg";
+import {ReactComponent as Edit} from "../styles/icon/detail/edit.svg";
+import {ReactComponent as Remove} from "../styles/icon/detail/remove.svg";
 import { usePostBookmark } from "../hook/useUserData";
 import ApplyBtn from "../components/ApplyBtn";
 import Loading from "../shared/Loading";
@@ -84,11 +84,11 @@ const Detail = () => {
                     navigate(`/write/${id}`, { state: postList.data })
                   }
                 >
-                  <img src={edit} alt="" />
+                  <Edit />
                   <span>게시글 수정</span>
                 </ModifyBtn>
                 <DeleteBtn onClick={deletePostClick}>
-                  <img src={remove} alt="" />
+                  <Remove/>
                   <span>게시글 삭제</span>
                 </DeleteBtn>
               </>
@@ -212,7 +212,7 @@ const User = styled.div`
 
   @media screen and (max-width: 786px) {
     h3 {
-      padding:0 15px;
+      padding:0 10px;
       padding-bottom:5px;
     }
   }
@@ -244,13 +244,19 @@ const Userbtn = styled.div`
 
 const ModifyBtn = styled.button`
   background-color: ${(props) => props.theme.divBackGroundColor};
-  padding: 0 10px 0 5px;
+  padding:0 10px 0 5px;
   height: 32px;
-  border: 1px solid #777;
+  border: ${(props) => props.theme.modifyBtnBorder};
   border-radius: 8px;
   display: flex;
   align-items: center;
   cursor: pointer;
+  stroke: ${props => props.theme.headerTextColor};
+
+  span {
+    color: ${(props) => props.theme.headerTextColor};
+    padding-left:5px;
+  }
 
   @media screen and (max-width: 770px) {
     span {
@@ -265,12 +271,19 @@ const ModifyBtn = styled.button`
 `;
 
 export const DeleteBtn = styled(ModifyBtn)`
-  border: 1px solid #ff0000;
+  border: ${props => props.theme.alertBorder};
   margin-left: 10px;
+  stroke: ${props => props.theme.removeBtnColor};
 
   span {
-    color: #ff0000;
+    color: ${props => props.theme.removeBtnColor};
+    
   }
+
+
+    
+    
+
 `;
 
 const LinkBtn = styled.div`
