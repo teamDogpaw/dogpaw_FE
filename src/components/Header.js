@@ -152,9 +152,11 @@ const Wrap = styled.div`
   p {
     font-size: 16px;
   }
-  summary::marker {
-    font-size: 0;
-  }
+
+
+  summary::-webkit-details-marker {
+  display: none;
+}
 
 `;
 

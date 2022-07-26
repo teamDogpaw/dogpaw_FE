@@ -77,7 +77,8 @@ const SocialModal = () => {
         <span>회원가입</span>
       </Title>
       <InputWrap>
-        <InputContent>
+      <Mobile>
+      <InputContent>
           닉네임
           <NicknameWrap>
             <LoginInput
@@ -104,6 +105,8 @@ const SocialModal = () => {
             )}
           </p>
         </InputContent>
+      </Mobile>
+        
         <InputContent>
           기술 스택
           <StackSelector setRegisterData={setStack} />
@@ -130,6 +133,12 @@ export const SocialBtn = styled(Btn)`
 margin-bottom: 45px;
 cursor: pointer;
   width: 100%;
+
+  
+`;
+
+const Mobile = styled.div`
+display: none;
 `;
 
 export default SocialModal;

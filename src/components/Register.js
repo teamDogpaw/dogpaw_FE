@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import StackSelector from "./StackSeletor";
 import Login, {
@@ -10,14 +10,24 @@ import Login, {
   Title,
   Wrap,
 } from "./Login";
-import { Btn } from "../styles/style";
-import { nickCheck, register } from "../shared/userOauth";
+import { Btn, LineBtn } from "../styles/style";
+import { nickCheck } from "../shared/userOauth";
+import { userApis } from "../api/user";
+
+let debounce = null;
+
 
 const Register = ({ setModalContent }) => {
   //const setOnModal = useSetRecoilState(modalChange);
-
+  const [windowSize, setWindowSize] = useState({
+    width: undefined,
+    height: undefined
+  });
+  const [isNextPage, setIsNextPage] = useState(false);
+  const [isMobile, setIsMobile] = useState();
   //닉네임, 이메일, 비밀번호, 비밀번호 확인, 스택
   const [nickName, setNickName] = useState("");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
@@ -35,6 +45,27 @@ const Register = ({ setModalContent }) => {
   const [isPassword, setIsPassword] = useState(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
 
+  const register = async (data) => {
+    if (debounce) {
+      clearTimeout(debounce);
+    }
+    debounce = setTimeout(async () => {
+    try {
+      let signUp = userApis.signUp;
+      const response = await signUp(data)
+      console.log(response)
+      if (response.status === 200) {
+        alert('회원가입 성공!')
+        setModalContent(<Login setModalContent={setModalContent} />)
+      }
+    } catch (err) {
+      if (err.response.status === 400) {
+        alert('중복된 이메일 혹은 닉네임입니다')
+      }
+    }
+  }, 50);
+  };
+
   // 이메일
   const onChangeEmail = useCallback((e) => {
     const emailRegex =
@@ -51,7 +82,7 @@ const Register = ({ setModalContent }) => {
     }
   }, []);
 
-  // 닉네임
+
   const onChangeId = useCallback((e) => {
     setNickName(e.target.value);
     if (e.target.value.length < 3 || e.target.value.length > 10) {
@@ -104,6 +135,96 @@ const Register = ({ setModalContent }) => {
     stacks: stack,
   };
 
+  useEffect(() => {
+    function handleResize() {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    }
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    if (windowSize.width < 600) {
+      setIsMobile(true);
+    } else if (windowSize.width >= 600) {
+      setIsMobile(false);
+      setIsNextPage(false);
+    }
+    return () => window.removeEventListener('resize', handleResize)
+  }, [windowSize.width])
+
+  if (isNextPage) {
+    return (
+      <>
+        <Wrap>
+          <Title>
+            REGISTER
+            <span> 회원가입</span>
+          </Title>
+          <InputWrap>
+            <InputContent>
+              닉네임
+              <NicknameWrap>
+                <LoginInput
+                  text="ID"
+                  type="text"
+                  typeName="id"
+                  onChange={onChangeId}
+                  placeholder="닉네임을 입력해주세요."
+                />
+                <Btn
+                  disabled={nickName.length < 3 || nickName.length > 10}
+                  onClick={() => {
+                    nickCheck(nickData);
+                  }}
+                >
+                  중복확인
+                </Btn>
+              </NicknameWrap>
+              <p>
+                {nickName.length > 0 && (
+                  <span className={`message ${isNick ? "success" : "error"}`}>
+                    {nickMessage}
+                  </span>
+                )}
+              </p>
+            </InputContent>
+            <InputContent>
+              기술 스택
+              <StackSelector setRegisterData={setStack} />
+            </InputContent>
+            <LineBtn onClick={() => setIsNextPage(false)}>
+              뒤로가기
+            </LineBtn>
+            <LoginBtn
+              type="submit"
+              disabled={
+                !(
+                  isNick &&
+                  isEmail &&
+                  isPassword &&
+                  isPasswordConfirm &&
+                  nickName &&
+                  email &&
+                  password &&
+                  passwordConfirm &&
+                  stack.length > 0
+                )
+              }
+              onClick={() => { register(data) }}
+            >
+              회원가입하기
+            </LoginBtn>
+
+          </InputWrap>
+
+        </Wrap>
+
+      </>
+
+    )
+  }
+
   return (
     <Wrap>
       <Title>
@@ -128,7 +249,7 @@ const Register = ({ setModalContent }) => {
             )}
           </p>
         </InputContent>
-        <InputContent>
+        {isMobile ? null : <InputContent>
           닉네임
           <NicknameWrap>
             <LoginInput
@@ -154,7 +275,8 @@ const Register = ({ setModalContent }) => {
               </span>
             )}
           </p>
-        </InputContent>
+        </InputContent>}
+
         <InputContent>
           비밀번호
           <LoginInput
@@ -191,32 +313,37 @@ const Register = ({ setModalContent }) => {
             )}
           </p>
         </InputContent>
-        <InputContent>
+
+        {isMobile ? null : <InputContent>
           기술 스택
           <StackSelector setRegisterData={setStack} />
-        </InputContent>
-        <LoginBtn
-          type="submit"
-          disabled={
-            !(
-              isNick &&
-              isEmail &&
-              isPassword &&
-              isPasswordConfirm &&
-              nickName &&
-              email &&
-              password &&
-              passwordConfirm &&
-              stack.length > 0
-            )
-          }
-          onClick={() => {
-            register(data, (setModalContent = { setModalContent }));
-            //setModalContent(<Login setModalContent={setModalContent}/>);
-          }}
-        >
-          회원가입하기
-        </LoginBtn>
+        </InputContent>}
+
+        {isMobile ?
+          <LoginBtn onClick={() => setIsNextPage(true)}>
+            다음
+          </LoginBtn>
+          :
+          <LoginBtn
+            type="submit"
+            disabled={
+              !(
+                isNick &&
+                isEmail &&
+                isPassword &&
+                isPasswordConfirm &&
+                nickName &&
+                email &&
+                password &&
+                passwordConfirm &&
+                stack.length > 0
+              )
+            }
+            onClick={() => { register(data) }}
+          >
+            회원가입하기
+          </LoginBtn>}
+
       </InputWrap>
 
       <Redirect>
@@ -234,10 +361,16 @@ const Register = ({ setModalContent }) => {
   );
 };
 
-const NicknameWrap = styled.div`
+export const NicknameWrap = styled.div`
   width: 100%;
   display: flex;
   gap: 12px;
+`;
+
+const Mobile = styled.div`
+@media screen and (max-width:600px) {
+  display:none;
+}
 `;
 
 export default Register;
