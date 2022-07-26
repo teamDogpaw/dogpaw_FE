@@ -75,7 +75,7 @@ const SocialModal = () => {
         <span>회원가입</span>
       </Title>
       <InputWrap>
-      <Mobile>
+
       <InputContent>
           닉네임
           <NicknameWrap>
@@ -103,7 +103,7 @@ const SocialModal = () => {
             )}
           </p>
         </InputContent>
-      </Mobile>
+    
         
         <InputContent>
           기술 스택
@@ -135,8 +135,5 @@ export const SocialBtn = styled(Btn)`
   
 `;
 
-const Mobile = styled.div`
-display: none;
-`;
 
 export default SocialModal;
