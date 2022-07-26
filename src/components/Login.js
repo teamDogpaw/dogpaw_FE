@@ -72,8 +72,9 @@ const Login = ({ setModalContent }) => {
         <InputContent>
           이메일
           <LoginInput
+             autocomplete="email"
             text="ID"
-            type="text"
+            type="email"
             typeName="id"
             onChange={onChangeId}
             placeholder="이메일을 입력해주세요."
@@ -179,7 +180,7 @@ export const InputWrap = styled.div`
 export const InputContent = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   width: 100%;
   span {
     font-size: 14px;
@@ -202,8 +203,8 @@ const SocialWrap = styled.div`
 export const LoginInput = styled.input`
   width: 100%;
   height: 44px;
-  background-color: #fff;
-  border: 2px solid #eee;
+  background-color: ${(props)=>props.theme.divBackGroundColor};
+  border: ${(props)=>props.theme.border};
   border-radius: 12px;
   padding: 12px;
   ::placeholder {
@@ -212,6 +213,14 @@ export const LoginInput = styled.input`
   :focus {
     outline: none;
   }
+  /* &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    background-color: ${(props)=>props.theme.divBackGroundColor};
+  } */
+ 
+  
 `;
 
 export const Redirect = styled.div`
