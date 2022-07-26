@@ -91,6 +91,7 @@ const Main = () => {
     setToggle((prev) => !prev);
   };
 
+  
   return (
     <Wrap>
       <Help>
@@ -294,6 +295,8 @@ const Wrap = styled.div`
   @media screen and (max-width: 1200px) {
     margin: 0px 30px 100px 30px;
   }
+
+ 
 
 `;
 

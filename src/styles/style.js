@@ -38,6 +38,9 @@ body {
   background-color: ${(props) => props.theme.backgroundColor} ;
   font-size: 16px;
   font-family: 'Noto Sans CJK KR';
+  @media screen and (max-width:700px){
+   font-size: 14px;
+  }
 }
 menu, ol, ul {
   list-style: none;
@@ -57,8 +60,19 @@ table {
 * {
   box-sizing: border-box;
   color:${(props) => props.theme.textColor};
-  
 
+
+}
+input{
+  @media screen and (max-width:700px){
+   font-size: 14px;
+  }
+}
+
+summary{
+  @media screen and (max-width:700px){
+   font-size: 14px;
+  }
 }
 
 h1{
@@ -152,6 +166,7 @@ background-color: ${(props) => props.theme.stackBackground};
 padding: 12px 12px;
 border-radius: 30px;
 margin-right: 16px;
+font-size: 14px;
 color: ${(props) => props.theme.stackColor};
 `;
 

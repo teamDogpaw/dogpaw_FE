@@ -75,10 +75,10 @@ const StackSelector = ({
                     })}
                 </SelectBoxOpen>
             </details>
-            <div style={{ display: "flex", flexWrap: "wrap", marginTop: "10px" }}>
+            <div style={{ display: "flex", flexWrap: "nowrap", marginTop: "10px" , flexDirection:"row"}}>
                 {stack.map((stack, index) => {
                     return (
-                        <MyStack style={{ margin: "0px 10px 10px 0px" }}
+                        <MyStack style={{ margin: "0px 10px 10px 0px", display:"flex"}}
                             key={index}
                             onClick={() => removeStack(stack)}
                         >
