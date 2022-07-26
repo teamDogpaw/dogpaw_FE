@@ -74,7 +74,7 @@ const Sse = () => {
   };
 
   const messageRead = async (id, url, status) => {
-   // window.location.href = url;
+   window.location.href = url;
     console.log(id, url, status);
     await readAlert(id);
     queryClient.invalidateQueries("alertList");
