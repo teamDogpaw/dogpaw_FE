@@ -11,6 +11,8 @@ import {
 } from "./Login";
 import { Btn } from "../styles/style";
 import StackSelector from "./StackSeletor";
+import axios from "axios";
+const baseURL = process.env.REACT_APP_BASE_URL;
 
 const SocialModal = () => {
   //닉네임, 스택
@@ -45,7 +47,11 @@ const SocialModal = () => {
       stacks: stack,
     };
     try {
-      const response = await instance.post("user/signup/addInfo", data )
+      const response = await axios.post(`${baseURL}/user/signup/addInfo`, data,{
+        headers:{
+          Authorization:`Bearer ${token}`
+        }
+      })
         console.log(response)
         // .then((res) => {
           // window.alert("추가 정보를 기입해 주세요. :)");
