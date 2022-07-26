@@ -33,10 +33,8 @@ export const login = (props) => {
   }, 500);
 };
 
-
 // 회원가입
 export const register = (data) => {
-
   if (debounce) {
     clearTimeout(debounce);
   }
@@ -80,7 +78,11 @@ export const withDraw = () => {
     await instance
       .put(`/user/delete`)
       .then((res) => {
-        window.alert("성공적으로 회원탈퇴를 마쳤습니다. :)");
+        localStorage.removeItem("token");
+        localStorage.removeItem("retoken");
+        localStorage.removeItem("id");
+        localStorage.removeItem("socialNick");
+        window.alert("성공적으로 회원 정보를 삭제하였습니다. :)");
         window.location.replace("/");
       })
       .catch((err) => window.alert("다시한번 회원탈퇴를 눌러주세요. :("));
