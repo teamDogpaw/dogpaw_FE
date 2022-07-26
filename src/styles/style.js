@@ -312,11 +312,13 @@ cursor: pointer;
 fill: ${(props)=>props.theme.keyColor};
 
 @media screen and (max-width:600px){
+  
     }
 
     @media screen and (max-width:375px){
       position: absolute;
    right: 24px;
+   
     }
 `;
 

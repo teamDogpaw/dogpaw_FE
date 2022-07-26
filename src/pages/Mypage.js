@@ -188,6 +188,7 @@ const MyPage = () => {
             >
               회원탈퇴
             </span>
+
             <Button2 onClick={imageReSet}>기본 이미지로 변경</Button2>
           </BtnWrap>
          
@@ -460,6 +461,7 @@ const Button = styled(Btn)`
 
 `;
 
+
 const Button2 = styled(Btn)`
 
 `;
@@ -471,6 +473,7 @@ const Button3 = styled(Btn)`
   span {
     color: #ff0000;
   }
+
 `;
 
 export default MyPage;

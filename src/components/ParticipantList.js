@@ -130,8 +130,9 @@ const Out = styled.div`
     font-size: 14px;
     color: crimson;
     position: absolute;
-    top: 25px;
-    right: 30px;
+    top: 22px;
+    right:25px;
+   
   }
 `;
 

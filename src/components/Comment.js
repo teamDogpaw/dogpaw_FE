@@ -1,4 +1,3 @@
-
 import { useRef, useState } from "react";
 import { useQueryClient } from "react-query";
 
@@ -38,7 +37,7 @@ const Comment = ({ data }) => {
   const { mutateAsync: removeComment } = useRemoveComment();
 
   const modifyCommentClick = async (commentId) => {
-    const commentData = {id,commentId,content:comment_ref.current.value};
+    const commentData = { id, commentId, content: comment_ref.current.value };
     setIsEdit(false);
     await editComment(commentData);
     queryClient.invalidateQueries("commentList");
@@ -67,78 +66,70 @@ const Comment = ({ data }) => {
   };
 
   return (
-  
-      <div>
-        <User >
-          <Img src={data.profileImg || person} alt="사진" />
-          <p>{data.nickname}</p>
-        </User>
-        <Content>
-          {isEdit ? (
-            <input
-              type="text"
-              defaultValue={data.content}
-              ref={comment_ref}
-            />
-          ) : (
-            <p>{data.content}</p>
-          )}
-          <p>{data.modifiedAt.substring(0, 10)}</p>
-          <button
-            style={{ marginLeft: "10px" }}
-            onClick={(e) => setDropdownVisibility(!dropdownVisibility)}
-          >
+    <div>
+      <User>
+        <Img src={data.profileImg || person} alt="사진" />
+        <p>{data.nickname}</p>
+      </User>
+      <Content>
+        {isEdit ? (
+          <input type="text" defaultValue={data.content} ref={comment_ref} />
+        ) : (
+          <p>{data.content}</p>
+        )}
+        <p>
+          {data.modifiedAt.substring(0, 10)}
+          <DropBTN onClick={(e) => setDropdownVisibility(!dropdownVisibility)}>
             {dropdownVisibility ? "닫기" : "답글 쓰기"}
-          </button>
-        </Content>
+          </DropBTN>
+        </p>
+      </Content>
 
-        <Btn>
-          {loginUser === writeUser && (
-            <>
-              {isEdit ? (
-                <UpdateBtn
-
-                  onClick={() => {
-                    modifyCommentClick(data.commentId);
-                  }}
-                >
-                  등록
-                </UpdateBtn>
-              ) : (
-                <ModiBtn onClick={() => setIsEdit(true)}>수정</ModiBtn>
-              )}
-              <DeleteBtn
+      <Btn>
+        {loginUser === writeUser && (
+          <>
+            {isEdit ? (
+              <UpdateBtn
                 onClick={() => {
-                  deleteCommentClick(data.commentId);
+                  modifyCommentClick(data.commentId);
                 }}
               >
-                삭제
-              </DeleteBtn>
-            </>
-          )}
-        </Btn>
-        {/* 대 댓글 작성할 수 있는 input 박스 */}
-        <div className="commentList">
-          <DropDown visibility={dropdownVisibility}>
-            <ul>
-              <li>
-                <Wrap>
-                  <CommentBox>
-                    <Input
-                      type="text"
-                      placeholder="댓글을 남겨주세요"
-                      ref={replyRef}
-                      onKeyPress={onCheckEnter}
-                    />
-                    <Button onClick={addReplyClick}>등록하기</Button>
-                  </CommentBox>
-                </Wrap>
-              </li>
-            </ul>
-          </DropDown>
-        </div>
+                등록
+              </UpdateBtn>
+            ) : (
+              <ModiBtn onClick={() => setIsEdit(true)}>수정</ModiBtn>
+            )}
+            <DeleteBtn
+              onClick={() => {
+                deleteCommentClick(data.commentId);
+              }}
+            >
+              삭제
+            </DeleteBtn>
+          </>
+        )}
+      </Btn>
+      {/* 대 댓글 작성할 수 있는 input 박스 */}
+      <div className="commentList">
+        <DropDown visibility={dropdownVisibility}>
+          <ul>
+            <li>
+              <Wrap>
+                <CommentBox>
+                  <Input
+                    type="text"
+                    placeholder="댓글을 남겨주세요"
+                    ref={replyRef}
+                    onKeyPress={onCheckEnter}
+                  />
+                  <Button onClick={addReplyClick}>등록하기</Button>
+                </CommentBox>
+              </Wrap>
+            </li>
+          </ul>
+        </DropDown>
       </div>
-   
+    </div>
   );
 };
 
@@ -160,6 +151,7 @@ const Img = styled.img`
 `;
 
 const Content = styled.div`
+  position: relative;
   margin-top: 10px;
   line-height: 2;
   input {
@@ -241,6 +233,22 @@ const Button = styled.button`
 
   font-size: 15px;
 
+  cursor: pointer;
+  :hover {
+    background-color: #ff891c;
+  }
+  :active {
+    background-color: #d26500;
+  }
+`;
+const DropBTN = styled.button`
+  background: #ffb673;
+  color: #fff;
+  margin-left: 5px;
+  width: 70px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
   cursor: pointer;
   :hover {
     background-color: #ff891c;
