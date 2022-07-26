@@ -44,9 +44,9 @@ const MyPage = () => {
   ];
 
   const [myData, setMyData] = useState({
-    profileImg: userInfo.profileImg,
-    nickname: userInfo.nickname,
-    stacks: userInfo.stacks,
+    profileImg: userInfo?.profileImg,
+    nickname: userInfo?.nickname,
+    stacks: userInfo?.stacks,
   });
 
   useEffect(() => {

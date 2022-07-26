@@ -128,7 +128,7 @@ const Login = ({ setModalContent }) => {
         아직 계정이 없으신가요?
         <span
           onClick={() => {
-            setModalContent(<SocialModal setModalContent={setModalContent} />);
+            setModalContent(<Register setModalContent={setModalContent} />);
           }}
         >
           회원가입
