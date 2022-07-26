@@ -77,7 +77,7 @@ const Login = ({ setModalContent }) => {
             onChange={onChangeId}
             placeholder="이메일을 입력해주세요."
           />
-          <p>
+          <p className={isEmail ? "success" : "error" }>
             {email.length > 0 && (
               <span className={`message ${isEmail ? "success" : "error"}`}>
                 {emailMessage}
@@ -181,6 +181,10 @@ export const InputContent = styled.div`
     font-size: 14px;
     color: ${(props) => props.theme.keyColor};
   }
+
+  p .error{
+    color:${(props)=>props.theme.errorColor}
+  }
 `;
 
 export const LoginBtn = styled(Btn)`
@@ -218,16 +222,16 @@ export const LoginInput = styled.input`
 
 export const Redirect = styled.div`
   margin-top: 32px;
-  color: ${(props) => props.theme.textColor_sub};
+  color: ${(props) => props.theme.textColor};
   font-size: 0.75rem;
   text-align: center;
 
   span {
     font-weight: bold;
-    color: #9f9f9f;
+    color: ${(props) => props.theme.textColor};
     cursor: pointer;
     :hover {
-      color: ${(props) => props.theme.textColor};
+      color: ${(props) => props.theme.keyColor};
     }
   }
 `;

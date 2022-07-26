@@ -19,9 +19,7 @@ const StackSelector = ({
     const isMypage = useMatch(`/mypage`);
     const isMain = useMatch(`/`);
     const isWrite = useMatch(`/write/*`)
-    console.log(isEdit)
-    console.log(isMypage)
-    console.log(data)
+
     useEffect(() => {
         if (isEdit === true || isMypage !== null) {
             setStack(data.stacks)
@@ -42,6 +40,7 @@ const StackSelector = ({
                 setMyData((prev) => ({ ...prev, stacks: newStackArray }))
             } else if (isMain !== null) {
                 setRegisterData(newStackArray)
+                
             }
         }
         const details = stackdetailsRef.current;

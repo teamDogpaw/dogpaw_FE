@@ -43,16 +43,11 @@ const WriteSelect = ({
                 required onChange={(event) => handleTitle(event.target.value)} maxLength={25}
                 defaultValue={isEdit ? selectedData.title : null} />
 
-            <hr style={{ border: "1px solid #e2e2e2" }} />
+            <HeadLine/>
 
-            <div style={{
-                display: "grid",
-                gridTemplateColumns: "150px auto",
-                gridTemplateRows: "repeat(5, 1fr)",
-                gap: "16px 0px", marginTop: "32px"
-            }}>
-
-                <SelectTitle>진행방식</SelectTitle>
+            <SelectWrap>
+<Selects>
+<SelectTitle>진행방식</SelectTitle>
                 <Detail ref={processdetailsRef}>
                     <SelectBox>{selectedData.online}<SelectArrow /></SelectBox>
                     <SelectBoxOpen>
@@ -60,13 +55,11 @@ const WriteSelect = ({
                         <Option onClick={() => handleProcess("오프라인")}>오프라인</Option>
                     </SelectBoxOpen>
                 </Detail>
-                <SelectTitle>구인스택</SelectTitle>
-                <StackSelector
-                    isEdit={isEdit}
-                    setSelectedData={setSelectedData}
-                    data={selectedData}
-                />
-                <SelectTitle>예상 진행 기간</SelectTitle>
+    
+</Selects>
+          
+           <Selects>
+           <SelectTitle>예상 진행 기간</SelectTitle>
                 <Detail ref={perioddetailsRef}>
 
                     <SelectBox>{selectedData.period}<SelectArrow /></SelectBox>
@@ -78,7 +71,9 @@ const WriteSelect = ({
 
                     </SelectBoxOpen>
                 </Detail>
-                <SelectTitle>시작 예정일 </SelectTitle>
+           </Selects>
+            <Selects>
+            <SelectTitle>시작 예정일 </SelectTitle>
                 <Wrapper>
                     <DateInput
                         showPopperArrow={false}
@@ -94,45 +89,62 @@ const WriteSelect = ({
                         calendarClassName="calendar"
                     />
                 </Wrapper>
-
+            </Selects>
+                <Selects>
                 <SelectTitle ref={capacitydetailsRef}>모집인원</SelectTitle>
 
-                <Detail ref={capacitydetailsRef}>
+<Detail ref={capacitydetailsRef}>
 
-                    <SelectBox>{selectedData.maxCapacity}명 <SelectArrow /></SelectBox>
-                    <SelectBoxOpen>
-                        {ALL_CAPACITY.map(member => (
-                            <Option key={member}
-                                onClick={() => { handleCapacity(member) }}>{member}명</Option>
-                        ))}
+    <SelectBox>{selectedData.maxCapacity}명 <SelectArrow /></SelectBox>
+    <SelectBoxOpen>
+        {ALL_CAPACITY.map(member => (
+            <Option key={member}
+                onClick={() => { handleCapacity(member) }}>{member}명</Option>
+        ))}
 
-                    </SelectBoxOpen>
-                </Detail>
-                <SelectTitle ref={capacitydetailsRef}>연락방법</SelectTitle>
-                <div>
+    </SelectBoxOpen>
+</Detail>
+                </Selects>
+                <Selects>
+           <SelectTitle>구인스택</SelectTitle>
+                <StackSelector
+                    isEdit={isEdit}
+                    setSelectedData={setSelectedData}
+                    data={selectedData}
+                />
+           </Selects>
 
-                    <Detail ref={capacitydetailsRef}>
+                
+           
+       
 
-                        <SelectBox>{selectedData.maxCapacity}명 <SelectArrow /></SelectBox>
-                        <SelectBoxOpen>
-                            {ALL_CAPACITY.map(member => (
-                                <Option key={member}
-                                    onClick={() => { handleCapacity(member) }}>{member}명</Option>
-                            ))}
-
-                        </SelectBoxOpen>
-                    </Detail>
-
-
-                    <input />
-
-
-                </div>
-
-            </div>
+            </SelectWrap>
         </>
     )
 }
+
+export const SelectWrap = styled.div`
+display: grid;
+grid-template-columns: repeat(2,1fr);
+margin-top: 24px;
+row-gap: 20px;
+column-gap:10px;
+
+@media screen and (max-width:700px) {
+    grid-template-columns: 1fr;
+}
+`;
+
+
+export const Selects = styled.div`
+    display:grid;
+    grid-template-columns: 100px 1fr;
+    align-items: baseline;
+    justify-items: start;
+    column-gap: 20px;
+
+
+`;
 
 export const SelectTitle = styled.div`
 display: flex;
@@ -151,7 +163,7 @@ text-align: center;
    outline: none;
 }
 ::placeholder{
-   color:#e2e2e2;
+   color:${(props)=>props.theme.placeHolder};
 }
 `;
 
@@ -289,4 +301,7 @@ margin-top: 8px;
 right: 10px;
 `;
 
+export const HeadLine = styled.hr`
+border: ${(props)=>props.theme.border};
+`;
 export default WriteSelect;

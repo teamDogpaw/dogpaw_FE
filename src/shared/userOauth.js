@@ -33,15 +33,17 @@ export const login = (props) => {
   }, 500);
 };
 
+
 // 회원가입
-export const register = (props) => {
+export const register = (data) => {
+
   if (debounce) {
     clearTimeout(debounce);
   }
 
   debounce = setTimeout(async () => {
     await instance
-      .post("/user/signup", props)
+      .post("/user/signup", data)
       .then((res) => {
         window.alert("회원 가입 성공 :)");
         window.location.replace("/");

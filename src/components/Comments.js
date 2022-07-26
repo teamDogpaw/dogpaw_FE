@@ -3,6 +3,7 @@ import { useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { useGetCommentList, usePostComment } from "../hook/useCommentData";
+import { Btn } from "../styles/style";
 import Comment from "./Comment";
 import ReplyComment from "./ReplyComment";
 
@@ -80,7 +81,7 @@ const Comments = () => {
 };
 
 const Wrap = styled.div`
-  background-color: ${(props) => props.theme.divBackGroundColor};
+  background-color: ${(props) => props.theme.backgroundColor};
   margin: auto;
   padding: 32px;
   box-sizing: border-box;
@@ -96,12 +97,11 @@ const Input = styled.input`
   border: 1px solid #e2e2e2;
   border-radius: 8px;
   outline: none;
-  background-color: ${(props) => props.theme.textareaBackground};
+  background-color: ${(props) => props.theme.backgroundColor};
 `;
 
-const Button = styled.button`
+const Button = styled(Btn)`
   background: #ffb673;
-  color: #fff;
   width: 92px;
   height: 40px;
   font-weight: 700;
