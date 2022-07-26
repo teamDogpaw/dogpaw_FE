@@ -64,7 +64,7 @@ useEffect(()=>{
 
   return (
     <>
-      {isModalOpen ? <ModalOpen viewModal={viewModal} isKakao={isKakao} searchParams={searchParams}/> : null}
+      {isModalOpen ? <ModalOpen viewModal={viewModal} isKakao={isKakao} /> : null}
       <Wrap>
         <ContentWrap>
           <div

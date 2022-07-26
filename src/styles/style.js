@@ -187,12 +187,9 @@ position: relative;
 &.Login{
   line-height: normal;
   font-size: 0.875rem;
-  line-height: auto;
   color:#9f9f9f;
   width: 100%;
   height: 44px;
-  background-color: #fff;
-  border: 2px solid #eee;
   border-radius: 12px;
   padding: 12px;
 
@@ -223,7 +220,6 @@ margin-top: 4px;
 
 &.Login{
   width: 384px;
-  border: 2px solid #eee;
   border-radius: 12px;
 
   :focus{

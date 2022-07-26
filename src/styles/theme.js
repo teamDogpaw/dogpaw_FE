@@ -24,7 +24,7 @@ export const lightTheme = {
     keyColor: "#FFB673",
     inputBoxBackground: "#fff",
     textareaBackground: "#fbfbfb",
-    border: "1px solid #e2e2e2",
+    border: "1px solid #eeeeee",
     stackBackground: "#fff6c6",
     stackColor: "#292929",
     toggleBtnColor:"#fff",

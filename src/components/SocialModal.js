@@ -13,7 +13,7 @@ import {
 import { Btn } from "../styles/style";
 import StackSelector from "./StackSeletor";
 
-const SocialModal = (props) => {
+const SocialModal = () => {
   //닉네임, 스택
   const [nickName, setNickName] = useState("");
   const [stack, setStack] = useState([]);
@@ -46,12 +46,7 @@ const SocialModal = (props) => {
       stacks: stack,
     };
     try {
-      const response = await instance.post("user/signup/addInfo", data
-      // , 
-      // {
-      //     headers: { Authorization: `Bearer ${token}` },
-      //   }
-        )
+      const response = await instance.post("user/signup/addInfo", data )
         console.log(response)
         // .then((res) => {
           // window.alert("추가 정보를 기입해 주세요. :)");

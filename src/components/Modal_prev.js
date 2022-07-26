@@ -6,10 +6,8 @@ import SocialModal from "./SocialModal";
 
 const ModalOpen = ({ 
   viewModal,
-  isKakao,
-  searchParams
+  isKakao
  }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   /*  const viewModal = () => {
     setIsModalOpen((prev) => !prev);
@@ -22,7 +20,7 @@ const ModalOpen = ({
       setModalContent(<Login setModalContent={setModalContent} />);
     } else if (isKakao){
       setModalContent(<SocialModal /> )
-      
+
     }
   document.body.style.cssText = `position: fixed; top: 0px`;
     return () => {
