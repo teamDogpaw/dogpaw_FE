@@ -179,12 +179,17 @@ max-width: 996px;
   margin: auto;
   margin-bottom: 100px;
   position: relative;
+
+
   `;
 
 const WriteBody = styled(MainBody)`
   margin-bottom: 40px;
 padding-top: 80px;
-
+@media screen and (max-width:700px){
+   width: 100%;
+   margin: 0;
+  }
 `;
 
 const TextareaTitle = styled.h3`
@@ -204,6 +209,11 @@ font-size: 16px;
 :focus{
    outline: none;
 }
+@media screen and (max-width:700px){
+   width: 100%;
+   padding: 12px;
+   height: 300px;
+  }
 
 `;
 

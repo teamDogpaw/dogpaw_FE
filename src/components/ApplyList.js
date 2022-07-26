@@ -102,7 +102,13 @@ export const ApplyListContent = styled.div`
 export const EmptyBody = styled.div`
   text-align: center;
   margin: auto;
+display: flex;
+flex-direction:column;
+
+align-items: center;
+gap: 10px;
   span {
+    font-family: "GongGothicBold";
     color: ${(props) => props.theme.keyColor};
     font-size: 20px;
     font-weight: bold;

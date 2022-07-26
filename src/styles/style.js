@@ -91,7 +91,7 @@ border-radius: 16px;
 padding: 32px;
 
 @media screen and (max-width: 996px){
-  margin: 0px 40px;
+  margin: 0px
 }
 `;
 
@@ -163,6 +163,7 @@ align-items: center;
 export const Option = styled.li`
   cursor: pointer;
   padding: 8px 12px;
+
 
   :hover {
     background-color: ${(props) => props.theme.keyColor};
@@ -252,11 +253,11 @@ export const ModalRegisterBtn = styled.span`
 `;
 
 export const PostBody = styled.div`
-background-color: ${(props) => props.theme.divBackGroundColor};
+background-color: ${(props) => props.theme.backgroundColor};
 border: transparent;
 padding: 24px;
 border-radius:16px;
-box-shadow: ${(props)=> props.theme.boxShadow};
+/* box-shadow: ${(props)=> props.theme.boxShadow}; */
 `;
 
 export const MypagePostBox = styled.div`

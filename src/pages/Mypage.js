@@ -3,8 +3,10 @@ import Bookmark from "../components/Bookmark";
 import MyProject from "../components/MyProject";
 import JoinProject from "../components/JoinProject";
 import { useNavigate } from "react-router-dom";
-import { Btn, MyStack, PostBody, TabBody } from "../styles/style";
+import { Btn, MyStack, Option, PostBody, SelectBox, SelectBoxOpen, TabBody } from "../styles/style";
 import styled from "styled-components";
+import { ReactComponent as Arrow } from "../styles/icon/detail/backArrow.svg";
+
 import {
   useMyProfileReset,
   useMyProfileEdit,
@@ -16,6 +18,8 @@ import ApplyProject from "../components/ApplyProject";
 import pen from "../styles/icon/myPage/pen.svg";
 import StackSelector from "../components/StackSeletor";
 import { withDraw } from "../shared/userOauth";
+import { SelectArrow } from "../components/WriteSelect";
+import { LoginBtn } from "../components/Login";
 
 const MyPage = () => {
   const userInfo = useRecoilValue(UserInfoAtom);
@@ -25,7 +29,7 @@ const MyPage = () => {
   const [currentTab, setTab] = useState(1);
   const formData = new FormData();
   const [imagePreview, setImagePreview] = useState();
-
+  const [isMobile, setIsMobile] = useState();
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("id");
 
@@ -43,6 +47,34 @@ const MyPage = () => {
       content: <MyProject currentTab={4} />,
     },
   ];
+
+  const [windowSize, setWindowSize] = useState({
+    width: undefined,
+    height: undefined
+  });
+
+
+  useEffect(()=>{
+    function handleResize() {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    }
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    if (windowSize.width < 600) {
+      setIsMobile(true);
+    } else if (windowSize.width >= 600) {
+      setIsMobile(false);
+    }
+    return () => window.removeEventListener('resize', handleResize)
+  },[windowSize.width])
+
+
+
+
+
 
   const [myData, setMyData] = useState({
     profileImg: userInfo?.profileImg,
@@ -106,7 +138,14 @@ const MyPage = () => {
 
   return (
     <WholeBody>
+      {isMobile ?  <Leftarrow
+            onClick={() => {
+              navigate(-1);
+            }}
+          /> : null }
+ 
       <PostBody>
+    
         {isEdit ? (
           <ProfileWrap>
             {imagePreview === null ? (
@@ -140,15 +179,22 @@ const MyPage = () => {
                 <StackSelector data={myData} setMyData={setMyData} />
               </Profile>
             </form>
-            <Button3
+          <BtnWrap>
+
+          <span
               onClick={() => {
                 withDraw(userId, token);
               }}
             >
-              회원 탈퇴
-            </Button3>
+              회원탈퇴
+            </span>
+
             <Button2 onClick={imageReSet}>기본 이미지로 변경</Button2>
+          </BtnWrap>
+         
             <Button onClick={EditMyData}>편집 완료</Button>
+        
+            
           </ProfileWrap>
         ) : (
           <ProfileWrap>
@@ -170,12 +216,37 @@ const MyPage = () => {
                 })}
               </Stacks>
             </Profile>
+        
             <Button onClick={() => setIsEdit(true)}>프로필 편집</Button>
+           
+          
           </ProfileWrap>
+
         )}
       </PostBody>
 
-      <TabBody>
+{isMobile ?  <><details>
+
+  <TabBox>{tabList[currentTab - 1].name} <MySelectArrow /></TabBox>
+
+  <MySelectBoxOpen>
+  {tabList.map((tab) => {
+          return (
+              <MyOption
+                onClick={() => {
+                  setTab(tab.id);
+                }}
+                key={tab.id}
+                className={currentTab === tab.id ? "focused" : null}
+              >
+                {tab.name}
+              </MyOption>
+          );
+        })}
+    
+  </MySelectBoxOpen>
+  
+</details> <MyPageHr/></>:  <TabBody>
         {tabList.map((tab) => {
           return (
             <>
@@ -191,16 +262,84 @@ const MyPage = () => {
             </>
           );
         })}
-      </TabBody>
+        
+      </TabBody>}
+  
       <div>{tabList[currentTab - 1].content}</div>
     </WholeBody>
   );
 };
+const MyOption = styled(Option)`
+  padding-top:10px;
+  padding-bottom: 10px;
+`;
+const TabBox = styled.summary`
+width: 90%;
+padding: 6px 24px;
+margin: 24px 0px;
+font-weight: bold;
+font-size: 16px;
+position: relative;
+
+::marker{
+  font-size: 0;
+}
+
+::-webkit-details-marker {
+  display: none;
+}
+
+
+`;
+
+const BtnWrap = styled.div`
+top: 0;
+margin-left: auto;
+display: flex;
+flex-direction: column;
+text-align: right;
+gap: 10px;
+span{
+  color:${(props)=> props.theme.errorColor};
+  font-size:14px
+}
+`;
+
+const MySelectBoxOpen = styled(SelectBoxOpen)`
+
+position: absolute;
+min-width:375px;
+
+margin-left:15px;
+border:transparent;
+
+
+`;
+
+const MyPageHr = styled.hr`
+border:1px solid #FFB673;
+`;
+
+const Leftarrow = styled(Arrow)`
+  position: absolute;
+  top:0px;
+  left: 27px;
+
+  stroke: ${(props) => props.theme.toggleFontColor};
+
+
+`;
 
 export const Profilepic = styled.img`
   width: 160px;
   height: 160px;
   border-radius: 80px;
+
+  @media screen and (max-width:600px){
+    width: 72px;
+    height: 72px;
+    border-radius: 36px;
+  }
 `;
 const File = styled.div`
   div {
@@ -214,6 +353,11 @@ const File = styled.div`
     height: 35px;
     border-radius: 50%;
     background-color: ${(props) => props.theme.keyColor};
+
+    @media screen and (max-width:600px){
+      left: 45px;
+      top:95px;
+    }
   }
 
   label {
@@ -229,6 +373,12 @@ export const WholeBody = styled.div`
   @media screen and (max-width: 996px) {
     margin: 24px 40px 100px;
   }
+  @media screen and (max-width: 600px) {
+    margin: 0px;
+    width:100%;
+    margin: auto;
+  }
+  position: relative;
 `;
 
 export const Tab = styled.div`
@@ -249,6 +399,13 @@ export const ProfileWrap = styled.div`
   display: flex;
   align-items: center;
   position: relative;
+
+  @media screen and (max-width:600px) {
+    width: 100%;
+    margin-top: 20px;
+    font-size: 14px;
+    padding-bottom: 60px;
+  }
 `;
 
 export const Profile = styled.div`
@@ -272,6 +429,20 @@ export const Profile = styled.div`
   details {
     margin: 5px 0;
   }
+  
+  @media screen and (max-width:600px){
+    margin-left: 16px;
+  }
+`;
+
+const MySelectArrow = styled(SelectArrow)`
+right: 0;
+margin-top: 0px;
+width: 12px;
+height: 12px;
+text-align: right;
+
+cursor: pointer;
 `;
 
 export const Stacks = styled.div`
@@ -284,14 +455,25 @@ const Button = styled(Btn)`
   position: absolute;
   right: 0;
   bottom: 0;
+@media screen and (max-width: 600px) {
+  width:100%;
+}
+
 `;
 
-const Button2 = styled(Button)`
-  margin-right: 97px;
+
+const Button2 = styled(Btn)`
+
 `;
 
-const Button3 = styled(Button2)`
-  margin-right: 251px;
+const Button3 = styled(Btn)`
+  border: 1px solid #ff0000;
+  /* margin-left: 10px; */
+  right: 300px;
+  span {
+    color: #ff0000;
+  }
+
 `;
 
 export default MyPage;

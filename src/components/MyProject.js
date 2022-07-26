@@ -39,6 +39,16 @@ const MyProject = ({
       </EmptyBody>
     )
   }
+
+  if(myProjectPost.data.length === 0){
+    return(
+      <EmptyBody>
+      <EmptyImg />
+     <span>아직 작성한 프로젝트가 없습니다.
+      </span> 
+    </EmptyBody>
+    )
+  }
   return (
     <>
 
