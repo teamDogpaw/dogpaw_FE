@@ -359,32 +359,24 @@ const ToggleBtn = styled.div`
 `;
 
 const Toggle = styled.div`
- // ${displyStyle}
- // justify-content:space-around;
+  ${displyStyle}
+  justify-content:space-around;
 
- & p:first-child{
-
-    margin-left:3px;
-    padding:0 10px;
-
+  & p:first-child {
+    margin-left: 3px;
+    padding: 0 10px;
   }
 
-  & p:nth-child(2){
-
-    padding:0 5px;
-
+  & p:nth-child(2) {
+    padding: 0 5px;
   }
-
 
   p {
-
     font-weight: 700;
     color: #ffb673;
     opacity: 0.5;
-    margin-right:3px;
+    margin-right: 3px;
   }
-
- 
 `;
 
 const Circle = styled.div`
@@ -400,7 +392,7 @@ const Circle = styled.div`
   ${(props) =>
     props.toggle &&
     css`
-      transform: translate(95%, 0); 
+      transform: translate(95%, 0);
       transition: all 0.4s ease-in-out;
     `}
 
