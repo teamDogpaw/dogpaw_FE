@@ -17,7 +17,7 @@ const BookmarkRank = () => {
     const navigate = useNavigate();
     const [mark, setMark] = useState(false);
     const { data: rankList } = useGetBookmarkRank();
-    //console.log(rankList)
+    ////console.log(rankList)
 
     const bookMark = () => {
         if (mark === false) {

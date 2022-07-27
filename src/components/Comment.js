@@ -31,7 +31,7 @@ const Comment = ({ data }) => {
 
   const loginUser = isLogin?.nickname;
   const writeUser = data.nickname;
-  //console.log(writeUser, "글쓴이");
+  ////console.log(writeUser, "글쓴이");
 
   const queryClient = useQueryClient();
   const { mutateAsync: editComment } = useEditComment();

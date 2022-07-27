@@ -28,7 +28,7 @@ const Sse = () => {
 
   const allList = alertList?.data;
   //const unreadList = alertUnreadList?.data.count;
-  console.log(allList)
+  //console.log(allList)
   
 
   useEffect(() => {
@@ -46,11 +46,11 @@ const Sse = () => {
       });
 
       sse.addEventListener("open", (e) => {
-        //console.log(e);
+        ////console.log(e);
       });
 
       sse.addEventListener("error", (e) => {
-        //console.log("에러", e);
+        ////console.log("에러", e);
       });
     }
   }, [token, setAlert,EventSource]);
@@ -58,7 +58,7 @@ const Sse = () => {
   useEffect(() => {
     if (token) {
       setAlert(allList);
-      console.log(allList);
+      //console.log(allList);
       //setUnread(unreadList);
     }
   }, [token, allList, setAlert]);
@@ -75,7 +75,7 @@ const Sse = () => {
 
   const messageRead = async (id, url, status) => {
    window.location.href = url;
-    console.log(id, url, status);
+    //console.log(id, url, status);
     await readAlert(id);
     queryClient.invalidateQueries("alertList");
   };

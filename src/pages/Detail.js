@@ -22,7 +22,7 @@ const Detail = () => {
   const isLogin = localStorage.getItem("token");
  
   const { data: postList, isLoading: isLoadingPost } = useGetPost(id);
-  console.log(postList?.data);
+  //console.log(postList?.data);
 
   const author = postList?.data.nickname;
   const userStatus = postList?.data.userStatus;

@@ -9,10 +9,10 @@ const Stack = () => {
   };
 
   const removeStack = (selectedStack) => {
-    console.log(stack);
-    console.log(selectedStack);
+    //console.log(stack);
+    //console.log(selectedStack);
     const newStacks = stack.filter((stack) => stack !== selectedStack);
-    console.log(newStacks);
+    //console.log(newStacks);
     setStack(newStacks);
   };
 

@@ -37,7 +37,7 @@ const Main = () => {
 
   /*   useEffect(() => {
     let token = new URL(window.location.href).searchParams.get("token");
-    console.log(token);
+    //console.log(token);
     localStorage.setItem("token", token);
     localStorage.setItem
     // window.alert(
@@ -57,7 +57,7 @@ const Main = () => {
   if (status === "error") {
     return null;
   }
-  console.log(data);
+  //console.log(data);
 
   const setFilter = () => {
     setIsFilter((prev) => !prev);
@@ -70,15 +70,15 @@ const Main = () => {
     : postList;
 
   // const selectStackFilter = () => {
-  //   console.log(selectedStack)
+  //   //console.log(selectedStack)
   //   let newList = [];
   //   selectedStack.map((stack)=>{
-  //     console.log(stack)
+  //     //console.log(stack)
   //     return newList = filterList.concat(list.filter((arr) => arr.stacks.includes(stack)))
   //   })
   //   setFilterList(newList)
   // }
-  // console.log(filterList)
+  // //console.log(filterList)
 
   const bookMark = () => {
     if (mark === false) {

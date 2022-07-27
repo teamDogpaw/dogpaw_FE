@@ -9,7 +9,7 @@ const Bookmark = ({
 }) => {
 
 const {data:myBookmarkPost, isLoading : isLoadingBMPost} = useGetMyBookmarkPost()
-console.log(myBookmarkPost)
+//console.log(myBookmarkPost)
 
 
 if (isLoadingBMPost) {

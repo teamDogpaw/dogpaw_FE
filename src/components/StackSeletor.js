@@ -23,8 +23,8 @@ const StackSelector = ({
     useEffect(() => {
         if (isEdit === true || isMypage !== null) {
             setStack(data.stacks)
-            console.log(stack)
-            console.log(data.stacks)
+            //console.log(stack)
+            //console.log(data.stacks)
         }
     }, [isEdit])
 

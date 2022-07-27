@@ -53,7 +53,7 @@ const Register = ({ setModalContent }) => {
     try {
       let signUp = userApis.signUp;
       const response = await signUp(data)
-      console.log(response)
+      //console.log(response)
       if (response.status === 200) {
         alert('회원가입 성공!')
         setModalContent(<Login setModalContent={setModalContent} />)

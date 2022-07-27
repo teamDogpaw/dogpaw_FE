@@ -1,7 +1,7 @@
 import styled, { css, keyframes } from "styled-components";
 
 const AlertModal = (props) => {
-  //console.log(props)
+  ////console.log(props)
   const { open } = props;
   return (
     <Wrap open={open}>

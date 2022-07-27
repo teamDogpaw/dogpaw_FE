@@ -14,7 +14,7 @@ const MyProject = ({
   
   const { data: myProjectPost, isLoading : isLoadingMyProject } = useGetMyProjectPost();
 
-  console.log(myProjectPost)
+  //console.log(myProjectPost)
   const [viewApply, setViewApply] = useState(false);
   
   const [myPostData,setMyPostData] = useState({

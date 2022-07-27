@@ -14,7 +14,7 @@ export const login = (props) => {
     instance
       .post("/user/login", props)
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         const accessToken = res.data.data.token.accessToken;
         const refreshToken = res.data.data.token.refreshToken;
         const id = res.data.data.userId;
@@ -27,7 +27,7 @@ export const login = (props) => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
         window.alert("로그인 실패 :(");
       });
   }, 500);

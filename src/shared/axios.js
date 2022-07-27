@@ -22,7 +22,7 @@ instance.interceptors.response.use(
     const { response, config } = error;
     const originalRequest = config;
     if (response.status === 403 || response.status === 401) {
-      console.log(response);
+      //console.log(response);
       let refreshToken = localStorage.getItem("retoken");
       let accessToken = localStorage.getItem("token");
       let userId = localStorage.getItem("id");
@@ -32,12 +32,12 @@ instance.interceptors.response.use(
         userId,
       };
       if (refreshToken) {
-        console.log(refreshToken); 
+        //console.log(refreshToken); 
         const { data } = await checkToken(tokens);
-        console.log(data);
+        //console.log(data);
         const access = data.data.accessToken;
         const refresh = data.data.refreshToken;
-        console.log(access, refresh);
+        //console.log(access, refresh);
         localStorage.setItem("token", access);
         localStorage.setItem("retoken", refresh);
         //originalRequest.headers.authorization = `Bearer ${refreshToken}`;

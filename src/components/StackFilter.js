@@ -12,17 +12,17 @@ const StackFilter = ({   filterList, list, setFilterList,
 
     const changeStack = (newStack) => {
         setSelectedStack(newStack)
-        console.log(selectedStack)
-        console.log(newStack)
+        //console.log(selectedStack)
+        //console.log(newStack)
         if (!selectedStack.includes(newStack)) {
             const newStackFilterArray = selectedStack.concat(newStack)
-            console.log(newStackFilterArray)
+            //console.log(newStackFilterArray)
             setSelectedStack(newStackFilterArray)
             addFilter()
             return newStackFilterArray
         } else if (selectedStack.includes(newStack)) {
             const newStackFilterArray =  selectedStack.filter((stack) => stack !== newStack)
-            console.log(newStackFilterArray)
+            //console.log(newStackFilterArray)
             setSelectedStack(newStackFilterArray)
             removeFilter()
         }
@@ -31,7 +31,7 @@ const StackFilter = ({   filterList, list, setFilterList,
 
         const addFilter = async () => {
             selectedStack.map((stack) => {
-                console.log(stack)
+                //console.log(stack)
                 return newList = filterList.concat(list.filter((arr) => arr.stacks.includes(stack)))
             })
             setFilterList(newList)
@@ -41,7 +41,7 @@ const StackFilter = ({   filterList, list, setFilterList,
 
         const removeFilter = async () => {
            selectedStack.map((stack) => {
-                console.log(stack)
+                //console.log(stack)
                 return newList = filterList.filter((arr) => !arr.stacks.includes(stack))
             })
           setFilterList(newList)

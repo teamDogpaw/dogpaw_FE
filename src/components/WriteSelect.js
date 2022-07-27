@@ -28,14 +28,14 @@ const WriteSelect = ({
     const ALL_PERIOD = Object.values(Period)
     const ALL_CAPACITY = Object.values(Capacity)
 
-    console.log(isEdit)
+    //console.log(isEdit)
     const dateRef = useRef()
 
     const DATE_FORMAT = 'yyyy/MM/dd (eee)';
     const DATE_FORMAT_CALENDAR = 'yyyy년 MM월';
 
     useEffect(() => {
-        console.log(dateRef.current)
+        //console.log(dateRef.current)
     }, [isEdit, dateRef])
     return (
         <>

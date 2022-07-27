@@ -19,7 +19,7 @@ const Comments = () => {
   const queryClient = useQueryClient();
   // 댓글 조회 및 대 댓글 조회
   const { data: commentList } = useGetCommentList(id);
-  //console.log(commentList)
+  ////console.log(commentList)
   const { mutateAsync: addComment } = usePostComment();
 
   const onCheckEnter = (e) => {

@@ -115,13 +115,13 @@ const MyPage = () => {
   const { mutateAsync: imageReSet } = useMyProfileReset();
 
   const encodeFileToBase64 = (img) => {
-    console.log(img);
+    //console.log(img);
     const preview = new FileReader();
     preview.readAsDataURL(img);
     return new Promise((resolve) => {
       preview.onload = () => {
         setImagePreview(preview.result);
-        console.log(imagePreview);
+        //console.log(imagePreview);
         resolve();
       };
     });
@@ -129,7 +129,7 @@ const MyPage = () => {
   const editImg = (e) => {
     const img = e.target.files[0];
     encodeFileToBase64(img);
-    console.log(img);
+    //console.log(img);
     setMyData((prev) => ({ ...prev, profileImg: img }));
   };
 

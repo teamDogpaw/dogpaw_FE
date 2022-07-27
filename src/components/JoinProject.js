@@ -14,7 +14,7 @@ const JoinProject = ({
     data:myParticipatePost, 
     isLoading : isLoadingPartiPost} 
     = useGetMyParticipatePost();
-console.log(myParticipatePost)
+//console.log(myParticipatePost)
   const [viewApply, setViewApply] = useState(false);
   const [myPostData,setMyPostData] = useState({
     id:1,

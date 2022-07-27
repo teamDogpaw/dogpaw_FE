@@ -15,10 +15,10 @@ const Write = () => {
    const {state} = useLocation()
    const [isEdit, setIsEdit] = useState(false);
    const [modalOpen, setModalOpen] = useState(false);
-   console.log(isEdit)
+   //console.log(isEdit)
    const params = useParams()
    const postId = params.id
-   console.log(params)
+   //console.log(params)
    const navigate = useNavigate()
    const {mutateAsync : editProject} = useEditProject();
    const {mutateAsync : postProject} = usePostProject();
@@ -101,8 +101,8 @@ const Write = () => {
 
    useEffect(() => {
      
-      console.log(state)
-      console.log(postId)
+      //console.log(state)
+      //console.log(postId)
       if (postId !== undefined) {
          setIsEdit(true);
          setSelectedData({
@@ -115,7 +115,7 @@ const Write = () => {
             startAt: state.startAt
          })
       }
-      console.log(selectedData)
+      //console.log(selectedData)
    }, [state])
 
    return (

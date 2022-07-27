@@ -25,11 +25,11 @@ const ParticipantList = ({ myPostId, currentTab, setViewApply }) => {
 
   const { isLoading: isParticipantListLoading, data: participantList } = useGetParticipantsLists(myPostId);
   const { mutate: ExplusionMate } = useExplusionMateMutation();
-  console.log(participantList);
+  //console.log(participantList);
   const { mutateAsync: WithdrawPartici } = useWithdrawPartici();
 
   const explusionMate = (data) => {
-    //console.log(data);
+    ////console.log(data);
     ExplusionMate(data);
     setModalOpen(false);
   };

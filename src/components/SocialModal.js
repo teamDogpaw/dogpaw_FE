@@ -34,8 +34,8 @@ const SocialModal = () => {
   const token = localStorage.getItem("token");
 
   const onSubmit = async () => {
-    console.log(nickName);
-    console.log(stack);
+    //console.log(nickName);
+    //console.log(stack);
     let data = {
       nickname: nickName,
       stacks: stack,
@@ -50,7 +50,7 @@ const SocialModal = () => {
           },
         }
       );
-      console.log(response);
+      //console.log(response);
       // .then((res) => {
       // window.alert("추가 정보를 기입해 주세요. :)");
       // const accessToken = res.data.data.token.accessToken;
@@ -62,7 +62,7 @@ const SocialModal = () => {
       localStorage.removeItem("socialNick");
       window.location.replace("/");
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 

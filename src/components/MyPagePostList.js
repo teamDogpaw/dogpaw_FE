@@ -17,7 +17,7 @@ const MyPagePostList = ({
 
     const isMypage = useMatch("/mypage")
 
-    console.log(currentTab)
+    //console.log(currentTab)
     const navigate = useNavigate()
     const { mutate: postApply } = usePostApply()
 

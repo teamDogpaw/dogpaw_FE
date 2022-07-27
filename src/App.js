@@ -25,7 +25,7 @@ function App() {
         const userData = response.data;
         return userData;
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     }
   };
