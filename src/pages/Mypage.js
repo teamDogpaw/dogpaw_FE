@@ -59,11 +59,12 @@ const MyPage = () => {
   ];
 
   useEffect(() => {
+    setMyData(userInfo)
+    console.log(myData)
     console.log(userInfo)
     if(userInfo === undefined && !token ){
       setModalOpen(true);
     }
-      setMyData(userInfo)
     //widthHandler
     function handleResize() {
       setWindowSize({
