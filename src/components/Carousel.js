@@ -51,7 +51,10 @@ const Carousel = () => {
           <img src={isMobile ? bannerMobile   : banner} alt="" />
         </div>
         <div>
+          <a href="https://docs.google.com/forms/d/1LIU4LaYTaw1UWRPkThKzrF-jJ_1y3U_oj7OwVDOYjII/viewform?edit_requested=true" target="_black">
           <img src={isMobile ?  bannerMobileGift : banner_gift} alt="" />
+          </a>
+          
         </div>
       </Slider>
     </Wrap>
