@@ -20,7 +20,7 @@ import {
   useMyProfileReset,
   useMyProfileEdit,
 } from "../hook/useProfileMutation";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/atom";
 import profilepic from "../styles/icon/global/profile.svg";
 import ApplyProject from "../components/ApplyProject";
@@ -28,9 +28,7 @@ import pen from "../styles/icon/myPage/pen.svg";
 import StackSelector from "../components/StackSeletor";
 import { withDraw } from "../shared/userOauth";
 import { SelectArrow } from "../components/WriteSelect";
-import { LoginBtn } from "../components/Login";
 import AlertModal from "../components/AlertModal";
-import { Content } from "../components/ApplyBtn";
 
 const MyPage = () => {
   const userInfo = useRecoilValue(UserInfoAtom);
@@ -55,19 +53,14 @@ const MyPage = () => {
   const tabList = [
     { id: 1, name: "관심 프로젝트", content: <Bookmark currentTab={1} /> },
     { id: 2, name: "참여한 프로젝트", content: <JoinProject currentTab={2} /> },
-    {
-      id: 3,
-      name: "신청한 프로젝트",
-      content: <ApplyProject currentTab={3} />,
-    },
-    {
-      id: 4,
-      name: "내가 쓴 프로젝트",
-      content: <MyProject currentTab={4} />,
-    },
+    { id: 3, name: "신청한 프로젝트", content: <ApplyProject currentTab={3} /> },
+    { id: 4, name: "내가 쓴 프로젝트", content: <MyProject currentTab={4} /> }
   ];
 
   useEffect(() => {
+    if(userInfo === undefined){
+      window.location.reload();
+    }
     if(userInfo === undefined && !token ){
       setModalOpen(true);
     }
@@ -416,7 +409,7 @@ export const ProfileWrap = styled.div`
   }
 `;
 
-const ModalContent =styled.div`
+export const ModalContent =styled.div`
 word-break: keep-all;
   width: 350px;
   text-align: center;
