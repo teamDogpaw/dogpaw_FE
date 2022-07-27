@@ -299,6 +299,7 @@ export const DeleteBtn = styled(ModifyBtn)`
 
 const LinkBtn = styled.div`
   display: flex;
+  cursor: pointer;
   
   justify-content: space-between;
   //padding-bottom: 10px;

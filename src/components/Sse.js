@@ -64,8 +64,15 @@ const Sse = () => {
   }, [token, allList, setAlert]);
 
   const messageDelete = async (id) => {
-    await removeAlert(id);
-    queryClient.invalidateQueries("alertList");
+    const { data } = await removeAlert(id)
+    if(data === true) {
+      queryClient.invalidateQueries("alertList");
+    } else {
+      queryClient.invalidateQueries("alertList");
+    }
+    //console.log(data)
+    // await removeAlert(id);
+    // queryClient.invalidateQueries("alertList");
   };
 
   const messageAllDelete = async () => {
@@ -74,8 +81,8 @@ const Sse = () => {
   };
 
   const messageRead = async (id, url, status) => {
-   window.location.href = url;
-    //console.log(id, url, status);
+   //window.location.href = url;
+    console.log(id, url, status);
     await readAlert(id);
     queryClient.invalidateQueries("alertList");
   };
