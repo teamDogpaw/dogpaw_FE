@@ -98,7 +98,9 @@ const Header = () => {
                 </StyledLink>
                 <Details>
                   <MessageList>
+
                     {newAlert?.length === 0 ? (
+
                       <Bell />
                     ) : (
                       <img src={newBell} alt="" />

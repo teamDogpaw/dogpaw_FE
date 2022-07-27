@@ -7,7 +7,7 @@ import styled from "styled-components";
 
 const ModalOpen = ({ viewModal, kakaoNick,setNeedLogin,needLogin }) => {
   const [modalContent, setModalContent] = useState();
-  let intFrameHeight = window.innerHeight
+  let intFrameHeight = window.innerHeight;
 
   useEffect(() => {
     if (!kakaoNick) {
@@ -23,23 +23,23 @@ const ModalOpen = ({ viewModal, kakaoNick,setNeedLogin,needLogin }) => {
     const scrollY = document.body.style.top;
     window.scrollTo(0, parseInt(scrollY || "0") * -1);
     return () => {
-      document.body.style.cssText = '';
+      document.body.style.cssText = "";
       window.scrollTo(0, parseInt(scrollY || "0") * -1);
     };
   }, [intFrameHeight]);
- 
+
   return (
     <ModalBackground>
-      <Modal  className={intFrameHeight < 812 ? "smallHeight" : null}>
-        {kakaoNick ? <ModalCloseButton onClick={viewModal}>
-           <X />
-         </ModalCloseButton>
-        : 
-           <ModalCloseButton onClick={viewModal}>
-           <X />
-         </ModalCloseButton>
-         }
-     
+      <Modal className={intFrameHeight < 812 ? "smallHeight" : null}>
+        {kakaoNick ? (
+          <ModalCloseButton onClick={viewModal}>
+            <X />
+          </ModalCloseButton>
+        ) : (
+          <ModalCloseButton onClick={viewModal}>
+            <X />
+          </ModalCloseButton>
+        )}
 
         {modalContent}
       </Modal>

@@ -8,27 +8,24 @@ import { BrowserRouter } from "react-router-dom";
 
 import { QueryClient, QueryClientProvider } from "react-query";
 
-import { RecoilRoot } from 'recoil';
-import ScrollToTop from './shared/ScrollTop';
-
-
-
+import { RecoilRoot } from "recoil";
+import ScrollToTop from "./shared/ScrollTop";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
-    }
-  }
+    },
+  },
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <QueryClientProvider client={queryClient}>
     <RecoilRoot>
-    <BrowserRouter>
-    <ScrollToTop />
-     
+      <BrowserRouter>
+        <ScrollToTop />
+
         <App />
       </BrowserRouter>
     </RecoilRoot>

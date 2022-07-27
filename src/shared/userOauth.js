@@ -1,6 +1,4 @@
 import instance from "./axios";
-import Login from "../components/Login";
-import { useRecoilValue } from "recoil";
 
 let debounce = null;
 
@@ -22,13 +20,14 @@ export const login = (props) => {
           localStorage.setItem("token", accessToken);
           localStorage.setItem("retoken", refreshToken);
           localStorage.setItem("id", id);
-          window.alert("로그인 성공 :)");
           window.location.replace("/");
         }
       })
       .catch((err) => {
         //console.log(err);
-        window.alert("로그인 실패 :(");
+        window.alert(
+          "이메일 혹은 비밀번호를 잘못 입력하셨거나 등록되지 않은 이메일 입니다."
+        );
       });
   }, 500);
 };
