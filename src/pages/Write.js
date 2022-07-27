@@ -1,4 +1,4 @@
-import { useNavigate, useParams,useLocation } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
 import { MainBody, Btn, GrayLineBtn } from "../styles/style";
 import styled from "styled-components";
@@ -12,7 +12,7 @@ import { Content } from "../components/ApplyBtn";
 
 const Write = () => {
    const location = useLocation()
-   const {state} = useLocation()
+   const { state } = useLocation()
    const [isEdit, setIsEdit] = useState(false);
    const [modalOpen, setModalOpen] = useState(false);
    //console.log(isEdit)
@@ -20,8 +20,8 @@ const Write = () => {
    const postId = params.id
    //console.log(params)
    const navigate = useNavigate()
-   const {mutateAsync : editProject} = useEditProject();
-   const {mutateAsync : postProject} = usePostProject();
+   const { mutateAsync: editProject } = useEditProject();
+   const { mutateAsync: postProject } = usePostProject();
    const processdetailsRef = useRef(null);
    const perioddetailsRef = useRef(null);
    const capacitydetailsRef = useRef(null);
@@ -39,28 +39,28 @@ const Write = () => {
 
    const openModal = () => {
       setModalOpen(true);
-    };
-    const closeModal = () => {
+   };
+   const closeModal = () => {
       setModalOpen(false);
-    };
+   };
 
    const publishPost = async () => {
-     if (selectedData.title.length === 0) {
-      openModal();
-     } else {
-       try {
-         await postProject(selectedData);
-         navigate("/");
-       } catch (error) {
-         alert(error);
-       }
-     }
+      if (selectedData.title.length === 0) {
+         openModal();
+      } else {
+         try {
+            await postProject(selectedData);
+            navigate("/");
+         } catch (error) {
+            alert(error);
+         }
+      }
    };
 
    const editPost = async () => {
-      await editProject({ data:selectedData, postId} )
+      await editProject({ data: selectedData, postId })
       navigate(`/detail/${postId}`)
-}
+   }
 
    const handleStartDate = startDate => {
       setStartDate(startDate)
@@ -100,7 +100,7 @@ const Write = () => {
    }
 
    useEffect(() => {
-     
+
       //console.log(state)
       //console.log(postId)
       if (postId !== undefined) {
@@ -120,30 +120,30 @@ const Write = () => {
 
    return (
       <Wrap>
-     <Leftarrow
+         <Leftarrow
             onClick={() => {
-              navigate(-1);
+               navigate(-1);
             }}
-          />
+         />
          <WriteBody>
-      
+
             <WriteSelect
                selectedData={selectedData}
                handleTitle={handleTitle}
                handleCapacity={handleCapacity}
-               
-             
+
+
                handleProcess={handleProcess}
                handleStartDate={handleStartDate}
                setPeriod={setPeriod}
                startDate={startDate}
                processdetailsRef={processdetailsRef}
                capacitydetailsRef={capacitydetailsRef}
-             
+
                perioddetailsRef={perioddetailsRef}
                isEdit={isEdit}
                setSelectedData={setSelectedData}
-             
+
             />
          </WriteBody>
 
@@ -157,43 +157,56 @@ const Write = () => {
 
          <Publish>
             {/* <GrayLineBtn>전체 삭제</GrayLineBtn> */}
-            {isEdit ? 
-            <Btn type="submit" onClick={editPost}>프로젝트 수정하기</Btn>: 
-            <Btn type="submit" onClick={publishPost}>프로젝트 등록하기</Btn>}
-            
+            {isEdit ?
+               <WriteBtn type="submit" onClick={editPost}>프로젝트 수정하기</WriteBtn> :
+               <WriteBtn type="submit" onClick={publishPost}>프로젝트 등록하기</WriteBtn>}
+
          </Publish>
          <AlertModal open={modalOpen}>
-        <Content>
-          <h4>글 제목을 입력해 주세요!</h4>
-          <div>
-            <Btn onClick={closeModal}> 닫기 </Btn>
-          </div>
-        </Content>
-      </AlertModal>
+            <Content>
+               <h4>글 제목을 입력해 주세요!</h4>
+               <div>
+                  <Btn onClick={closeModal}> 닫기 </Btn>
+               </div>
+            </Content>
+         </AlertModal>
       </Wrap>
    )
 }
 
 const Wrap = styled.div`
 max-width: 996px;
-  margin: auto;
-  margin-bottom: 150px;
-  position: relative;
-
-
+margin: auto;
+margin-bottom: 150px;
+position: relative;
   `;
 
 const WriteBody = styled(MainBody)`
-  margin-bottom: 40px;
+margin-bottom: 40px;
 padding-top: 80px;
+
 @media screen and (max-width:700px){
-   width: 100%;
-   margin: 0;
+width: 100%;
+margin: 0;
   }
 `;
 
 const TextareaTitle = styled.h3`
 text-align: center;
+`;
+
+const Publish = styled.div`
+text-align: right;
+margin-right: 32px;
+@media screen and (max-width:700px){
+ margin:0px 32px
+  }
+`;
+
+const WriteBtn = styled(Btn)`
+@media screen and (max-width:700px){
+width: 100%;
+  }
 `;
 
 const ProjectTextarea = styled.textarea`
@@ -205,7 +218,8 @@ width:100%;
 height: 160px;
 border-radius: 8px;
 padding: 12px;
-font-size: 16px;
+font-size: 1rem;
+
 :focus{
    outline: none;
 }
@@ -213,24 +227,19 @@ font-size: 16px;
    width: 100%;
    padding: 12px;
    height: 300px;
-   font-size: 14px;
+   font-size: 1rem;
+   margin: 24px 0px;
   }
 
 `;
 
-const Publish = styled.div`
-position: absolute;
-right: 32px;
-margin-bottom: 500px;
-`;
+
 
 const Leftarrow = styled(Arrow)`
   position: absolute;
   top:25px;
   left: 30px;
   stroke: ${(props) => props.theme.toggleFontColor};
-
-
 `;
 
 export default Write;

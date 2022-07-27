@@ -83,6 +83,8 @@ const MyPage = () => {
     nickname: userInfo?.nickname,
     stacks: userInfo?.stacks,
   });
+console.log(userInfo)
+console.log(myData)
 
   useEffect(() => {
     setMyData(userInfo);

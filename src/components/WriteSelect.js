@@ -105,7 +105,7 @@ const WriteSelect = ({
     </SelectBoxOpen>
 </Detail>
                 </Selects>
-                <Selects>
+                <Selects className="Stack">
            <SelectTitle>구인스택</SelectTitle>
                 <StackSelector
                     isEdit={isEdit}
@@ -131,10 +131,11 @@ row-gap: 20px;
 column-gap:10px;
 
 @media screen and (max-width:700px) {
+    display: flex;
+    flex-direction: column;
     grid-template-columns: 1fr;
 }
 `;
-
 
 export const Selects = styled.div`
     display:grid;
@@ -143,13 +144,23 @@ export const Selects = styled.div`
     justify-items: start;
     column-gap: 20px;
 
+&.Stack{
+    grid-column: 1 / 3;
+    flex-wrap: wrap;
+}
 
+@media screen and (max-width:700px) {
+
+
+&.Stack{
+    flex-wrap: wrap;
+}
+}
 `;
 
 export const SelectTitle = styled.div`
 display: flex;
 align-items: center;
-
 `;
 
 
@@ -157,7 +168,7 @@ export const TitleInput = styled.input`
 display: -webkit-box;
 font-size: 40px;
 width: 100%;
-overflow: auto;
+overflow-y: auto;
 font-weight: bold;
 border: 0px transparent;
 background-color: transparent;
@@ -291,7 +302,7 @@ width: 200px;
 border: ${(props) => props.theme.border};
 background-color: ${(props) => props.theme.inputBoxBackground};
 box-shadow: ${(props) => props.theme.boxShadow};
-overflow: scroll;
+overflow-y: scroll;
 margin-top: 4px;
 `;
 
