@@ -83,7 +83,7 @@ const MyPage = () => {
       setIsMobile(false);
     }
     return () => window.removeEventListener("resize", handleResize);
-  }, [windowSize.width, userInfo, myData]);
+  }, [windowSize.width, userInfo]);
 
   const EditMyData = async () => {
     const image = myData.profileImg;
