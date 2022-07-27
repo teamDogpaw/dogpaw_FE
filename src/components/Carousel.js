@@ -12,9 +12,9 @@ import { useEffect, useState } from "react";
 const Carousel = () => {
   const settings = {
     arrows: false,
-    dots: true,
+    dots: false,
     infinite: true,
-    speed: 1000,
+    speed: 1800,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
@@ -44,6 +44,7 @@ const Carousel = () => {
     }
     return () => window.removeEventListener('resize', handleResize)
   }, [windowSize.width])
+  
   return (
     <Wrap>
       <Slider {...settings}>
@@ -72,6 +73,11 @@ const Wrap = styled.div`
   .slick-list {
     border-radius: 15px;
   }
+
+  .slick-prev:hover, .slick-prev:focus, .slick-next:hover, .slick-next:focus {
+    outline: none;
+ 
+}
 
   .slick-dots {
     .slick-active {
