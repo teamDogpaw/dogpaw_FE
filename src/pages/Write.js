@@ -9,12 +9,14 @@ import { useEditProject, usePostProject } from "../hook/usePostMutation";
 import { ReactComponent as Arrow } from "../styles/icon/detail/backArrow.svg";
 import AlertModal from "../components/AlertModal";
 import { Content } from "../components/ApplyBtn";
+import { ModalContent } from "./Mypage";
 
 const Write = () => {
    const location = useLocation()
    const { state } = useLocation()
    const [isEdit, setIsEdit] = useState(false);
    const [modalOpen, setModalOpen] = useState(false);
+   const [tokenModalOpen, setTokenModalOpen] = useState(false);
    //console.log(isEdit)
    const params = useParams()
    const postId = params.id
@@ -44,6 +46,12 @@ const Write = () => {
       setModalOpen(false);
    };
 
+   const openTokenModal = () => {
+      setTokenModalOpen(true);
+   }
+   const closeTokenModal = () => {
+      setTokenModalOpen(false);
+   }
    const publishPost = async () => {
       if (selectedData.title.length === 0) {
          openModal();
@@ -99,8 +107,12 @@ const Write = () => {
       }
    }
 
+   const token = localStorage.getItem("token")
+   
    useEffect(() => {
-
+if(!token){
+   setTokenModalOpen(true);
+}
       //console.log(state)
       //console.log(postId)
       if (postId !== undefined) {
@@ -120,6 +132,12 @@ const Write = () => {
 
    return (
       <Wrap>
+         <AlertModal open={openTokenModal}>
+         <ModalContent><h3>⚠️</h3>
+        <h4> 로그인이 필요한 서비스입니다</h4>
+          <Btn onClick={()=>navigate("/")}> 메인으로 가기 </Btn>
+      </ModalContent>
+         </AlertModal>
          <Leftarrow
             onClick={() => {
                navigate(-1);
