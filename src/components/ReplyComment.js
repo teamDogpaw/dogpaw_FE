@@ -12,7 +12,7 @@ const ReplyComment = (props) => {
 
   const isLogin = useRecoilValue(UserInfoAtom);
 
-  const loginUser = isLogin.nickname;
+  const loginUser = isLogin?.nickname;
   const writeUser = props.data.nickname;
 
   const id = props.commentId;

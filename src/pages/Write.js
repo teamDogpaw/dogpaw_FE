@@ -177,7 +177,7 @@ const Write = () => {
 const Wrap = styled.div`
 max-width: 996px;
   margin: auto;
-  margin-bottom: 100px;
+  margin-bottom: 150px;
   position: relative;
 
 
@@ -221,7 +221,7 @@ font-size: 16px;
 const Publish = styled.div`
 position: absolute;
 right: 32px;
-margin-bottom: 200px;
+margin-bottom: 500px;
 `;
 
 const Leftarrow = styled(Arrow)`
