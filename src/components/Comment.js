@@ -173,6 +173,7 @@ const Date = styled.span`
 const CommentBtnBox = styled.div`
   display: flex;
   justify-content: flex-end;
+  
 `;
 
 const ModiBtn = styled.button`
@@ -185,6 +186,7 @@ const ModiBtn = styled.button`
   font-size: 12px;
   font-weight: 400;
   margin-left: 10px;
+  cursor: pointer;
 `;
 
 const DeleteBtn = styled(ModiBtn)`
