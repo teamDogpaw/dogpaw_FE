@@ -52,7 +52,7 @@ const Write = () => {
             await postProject(selectedData);
             navigate("/");
          } catch (error) {
-            alert(error);
+            console.log(error);
          }
       }
    };
@@ -186,6 +186,7 @@ margin-bottom: 40px;
 padding-top: 80px;
 
 @media screen and (max-width:700px){
+padding-top: 60px;
 width: 100%;
 margin: 0;
   }
@@ -233,13 +234,15 @@ font-size: 1rem;
 
 `;
 
-
-
 const Leftarrow = styled(Arrow)`
   position: absolute;
   top:25px;
   left: 30px;
   stroke: ${(props) => props.theme.toggleFontColor};
+
+  @media screen and (max-width:700px){
+   top:10px;
+  }
 `;
 
 export default Write;

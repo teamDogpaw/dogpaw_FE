@@ -8,9 +8,14 @@ const Bookmark = ({
   currentTab
 }) => {
 
-const {data:myBookmarkPost, isLoading : isLoadingBMPost} = useGetMyBookmarkPost()
+const {data:myBookmarkPost, isLoading : isLoadingBMPost, isError:isErrorMyBM} = useGetMyBookmarkPost()
 //console.log(myBookmarkPost)
 
+if(isErrorMyBM){
+  return(
+    null
+  )
+}
 
 if (isLoadingBMPost) {
   return (

@@ -90,8 +90,6 @@ margin: auto;
 border-radius: 16px;
 padding: 32px;
 
-
-
 @media screen and (max-width: 700px){
   margin: 0px;
 }
@@ -160,6 +158,10 @@ color: ${(props) => props.theme.stackColor};
 align-items: center;
 display: flex;
 gap: 5px;
+
+&.selected{
+  background-color: blue;
+}
 `;
 
 export const SelectTitle = styled.div`
@@ -174,6 +176,15 @@ export const Option = styled.li`
   :hover {
     background-color: ${(props) => props.theme.keyColor};
     color: ${(props) => props.theme.stackColor};
+  }
+
+  &.selected{
+    cursor: default;
+    color: ${(props) => props.theme.placeHolder};
+    :hover {
+      background-color: transparent;
+  
+  }
   }
 `;
 
