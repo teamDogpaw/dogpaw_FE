@@ -1,4 +1,5 @@
 import axios from "axios";
+
 const token = localStorage.getItem("token");
 
 const baseURL = process.env.REACT_APP_BASE_URL;
@@ -19,6 +20,7 @@ instance.interceptors.response.use(
     return response;
   },
   async (error) => {
+    console.log(error)
     const { response, config } = error;
     const originalRequest = config;
     if (response.status === 403 || response.status === 401) {
@@ -44,6 +46,12 @@ instance.interceptors.response.use(
         window.location.reload();
       }
       return axios(originalRequest);
+    }
+    if (response.status === 404){
+      return (window.location.replace("/notfound"))
+    }
+    if (response.status === 0 || response.status === 504 ){
+      return (window.location.replace("/connectfail"))
     }
     /* if (response.status === 403) {
       localStorage.removeItem("token");
