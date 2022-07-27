@@ -55,7 +55,6 @@ const Carousel = () => {
           <a href="https://docs.google.com/forms/d/1LIU4LaYTaw1UWRPkThKzrF-jJ_1y3U_oj7OwVDOYjII/viewform?edit_requested=true" target="_black">
           <img src={isMobile ?  bannerMobileGift : banner_gift} alt="" />
           </a>
-          
         </div>
       </Slider>
     </Wrap>
@@ -63,23 +62,26 @@ const Carousel = () => {
 };
 
 const Wrap = styled.div`
+
   img {
     max-width: 100%;
   }
   .slick-slide {
     width: 30px;
+
+    a{
+      text-decoration:none;
+    }
   }
+  .slick-slide div{
+      outline: none;
+    }
 
   .slick-list {
     border-radius: 15px;
   }
 
-  .slick-prev:hover, .slick-prev:focus, .slick-next:hover, .slick-next:focus {
-    outline: none;
- 
-}
-
-  .slick-dots {
+  /* .slick-dots {
     .slick-active {
       button::before {
         color: ${(props) => props.theme.keyColor};
@@ -92,10 +94,10 @@ const Wrap = styled.div`
       position: absolute;
       top: -40px;
     }
-  }
+  } */
+ 
 
 
 `;
-
 
 export default Carousel;

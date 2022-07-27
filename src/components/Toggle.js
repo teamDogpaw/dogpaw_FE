@@ -14,9 +14,9 @@ const Toggle = () => {
       <ModeBtn onClick={() => setIsDark((prev) => !prev)} isDark={isDark}>
         <Web>
           {isDark ? (
-            <span>라이트 모드로 보기</span>
+            <span>라이트 모드</span>
           ) : (
-            <span>다크 모드로 보기</span>
+            <span>다크 모드</span>
           )}
         </Web>
         <Mobile>

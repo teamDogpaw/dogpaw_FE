@@ -114,14 +114,14 @@ const Alert = styled.div`
 
 const ArrowPost = styled.div`
   position: absolute;
-  right: 200px;
+  right: 220px;
   top: 3%;
 
   p {
     position: absolute;
     width: 300px;
     top: 100px;
-    right: 20%;
+    right: 30%;
   }
 `;
 const ArrowAlert = styled.div`
