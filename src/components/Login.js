@@ -1,12 +1,10 @@
 import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import kakaoBTN from "../styles/icon/login/kakaoLogin.svg";
-import googleBTN from "../styles/icon/login/googleLogin.svg";
 import Register from "./Register";
 
 import { Btn } from "../styles/style";
 import { login } from "../shared/userOauth";
-import SocialModal from "./SocialModal";
 
 const Login = ({ setModalContent }) => {
   //아이디, 비밀번호
@@ -77,7 +75,7 @@ const Login = ({ setModalContent }) => {
             onChange={onChangeId}
             placeholder="이메일을 입력해주세요."
           />
-          <p className={isEmail ? "success" : "error" }>
+          <p className={isEmail ? "success" : "error"}>
             {email.length > 0 && (
               <span className={`message ${isEmail ? "success" : "error"}`}>
                 {emailMessage}
@@ -128,7 +126,6 @@ const Login = ({ setModalContent }) => {
         >
           회원가입
         </span>
-        하러가기
       </Redirect>
     </Wrap>
   );
@@ -182,14 +179,20 @@ export const InputContent = styled.div`
     color: ${(props) => props.theme.keyColor};
   }
 
-  p .error{
-    color:${(props)=>props.theme.errorColor}
+  p .error {
+    color: ${(props) => props.theme.errorColor};
   }
 `;
 
 export const LoginBtn = styled(Btn)`
-  cursor: pointer;
-  width: 100%;
+  font: inherit;
+  color: ${(props) => props.theme.textColor_btn};
+  background-color: ${(props) =>
+    props.disabled ? "#f8cbac" : props.theme.keyColor};
+  :hover {
+    background-color: ${(props) => (props.disabled ? "#f8cbac" : "#FF891C")};
+    cursor: ${(props) => (props.disabled ? null : "pointer")};
+  }
 `;
 
 const SocialWrap = styled.div`
@@ -227,6 +230,7 @@ export const Redirect = styled.div`
   text-align: center;
 
   span {
+    margin-left: 10px;
     font-weight: bold;
     color: ${(props) => props.theme.textColor};
     cursor: pointer;
