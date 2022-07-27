@@ -8,16 +8,24 @@ import {ReactComponent as Pen} from "../styles/icon/detail/edit.svg";
 import {ReactComponent as  Bell} from "../styles/icon/header/bell.svg";
 
 const Tutoral = () => {
+  const isLogin = localStorage.getItem("token");
+
   return (
     <Wrap>
       <Content>
-        <Write>
-          <Pen />
-          <span>게시글 작성</span>
-        </Write>
-        <Alert>
-          <Bell />
-        </Alert>
+        {!isLogin && (
+          <>
+            {" "}
+            <Write>
+              <Pen />
+              <p>게시글 작성</p>
+            </Write>
+            <Alert>
+              <Bell />
+            </Alert>
+          </>
+        )}
+
         <ArrowPost>
           <img src={arrowPost} alt="" />
           <p>
@@ -86,19 +94,21 @@ const Content = styled.div`
 `;
 
 const Write = styled.div`
+display:flex;
+align-items:center;
   position: absolute;
   right: 190px;
   top: 3%;
-  stroke: ${(props) => props.theme.headerTextColor};
-  span {
-    color:  ${(props) => props.theme.headerTextColor}
+  stroke: ${(props) => props.theme.textColor};
+  p {
+    color:  ${(props) => props.theme.textColor}
   }
 `;
 const Alert = styled.div`
   position: absolute;
   right: 100px;
   top: 3%;
-  stroke: ${(props) => props.theme.headerTextColor};
+  stroke: ${(props) => props.theme.textColor};
 `;
 
 const ArrowPost = styled.div`
