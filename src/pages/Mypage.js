@@ -44,7 +44,8 @@ const MyPage = () => {
     width: undefined,
     height: undefined,
   });
-
+  const detailsRef = useRef(null);
+  const details = detailsRef.current;
   const navigate = useNavigate();
 
   const imageRef = useRef();
@@ -68,11 +69,11 @@ const MyPage = () => {
   ];
 
   useEffect(() => {
+    console.log(userInfo)
     if(userInfo === undefined && !token ){
       setModalOpen(true);
     }
       setMyData(userInfo)
-
     //widthHandler
     function handleResize() {
       setWindowSize({
@@ -237,7 +238,7 @@ const MyPage = () => {
 
       {isMobile ? (
         <>
-          <details>
+          <details ref={detailsRef}>
             <TabBox>
               {tabList[currentTab - 1].name} <MySelectArrow />
             </TabBox>
@@ -247,7 +248,10 @@ const MyPage = () => {
                 return (
                   <MyOption
                     onClick={() => {
-                      setTab(tab.id);
+                      setTab(tab.id)
+                      if (details) {
+                        details.open = false;
+                      }
                     }}
                     key={tab.id}
                     className={currentTab === tab.id ? "focused" : null}
