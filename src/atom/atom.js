@@ -3,7 +3,12 @@ import Login from "../components/Login";
 
 export const UserInfoAtom = atom({
   key: "UserInfo",
-  default: [],
+  default: {
+    stacks:[],
+    username:"",
+    profileImg:null,
+    nickname:""
+  }
 });
 
 export const modalChange = atom({
