@@ -407,7 +407,7 @@ export const ProfileWrap = styled.div`
 
 export const Profile = styled.div`
   margin-left: 50px;
-  width: 100px;
+  //width: 100px;
 
   p {
     color: #777777;
