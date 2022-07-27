@@ -38,9 +38,21 @@ body {
   background-color: ${(props) => props.theme.backgroundColor} ;
   font-size: 16px;
   font-family: 'Noto Sans CJK KR';
+
+  //드래그 방지
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+
+  @media screen and (max-width:600px) {
+    font-size: 14px;
+  }
+
 }
 menu, ol, ul {
   list-style: none;
+  
 }
 blockquote, q {
   quotes: none;
@@ -63,22 +75,19 @@ table {
 
 h1{
   color:${(props) => props.theme.textColor};
-
-  font-size: 40px;
+  font-size: 2.5rem;
   font-weight: bold;
 }
 
 h3{
   color:${(props) => props.theme.textColor};
-
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: bold;
 }
 
 h4{
   color:${(props) => props.theme.textColor};
-
- font-size : 20px;
+ font-size : 1.25rem;
  font-weight: bold;
 }
 `;
@@ -104,6 +113,7 @@ color: ${(props) => props.theme.textColor_btn};
 word-break: keep-all;
 font-weight: bold;
 font-size: 1rem;
+cursor: pointer;
 :hover {
    background-color: #FF891C;
 }
@@ -140,7 +150,7 @@ export const ListProfilePic = styled.img`
 `;
 
 export const ListTitle = styled.span`
-  font-size: 20px;
+  font-size:1.25rem;
   font-weight: bold;
 `;
 
@@ -196,7 +206,6 @@ height: 37px;
 padding: 5px 10px;
 border: ${(props) => props.theme.border};
 border-radius: 8px;
-font-size: 16px;
 background-color: ${(props) => props.theme.inputBoxBackground};
 list-style: none;
 position: relative;

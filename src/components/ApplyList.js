@@ -112,11 +112,11 @@ gap: 10px;
   span {
     font-family: "GongGothicBold";
     color: ${(props) => props.theme.keyColor};
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: bold;
 
     @media screen and (max-width:600px){
-      font-size: 16px;
+      font-size: 1rem;
   }
   }
 `;

@@ -166,7 +166,7 @@ align-items: center;
 
 export const TitleInput = styled.input`
 display: -webkit-box;
-font-size: 40px;
+font-size: 2.5rem;
 width: 100%;
 overflow-y: auto;
 font-weight: bold;
@@ -186,7 +186,7 @@ max-height: 200px;
  -webkit-box-orient: vertical;
 }
 @media screen and (max-width:500px) {
-    font-size: 24px;
+    font-size: 1.5rem;
 }
 `;
 
@@ -197,7 +197,7 @@ height: 37px;
 padding: 5px 10px;
 border: ${(props) => props.theme.border};
 border-radius: 8px;
-font-size: 16px;
+font-size: 1rem;
 cursor: pointer;
 ::placeholder{
    color:#e2e2e2;
@@ -205,6 +205,9 @@ cursor: pointer;
 :focus{
     outline: none;
 }
+@media screen and (max-width:600px) {
+    font-size: 0.875rem;
+  }
 
 
 `;

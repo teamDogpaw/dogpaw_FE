@@ -112,7 +112,7 @@ align-items: center;
 
 const ListContent = styled.div`
 line-height: 16px;
-font-size: 14px;
+font-size: 0.875rem;
 margin-top: 8px;
 gap:8px;
 display: flex;
@@ -123,7 +123,7 @@ const ListBottom = styled.div`
 display: flex;
 align-items: flex-end;
 gap:5px;
-font-size: 13px;
+font-size: 0.813rem;
 margin-top: 18px;
 `;
 

@@ -161,7 +161,7 @@ const AllDelete = styled.div`
 
   span {
     color: ${(props) => props.theme.removeBtnColor};
-    font-size: 14px;
+    font-size: 0.875rem;
   }
 `;
 

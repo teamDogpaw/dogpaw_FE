@@ -157,7 +157,7 @@ const Wrap = styled.div`
   display: flex;
   align-items: center;
   p {
-    font-size: 16px;
+    font-size: 1rem;
   }
 
   summary::marker {
@@ -254,7 +254,7 @@ const Select = styled.ul`
   button {
     border: none;
     background-color: #fff;
-    font-size: 14px;
+    font-size: 0.875rem;
     cursor: pointer;
     padding: 3px 0;
   }

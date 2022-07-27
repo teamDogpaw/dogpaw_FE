@@ -127,7 +127,7 @@ const Out = styled.div`
   cursor: pointer;
   
   p {
-    font-size: 14px;
+    font-size: 0.875rem;
     color: crimson;
     position: absolute;
     top: 22px;

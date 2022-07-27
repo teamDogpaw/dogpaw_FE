@@ -287,10 +287,10 @@ const Wrap = styled.div`
     list-style: none;
   }
   h1 {
-    font-size: 25px;
+    font-size: 1.563rem;
   }
   p {
-    font-size: 15px;
+    font-size: 0.938rem;
   }
 
   @media screen and (max-width: 1200px) {

@@ -128,7 +128,7 @@ const Button = styled(Btn)`
   position: absolute;
   right: 0;
   bottom: 0;
-  font-size: 15px;
+  font-size: 0.938rem;
   cursor: pointer;
   ${(props) =>
     props.isActive
