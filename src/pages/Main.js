@@ -26,7 +26,7 @@ const Main = () => {
   const user = useRecoilValue(UserInfoAtom);
   const [mark, setMark] = useState(false);
   const [toggle, setToggle] = useState(true);
-  const [isHover, setIsHover] = useState(false);
+  const [isTuto, setIsTuto] = useState(false);
   const { ref, inView } = useInView();
   const [isFilter, setIsFilter] = useState(false);
 
@@ -91,20 +91,21 @@ const Main = () => {
     setToggle((prev) => !prev);
   };
 
-  
+  const openTuto = () => {
+    setIsTuto((prev) => !prev);
+    document.body.style.overflow = "hidden";
+  };
+
+
   return (
     <Wrap>
-      <Help>
-        <Tuto
-          onMouseOver={() => setIsHover(true)}
-          onMouseOut={() => setIsHover(false)}
-          onClick={() => setIsHover(false)}
-        >
-          {isHover && <Tutoral />}
-          <img src={help} alt="" />
-        </Tuto>
-        <span>이용가이드</span>
-      </Help>
+      <Help >
+          <Tuto onClick={openTuto}>
+            {isTuto && <Tutoral />}
+            <img src={help} alt="" />
+          </Tuto>
+          <span onClick={openTuto}>이용가이드</span>
+        </Help>
       <Carousel />
       <Award>
         <img src={award} alt="" />
@@ -302,12 +303,14 @@ const Wrap = styled.div`
 
 const Help = styled.div`
   ${displyStyle}
-  justify-content: end;
+  justify-content: flex-end;
   margin-bottom: 10px;
+ 
   span {
     font-weight: 500;
     color: #ffb673;
     margin-left: 5px;
+    cursor:pointer;
   }
 
   @media screen and (max-width: 500px) {
@@ -339,6 +342,8 @@ const Move = keyframes`
 `;
 const Tuto = styled.div`
   animation: ${Move} 1s ease-in-out;
+  cursor: pointer;
+  
 `;
 
 const Award = styled.div`
@@ -364,7 +369,7 @@ const ToggleBtn = styled.div`
   border: 2px solid #ffb673;
   cursor: pointer;
   background-color: ${(props) => props.theme.divBackGroundColor};
-  transition: all 0.5s ease-in-out;
+
 `;
 
 const Toggle = styled.div`
