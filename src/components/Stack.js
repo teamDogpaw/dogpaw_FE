@@ -33,7 +33,7 @@ const Stack = () => {
         <div style={{ display: "flex", flexWrap: "wrap", marginTop: "10px" }}>
           {stack.map((stack, index) => {
             return (
-              <MyStack style={{ margin: "0px 10px 10px 0px" }}>
+              <MyStack>
                 #{stack}{" "}
                 <svg
                   onClick={() => removeStack(stack)}
@@ -78,7 +78,6 @@ const MyStack = styled.div`
   background-color: ${(props) => props.theme.stackBackground};
   padding: 8px 12px;
   border-radius: 30px;
-  margin-right: 16px;
   color: ${(props) => props.theme.stackColor};
 `;
 

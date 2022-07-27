@@ -1,6 +1,5 @@
 import styled, { createGlobalStyle } from "styled-components";
 import { ReactComponent as X } from "../styles/icon/modal/close.svg";
-
 //전역 스타일링
 export const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -40,6 +39,21 @@ body {
   font-family: 'Noto Sans CJK KR';
   @media screen and (max-width:700px){
    font-size: 14px;
+  }
+  //전체 드래그 방지
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+
+  &::-webkit-scrollbar {
+    width: 0px;
+    height: 9px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    border: 1px solid #dadada;
+    background: white;
   }
 }
 menu, ol, ul {
@@ -163,10 +177,13 @@ export const ListStack = styled.span`
 
 export const MyStack = styled.div`
 background-color: ${(props) => props.theme.stackBackground};
-padding: 12px 12px;
+padding: 10px;
 border-radius: 30px;
-margin-right: 16px;
+margin-right: 5px;
 font-size: 14px;
+display: flex;
+align-items: center;
+gap: 5px;
 color: ${(props) => props.theme.stackColor};
 `;
 
@@ -200,7 +217,7 @@ font-size: 16px;
 background-color: ${(props) => props.theme.inputBoxBackground};
 list-style: none;
 position: relative;
-
+cursor: pointer;
 ::-webkit-details-marker {
   display: none;
 }
@@ -237,8 +254,9 @@ width: 200px;
 border: ${(props) => props.theme.border};
 background-color: ${(props) => props.theme.inputBoxBackground};
 box-shadow: 0px 4px 4px 0px rgb(0,0,0,0.1);
-overflow: scroll;
+overflow-y: scroll;
 margin-top: 4px;
+overflow-x: hidden;
 
 &.Login{
   width: 384px;
@@ -282,11 +300,12 @@ gap: 24px;
 `;
 
 export const Modal = styled.div`
+
     display: flex;
     flex-direction: column;
     position: fixed;
     left: 50%;
-    margin-top: 100px;
+    margin-top: 10%;
     transform: translate(-50%, 0%);
 
     border-radius: 8px;
@@ -306,6 +325,9 @@ export const Modal = styled.div`
     padding: 24px;
     }
 
+&.smallHeight{
+  margin-top: 0.5%;
+} 
 `;
 
 export const ModalBackground = styled.div`
