@@ -93,12 +93,16 @@ const Main = () => {
 
   const openTuto = () => {
     setIsTuto((prev) => !prev);
-    document.body.style.overflow = "hidden";
+    if (isTuto === false) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "scroll";
+    }
   };
-
 
   return (
     <Wrap>
+
       <Help >
           <Tuto onClick={openTuto}>
             {isTuto && <Tutoral />}
@@ -106,6 +110,7 @@ const Main = () => {
           </Tuto>
           <span onClick={openTuto}>이용가이드</span>
         </Help>
+
       <Carousel />
       <Award>
         <img src={award} alt="" />

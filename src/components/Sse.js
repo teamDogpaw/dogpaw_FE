@@ -12,9 +12,12 @@ import styled from "styled-components";
 import { ReactComponent as Remove } from "../styles/icon/detail/remove.svg";
 import { useRecoilState } from "recoil";
 import { alertListAtom, newAlertListAtom } from "../atom/atom";
+import { useLocation } from "react-router-dom";
 
 const Sse = () => {
   const token = localStorage.getItem("token");
+  const pathName = useLocation();
+  console.log(pathName)
   const EventSource = EventSourcePolyfill || NativeEventSource;
   const [alert, setAlert] = useRecoilState(alertListAtom);
   const [newAlert, setNewAlert] = useRecoilState(newAlertListAtom);
@@ -31,6 +34,7 @@ const Sse = () => {
   //console.log(allList)
 
   useEffect(() => {
+
     if (token) {
       const sse = new EventSource("https://dogfaw.dasole.shop/subscribe", {
         headers: {
@@ -53,15 +57,16 @@ const Sse = () => {
         ////console.log("에러", e);
       });
     }
-  }, [token, setAlert, EventSource, queryClient, alert]);
+  }, [token]);
 
   useEffect(() => {
+  
     if (token) {
       setNewAlert(allList);
       //console.log(allList);
       //setUnread(unreadList);
     }
-  }, [token, allList, setNewAlert]);
+  }, [token, allList, setNewAlert,pathName.pathname]);
 
   const messageDelete = async (id) => {
     // const { data } = await removeAlert(id)
@@ -86,6 +91,8 @@ const Sse = () => {
     await readAlert(id);
     queryClient.invalidateQueries("alertList");
   };
+
+
 
   return (
     <div>
