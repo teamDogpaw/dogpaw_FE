@@ -4,10 +4,20 @@ import arrowDeadline from "../styles/icon/tutorial/arrowDeadline.svg";
 import arrowDetail from "../styles/icon/tutorial/arrowDetail.svg";
 import arrowMode from "../styles/icon/tutorial/arrowMode.svg";
 import arrowAlert from "../styles/icon/tutorial/arrowAlert.svg";
+import {ReactComponent as Pen} from "../styles/icon/detail/edit.svg";
+import {ReactComponent as  Bell} from "../styles/icon/header/bell.svg";
+
 const Tutoral = () => {
   return (
     <Wrap>
       <Content>
+        <Write>
+          <Pen />
+          <span>게시글 작성</span>
+        </Write>
+        <Alert>
+          <Bell />
+        </Alert>
         <ArrowPost>
           <img src={arrowPost} alt="" />
           <p>
@@ -29,12 +39,11 @@ const Tutoral = () => {
           <img src={arrowDeadline} alt="" />
         </ArrowDeadline>
         <ArrowDetail>
-        <img src={arrowDetail} alt="" />
+          <img src={arrowDetail} alt="" />
           <p>
             많은 사람들의 관심을 받은 게시글들을 <br />
             모아볼 수 있어요!
           </p>
-          
         </ArrowDetail>
       </Content>
       {/* <ArrowMode>
@@ -65,6 +74,8 @@ const Wrap = styled.div`
     font-weight: 500;
     line-height: 24px;
   }
+
+  
 `;
 
 const Content = styled.div`
@@ -74,23 +85,40 @@ const Content = styled.div`
   margin: auto;
 `;
 
+const Write = styled.div`
+  position: absolute;
+  right: 190px;
+  top: 3%;
+  stroke: ${(props) => props.theme.headerTextColor};
+  span {
+    color:  ${(props) => props.theme.headerTextColor}
+  }
+`;
+const Alert = styled.div`
+  position: absolute;
+  right: 100px;
+  top: 3%;
+  stroke: ${(props) => props.theme.headerTextColor};
+`;
+
 const ArrowPost = styled.div`
   position: absolute;
   right: 200px;
   top: 3%;
 
   p {
-    position:absolute;
-    width:300px;
-    top:100px;
-    right:20%;
+    position: absolute;
+    width: 300px;
+    top: 100px;
+    right: 20%;
   }
-`;const ArrowAlert = styled.div`
-position: absolute;
-right: -10px;
-top: 5%;
+`;
+const ArrowAlert = styled.div`
+  position: absolute;
+  right: -10px;
+  top: 5%;
 
-/* p {
+  /* p {
   position:absolute;
   width:300px;
   top:100px;
@@ -104,10 +132,10 @@ const ArrowDeadline = styled.div`
   left: 40px;
 
   p {
-    position:absolute;
-    width:300px;
-    top:0px;
-    left:110%;
+    position: absolute;
+    width: 300px;
+    top: 0px;
+    left: 110%;
   }
 `;
 
@@ -117,10 +145,10 @@ const ArrowDetail = styled.div`
   left: 5%;
 
   p {
-    position:absolute;
-    width:300px;
-    top:55px;
-    left:100%;
+    position: absolute;
+    width: 300px;
+    top: 55px;
+    left: 100%;
   }
 `;
 
