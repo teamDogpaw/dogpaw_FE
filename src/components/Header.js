@@ -3,9 +3,9 @@ import { DarkThemeAtom } from "../atom/theme";
 
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useMatch, useSearchParams } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { alertListAtom, UserInfoAtom } from "../atom/atom";
+import { newAlertListAtom, UserInfoAtom } from "../atom/atom";
 import ModalOpen from "./Modal_prev";
 import Sse from "./Sse";
 
@@ -18,8 +18,9 @@ import { ReactComponent as Bell } from "../styles/icon/header/bell.svg";
 import newBell from "../styles/icon/header/newBell.svg";
 
 const Header = () => {
-  const alert = useRecoilValue(alertListAtom);
+  const newAlert = useRecoilValue(newAlertListAtom);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const navigate = useNavigate();
   const isDark = useRecoilValue(DarkThemeAtom);
   const userInfo = useRecoilValue(UserInfoAtom);
@@ -71,6 +72,7 @@ const Header = () => {
         <ModalOpen viewModal={viewModal} kakaoNick={kakaoNick} />
       ) : null}
       <Wrap>
+      
         <ContentWrap>
           <div
             onClick={() => {
@@ -96,7 +98,9 @@ const Header = () => {
                 </StyledLink>
                 <Details>
                   <MessageList>
-                    {alert?.length === 0 ? (
+
+                    {newAlert?.length === 0 ? (
+
                       <Bell />
                     ) : (
                       <img src={newBell} alt="" />
@@ -106,7 +110,6 @@ const Header = () => {
                     <div>
                       <h4>나의 알림</h4>
                     </div>
-
                     <li>
                       <Sse />
                     </li>
@@ -154,7 +157,7 @@ const Wrap = styled.div`
   display: flex;
   align-items: center;
   p {
-    font-size: 16px;
+    font-size: 1rem;
   }
 
   summary::marker {
@@ -251,7 +254,7 @@ const Select = styled.ul`
   button {
     border: none;
     background-color: #fff;
-    font-size: 14px;
+    font-size: 0.875rem;
     cursor: pointer;
     padding: 3px 0;
   }
@@ -311,5 +314,4 @@ const Message = styled.ul`
 const MessageList = styled.summary`
   stroke: ${(props) => props.theme.headerTextColor};
 `;
-
 export default Header;

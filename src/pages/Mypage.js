@@ -2,9 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import Bookmark from "../components/Bookmark";
 import MyProject from "../components/MyProject";
 import JoinProject from "../components/JoinProject";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import {
   Btn,
+  GrayLineBtn,
   MyStack,
   Option,
   PostBody,
@@ -19,7 +20,7 @@ import {
   useMyProfileReset,
   useMyProfileEdit,
 } from "../hook/useProfileMutation";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/atom";
 import profilepic from "../styles/icon/global/profile.svg";
 import ApplyProject from "../components/ApplyProject";
@@ -27,41 +28,43 @@ import pen from "../styles/icon/myPage/pen.svg";
 import StackSelector from "../components/StackSeletor";
 import { withDraw } from "../shared/userOauth";
 import { SelectArrow } from "../components/WriteSelect";
-import { LoginBtn } from "../components/Login";
+import AlertModal from "../components/AlertModal";
 
 const MyPage = () => {
   const userInfo = useRecoilValue(UserInfoAtom);
-  const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(false);
-  const imageRef = useRef();
   const [currentTab, setTab] = useState(1);
-  const formData = new FormData();
   const [imagePreview, setImagePreview] = useState();
   const [isMobile, setIsMobile] = useState();
-  const token = localStorage.getItem("token");
-  const userId = localStorage.getItem("id");
-
-  const tabList = [
-    { id: 1, name: "관심 프로젝트", content: <Bookmark currentTab={1} /> },
-    { id: 2, name: "참여한 프로젝트", content: <JoinProject currentTab={2} /> },
-    {
-      id: 3,
-      name: "신청한 프로젝트",
-      content: <ApplyProject currentTab={3} />,
-    },
-    {
-      id: 4,
-      name: "내가 쓴 프로젝트",
-      content: <MyProject currentTab={4} />,
-    },
-  ];
-
+  const [myData, setMyData] = useState();
+  const [modalOpen, setModalOpen] = useState(false);
   const [windowSize, setWindowSize] = useState({
     width: undefined,
     height: undefined,
   });
+  const detailsRef = useRef(null);
+  const details = detailsRef.current;
+  const navigate = useNavigate();
+
+  const imageRef = useRef();
+
+  const formData = new FormData();
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("id");
+  const tabList = [
+    { id: 1, name: "관심 프로젝트", content: <Bookmark currentTab={1} /> },
+    { id: 2, name: "참여한 프로젝트", content: <JoinProject currentTab={2} /> },
+    { id: 3, name: "신청한 프로젝트", content: <ApplyProject currentTab={3} /> },
+    { id: 4, name: "내가 쓴 프로젝트", content: <MyProject currentTab={4} /> }
+  ];
 
   useEffect(() => {
+    console.log(userInfo)
+    if(userInfo === undefined && !token ){
+      setModalOpen(true);
+    }
+      setMyData(userInfo)
+    //widthHandler
     function handleResize() {
       setWindowSize({
         width: window.innerWidth,
@@ -76,19 +79,7 @@ const MyPage = () => {
       setIsMobile(false);
     }
     return () => window.removeEventListener("resize", handleResize);
-  }, [windowSize.width]);
-
-  const [myData, setMyData] = useState({
-    profileImg: userInfo?.profileImg,
-    nickname: userInfo?.nickname,
-    stacks: userInfo?.stacks,
-  });
-console.log(userInfo)
-console.log(myData)
-  useEffect(() => {
-    setMyData(userInfo);
-    setImagePreview(userInfo.profileImg);
-  }, [userInfo]);
+  }, [windowSize.width, userInfo, myData]);
 
   const EditMyData = async () => {
     const image = myData.profileImg;
@@ -139,8 +130,20 @@ console.log(myData)
     setMyData((prev) => ({ ...prev, nickname: newNickname }));
   };
 
+  if(userInfo === undefined && !token ){
+    return (
+      <AlertModal open={modalOpen}>
+      <ModalContent>
+        <h4>⚠️ 로그인이 필요한 서비스입니다</h4>
+          <Btn onClick={()=>navigate("/", {state:"needLogin"})}> 메인으로 가기 </Btn>
+      </ModalContent>
+    </AlertModal>
+    )
+  }
+
   return (
     <WholeBody>
+    
       {isMobile ? (
         <Leftarrow
           onClick={() => {
@@ -205,10 +208,10 @@ console.log(myData)
               <Profilepic src={myData?.profileImg} />
             )}
             <Profile>
-              <h4>{userInfo?.nickname}</h4>
-              <p>{userInfo?.username}</p>
+              <h4>{myData?.nickname}</h4>
+              <p>{myData?.username}</p>
               <Stacks>
-                {userInfo?.stacks?.map((mystack, index) => {
+                {myData?.stacks?.map((mystack, index) => {
                   return (
                     <MyStack key={index} style={{ marginTop: "10px" }}>
                       #{mystack}
@@ -225,7 +228,7 @@ console.log(myData)
 
       {isMobile ? (
         <>
-          <details>
+          <details ref={detailsRef}>
             <TabBox>
               {tabList[currentTab - 1].name} <MySelectArrow />
             </TabBox>
@@ -235,7 +238,10 @@ console.log(myData)
                 return (
                   <MyOption
                     onClick={() => {
-                      setTab(tab.id);
+                      setTab(tab.id)
+                      if (details) {
+                        details.open = false;
+                      }
                     }}
                     key={tab.id}
                     className={currentTab === tab.id ? "focused" : null}
@@ -281,7 +287,7 @@ const TabBox = styled.summary`
   padding: 6px 24px;
   margin: 24px 0px;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 1rem;
   position: relative;
 
   ::marker {
@@ -302,7 +308,7 @@ const BtnWrap = styled.div`
   gap: 10px;
   span {
     color: ${(props) => props.theme.errorColor};
-    font-size: 14px;
+    font-size: 0.875rem;
   }
 `;
 
@@ -399,14 +405,30 @@ export const ProfileWrap = styled.div`
   @media screen and (max-width: 600px) {
     width: 100%;
     margin-top: 20px;
-    font-size: 14px;
+    font-size: 0.875rem;
     padding-bottom: 60px;
   }
 `;
 
+export const ModalContent =styled.div`
+word-break: keep-all;
+  width: 350px;
+  text-align: center;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  padding:30px;
+  position: relative;
+`;
+
+const ModalBtn = styled(Btn)`
+position: absolute;
+bottom: 10px;
+`;
+
 export const Profile = styled.div`
   margin-left: 50px;
-  width: 100px;
+  //width: 100px;
 
   p {
     color: #777777;
@@ -419,7 +441,6 @@ export const Profile = styled.div`
     padding: 5px 10px;
     border: ${(props) => props.theme.border};
     border-radius: 8px;
-    font-size: 16px;
     background-color: ${(props) => props.theme.inputBoxBackground};
   }
 

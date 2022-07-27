@@ -170,14 +170,14 @@ const Register = ({ setModalContent }) => {
     }
     window.addEventListener("resize", handleResize);
     handleResize();
-    if (windowSize.width < 600) {
+    if (windowSize.width < 600 || windowSize.height < 812) {
       setIsMobile(true);
-    } else if (windowSize.width >= 600) {
+    } else if (windowSize.width >= 600 || windowSize.height >= 812) {
       setIsMobile(false);
       setIsNextPage(false);
     }
-    return () => window.removeEventListener("resize", handleResize);
-  }, [windowSize.width]);
+    return () => window.removeEventListener('resize', handleResize)
+  }, [windowSize.width, windowSize.height])
 
   if (isNextPage) {
     return (

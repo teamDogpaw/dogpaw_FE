@@ -82,7 +82,7 @@ const MyStack = styled.div`
 `;
 
 const SelectTitle = styled.p`
-  font-size: 26px;
+  font-size: 1.625rem;
   font-weight: bold;
   margin-left: -110px;
   padding: 1rem 0;
@@ -98,7 +98,6 @@ const SelectBox = styled.summary`
   height: 30px;
   margin-left: -115px;
   font-weight: bold;
-  font-size: 16px;
   color: #9f9f9f;
   list-style: none;
 `;

@@ -67,23 +67,23 @@ const StackSelector = ({
             <details ref={stackdetailsRef}>
                 <SelectBox className={isMain !== null ? "Login" : null}> 스택을 선택해주세요.<SelectArrow /></SelectBox>
                 <SelectBoxOpen className={isMain !== null ? "Login" : null}>
-                    {ALL_STACK.map((stack, index) => {
+                    {ALL_STACK.map((oneStack, index) => {
                         return (
-                            <Option className={isMain !== null ? "Login" : null} key={index}
-                                onClick={() => addStack(stack)}>
-                                {stack}</Option>
+                            <Option className={stack.includes(oneStack) ? "selected" : null} key={index}
+                                onClick={() => addStack(oneStack)}>
+                                {oneStack}</Option>
                         )
                     })}
                 </SelectBoxOpen>
             </details>
             <StackWrap >
-                {stack.map((stack, index) => {
+                {stack.map((oneStack, index) => {
                     return (
-                        <MyStack
+                        <MyStack 
                             key={index}
-                            onClick={() => removeStack(stack)}
+                            onClick={() => removeStack(oneStack)}
                         >
-                            #{stack}
+                            #{oneStack}
                             <Delete />
                         </MyStack>
                     )
@@ -92,10 +92,12 @@ const StackSelector = ({
         </div>
     )
 }
-export const StackWrap =styled.div`
+export const StackWrap = styled.div`
 display: flex;
 flex-direction: row;
-margin: 10px 0px 10px;
+margin: 20px 0px 10px;
+flex-wrap:wrap;
+gap: 10px;
 `;
 
 export default StackSelector;

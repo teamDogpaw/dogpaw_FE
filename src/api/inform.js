@@ -7,16 +7,16 @@ export const informApis = {
   notificationCnt: async () => await instance.get("/notifications/count"),
   notificationDeleteAll: async () =>
     await instance.delete("notifications/delete"),
-  //notificationDelete: async (notificationId) => await instance.delete(`notifications/delete/${notificationId}`)
-  notificationDelete: async (notificationId) => {
-    try {
-      const { data } = await instance.delete(
-        `notifications/delete/${notificationId}`
-      );
-      //console.log(data);
-      return data;
-    } catch (e) {
-     // console.log(e);
-    }
-  },
+  notificationDelete: async (notificationId) => await instance.delete(`notifications/delete/${notificationId}`)
+//   notificationDelete: async (notificationId) => {
+//     try {
+//       const { data } = await instance.delete(
+//         `notifications/delete/${notificationId}`
+//       );
+//       //console.log(data);
+//       return data;
+//     } catch (e) {
+//       // console.log(e);
+//     }
+//   },
 };

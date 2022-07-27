@@ -8,6 +8,7 @@ import {ReactComponent as Pen} from "../styles/icon/detail/edit.svg";
 import {ReactComponent as  Bell} from "../styles/icon/header/bell.svg";
 
 const Tutoral = () => {
+
   const isLogin = localStorage.getItem("token");
 
   return (
@@ -75,7 +76,7 @@ const Wrap = styled.div`
   left: 0;
   z-index: 99;
   background-color: rgba(0, 0, 0, 0.4);
-  cursor: pointer;
+
 
   p {
     color: #fff6c6;

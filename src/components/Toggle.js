@@ -48,7 +48,7 @@ const Wrap = styled.div`
   right: 25px;
   bottom: 19px;
   span {
-    font-size: 15px;
+    font-size: 0.938rem;
     font-weight: 500;
     color: ${(props) => props.theme.toggleFontColor};
   }

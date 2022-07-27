@@ -143,7 +143,7 @@ const ModiBtn = styled.button`
   padding: 4px 12px;
   width: 69px;
   height: 32px;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 400;
   margin-left: 10px;
 `;

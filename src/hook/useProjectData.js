@@ -9,8 +9,6 @@ export function useGetApplicantLists(postId) {
         onSuccess: (data) => {
             //console.log(data)
                 return data
-            }, onError: (error) => {
-                alert(error)
             }
         })
 };
@@ -21,8 +19,6 @@ export function useGetParticipantsLists(postId) {
         onSuccess: (data) => {
             //console.log(data)
                 return data
-            }, onError: (error) => {
-                alert(error)
             }
     })
 }

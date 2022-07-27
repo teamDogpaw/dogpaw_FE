@@ -4,6 +4,8 @@ import profilepic from "../styles/icon/global/profile.svg";
 import { useGetApplicantLists } from "../hook/useProjectData";
 import { useAcceptApply, useRejectApply } from "../hook/useProjectMutation";
 import { ReactComponent as Empty } from "../styles/icon/global/pawLoading.svg";
+import AlertModal from "../components/AlertModal";
+
 const ApplyList = ({ myPostId }) => {
   const { isLoading: isApplyListLoading, data: applyList } =
     useGetApplicantLists(myPostId);
@@ -110,11 +112,11 @@ gap: 10px;
   span {
     font-family: "GongGothicBold";
     color: ${(props) => props.theme.keyColor};
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: bold;
 
     @media screen and (max-width:600px){
-      font-size: 16px;
+      font-size: 1rem;
   }
   }
 `;

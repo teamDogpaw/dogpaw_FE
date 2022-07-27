@@ -1,5 +1,6 @@
 import styled, { createGlobalStyle } from "styled-components";
 import { ReactComponent as X } from "../styles/icon/modal/close.svg";
+
 //전역 스타일링
 export const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -37,27 +38,21 @@ body {
   background-color: ${(props) => props.theme.backgroundColor} ;
   font-size: 16px;
   font-family: 'Noto Sans CJK KR';
-  @media screen and (max-width:700px){
-   font-size: 14px;
-  }
-  //전체 드래그 방지
+
+  //드래그 방지
   -webkit-user-select:none;
   -moz-user-select:none;
   -ms-user-select:none;
   user-select:none;
 
-  &::-webkit-scrollbar {
-    width: 0px;
-    height: 9px;
+  @media screen and (max-width:600px) {
+    font-size: 14px;
   }
-  &::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    border: 1px solid #dadada;
-    background: white;
-  }
+
 }
 menu, ol, ul {
   list-style: none;
+  
 }
 blockquote, q {
   quotes: none;
@@ -74,39 +69,25 @@ table {
 * {
   box-sizing: border-box;
   color:${(props) => props.theme.textColor};
+  
 
-
-}
-input{
-  @media screen and (max-width:700px){
-   font-size: 14px;
-  }
-}
-
-summary{
-  @media screen and (max-width:700px){
-   font-size: 14px;
-  }
 }
 
 h1{
   color:${(props) => props.theme.textColor};
-
-  font-size: 40px;
+  font-size: 2.5rem;
   font-weight: bold;
 }
 
 h3{
   color:${(props) => props.theme.textColor};
-
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: bold;
 }
 
 h4{
   color:${(props) => props.theme.textColor};
-
- font-size : 20px;
+ font-size : 1.25rem;
  font-weight: bold;
 }
 `;
@@ -118,8 +99,8 @@ margin: auto;
 border-radius: 16px;
 padding: 32px;
 
-@media screen and (max-width: 996px){
-  margin: 0px
+@media screen and (max-width: 700px){
+  margin: 0px;
 }
 `;
 
@@ -131,6 +112,8 @@ border: 0px transparent;
 color: ${(props) => props.theme.textColor_btn};
 word-break: keep-all;
 font-weight: bold;
+font-size: 1rem;
+cursor: pointer;
 :hover {
    background-color: #FF891C;
 }
@@ -144,7 +127,8 @@ export const LineBtn = styled.button`
   border: 1px solid ${(props) => props.theme.keyColor};
   color: ${(props) => props.theme.keyColor};
   padding: 12px 16px;
-  border-radius: 8px;
+  border-radius: 8px;s
+
   :hover {
     background-color: ${(props) => props.theme.keyColor};
     color: white;
@@ -166,7 +150,7 @@ export const ListProfilePic = styled.img`
 `;
 
 export const ListTitle = styled.span`
-  font-size: 20px;
+  font-size:1.25rem;
   font-weight: bold;
 `;
 
@@ -180,11 +164,14 @@ background-color: ${(props) => props.theme.stackBackground};
 padding: 10px;
 border-radius: 30px;
 margin-right: 5px;
-font-size: 14px;
-display: flex;
-align-items: center;
-gap: 5px;
 color: ${(props) => props.theme.stackColor};
+align-items: center;
+display: flex;
+gap: 5px;
+
+&.selected{
+  background-color: blue;
+}
 `;
 
 export const SelectTitle = styled.div`
@@ -196,13 +183,19 @@ export const Option = styled.li`
   cursor: pointer;
   padding: 8px 12px;
 
-
   :hover {
     background-color: ${(props) => props.theme.keyColor};
     color: ${(props) => props.theme.stackColor};
   }
 
-
+  &.selected{
+    cursor: default;
+    color: ${(props) => props.theme.placeHolder};
+    :hover {
+      background-color: transparent;
+  
+  }
+  }
 `;
 
 
@@ -213,11 +206,10 @@ height: 37px;
 padding: 5px 10px;
 border: ${(props) => props.theme.border};
 border-radius: 8px;
-font-size: 16px;
 background-color: ${(props) => props.theme.inputBoxBackground};
 list-style: none;
 position: relative;
-cursor: pointer;
+
 ::-webkit-details-marker {
   display: none;
 }
@@ -254,9 +246,8 @@ width: 200px;
 border: ${(props) => props.theme.border};
 background-color: ${(props) => props.theme.inputBoxBackground};
 box-shadow: 0px 4px 4px 0px rgb(0,0,0,0.1);
-overflow-y: scroll;
+overflow: scroll;
 margin-top: 4px;
-overflow-x: hidden;
 
 &.Login{
   width: 384px;
@@ -286,11 +277,11 @@ export const ModalRegisterBtn = styled.span`
 `;
 
 export const PostBody = styled.div`
-background-color: ${(props) => props.theme.backgroundColor};
+background-color: ${(props) => props.theme.divBackGroundColor};
 border: transparent;
 padding: 24px;
 border-radius:16px;
-/* box-shadow: ${(props)=> props.theme.boxShadow}; */
+box-shadow: ${(props)=> props.theme.boxShadow};
 `;
 
 export const MypagePostBox = styled.div`
@@ -300,12 +291,11 @@ gap: 24px;
 `;
 
 export const Modal = styled.div`
-
     display: flex;
     flex-direction: column;
     position: fixed;
     left: 50%;
-    margin-top: 10%;
+    margin-top: 100px;
     transform: translate(-50%, 0%);
 
     border-radius: 8px;
@@ -325,9 +315,6 @@ export const Modal = styled.div`
     padding: 24px;
     }
 
-&.smallHeight{
-  margin-top: 0.5%;
-} 
 `;
 
 export const ModalBackground = styled.div`
@@ -349,13 +336,11 @@ cursor: pointer;
 fill: ${(props)=>props.theme.keyColor};
 
 @media screen and (max-width:600px){
-  
     }
 
     @media screen and (max-width:375px){
       position: absolute;
    right: 24px;
-   
     }
 `;
 

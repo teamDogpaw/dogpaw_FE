@@ -105,7 +105,7 @@ const WriteSelect = ({
     </SelectBoxOpen>
 </Detail>
                 </Selects>
-                <Selects>
+                <Selects className="Stack">
            <SelectTitle>구인스택</SelectTitle>
                 <StackSelector
                     isEdit={isEdit}
@@ -131,10 +131,11 @@ row-gap: 20px;
 column-gap:10px;
 
 @media screen and (max-width:700px) {
+    display: flex;
+    flex-direction: column;
     grid-template-columns: 1fr;
 }
 `;
-
 
 export const Selects = styled.div`
     display:grid;
@@ -143,21 +144,31 @@ export const Selects = styled.div`
     justify-items: start;
     column-gap: 20px;
 
+&.Stack{
+    grid-column: 1 / 3;
+    flex-wrap: wrap;
+}
 
+@media screen and (max-width:700px) {
+
+
+&.Stack{
+    flex-wrap: wrap;
+}
+}
 `;
 
 export const SelectTitle = styled.div`
 display: flex;
 align-items: center;
-
 `;
 
 
 export const TitleInput = styled.input`
 display: -webkit-box;
-font-size: 40px;
+font-size: 2.5rem;
 width: 100%;
-overflow: auto;
+overflow-y: auto;
 font-weight: bold;
 border: 0px transparent;
 background-color: transparent;
@@ -175,7 +186,7 @@ max-height: 200px;
  -webkit-box-orient: vertical;
 }
 @media screen and (max-width:500px) {
-    font-size: 24px;
+    font-size: 1.5rem;
 }
 `;
 
@@ -186,7 +197,7 @@ height: 37px;
 padding: 5px 10px;
 border: ${(props) => props.theme.border};
 border-radius: 8px;
-font-size: 16px;
+font-size: 1rem;
 cursor: pointer;
 ::placeholder{
    color:#e2e2e2;
@@ -194,6 +205,9 @@ cursor: pointer;
 :focus{
     outline: none;
 }
+@media screen and (max-width:600px) {
+    font-size: 0.875rem;
+  }
 
 
 `;
@@ -291,7 +305,7 @@ width: 200px;
 border: ${(props) => props.theme.border};
 background-color: ${(props) => props.theme.inputBoxBackground};
 box-shadow: ${(props) => props.theme.boxShadow};
-overflow: scroll;
+overflow-y: scroll;
 margin-top: 4px;
 `;
 
