@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill"
+import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
 import {
   useDeleteAlert,
   useDeleteAlertAll,
@@ -9,16 +9,16 @@ import {
 } from "../hook/useNotification";
 import { useQueryClient } from "react-query";
 import styled from "styled-components";
-import {ReactComponent as Remove} from "../styles/icon/detail/remove.svg";
+import { ReactComponent as Remove } from "../styles/icon/detail/remove.svg";
 import { useRecoilState } from "recoil";
-import { alertListAtom } from "../atom/atom";
-import { useLocation } from "react-router-dom";
+import { alertListAtom, newAlertListAtom } from "../atom/atom";
 
 const Sse = () => {
   const token = localStorage.getItem("token");
   const EventSource = EventSourcePolyfill || NativeEventSource;
   const [alert, setAlert] = useRecoilState(alertListAtom);
-  //const [unread,setUnread] = useState();
+  const [newAlert, setNewAlert] = useRecoilState(newAlertListAtom);
+  //const [unread,setUnread] = useState(); // 보류
   const queryClient = useQueryClient();
   const { data: alertList } = useGetMessageAlert();
   //const { data: alertUnreadList} = useGetUnreadAlert(); 보류
@@ -29,7 +29,6 @@ const Sse = () => {
   const allList = alertList?.data;
   //const unreadList = alertUnreadList?.data.count;
   //console.log(allList)
-  
 
   useEffect(() => {
     if (token) {
@@ -42,6 +41,7 @@ const Sse = () => {
       sse.addEventListener("message", (e) => {
         if (e.type === "message" && e.data.startsWith("{")) {
           setAlert((prev) => [JSON.parse(e.data)]);
+          queryClient.invalidateQueries("alertList");
         }
       });
 
@@ -53,26 +53,26 @@ const Sse = () => {
         ////console.log("에러", e);
       });
     }
-  }, [token, setAlert,EventSource]);
+  }, [token, setAlert, EventSource, queryClient, alert]);
 
   useEffect(() => {
     if (token) {
-      setAlert(allList);
+      setNewAlert(allList);
       //console.log(allList);
       //setUnread(unreadList);
     }
-  }, [token, allList, setAlert]);
+  }, [token, allList, setNewAlert]);
 
   const messageDelete = async (id) => {
-    const { data } = await removeAlert(id)
-    if(data === true) {
-      queryClient.invalidateQueries("alertList");
-    } else {
-      queryClient.invalidateQueries("alertList");
-    }
+    // const { data } = await removeAlert(id)
+    // if(data === true) {
+    //   queryClient.invalidateQueries("alertList");
+    // } else {
+    //   queryClient.invalidateQueries("alertList");
+    // }
     //console.log(data)
-    // await removeAlert(id);
-    // queryClient.invalidateQueries("alertList");
+    await removeAlert(id);
+    queryClient.invalidateQueries("alertList");
   };
 
   const messageAllDelete = async () => {
@@ -81,31 +81,32 @@ const Sse = () => {
   };
 
   const messageRead = async (id, url, status) => {
-   //window.location.href = url;
-    console.log(id, url, status);
+    window.location.href = url;
+    //console.log(id, url, status);
     await readAlert(id);
     queryClient.invalidateQueries("alertList");
   };
 
   return (
     <div>
-      {alert?.length === 0 ? (
+      {newAlert?.length === 0 ? (
         <p>아직 알림이 없어요!</p>
       ) : (
         <>
           <AllDelete onClick={messageAllDelete}>
-         <RemoveIcon/>
-          <span>전체삭제</span>
+            <RemoveIcon />
+            <span>전체삭제</span>
           </AllDelete>
-          {alert?.map((list) => {
+
+          {newAlert?.map((list) => {
             return (
               <ul key={list.id}>
-                <ListWrap >
+                <ListWrap>
                   <List
+                    status={list.status}
                     onClick={() => {
                       messageRead(list.id, list.url, list.status);
                     }}
-                    status={list.status}
                   >
                     {list.notificationContent}
                   </List>
@@ -114,7 +115,7 @@ const Sse = () => {
                       messageDelete(list.id);
                     }}
                   >
-                    <RemoveIcon/>
+                    <RemoveIcon />
                   </span>
                 </ListWrap>
               </ul>
@@ -127,18 +128,21 @@ const Sse = () => {
 };
 
 const ListWrap = styled.div`
-display:flex;
-align-items:center;
-span{
-  padding-left:8px;
-}
+  display: flex;
+  align-items: center;
+
+  span {
+    padding-left: 8px;
+  }
 `;
 
 const List = styled.li`
-  color: ${(props) => (props.status ? "gray" : "black")};
+  position: relative;
+  color: ${(props) => props.theme.textColor};
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  opacity: ${(props) => (props.status ? "0.5" : "1")};
 `;
 
 const AllDelete = styled.div`
@@ -149,22 +153,20 @@ const AllDelete = styled.div`
   padding: 10px;
   height: 32px;
   border-radius: 50px;
-  border:${props => props.theme.alertBorder};
+  border: ${(props) => props.theme.alertBorder};
   cursor: pointer;
-  position:absolute;
-  top:10px;
-  right:10px;
-
+  position: absolute;
+  top: 10px;
+  right: 10px;
 
   span {
-    color: ${props => props.theme.removeBtnColor};
-    font-size:14px;
+    color: ${(props) => props.theme.removeBtnColor};
+    font-size: 14px;
   }
 `;
 
 const RemoveIcon = styled(Remove)`
-stroke:${props => props.theme.removeBtnColor};
-
+  stroke: ${(props) => props.theme.removeBtnColor};
 `;
 
 export default Sse;

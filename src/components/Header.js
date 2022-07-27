@@ -3,9 +3,9 @@ import { DarkThemeAtom } from "../atom/theme";
 
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useMatch, useSearchParams } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { alertListAtom, UserInfoAtom } from "../atom/atom";
+import { newAlertListAtom, UserInfoAtom } from "../atom/atom";
 import ModalOpen from "./Modal_prev";
 import Sse from "./Sse";
 
@@ -14,12 +14,14 @@ import logodark from "../styles/logo/logoDark.svg";
 import person from "../styles/icon/global/profile.svg";
 import arrowdown from "../styles/icon/global/arrowDown.svg";
 import { ReactComponent as Write } from "../styles/icon/detail/edit.svg";
-import { ReactComponent as Bell} from "../styles/icon/header/bell.svg";
+import { ReactComponent as Bell } from "../styles/icon/header/bell.svg";
 import newBell from "../styles/icon/header/newBell.svg";
 
+
 const Header = () => {
-  const alert = useRecoilValue(alertListAtom);
+  const newAlert = useRecoilValue(newAlertListAtom);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const navigate = useNavigate();
   const isDark = useRecoilValue(DarkThemeAtom);
   const userInfo = useRecoilValue(UserInfoAtom);
@@ -57,6 +59,7 @@ const Header = () => {
     setIsModalOpen((prev) => !prev);
   };
 
+
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("retoken");
@@ -71,6 +74,7 @@ const Header = () => {
         <ModalOpen viewModal={viewModal} kakaoNick={kakaoNick} />
       ) : null}
       <Wrap>
+        
         <ContentWrap>
           <div
             onClick={() => {
@@ -96,8 +100,8 @@ const Header = () => {
                 </StyledLink>
                 <Details>
                   <MessageList>
-                    {alert?.length === 0 ? (
-                      <Bell/>
+                    {newAlert?.length === 0 ? (
+                      <Bell />
                     ) : (
                       <img src={newBell} alt="" />
                     )}
@@ -106,7 +110,6 @@ const Header = () => {
                     <div>
                       <h4>나의 알림</h4>
                     </div>
-
                     <li>
                       <Sse />
                     </li>
@@ -309,7 +312,49 @@ const Message = styled.ul`
 `;
 
 const MessageList = styled.summary`
-stroke:${props => props.theme.headerTextColor};
+  stroke: ${(props) => props.theme.headerTextColor};
 `;
 
+const Help = styled.div`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  margin-bottom: 10px;
+  span {
+    font-weight: 500;
+    color: #ffb673;
+    margin-left: 5px;
+  }
+
+  @media screen and (max-width: 500px) {
+    display: none;
+  }
+`;
+const Move = keyframes`
+0% {
+    transform: scale3d(1, 1, 1);
+  }
+  30% {
+    transform: scale3d(1.25, 0.75, 1);
+  }
+  40% {
+    transform: scale3d(0.75, 1.25, 1);
+  }
+  50% {
+    transform: scale3d(1.15, 0.85, 1);
+  }
+  65% {
+    transform: scale3d(0.95, 1.05, 1);
+  }
+  75% {
+    transform: scale3d(1.05, 0.95, 1);
+  }
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+`;
+const Tuto = styled.div`
+  animation: ${Move} 1s ease-in-out;
+`;
 export default Header;
