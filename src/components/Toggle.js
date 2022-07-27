@@ -76,6 +76,7 @@ const Mobile = styled.div`
 `;
 
 const ModeBtn = styled.div`
+cursor: pointer;
   background-color: ${(props) => props.theme.toggleBtnColor};
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
   //width: 134px;
