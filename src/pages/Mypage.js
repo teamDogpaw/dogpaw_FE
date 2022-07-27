@@ -2,9 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import Bookmark from "../components/Bookmark";
 import MyProject from "../components/MyProject";
 import JoinProject from "../components/JoinProject";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import {
   Btn,
+  GrayLineBtn,
   MyStack,
   Option,
   PostBody,
@@ -28,19 +29,29 @@ import StackSelector from "../components/StackSeletor";
 import { withDraw } from "../shared/userOauth";
 import { SelectArrow } from "../components/WriteSelect";
 import { LoginBtn } from "../components/Login";
+import AlertModal from "../components/AlertModal";
+import { Content } from "../components/ApplyBtn";
 
 const MyPage = () => {
   const userInfo = useRecoilValue(UserInfoAtom);
-  const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(false);
-  const imageRef = useRef();
   const [currentTab, setTab] = useState(1);
-  const formData = new FormData();
   const [imagePreview, setImagePreview] = useState();
   const [isMobile, setIsMobile] = useState();
+  const [myData, setMyData] = useState();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [windowSize, setWindowSize] = useState({
+    width: undefined,
+    height: undefined,
+  });
+
+  const navigate = useNavigate();
+
+  const imageRef = useRef();
+
+  const formData = new FormData();
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("id");
-
   const tabList = [
     { id: 1, name: "관심 프로젝트", content: <Bookmark currentTab={1} /> },
     { id: 2, name: "참여한 프로젝트", content: <JoinProject currentTab={2} /> },
@@ -56,12 +67,13 @@ const MyPage = () => {
     },
   ];
 
-  const [windowSize, setWindowSize] = useState({
-    width: undefined,
-    height: undefined,
-  });
-
   useEffect(() => {
+    if(userInfo === undefined && !token ){
+      setModalOpen(true);
+    }
+      setMyData(userInfo)
+
+    //widthHandler
     function handleResize() {
       setWindowSize({
         width: window.innerWidth,
@@ -76,20 +88,7 @@ const MyPage = () => {
       setIsMobile(false);
     }
     return () => window.removeEventListener("resize", handleResize);
-  }, [windowSize.width]);
-
-  const [myData, setMyData] = useState({
-    profileImg: userInfo?.profileImg,
-    nickname: userInfo?.nickname,
-    stacks: userInfo?.stacks,
-  });
-console.log(userInfo)
-console.log(myData)
-
-  useEffect(() => {
-    setMyData(userInfo);
-    setImagePreview(userInfo.profileImg);
-  }, [userInfo]);
+  }, [windowSize.width, userInfo, myData]);
 
   const EditMyData = async () => {
     const image = myData.profileImg;
@@ -140,8 +139,20 @@ console.log(myData)
     setMyData((prev) => ({ ...prev, nickname: newNickname }));
   };
 
+  if(userInfo === undefined && !token ){
+    return (
+      <AlertModal open={modalOpen}>
+      <ModalContent>
+        <h4>⚠️ 로그인이 필요한 서비스입니다</h4>
+          <Btn onClick={()=>navigate("/", {state:"needLogin"})}> 메인으로 가기 </Btn>
+      </ModalContent>
+    </AlertModal>
+    )
+  }
+
   return (
     <WholeBody>
+    
       {isMobile ? (
         <Leftarrow
           onClick={() => {
@@ -206,10 +217,10 @@ console.log(myData)
               <Profilepic src={myData?.profileImg} />
             )}
             <Profile>
-              <h4>{userInfo?.nickname}</h4>
-              <p>{userInfo?.username}</p>
+              <h4>{myData?.nickname}</h4>
+              <p>{myData?.username}</p>
               <Stacks>
-                {userInfo?.stacks?.map((mystack, index) => {
+                {myData?.stacks?.map((mystack, index) => {
                   return (
                     <MyStack key={index} style={{ marginTop: "10px" }}>
                       #{mystack}
@@ -403,6 +414,22 @@ export const ProfileWrap = styled.div`
     font-size: 14px;
     padding-bottom: 60px;
   }
+`;
+
+const ModalContent =styled.div`
+word-break: keep-all;
+  width: 350px;
+  text-align: center;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  padding:30px;
+  position: relative;
+`;
+
+const ModalBtn = styled(Btn)`
+position: absolute;
+bottom: 10px;
 `;
 
 export const Profile = styled.div`

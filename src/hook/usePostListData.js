@@ -7,8 +7,6 @@ export function useGetMyBookmarkPost() {
         onSuccess: (data) => {
             const actualData = data.data
                 return actualData
-            }, onError: (error) => {
-                alert(error)
             }
         })
 };
@@ -19,8 +17,6 @@ export function useGetMyParticipatePost() {
         onSuccess: (data) => {
             const actualData = data.data
                 return actualData
-            }, onError: (error) => {
-                alert(error)
             }
     })
 }
@@ -31,8 +27,6 @@ export function useGetMyApplyPost() {
         onSuccess: (data) => {
             const actualData = data.data
                 return actualData
-            }, onError: (error) => {
-                alert(error)
             }
     })
 }
@@ -43,8 +37,6 @@ export function useGetMyProjectPost() {
         onSuccess: (data) => {
             const actualData = data.data
                 return actualData
-            }, onError: (error) => {
-                alert(error)
             }
     })
 }
