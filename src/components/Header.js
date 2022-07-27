@@ -17,7 +17,6 @@ import { ReactComponent as Write } from "../styles/icon/detail/edit.svg";
 import { ReactComponent as Bell } from "../styles/icon/header/bell.svg";
 import newBell from "../styles/icon/header/newBell.svg";
 
-
 const Header = () => {
   const newAlert = useRecoilValue(newAlertListAtom);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -59,7 +58,6 @@ const Header = () => {
     setIsModalOpen((prev) => !prev);
   };
 
-
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("retoken");
@@ -74,7 +72,7 @@ const Header = () => {
         <ModalOpen viewModal={viewModal} kakaoNick={kakaoNick} />
       ) : null}
       <Wrap>
-        
+      
         <ContentWrap>
           <div
             onClick={() => {
@@ -313,48 +311,5 @@ const Message = styled.ul`
 
 const MessageList = styled.summary`
   stroke: ${(props) => props.theme.headerTextColor};
-`;
-
-const Help = styled.div`
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: end;
-  margin-bottom: 10px;
-  span {
-    font-weight: 500;
-    color: #ffb673;
-    margin-left: 5px;
-  }
-
-  @media screen and (max-width: 500px) {
-    display: none;
-  }
-`;
-const Move = keyframes`
-0% {
-    transform: scale3d(1, 1, 1);
-  }
-  30% {
-    transform: scale3d(1.25, 0.75, 1);
-  }
-  40% {
-    transform: scale3d(0.75, 1.25, 1);
-  }
-  50% {
-    transform: scale3d(1.15, 0.85, 1);
-  }
-  65% {
-    transform: scale3d(0.95, 1.05, 1);
-  }
-  75% {
-    transform: scale3d(1.05, 0.95, 1);
-  }
-  100% {
-    transform: scale3d(1, 1, 1);
-  }
-`;
-const Tuto = styled.div`
-  animation: ${Move} 1s ease-in-out;
 `;
 export default Header;
