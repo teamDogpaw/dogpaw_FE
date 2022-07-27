@@ -14,7 +14,7 @@ import logodark from "../styles/logo/logoDark.svg";
 import person from "../styles/icon/global/profile.svg";
 import arrowdown from "../styles/icon/global/arrowDown.svg";
 import { ReactComponent as Write } from "../styles/icon/detail/edit.svg";
-import bell from "../styles/icon/header/bell.svg";
+import { ReactComponent as Bell} from "../styles/icon/header/bell.svg";
 import newBell from "../styles/icon/header/newBell.svg";
 
 const Header = () => {
@@ -97,7 +97,7 @@ const Header = () => {
                 <Details>
                   <MessageList>
                     {alert?.length === 0 ? (
-                      <img src={bell} alt="" />
+                      <Bell/>
                     ) : (
                       <img src={newBell} alt="" />
                     )}
@@ -308,6 +308,8 @@ const Message = styled.ul`
   }
 `;
 
-const MessageList = styled.summary``;
+const MessageList = styled.summary`
+stroke:${props => props.theme.headerTextColor};
+`;
 
 export default Header;
