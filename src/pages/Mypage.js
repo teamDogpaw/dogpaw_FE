@@ -85,6 +85,7 @@ const MyPage = () => {
   });
 console.log(userInfo)
 console.log(myData)
+
   useEffect(() => {
     setMyData(userInfo);
     setImagePreview(userInfo.profileImg);

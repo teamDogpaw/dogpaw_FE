@@ -92,10 +92,12 @@ const StackSelector = ({
         </div>
     )
 }
-export const StackWrap =styled.div`
+export const StackWrap = styled.div`
 display: flex;
 flex-direction: row;
-margin: 10px 0px 10px;
+margin: 20px 0px 10px;
+flex-wrap:wrap;
+gap: 10px;
 `;
 
 export default StackSelector;
