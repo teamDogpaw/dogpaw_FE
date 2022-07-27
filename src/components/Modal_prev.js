@@ -7,26 +7,39 @@ import styled from "styled-components";
 
 const ModalOpen = ({ viewModal, kakaoNick }) => {
   const [modalContent, setModalContent] = useState();
+  let intFrameHeight = window.innerHeight
 
   useEffect(() => {
     if (!kakaoNick) {
       setModalContent(<Login setModalContent={setModalContent} />);
+      document.body.style.cssText = `
+      position: fixed; 
+      top: -${window.scrollY}px;
+      overflow-y: scroll;
+      width: 100%;`;
     } else if (kakaoNick) {
       setModalContent(<SocialModal />);
     }
     const scrollY = document.body.style.top;
     window.scrollTo(0, parseInt(scrollY || "0") * -1);
     return () => {
+      document.body.style.cssText = '';
       window.scrollTo(0, parseInt(scrollY || "0") * -1);
     };
-  }, []);
-
+  }, [intFrameHeight]);
+ 
   return (
     <ModalBackground>
-      <Modal>
-        <ModalCloseButton onClick={viewModal}>
-          <X />
-        </ModalCloseButton>
+      <Modal  className={intFrameHeight < 812 ? "smallHeight" : null}>
+        {kakaoNick ? <ModalCloseButton onClick={viewModal}>
+           <X />
+         </ModalCloseButton>
+        : 
+           <ModalCloseButton onClick={viewModal}>
+           <X />
+         </ModalCloseButton>
+         }
+     
 
         {modalContent}
       </Modal>

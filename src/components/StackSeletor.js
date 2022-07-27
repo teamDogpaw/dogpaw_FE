@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useMatch } from "react-router-dom";
 import { Stacks } from "../utils/enums";
 import { SelectArrow } from "./WriteSelect";
+import styled from "styled-components";
 
 const StackSelector = ({
     isEdit,
@@ -63,7 +64,7 @@ const StackSelector = ({
 
     return (
         <div>
-            <details style={{ height: "40px" }} ref={stackdetailsRef}>
+            <details ref={stackdetailsRef}>
                 <SelectBox className={isMain !== null ? "Login" : null}> 스택을 선택해주세요.<SelectArrow /></SelectBox>
                 <SelectBoxOpen className={isMain !== null ? "Login" : null}>
                     {ALL_STACK.map((stack, index) => {
@@ -75,10 +76,10 @@ const StackSelector = ({
                     })}
                 </SelectBoxOpen>
             </details>
-            <div style={{ display: "flex", flexWrap: "nowrap", marginTop: "10px" , flexDirection:"row"}}>
+            <StackWrap >
                 {stack.map((stack, index) => {
                     return (
-                        <MyStack style={{ margin: "0px 10px 10px 0px", display:"flex"}}
+                        <MyStack
                             key={index}
                             onClick={() => removeStack(stack)}
                         >
@@ -87,9 +88,14 @@ const StackSelector = ({
                         </MyStack>
                     )
                 })}
-            </div>
+            </StackWrap>
         </div>
     )
 }
+export const StackWrap =styled.div`
+display: flex;
+flex-direction: row;
+margin: 10px 0px 10px;
+`;
 
 export default StackSelector;
