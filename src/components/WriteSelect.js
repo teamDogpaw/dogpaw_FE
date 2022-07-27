@@ -84,7 +84,7 @@ const WriteSelect = ({
                         dateFormatCalendar={DATE_FORMAT_CALENDAR}
                         minDate={isEdit ? null : new Date()}
                         onChange={date => handleStartDate(date)}
-                        shouldCloseOnSelect={false}
+                        // shouldCloseOnSelect={false}
                         openToDate={new Date(selectedData.startAt)}
                         calendarClassName="calendar"
                     />
@@ -149,25 +149,38 @@ export const Selects = styled.div`
 export const SelectTitle = styled.div`
 display: flex;
 align-items: center;
+
 `;
 
 
 export const TitleInput = styled.input`
+display: -webkit-box;
 font-size: 40px;
 width: 100%;
+overflow: auto;
 font-weight: bold;
 border: 0px transparent;
 background-color: transparent;
 text-align: center;
+-webkit-line-clamp: 2; // 원하는 라인수
+ -webkit-box-orient: vertical;
+ word-wrap : break-word; 
+max-height: 200px;
 :focus{
    outline: none;
 }
 ::placeholder{
    color:${(props)=>props.theme.placeHolder};
+   -webkit-line-clamp: 2; // 원하는 라인수
+ -webkit-box-orient: vertical;
+}
+@media screen and (max-width:500px) {
+    font-size: 24px;
 }
 `;
 
 export const DateInput = styled(DatePicker)`
+
 background-color: ${(props) => props.theme.inputBoxBackground};
 height: 37px;
 padding: 5px 10px;
@@ -186,6 +199,7 @@ cursor: pointer;
 `;
 
 const Wrapper = styled.div`
+z-index: 10;
 
 .react-datepicker {
   font-family: "Helvetica Neue", helvetica, arial, sans-serif;
@@ -270,7 +284,7 @@ border-bottom: transparent;
 
 export const SelectBoxOpen = styled.ul`
 max-height: 200px;
-z-index: 10;
+z-index: 20;
 border-radius: 8px;
 position: absolute;
 width: 200px;
