@@ -1,9 +1,22 @@
 import instance from "../shared/axios";
 
 export const informApis = {
-    notification: async () => await instance.get("/notifications"),
-    notificationRead: async (notificationId) => await instance.post(`notification/read/${notificationId}`),
-    notificationCnt: async () => await instance.get("/notifications/count"),
-    notificationDeleteAll: async () => await instance.delete("notifications/delete"),
-    notificationDelete: async (notificationId) => await instance.delete(`notifications/delete/${notificationId}`)
-}
+  notification: async () => await instance.get("/notifications"),
+  notificationRead: async (notificationId) =>
+    await instance.post(`notification/read/${notificationId}`),
+  notificationCnt: async () => await instance.get("/notifications/count"),
+  notificationDeleteAll: async () =>
+    await instance.delete("notifications/delete"),
+  //notificationDelete: async (notificationId) => await instance.delete(`notifications/delete/${notificationId}`)
+  notificationDelete: async (notificationId) => {
+    try {
+      const { data } = await instance.delete(
+        `notifications/delete/${notificationId}`
+      );
+      //console.log(data);
+      return data;
+    } catch (e) {
+     // console.log(e);
+    }
+  },
+};
