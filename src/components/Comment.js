@@ -167,7 +167,7 @@ const Content = styled.div`
 `;
 
 const Date = styled.span`
-  font-size: 14px;
+  font-size: 0.875rem;
 `;
 
 const CommentBtnBox = styled.div`
@@ -183,7 +183,7 @@ const ModiBtn = styled.button`
   padding: 4px 12px;
   width: 69px;
   height: 32px;
-  font-size: 12px;
+  font-size:0.75rem;
   font-weight: 400;
   margin-left: 10px;
   cursor: pointer;
@@ -234,7 +234,7 @@ const Button = styled.button`
   right: 0;
   bottom: 0;
 
-  font-size: 15px;
+  font-size: 0.938rem;
 
   cursor: pointer;
   :hover {

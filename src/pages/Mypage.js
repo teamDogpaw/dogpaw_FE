@@ -293,7 +293,7 @@ const TabBox = styled.summary`
   padding: 6px 24px;
   margin: 24px 0px;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 1rem;
   position: relative;
 
   ::marker {
@@ -314,7 +314,7 @@ const BtnWrap = styled.div`
   gap: 10px;
   span {
     color: ${(props) => props.theme.errorColor};
-    font-size: 14px;
+    font-size: 0.875rem;
   }
 `;
 
@@ -411,7 +411,7 @@ export const ProfileWrap = styled.div`
   @media screen and (max-width: 600px) {
     width: 100%;
     margin-top: 20px;
-    font-size: 14px;
+    font-size: 0.875rem;
     padding-bottom: 60px;
   }
 `;
@@ -447,7 +447,6 @@ export const Profile = styled.div`
     padding: 5px 10px;
     border: ${(props) => props.theme.border};
     border-radius: 8px;
-    font-size: 16px;
     background-color: ${(props) => props.theme.inputBoxBackground};
   }
 

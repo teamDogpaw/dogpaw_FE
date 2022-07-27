@@ -155,12 +155,12 @@ export const Wrap = styled.div`
 `;
 
 export const Title = styled.div`
-  font-size: 32px;
+  font-size: 2rem;
   font-weight: bold;
   text-align: center;
 
   span {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: normal;
   }
 `;
@@ -178,7 +178,7 @@ export const InputContent = styled.div`
   gap: 8px;
   width: 100%;
   span {
-    font-size: 14px;
+    font-size: 0.875rem;
     color: ${(props) => props.theme.keyColor};
   }
 

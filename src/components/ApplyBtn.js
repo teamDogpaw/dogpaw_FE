@@ -109,7 +109,7 @@ const style = css`
   height: 52px;
   width: 180px;
   padding: 16px 24px;
-  font-size: 17px;
+  font-size: 1.063rem;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -117,7 +117,7 @@ const style = css`
   position: absolute;
 
   @media screen and (max-width:770px) {
-    font-size:15px;
+    font-size:0.938rem;
     width:150px;
     padding:14px 20px;
   }

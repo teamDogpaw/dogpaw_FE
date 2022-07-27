@@ -219,7 +219,10 @@ width:100%;
 height: 160px;
 border-radius: 8px;
 padding: 12px;
-font-size: 1rem;
+
+::placeholder{
+   font-size: 1rem;
+}
 
 :focus{
    outline: none;
@@ -228,7 +231,6 @@ font-size: 1rem;
    width: 100%;
    padding: 12px;
    height: 300px;
-   font-size: 1rem;
    margin: 24px 0px;
   }
 

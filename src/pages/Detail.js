@@ -154,10 +154,10 @@ const Wrap = styled.div`
   margin: auto;
   margin-bottom: 100px;
   h3 {
-    font-size: 25px;
+    font-size: 1.563rem;
   }
   p {
-    font-size: 16px;
+    font-size: 1rem;
   }
   hr {
     border: ${(props)=>props.theme.border};
@@ -241,7 +241,7 @@ const Userbtn = styled.div`
   right: 30px;
   top: 150px;
   span {
-    font-size: 12px;
+    font-size: 0.75rem;
     color: #777;
   }
   img {
