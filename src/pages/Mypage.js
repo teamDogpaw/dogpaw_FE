@@ -36,7 +36,11 @@ const MyPage = () => {
   const [currentTab, setTab] = useState(1);
   const [imagePreview, setImagePreview] = useState();
   const [isMobile, setIsMobile] = useState();
-  const [myData, setMyData] = useState();
+  const [myData, setMyData] = useState({
+    profileImg: userInfo?.profileImg,
+    nickname: userInfo?.nickname,
+    stacks: userInfo?.stacks,
+  });
   const [modalOpen, setModalOpen] = useState(false);
   const [windowSize, setWindowSize] = useState({
     width: undefined,
@@ -60,8 +64,7 @@ const MyPage = () => {
 
   useEffect(() => {
     setMyData(userInfo)
-    console.log(myData)
-    console.log(userInfo)
+    setImagePreview(userInfo.profileImg);
     if(userInfo === undefined && !token ){
       setModalOpen(true);
     }
