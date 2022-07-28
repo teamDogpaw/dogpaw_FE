@@ -6,6 +6,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import {
   Btn,
   GrayLineBtn,
+  LineBtn,
   MyStack,
   Option,
   PostBody,
@@ -29,6 +30,7 @@ import StackSelector from "../components/StackSeletor";
 import { withDraw } from "../shared/userOauth";
 import { SelectArrow } from "../components/WriteSelect";
 import AlertModal from "../components/AlertModal";
+import { Content } from "../components/ApplyBtn";
 
 const MyPage = () => {
   const userInfo = useRecoilValue(UserInfoAtom);
@@ -51,7 +53,7 @@ const MyPage = () => {
   const navigate = useNavigate();
 
   const imageRef = useRef();
-
+const [exitModalOpen, setExitModalOpen] =useState(false);
   const formData = new FormData();
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("id");
@@ -139,6 +141,13 @@ const MyPage = () => {
     setMyData((prev) => ({ ...prev, nickname: newNickname }));
   };
 
+  const exitBtnOpen = ()=>{
+    setExitModalOpen(true);
+  }
+
+  const exitBtnClose = () => {
+    setExitModalOpen(false);
+  }
   if(userInfo === undefined && !token ){
     return (
       <AlertModal open={modalOpen}>
@@ -152,7 +161,16 @@ const MyPage = () => {
 
   return (
     <WholeBody>
-    
+    <AlertModal open={exitModalOpen}>
+        <Content>
+          <h4>개발바닥에서 탈퇴하시겠습니까?</h4>
+          <div style={{display:"flex"}}>
+            <GrayLineBtn onClick={exitBtnClose}> 취소 </GrayLineBtn>
+            <LineBtn>회원 탈퇴하기</LineBtn>
+          </div>
+        </Content>
+      </AlertModal>
+
       {isMobile ? (
         <Leftarrow
           onClick={() => {
@@ -197,9 +215,7 @@ const MyPage = () => {
             </form>
             <BtnWrap>
               <Button3
-                onClick={() => {
-                  withDraw(userId, token);
-                }}
+                onClick={()=>exitBtnOpen}
               >
                 회원 정보 삭제
               </Button3>
@@ -494,6 +510,9 @@ const Button2 = styled(Btn)`
   margin-bottom: 30px;
 `;
 
-const Button3 = styled(Btn)``;
+const Button3 = styled.div`
+color:${(props)=> props.theme.errorColor};
+font-size: 0.875rem;
+`;
 
 export default MyPage;

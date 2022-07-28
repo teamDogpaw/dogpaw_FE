@@ -297,11 +297,6 @@ export const DeleteBtn = styled(ModifyBtn)`
     color: ${props => props.theme.removeBtnColor};
     
   }
-
-
-    
-    
-
 `;
 
 const LinkBtn = styled.div`
