@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { nickCheck } from "../shared/userOauth";
 import instance from "../shared/axios";
-import { InputContent, InputWrap, LoginInput, Title, Wrap } from "./Login";
+import { InputContent, InputWrap, LoginBtn, LoginInput, Title, Wrap } from "./Login";
 import { Btn } from "../styles/style";
 import StackSelector from "./StackSeletor";
 import axios from "axios";
@@ -114,14 +114,14 @@ const SocialModal = () => {
               onChange={onChangeId}
               placeholder="닉네임을 입력해주세요."
             />
-            <Btn
+            <LoginBtn
               disabled={nickName.length < 3 || nickName.length > 10}
               onClick={() => {
                 nickCheck(nickData);
               }}
             >
               중복확인
-            </Btn>
+            </LoginBtn>
           </NicknameWrap>
           <p>
             {nickName.length > 0 && (
