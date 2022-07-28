@@ -17,7 +17,7 @@ import { useLocation } from "react-router-dom";
 const Sse = () => {
   const token = localStorage.getItem("token");
   const pathName = useLocation();
-  console.log(pathName)
+  // console.log(pathName)
   const EventSource = EventSourcePolyfill || NativeEventSource;
   const [alert, setAlert] = useRecoilState(alertListAtom);
   const [newAlert, setNewAlert] = useRecoilState(newAlertListAtom);
