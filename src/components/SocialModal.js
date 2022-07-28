@@ -35,14 +35,14 @@ const SocialModal = () => {
 
   let debounce = null;
 
-  const nickCheck = (data) => {
+  const nickCheck = (nickData) => {
     if (debounce) {
       clearTimeout(debounce);
     }
     debounce = setTimeout(async () => {
       try {
         let nickCheck = userApis.nickCheck;
-        const response = await nickCheck(data);
+        const response = await nickCheck(nickData);
         if (response.status === 200) {
           setNickMessage("중복되지 않은 닉네임입니다.");
           setIsNick(true);
