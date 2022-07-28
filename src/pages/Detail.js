@@ -335,7 +335,7 @@ const Stack = styled.div`
   display: flex;
   max-width: 700px;
   align-items: center;
-  background-color:gold ;
+ 
 
   overflow-x: auto;
     white-space: nowrap;
