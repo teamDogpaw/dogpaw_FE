@@ -88,7 +88,7 @@ const Comments = () => {
                 commentId={data.commentId}
               />
             ))}
-            <hr style={{ color: "#e2e2e2" }} />
+            <CommentHr/>
           </>
         ))}
       </div>
@@ -96,6 +96,10 @@ const Comments = () => {
     </Wrap>
   );
 };
+const CommentHr = styled.hr`
+border: ${(props)=>props.theme.border};
+
+`;
 
 const Wrap = styled.div`
   background-color: ${(props) => props.theme.backgroundColor};
