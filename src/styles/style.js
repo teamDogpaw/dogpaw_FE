@@ -49,10 +49,14 @@ body {
     font-size: 14px;
   }
 
+  margin-top: 100px;
 }
 menu, ol, ul {
   list-style: none;
-  
+}
+header{
+  position: fixed;
+  top:0;
 }
 blockquote, q {
   quotes: none;
