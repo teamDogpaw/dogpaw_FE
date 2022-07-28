@@ -110,9 +110,12 @@ const Header = () => {
                     <div>
                       <h4>나의 알림</h4>
                     </div>
-                    <li>
+                   
+                      <AlertList>
                       <Sse />
-                    </li>
+                    </AlertList>
+             
+                    
                   </Message>
                 </Details>
                 <Details ref={detailsRef}>
@@ -306,15 +309,39 @@ const Message = styled.ul`
   }
 
   li {
-    padding: 16px 0;
+    padding: 14px 0;
+    padding-right:5px;
   }
 
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 786px) {
     right: -60px;
     width: 250px;
+
+    li {
+      padding: 12px 0;
+    }
   }
 `;
+const AlertList = styled.li`
+  height: 300px;
 
+  padding-top:5px;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 0px;
+    height: 9px;
+  }
+  /* &::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    border: ${props => props.theme.border};
+    background: ${props => props.theme.scrollBackgroundColor};
+  } */
+
+  @media screen and (max-width:786px) {
+    height:220px;
+  }
+`;
 const MessageList = styled.summary`
   stroke: ${(props) => props.theme.headerTextColor};
 `;

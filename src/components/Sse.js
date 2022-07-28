@@ -130,10 +130,13 @@ const Sse = () => {
 const ListWrap = styled.div`
   display: flex;
   align-items: center;
-
+  
   span {
     padding-left: 8px;
+
+    
   }
+
 `;
 
 const List = styled.li`

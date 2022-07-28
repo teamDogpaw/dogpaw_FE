@@ -19,7 +19,8 @@ export const darkTheme = {
     alertBorder:"1px solid #FF6955",
     headerTextColor:"#E2E2E2",
     modifyBtnBorder:"1px solid #E2E2E2",
-    successColor:"#7bed9f"
+    successColor:"#7bed9f",
+    scrollBackgroundColor:"#292929",
 }
 
 export const lightTheme = {
@@ -43,6 +44,7 @@ export const lightTheme = {
     alertBorder:"1px solid #ff0000",
     headerTextColor:"#777777",
     modifyBtnBorder:"1px solid #777777",
-    successColor:"#2ed573"
+    successColor:"#2ed573",
+    scrollBackgroundColor:"#fff",
 }
 
