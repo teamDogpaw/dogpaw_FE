@@ -214,9 +214,7 @@ const [exitModalOpen, setExitModalOpen] =useState(false);
               </Profile>
             </form>
             <BtnWrap>
-              <Button3
-                onClick={()=>exitBtnOpen}
-              >
+              <Button3 onClick={exitBtnOpen}>
                 회원 정보 삭제
               </Button3>
 
@@ -513,6 +511,7 @@ const Button2 = styled(Btn)`
 const Button3 = styled.div`
 color:${(props)=> props.theme.errorColor};
 font-size: 0.875rem;
+cursor: pointer;
 `;
 
 export default MyPage;
