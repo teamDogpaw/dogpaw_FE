@@ -79,7 +79,7 @@ background: ${(props)=>props.theme.divBackGroundColor};
 
 const ModalContent = styled.div`
   width: 384px;
-  margin: 24px 72px 100px;
+  margin: 24px;
 
   @media screen and (max-width: 600px) {
     width: 100%;
