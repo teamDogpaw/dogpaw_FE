@@ -157,9 +157,13 @@ const NicknameWrap = styled.div`
 
 export const SocialBtn = styled(Btn)`
   margin-bottom: 45px;
-  cursor: pointer;
   width: 100%;
-
+  background-color: ${(props) =>
+    props.disabled ? "#E1E1E1" : props.theme.keyColor};
+  :hover {
+    background-color: ${(props) => (props.disabled ? "#E1E1E1" : "#FF891C")};
+    cursor: ${(props) => (props.disabled ? "default" : "pointer")};
+  }
   
 `;
 
