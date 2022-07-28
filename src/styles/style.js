@@ -127,6 +127,7 @@ cursor: pointer;
 `;
 
 export const LineBtn = styled.button`
+word-break: keep-all;
   background-color: transparent;
   border: 1px solid ${(props) => props.theme.keyColor};
   color: ${(props) => props.theme.keyColor};

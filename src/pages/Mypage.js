@@ -6,6 +6,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import {
   Btn,
   GrayLineBtn,
+  LineBtn,
   MyStack,
   Option,
   PostBody,
@@ -162,8 +163,15 @@ const MyPage = () => {
       ) : null}
 
       <PostBody>
+    
+
+
+
         {isEdit ? (
-          <ProfileWrap>
+          <>
+         
+          <div style={{display:"grid" , gridTemplateColumns:"0.1fr 0.9fr", gap:"24px"}}>
+          
             {imagePreview === null ? (
               <Profilepic src={profilepic} />
             ) : (
@@ -184,55 +192,65 @@ const MyPage = () => {
                   onChange={(event) => editImg(event)}
                 />
               </File>
-
-              <Profile>
+              <div>
                 <input
                   defaultValue={userInfo?.nickname}
                   onChange={(event) => editNickname(event)}
                 />
                 <p>{userInfo.username}</p>
-
                 <StackSelector data={myData} setMyData={setMyData} />
-              </Profile>
+              </div>
             </form>
-            <BtnWrap>
-              <Button3
+            <div>
+              <DeleteBtn
                 onClick={() => {
                   withDraw(userId, token);
                 }}
               >
                 회원 정보 삭제
-              </Button3>
-
-              <Button2 onClick={imageReSet}>기본 이미지로 변경</Button2>
-            </BtnWrap>
-
-            <Button onClick={EditMyData}>편집 완료</Button>
-          </ProfileWrap>
-        ) : (
-          <ProfileWrap>
+              </DeleteBtn>
+              <LineBtn onClick={imageReSet}>기본 이미지로 변경</LineBtn>
+            </div>
+           
+          
+          </div>
+          <ButtnDiv>
+            <Btn onClick={EditMyData}>편집 완료</Btn>
+            </ButtnDiv>
+          </>
+        ) : (<>
+          <div style={{display:"grid" , gridTemplateColumns:"0.1fr 0.9fr", gap:"24px"}}>
+   
             {userInfo?.profileImg === null ? (
               <Profilepic src={profilepic} />
             ) : (
               <Profilepic src={myData?.profileImg} />
             )}
-            <Profile>
-              <h4>{myData?.nickname}</h4>
+          <div style={{display:"flex", flexDirection:"column", justifyContent:"center", gap:"16px"}}>
+          <h4>{myData?.nickname}</h4>
               <p>{myData?.username}</p>
-              <Stacks>
-                {myData?.stacks?.map((mystack, index) => {
-                  return (
-                    <MyStack key={index} style={{ marginTop: "10px" }}>
-                      #{mystack}
-                    </MyStack>
-                  );
-                })}
-              </Stacks>
-            </Profile>
+    
+          
 
-            <Button onClick={() => setIsEdit(true)}>프로필 편집</Button>
-          </ProfileWrap>
+     
+<Stacks>
+  {myData?.stacks?.map((mystack, index) => {
+    return (
+      <MyStack key={index} style={{ marginTop: "10px" }}>
+        #{mystack}
+      </MyStack>
+    );
+  })}
+</Stacks>
+</div>
+              </div>
+             
+             <ButtnDiv>
+             <Btn onClick={() => setIsEdit(true)}>프로필 편집</Btn>
+             </ButtnDiv>
+       </>
         )}
+         
       </PostBody>
 
       {isMobile ? (
@@ -287,6 +305,19 @@ const MyPage = () => {
     </WholeBody>
   );
 };
+
+const ButtnDiv = styled.div`
+margin-top: 20px;
+text-align: right;
+`;
+
+const Leftarrow = styled(Arrow)`
+  position: absolute;
+  top: 0px;
+  left: 27px;
+  stroke: ${(props) => props.theme.toggleFontColor};
+`;
+
 const MyOption = styled(Option)`
   padding-top: 10px;
   padding-bottom: 10px;
@@ -295,6 +326,7 @@ const MyOption = styled(Option)`
     display: none;
   }
 `;
+
 const TabBox = styled.summary`
   width: 90%;
   padding: 6px 24px;
@@ -319,10 +351,7 @@ const BtnWrap = styled.div`
   flex-direction: column;
   text-align: right;
   gap: 10px;
-  span {
-    color: ${(props) => props.theme.errorColor};
-    font-size: 0.875rem;
-  }
+  justify-content: flex-start;
 `;
 
 const MySelectBoxOpen = styled(SelectBoxOpen)`
@@ -337,18 +366,13 @@ const MyPageHr = styled.hr`
   border: 1px solid #ffb673;
 `;
 
-const Leftarrow = styled(Arrow)`
-  position: absolute;
-  top: 0px;
-  left: 27px;
 
-  stroke: ${(props) => props.theme.toggleFontColor};
-`;
 
 export const Profilepic = styled.img`
   width: 160px;
   height: 160px;
   border-radius: 80px;
+  position: relative;
 
   @media screen and (max-width: 600px) {
     width: 72px;
@@ -356,6 +380,8 @@ export const Profilepic = styled.img`
     border-radius: 36px;
   }
 `;
+
+
 const File = styled.div`
   div {
     position: absolute;
@@ -393,7 +419,13 @@ export const WholeBody = styled.div`
     width: 100%;
     margin: auto;
   }
-  position: relative;
+
+`;
+
+export const DeleteBtn = styled.div`
+color:${(props)=>props.theme.errorColor};
+margin-top: 0;
+font-size: 0.875rem;
 `;
 
 export const Tab = styled.div`
@@ -420,6 +452,8 @@ export const ProfileWrap = styled.div`
     margin-top: 20px;
     font-size: 0.875rem;
     padding-bottom: 60px;
+    flex-direction: column;
+    margin-left: 0;
   }
 `;
 
