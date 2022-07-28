@@ -133,7 +133,7 @@ export const LineBtn = styled.button`
   padding: 12px 16px;
   border-radius: 8px;
   cursor: pointer;
-
+word-break: keep-all;
   :hover {
     background-color: ${(props) => props.theme.keyColor};
     color: white;
