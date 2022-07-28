@@ -99,7 +99,7 @@ display:flex;
 align-items:center;
   position: absolute;
   right: 190px;
-  top: 3%;
+  top: 8%;
   stroke: ${(props) => props.theme.textColor};
   p {
     color:  ${(props) => props.theme.textColor}
@@ -108,14 +108,14 @@ align-items:center;
 const Alert = styled.div`
   position: absolute;
   right: 100px;
-  top: 3%;
+  top: 8%;
   stroke: ${(props) => props.theme.textColor};
 `;
 
 const ArrowPost = styled.div`
   position: absolute;
   right: 220px;
-  top: 3%;
+  top: 8%;
 
   p {
     position: absolute;
@@ -127,7 +127,7 @@ const ArrowPost = styled.div`
 const ArrowAlert = styled.div`
   position: absolute;
   right: -10px;
-  top: 5%;
+  top: 9%;
 
   /* p {
   position:absolute;
@@ -139,8 +139,8 @@ const ArrowAlert = styled.div`
 
 const ArrowDeadline = styled.div`
   position: absolute;
-  top: 940px;
-  left: 40px;
+  top: 998px;
+  left: 50px;
 
   p {
     position: absolute;
@@ -152,7 +152,7 @@ const ArrowDeadline = styled.div`
 
 const ArrowDetail = styled.div`
   position: absolute;
-  top: 480px;
+  top: 550px;
   left: 5%;
 
   p {
