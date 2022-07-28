@@ -66,12 +66,12 @@ const Register = ({ setModalContent }) => {
       } catch (err) {
         if (err.response.status === 400) {
           viewModal();
-          //setModalContent(<ErrPage setModalContent={setModalContent} />);
         }
       }
     }, 500);
   };
   //닉네임 중복 확인
+  
   const nickCheck = (data) => {
     if (debounce) {
       clearTimeout(debounce);
@@ -81,13 +81,16 @@ const Register = ({ setModalContent }) => {
         let nickCheck = userApis.nickCheck;
         const response = await nickCheck(data);
         if (response.status === 200) {
-          setNickMessage("중복되지 않은 닉네임입니다. :)");
+          setNickMessage("중복되지 않은 닉네임입니다.");
+          setIsNick(true);
         }
       } catch (err) {
         if (err.response.status === 400) {
-          setNickMessage("중복된 닉네임입니다. :(");
+          setNickMessage("중복된 닉네임입니다.");
+          setIsNick(false);
         } else {
-          setNickMessage("연결이 고르지 않습니다. :(");
+          setNickMessage("연결이 고르지 않습니다.");
+          setIsNick(false);
         }
       }
     }, 500);
@@ -209,7 +212,7 @@ const Register = ({ setModalContent }) => {
               </NicknameWrap>
               <p>
                 {nickName.length > 0 && (
-                  <span className={`message ${isNick ? "success" : "error"}`}>
+                  <span className={isNick ? "success" : "error"}>
                     {nickMessage}
                   </span>
                 )}
@@ -331,7 +334,7 @@ const Register = ({ setModalContent }) => {
           <p>
             {passwordConfirm.length > 0 && (
               <span
-                className={`message ${isPasswordConfirm ? "success" : "error"}`}
+                className={`message${isPasswordConfirm ? "success" : "error"}`}
               >
                 {passwordConfirmMessage}
               </span>

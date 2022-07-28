@@ -6,9 +6,11 @@ import { InputContent, InputWrap, LoginInput, Title, Wrap } from "./Login";
 import { Btn } from "../styles/style";
 import StackSelector from "./StackSeletor";
 import axios from "axios";
+import { userApis } from "../api/user";
 const baseURL = process.env.REACT_APP_BASE_URL;
 
 const SocialModal = () => {
+  
   //닉네임, 스택
   const [nickName, setNickName] = useState("");
   const [stack, setStack] = useState([]);
@@ -30,6 +32,32 @@ const SocialModal = () => {
       setIsNick(true);
     }
   }, []);
+
+  let debounce = null;
+
+  const nickCheck = (data) => {
+    if (debounce) {
+      clearTimeout(debounce);
+    }
+    debounce = setTimeout(async () => {
+      try {
+        let nickCheck = userApis.nickCheck;
+        const response = await nickCheck(data);
+        if (response.status === 200) {
+          setNickMessage("중복되지 않은 닉네임입니다.");
+          setIsNick(true);
+        }
+      } catch (err) {
+        if (err.response.status === 400) {
+          setNickMessage("중복된 닉네임입니다.");
+          setIsNick(false);
+        } else {
+          setNickMessage("연결이 고르지 않습니다.");
+          setIsNick(false);
+        }
+      }
+    }, 500);
+  };
 
   const token = localStorage.getItem("token");
 

@@ -181,17 +181,23 @@ export const InputContent = styled.div`
 
   p .error {
     color: ${(props) => props.theme.errorColor};
+
   }
+
+  /* p .success {
+    color: #00b894;
+  } */
 `;
+
 
 export const LoginBtn = styled(Btn)`
   font: inherit;
   color: ${(props) => props.theme.textColor_btn};
   background-color: ${(props) =>
-    props.disabled ? "#f8cbac" : props.theme.keyColor};
+    props.disabled ? "#E1E1E1" : props.theme.keyColor};
   :hover {
-    background-color: ${(props) => (props.disabled ? "#f8cbac" : "#FF891C")};
-    cursor: ${(props) => (props.disabled ? null : "pointer")};
+    background-color: ${(props) => (props.disabled ? "#E1E1E1" : "#FF891C")};
+    cursor: ${(props) => (props.disabled ? "default" : "pointer")};
   }
 `;
 

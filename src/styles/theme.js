@@ -18,7 +18,8 @@ export const darkTheme = {
     removeBtnColor:"#FF6955",
     alertBorder:"1px solid #FF6955",
     headerTextColor:"#E2E2E2",
-    modifyBtnBorder:"1px solid #E2E2E2"
+    modifyBtnBorder:"1px solid #E2E2E2",
+    successColor:"#7bed9f"
 }
 
 export const lightTheme = {
@@ -41,6 +42,7 @@ export const lightTheme = {
     removeBtnColor:"#ff0000",
     alertBorder:"1px solid #ff0000",
     headerTextColor:"#777777",
-    modifyBtnBorder:"1px solid #777777"
+    modifyBtnBorder:"1px solid #777777",
+    successColor:"#2ed573"
 }
 
