@@ -107,7 +107,7 @@ const Article2 = styled.div`
   box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.09);
   border-radius: 16px;
   width: 32%;
-  height: 364px;
+  height: 375px;
   position: relative;
   transition: 0.2s ease-in;
   cursor: pointer;

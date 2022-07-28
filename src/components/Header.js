@@ -16,8 +16,8 @@ import arrowdown from "../styles/icon/global/arrowDown.svg";
 import { ReactComponent as Write } from "../styles/icon/detail/edit.svg";
 import { ReactComponent as Bell } from "../styles/icon/header/bell.svg";
 import newBell from "../styles/icon/header/newBell.svg";
-import gift from "../styles/icon/header/gift.svg";
-import arrow from "../styles/icon/header/arrow.svg";
+import {ReactComponent as GiftIcon} from "../styles/icon/header/gift.svg";
+import {ReactComponent as Arrow} from "../styles/icon/header/arrow.svg";
 
 const Header = () => {
   const newAlert = useRecoilValue(newAlertListAtom);
@@ -74,10 +74,10 @@ const Header = () => {
       <Gift>
       <a href="https://docs.google.com/forms/d/1LIU4LaYTaw1UWRPkThKzrF-jJ_1y3U_oj7OwVDOYjII/viewform?edit_requested=true" target="_black">
         <div>
-          <img src ={gift} alt=""/>
+          <GiftIcon/>
           개발바닥에 대한 피드백 작성하시고
           상품 받아가세요! ~7/30까지
-          <img src={arrow} alt=""/>
+          <Arrow/>
         </div>
         </a>
       </Gift>
@@ -181,6 +181,10 @@ div {
   align-items:center;
   font-weight: bold;
   color:${props => props.theme.textColor_btn};
+
+  svg{
+    fill:${props => props.theme.textColor_btn};
+  }
 
  @media screen and (max-width:786px){
   width:360px;
