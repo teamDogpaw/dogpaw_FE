@@ -388,9 +388,9 @@ const Toggle = styled.div`
     padding: 0 10px;
   }
 
-  /* & p:nth-child(2) {
+  & p:nth-child(2) {
     padding: 0 5px;
-  } */
+  }
 
   p {
     font-weight: 700;
