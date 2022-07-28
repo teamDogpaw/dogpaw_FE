@@ -335,6 +335,13 @@ const Stack = styled.div`
   display: flex;
   max-width: 700px;
   align-items: center;
+  background-color:gold ;
+
+  overflow-x: auto;
+    white-space: nowrap;
+    &::-webkit-scrollbar {
+      /* display: none; */
+    }
   span {
     background-color: ${(props) => props.theme.stackBackground};
     height: 38px;
