@@ -13,6 +13,7 @@ import {ReactComponent as Remove} from "../styles/icon/detail/remove.svg";
 import { usePostBookmark } from "../hook/useUserData";
 import ApplyBtn from "../components/ApplyBtn";
 import Loading from "../shared/Loading";
+import { useEffect } from "react";
 
 
 const Detail = () => {
@@ -31,6 +32,11 @@ const Detail = () => {
   const { mutateAsync: deletePost } = useDeletePost();
   const { mutateAsync: bookmark } = usePostBookmark();
 
+  useEffect(()=>{
+    queryClient.invalidateQueries("detailPost");
+  },[userStatus])
+
+
   if (isLoadingPost) {
     return <Loading />;
   }
@@ -39,6 +45,7 @@ const Detail = () => {
     await deletePost(id);
     navigate("/");
   };
+
 
   const bookMark = async () => {
     await bookmark(id);
