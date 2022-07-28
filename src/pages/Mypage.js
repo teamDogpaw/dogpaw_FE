@@ -53,25 +53,28 @@ const MyPage = () => {
   const navigate = useNavigate();
 
   const imageRef = useRef();
-const [exitModalOpen, setExitModalOpen] =useState(false);
+  const [exitModalOpen, setExitModalOpen] = useState(false);
   const formData = new FormData();
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("id");
   const tabList = [
     { id: 1, name: "관심 프로젝트", content: <Bookmark currentTab={1} /> },
     { id: 2, name: "참여한 프로젝트", content: <JoinProject currentTab={2} /> },
-    { id: 3, name: "신청한 프로젝트", content: <ApplyProject currentTab={3} /> },
-    { id: 4, name: "내가 쓴 프로젝트", content: <MyProject currentTab={4} /> }
+    {
+      id: 3,
+      name: "신청한 프로젝트",
+      content: <ApplyProject currentTab={3} />,
+    },
+    { id: 4, name: "내가 쓴 프로젝트", content: <MyProject currentTab={4} /> },
   ];
 
   useEffect(() => {
-   
     setMyData(userInfo);
     setImagePreview(userInfo.profileImg);
-    console.log(userInfo)
-    console.log(myData)
+    console.log(userInfo);
+    console.log(myData);
 
-    if(userInfo === undefined && !token ){
+    if (userInfo === undefined && !token) {
       setModalOpen(true);
     }
 
@@ -141,32 +144,35 @@ const [exitModalOpen, setExitModalOpen] =useState(false);
     setMyData((prev) => ({ ...prev, nickname: newNickname }));
   };
 
-  const exitBtnOpen = ()=>{
+  const exitBtnOpen = () => {
     setExitModalOpen(true);
-  }
+  };
 
   const exitBtnClose = () => {
     setExitModalOpen(false);
-  }
-  if(userInfo === undefined && !token ){
+  };
+  if (userInfo === undefined && !token) {
     return (
       <AlertModal open={modalOpen}>
-      <ModalContent>
-        <h4>⚠️ 로그인이 필요한 서비스입니다</h4>
-          <Btn onClick={()=>navigate("/", {state:"needLogin"})}> 메인으로 가기 </Btn>
-      </ModalContent>
-    </AlertModal>
-    )
+        <ModalContent>
+          <h4>⚠️ 로그인이 필요한 서비스입니다</h4>
+          <Btn onClick={() => navigate("/", { state: "needLogin" })}>
+            {" "}
+            메인으로 가기{" "}
+          </Btn>
+        </ModalContent>
+      </AlertModal>
+    );
   }
 
   return (
     <WholeBody>
-    <AlertModal open={exitModalOpen}>
+      <AlertModal open={exitModalOpen}>
         <Content>
           <h4>개발바닥에서 탈퇴하시겠습니까?</h4>
-          <div style={{display:"flex"}}>
+          <div style={{ display: "flex" }}>
             <GrayLineBtn onClick={exitBtnClose}> 취소 </GrayLineBtn>
-            <LineBtn>회원 탈퇴하기</LineBtn>
+            <LineBtn onClick={withDraw}>회원 탈퇴하기</LineBtn>
           </div>
         </Content>
       </AlertModal>
@@ -214,9 +220,7 @@ const [exitModalOpen, setExitModalOpen] =useState(false);
               </Profile>
             </form>
             <BtnWrap>
-              <Button3 onClick={exitBtnOpen}>
-                회원 정보 삭제
-              </Button3>
+              <Button3 onClick={exitBtnOpen}>회원 정보 삭제</Button3>
 
               <Button2 onClick={imageReSet}>기본 이미지로 변경</Button2>
             </BtnWrap>
@@ -261,7 +265,7 @@ const [exitModalOpen, setExitModalOpen] =useState(false);
                 return (
                   <MyOption
                     onClick={() => {
-                      setTab(tab.id)
+                      setTab(tab.id);
                       if (details) {
                         details.open = false;
                       }
@@ -305,7 +309,7 @@ const MyOption = styled(Option)`
   padding-top: 10px;
   padding-bottom: 10px;
 
-  &.focused{
+  &.focused {
     display: none;
   }
 `;
@@ -437,20 +441,20 @@ export const ProfileWrap = styled.div`
   }
 `;
 
-export const ModalContent =styled.div`
-word-break: keep-all;
+export const ModalContent = styled.div`
+  word-break: keep-all;
   width: 350px;
   text-align: center;
   gap: 20px;
   display: flex;
   flex-direction: column;
-  padding:30px;
+  padding: 30px;
   position: relative;
 `;
 
 const ModalBtn = styled(Btn)`
-position: absolute;
-bottom: 10px;
+  position: absolute;
+  bottom: 10px;
 `;
 
 export const Profile = styled.div`
@@ -509,9 +513,9 @@ const Button2 = styled(Btn)`
 `;
 
 const Button3 = styled.div`
-color:${(props)=> props.theme.errorColor};
-font-size: 0.875rem;
-cursor: pointer;
+  color: ${(props) => props.theme.errorColor};
+  font-size: 0.875rem;
+  cursor: pointer;
 `;
 
 export default MyPage;
