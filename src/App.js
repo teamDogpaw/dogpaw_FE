@@ -14,9 +14,15 @@ import Loading from "./shared/Loading";
 import Toggle from "./components/Toggle";
 
 function App() {
+
   const isDark = useRecoilValue(DarkThemeAtom);
   const token = localStorage.getItem("token");
   const [user, setUser] = useRecoilState(UserInfoAtom);
+
+  console = {};
+  console.log = function(){};
+  console.warn = function(){};
+  console.error = function(){};
 
   const GetUserInfo = async () => {
     if (token) {

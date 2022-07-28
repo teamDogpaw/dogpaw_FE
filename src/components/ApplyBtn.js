@@ -21,15 +21,24 @@ const ApplyBtn = ({ myPostData }) => {
   const { mutateAsync: apply } = usePostApply();
   const { mutateAsync: deadlinePost } = usePostDeadline();
 
+  let debounce = null;
+
   const applyBtn = async () => {
-    if (userStatus === "applicant") {
-      await apply(id);
-      setModalOpen(false);
-    } else {
-      await apply(id);
-      openApplyModal();
+
+    if (debounce){
+      clearTimeout(debounce);
+
     }
-    queryClient.invalidateQueries("detailPost");
+    debounce = setTimeout(async () => {
+      if (userStatus === "applicant") {
+        await apply(id);
+        setModalOpen(false);
+      } else {
+        await apply(id);
+        openApplyModal();
+      }
+    }, 1000)
+    // queryClient.invalidateQueries("detailPost");
   };
 
   const deadlineBtn = async () => {

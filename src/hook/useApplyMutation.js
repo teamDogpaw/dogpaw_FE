@@ -6,6 +6,7 @@ export function usePostApply() {
     return useMutation(userApis.postApply, {
         onSuccess: () => {
             queryClient.invalidateQueries("applyproject"); 
+            queryClient.invalidateQueries("detailPost"); 
           },
           onError:()=>{
             alert("해당 모집글의 정원이 다 찼습니다")
