@@ -48,10 +48,8 @@ const Write = () => {
 
    const openTokenModal = () => {
       setTokenModalOpen(true);
-   }
-   const closeTokenModal = () => {
-      setTokenModalOpen(false);
-   }
+   };
+
    const publishPost = async () => {
       if (selectedData.title.length === 0) {
          openModal();
@@ -110,11 +108,6 @@ const Write = () => {
    const token = localStorage.getItem("token")
    
    useEffect(() => {
-if(!token){
-   setTokenModalOpen(true);
-}
-      //console.log(state)
-      //console.log(postId)
       if (postId !== undefined) {
          setIsEdit(true);
          setSelectedData({
@@ -130,14 +123,20 @@ if(!token){
       //console.log(selectedData)
    }, [state])
 
+   if(token === null){
+return(
+   <AlertModal open={openTokenModal}>
+   <ModalContent><h3>⚠️</h3>
+  <h4> 로그인이 필요한 서비스입니다</h4>
+    <Btn onClick={()=>navigate("/")}> 메인으로 가기 </Btn>
+</ModalContent>
+   </AlertModal>
+)
+   }
+
    return (
       <Wrap>
-         <AlertModal open={openTokenModal}>
-         <ModalContent><h3>⚠️</h3>
-        <h4> 로그인이 필요한 서비스입니다</h4>
-          <Btn onClick={()=>navigate("/")}> 메인으로 가기 </Btn>
-      </ModalContent>
-         </AlertModal>
+       
          <Leftarrow
             onClick={() => {
                navigate(-1);

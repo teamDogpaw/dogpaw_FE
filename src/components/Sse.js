@@ -14,7 +14,7 @@ import { useRecoilState } from "recoil";
 import { alertListAtom, newAlertListAtom } from "../atom/atom";
 
 const Sse = () => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token")
   const EventSource = EventSourcePolyfill || NativeEventSource;
   const [alert, setAlert] = useRecoilState(alertListAtom);
   const [newAlert, setNewAlert] = useRecoilState(newAlertListAtom);

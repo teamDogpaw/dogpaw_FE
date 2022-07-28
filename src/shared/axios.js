@@ -50,7 +50,7 @@ instance.interceptors.response.use(
     if (response.status === 404){
       return (window.location.replace("/notfound"))
     }
-    if (response.status === 0 || response.status === 504 ){
+    if (response.status === 504 ){
       return (window.location.replace("/connectfail"))
     }
     /* if (response.status === 403) {

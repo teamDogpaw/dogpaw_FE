@@ -63,11 +63,16 @@ const MyPage = () => {
   ];
 
   useEffect(() => {
-    setMyData(userInfo)
+   
+    setMyData(userInfo);
     setImagePreview(userInfo.profileImg);
+    console.log(userInfo)
+    console.log(myData)
+
     if(userInfo === undefined && !token ){
       setModalOpen(true);
     }
+
     //widthHandler
     function handleResize() {
       setWindowSize({
@@ -285,6 +290,10 @@ const MyPage = () => {
 const MyOption = styled(Option)`
   padding-top: 10px;
   padding-bottom: 10px;
+
+  &.focused{
+    display: none;
+  }
 `;
 const TabBox = styled.summary`
   width: 90%;
