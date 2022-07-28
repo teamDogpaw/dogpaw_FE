@@ -32,9 +32,7 @@ const ModalOpen = ({ viewModal, kakaoNick,setNeedLogin,needLogin }) => {
     <ModalBackground>
       <Modal className={intFrameHeight < 812 ? "smallHeight" : null}>
         {kakaoNick ? (
-          <ModalCloseButton onClick={viewModal}>
-            <X />
-          </ModalCloseButton>
+          null
         ) : (
           <ModalCloseButton onClick={viewModal}>
             <X />
