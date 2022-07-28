@@ -49,7 +49,7 @@ body {
     font-size: 14px;
   }
 
-  margin-top: 100px;
+  margin-top: 160px;
 }
 menu, ol, ul {
   list-style: none;
