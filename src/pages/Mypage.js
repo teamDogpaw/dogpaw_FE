@@ -63,10 +63,11 @@ const MyPage = () => {
   ];
 
   useEffect(() => {
-
-
+   
     setMyData(userInfo);
     setImagePreview(userInfo.profileImg);
+    console.log(userInfo)
+    console.log(myData)
 
     if(userInfo === undefined && !token ){
       setModalOpen(true);
