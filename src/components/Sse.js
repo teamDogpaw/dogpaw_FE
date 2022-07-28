@@ -12,12 +12,9 @@ import styled from "styled-components";
 import { ReactComponent as Remove } from "../styles/icon/detail/remove.svg";
 import { useRecoilState } from "recoil";
 import { alertListAtom, newAlertListAtom } from "../atom/atom";
-import { useLocation } from "react-router-dom";
 
 const Sse = () => {
-  const token = localStorage.getItem("token");
-  const pathName = useLocation();
-  // console.log(pathName)
+  const token = localStorage.getItem("token")
   const EventSource = EventSourcePolyfill || NativeEventSource;
   const [alert, setAlert] = useRecoilState(alertListAtom);
   const [newAlert, setNewAlert] = useRecoilState(newAlertListAtom);
@@ -49,10 +46,6 @@ const Sse = () => {
         }
       });
 
-      sse.addEventListener("open", (e) => {
-        ////console.log(e);
-      });
-
       sse.addEventListener("error", (e) => {
         ////console.log("에러", e);
       });
@@ -66,7 +59,7 @@ const Sse = () => {
       //console.log(allList);
       //setUnread(unreadList);
     }
-  }, [token, allList, setNewAlert,pathName.pathname]);
+  }, [token, allList, setNewAlert]);
 
   const messageDelete = async (id) => {
     // const { data } = await removeAlert(id)
