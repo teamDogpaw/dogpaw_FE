@@ -149,13 +149,17 @@ const summaryStyle = css`
   box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.1);
 `;
 
-const Wrap = styled.div`
-  background-color: ${(props) => props.theme.BackGroundColor};
+const Wrap = styled.header`
+  background-color: ${(props) => props.theme.backgroundColor};
+  box-shadow: ${(props)=>props.theme.boxShadow};
   width: 100%;
   height: 80px;
   margin-bottom: 10px;
   display: flex;
   align-items: center;
+  position: fixed;
+  z-index: 30;
+
   p {
     font-size: 1rem;
   }
