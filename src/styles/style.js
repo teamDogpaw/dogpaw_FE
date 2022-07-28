@@ -131,7 +131,8 @@ export const LineBtn = styled.button`
   border: 1px solid ${(props) => props.theme.keyColor};
   color: ${(props) => props.theme.keyColor};
   padding: 12px 16px;
-  border-radius: 8px;s
+  border-radius: 8px;
+  cursor: pointer;
 
   :hover {
     background-color: ${(props) => props.theme.keyColor};

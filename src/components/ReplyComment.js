@@ -6,6 +6,8 @@ import person from "../styles/images/person.png";
 import styled from "styled-components";
 import arrow from "../styles/icon/detail/replyarrow.svg";
 import { useEditReply, useRemoveReply } from "../hook/useCommentData";
+import { postApis } from "../api/post";
+import { CommentDate } from "./Comment";
 
 const ReplyComment = (props) => {
   const [isEdit, setIsEdit] = useState(false);
@@ -59,7 +61,7 @@ const ReplyComment = (props) => {
           ) : (
             <p>{props.data.content}</p>
           )}
-          <p>{props.data.modifiedAt}</p>
+        <CommentDate>{props.data.modifiedAt.substring(0, 10)}         </CommentDate>
         </Content>
         <Btn>
           {loginUser === writeUser && (

@@ -78,14 +78,11 @@ const Comment = ({ data }) => {
         ) : (
           <p>{data.content}</p>
         )}
-        <p>
-          {data.modifiedAt.substring(0, 10)}
-          <Btn onClick={(e) => setDropdownVisibility(!dropdownVisibility)}>
-            {dropdownVisibility ? "닫기" : "답글 쓰기"}
-          </Btn>
-        </p>
+        <CommentDate>{data.modifiedAt.substring(0, 10)}         </CommentDate>
       </Content>
-
+      <ReplyBtn onClick={(e) => setDropdownVisibility(!dropdownVisibility)}>
+            {dropdownVisibility ? "닫기" : "답글 쓰기"}
+          </ReplyBtn>
       <CommentBtnBox>
         {loginUser === writeUser && (
           <>
@@ -151,10 +148,17 @@ const Img = styled.img`
   margin-right: 10px;
 `;
 
+const ReplyBtn =  styled(Btn)`
+margin-left: auto;
+margin-top: 10px;
+margin-bottom: 20px;
+`;
+
 const Content = styled.div`
   position: relative;
   margin-top: 10px;
   line-height: 2;
+
   input {
     width: 100%;
     border: 1px solid #e2e2e2;
@@ -175,6 +179,12 @@ const CommentBtnBox = styled.div`
   justify-content: flex-end;
   
 `;
+
+export const CommentDate = styled.span`
+color:${(props)=>props.theme.textColor_sub};
+font-size: 0.875rem;
+
+`; 
 
 const ModiBtn = styled.button`
   background-color: ${(props) => props.theme.backgroundColor};
