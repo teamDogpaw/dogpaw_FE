@@ -97,7 +97,7 @@ const ParticipantList = ({ myPostId, currentTab, setViewApply }) => {
                     openModal(team);
                   }}
                 >
-                  강퇴하기
+                  탈퇴시키기
                 </p>
               )}
             </Out>
@@ -113,7 +113,7 @@ const ParticipantList = ({ myPostId, currentTab, setViewApply }) => {
           myPostId={myPostId}
         />
       )}
-      {currentTab !== 4 ? null : <div onClick={withDrawParticipate}>탈퇴하기</div>}
+      {currentTab === 2  ? <LeaveTeam onClick={withDrawParticipate}>탈퇴하기</LeaveTeam> : null }
       
     </>
   );
@@ -121,6 +121,13 @@ const ParticipantList = ({ myPostId, currentTab, setViewApply }) => {
 
 const Sections = styled(Section)`
   width: 100%;
+`;
+const LeaveTeam = styled.div`
+color:${(props)=>props.theme.errorColor};
+font-size: 0.875rem;
+text-align: center;
+margin-top: 100px;
+cursor: pointer;
 `;
 
 const Out = styled.div`

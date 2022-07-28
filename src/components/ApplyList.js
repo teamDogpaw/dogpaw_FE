@@ -96,6 +96,7 @@ export const ApplyListContent = styled.div`
   line-height: normal;
   position:relative;
 
+
   img {
     margin-right: 5px;
   }
