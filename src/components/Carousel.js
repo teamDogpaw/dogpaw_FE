@@ -3,8 +3,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
 
-import banner from "../styles/images/main_banner02.png";
-import banner_gift from "../styles/images/main_banner.png";
+import banner from "../styles/images/main_banner.png";
+import banner_gift from "../styles/images/main_banner02.png";
 import bannerMobile from "../styles/images/mobile/main_mo01.png";
 import bannerMobileGift from "../styles/images/mobile/main_mo02.png";
 import { useEffect, useState } from "react";
@@ -18,7 +18,7 @@ const Carousel = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 2500,
+    autoplaySpeed: 3000,
     pauseOnHover: true,
   };
 
