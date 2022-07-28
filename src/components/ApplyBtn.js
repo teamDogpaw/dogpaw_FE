@@ -11,7 +11,7 @@ const ApplyBtn = ({ myPostData }) => {
   const [isHover, setIsHover] = useState(false);
   const [viewApply, setViewApply] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-
+  const [applyModal,setApplyModal] = useState(false);
   const userStatus = myPostData.userStatus;
   const id = myPostData.postId;
   const applierCnt = myPostData.applierCnt;
@@ -24,8 +24,10 @@ const ApplyBtn = ({ myPostData }) => {
   let debounce = null;
 
   const applyBtn = async () => {
+
     if (debounce){
       clearTimeout(debounce);
+
     }
     debounce = setTimeout(async () => {
       if (userStatus === "applicant") {
@@ -33,6 +35,7 @@ const ApplyBtn = ({ myPostData }) => {
         setModalOpen(false);
       } else {
         await apply(id);
+        openApplyModal();
       }
     }, 1000)
     // queryClient.invalidateQueries("detailPost");
@@ -53,6 +56,14 @@ const ApplyBtn = ({ myPostData }) => {
   const closeModal = () => {
     setModalOpen(false);
   };
+
+  const openApplyModal = () => {
+    setApplyModal(true);
+  }
+
+  const closeApplyModal = () => {
+    setApplyModal(false);
+  }
 
   return (
     <Wrap>
@@ -106,6 +117,14 @@ const ApplyBtn = ({ myPostData }) => {
         </Content>
       </AlertModal>
 
+      <AlertModal open={applyModal}>
+        <Content>
+          <h4>프로젝트 지원 완료!</h4>
+          <div>
+            <Btn onClick={closeApplyModal}> 확인 </Btn>
+          </div>
+        </Content>
+      </AlertModal>
       {viewApply && (
         <ViewApply viewApplyModal={viewApplyModal} myPostData={myPostData} />
       )}
