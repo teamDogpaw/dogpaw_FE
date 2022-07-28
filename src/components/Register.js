@@ -15,9 +15,11 @@ import { userApis } from "../api/user";
 import ErrPage from "./ErrPage";
 import ModalOpen from "./Modal_prev";
 
-let debounce = null;
 
 const Register = ({ setModalContent }) => {
+
+
+
   //const setOnModal = useSetRecoilState(modalChange);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const viewModal = () => {
@@ -49,6 +51,8 @@ const Register = ({ setModalContent }) => {
   const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
+
+  let debounce = null;
 
   //회원가입 성공 유무
   const register = async (data) => {

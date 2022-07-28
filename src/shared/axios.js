@@ -20,7 +20,7 @@ instance.interceptors.response.use(
     return response;
   },
   async (error) => {
-    console.log(error)
+    
     const { response, config } = error;
     const originalRequest = config;
     if (response.status === 403 || response.status === 401) {
