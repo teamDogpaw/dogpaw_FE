@@ -10,13 +10,13 @@ import {
 import { useQueryClient } from "react-query";
 import styled from "styled-components";
 import { ReactComponent as Remove } from "../styles/icon/detail/remove.svg";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { alertListAtom, newAlertListAtom } from "../atom/atom";
 
 const Sse = () => {
   const token = localStorage.getItem("token")
   const EventSource = EventSourcePolyfill || NativeEventSource;
-  const [alert, setAlert] = useRecoilState(alertListAtom);
+  const setAlert = useSetRecoilState(alertListAtom);
   const [newAlert, setNewAlert] = useRecoilState(newAlertListAtom);
   //const [unread,setUnread] = useState(); // 보류
   const queryClient = useQueryClient();
