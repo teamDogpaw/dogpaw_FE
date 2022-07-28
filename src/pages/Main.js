@@ -471,12 +471,11 @@ export const Content = styled.div`
   margin: 20px 0;
 
   h1 {
-    padding-bottom: 20px;
-
+    margin-bottom: 20px;
     ${ellipsisText}
     -webkit-line-clamp: 2;
-    word-break: break-all;
   }
+
   p {
     line-height: 20px;
     ${ellipsisText}
@@ -488,7 +487,6 @@ export const Hashtag = styled.div`
   position: absolute;
   bottom: 100px;
   
-
   li {
     margin-right: 5px;
     color: #ffb673;
