@@ -13,7 +13,6 @@ const StackSelector = ({
     setRegisterData,
     isRegister
 }) => {
-  const ALL_STACK = Object.values(Stacks);
 
     const ALL_STACK = Object.values(Stacks)
 
