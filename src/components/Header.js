@@ -161,6 +161,7 @@ const summaryStyle = css`
 `;
 
 const Gift = styled.div`
+cursor: pointer;
 background-color:${props =>props.theme.keyColor};
 width: 100%;
 height: 60px;
