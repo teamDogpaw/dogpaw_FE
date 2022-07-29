@@ -5,7 +5,7 @@ import { Modal, ModalBackground, ModalCloseButton } from "../styles/style";
 import SocialModal from "./SocialModal";
 import styled from "styled-components";
 
-const ModalOpen = ({ viewModal, kakaoNick,setNeedLogin,needLogin }) => {
+const ModalOpen = ({ viewModal, kakaoNick, setNeedLogin, needLogin }) => {
   const [modalContent, setModalContent] = useState();
   let intFrameHeight = window.innerHeight;
 
@@ -31,9 +31,7 @@ const ModalOpen = ({ viewModal, kakaoNick,setNeedLogin,needLogin }) => {
   return (
     <ModalBackground>
       <Modal className={intFrameHeight < 812 ? "smallHeight" : null}>
-        {kakaoNick ? (
-          null
-        ) : (
+        {kakaoNick ? null : (
           <ModalCloseButton onClick={viewModal}>
             <X />
           </ModalCloseButton>

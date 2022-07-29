@@ -97,33 +97,33 @@ h4{
 `;
 
 export const MainBody = styled.div`
-/* background-color: ${(props) => props.theme.divBackGroundColor}; */
-max-width: 996px;
-margin: auto;
-border-radius: 16px;
-padding: 32px;
+  /* background-color: ${(props) => props.theme.divBackGroundColor}; */
+  max-width: 996px;
+  margin: auto;
+  border-radius: 16px;
+  padding: 32px;
 
-@media screen and (max-width: 700px){
-  margin: 0px;
-}
+  @media screen and (max-width: 700px) {
+    margin: 0px;
+  }
 `;
 
 export const Btn = styled.button`
-background-color: ${(props) => props.theme.keyColor};
-border-radius: 8px;
-padding: 12px 16px;
-border: 0px transparent;
-color: ${(props) => props.theme.textColor_btn};
-word-break: keep-all;
-font-weight: bold;
-font-size: 1rem;
-cursor: pointer;
-:hover {
-   background-color: #FF891C;
-}
-:active{
-   background-color: #D26500;
-}
+  background-color: ${(props) => props.theme.keyColor};
+  border-radius: 8px;
+  padding: 12px 16px;
+  border: 0px transparent;
+  color: ${(props) => props.theme.textColor_btn};
+  word-break: keep-all;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  :hover {
+    background-color: #ff891c;
+  }
+  :active {
+    background-color: #d26500;
+  }
 `;
 
 export const LineBtn = styled.button`
@@ -133,7 +133,7 @@ export const LineBtn = styled.button`
   padding: 12px 16px;
   border-radius: 8px;
   cursor: pointer;
-word-break: keep-all;
+  word-break: keep-all;
   :hover {
     background-color: ${(props) => props.theme.keyColor};
     color: white;
@@ -155,7 +155,7 @@ export const ListProfilePic = styled.img`
 `;
 
 export const ListTitle = styled.span`
-  font-size:1.25rem;
+  font-size: 1.25rem;
   font-weight: bold;
 `;
 
@@ -165,23 +165,23 @@ export const ListStack = styled.span`
 `;
 
 export const MyStack = styled.div`
-background-color: ${(props) => props.theme.stackBackground};
-padding: 10px;
-border-radius: 30px;
-margin-right: 5px;
-color: ${(props) => props.theme.stackColor};
-align-items: center;
-display: flex;
-gap: 5px;
+  background-color: ${(props) => props.theme.stackBackground};
+  padding: 10px;
+  border-radius: 30px;
+  margin-right: 5px;
+  color: ${(props) => props.theme.stackColor};
+  align-items: center;
+  display: flex;
+  gap: 5px;
 
-&.selected{
-  background-color: blue;
-}
+  &.selected {
+    background-color: blue;
+  }
 `;
 
 export const SelectTitle = styled.div`
-display: flex;
-align-items: center;
+  display: flex;
+  align-items: center;
 `;
 
 export const Option = styled.li`
@@ -193,84 +193,84 @@ export const Option = styled.li`
     color: ${(props) => props.theme.stackColor};
   }
 
-  &.selected{
+  &.selected {
     cursor: default;
     color: ${(props) => props.theme.placeHolder};
     :hover {
       background-color: transparent;
-  
-  }
+    }
   }
 `;
 
-
 export const SelectBox = styled.summary`
-line-height: 25px;
-width: 200px;
-height: 37px;
-padding: 5px 10px;
-border: ${(props) => props.theme.border};
-border-radius: 8px;
-background-color: ${(props) => props.theme.inputBoxBackground};
-list-style: none;
-position: relative;
+  line-height: 25px;
+  width: 200px;
+  height: 37px;
+  padding: 5px 10px;
+  border: ${(props) => props.theme.border};
+  border-radius: 8px;
+  background-color: ${(props) => props.theme.inputBoxBackground};
+  list-style: none;
+  position: relative;
 
-::-webkit-details-marker {
-  display: none;
-}
-
-
-&.Login{
-  line-height: normal;
-  font-size: 0.875rem;
-  color:#9f9f9f;
-  width: 100%;
-  height: 44px;
-  border-radius: 12px;
-  padding: 12px;
-
-  :focus{
-    outline: none;
+  ::-webkit-details-marker {
+    display: none;
   }
-  @media screen and (max-width:600px){
-  width: 100%;
+
+  &.Login {
+    line-height: normal;
+    font-size: 0.875rem;
+    color: #9f9f9f;
+    width: 100%;
+    height: 44px;
+    border-radius: 12px;
+    padding: 12px;
+
+    :focus {
+      outline: none;
+    }
+    @media screen and (max-width: 600px) {
+      width: 100%;
     }
 
-  @media screen and (max-width:375px){
-  width: 100%;
+    @media screen and (max-width: 375px) {
+      width: 100%;
     }
-}
+  }
 `;
 
 export const SelectBoxOpen = styled.ul`
-max-height: 200px;
-z-index: 10;
-border-radius: 8px;
-position: absolute;
-width: 200px;
-border: ${(props) => props.theme.border};
-background-color: ${(props) => props.theme.inputBoxBackground};
-box-shadow: 0px 4px 4px 0px rgb(0,0,0,0.1);
-overflow: scroll;
-margin-top: 4px;
-
-&.Login{
-  width: 384px;
-  border-radius: 12px;
-
-  :focus{
-    outline: none;
+  max-height: 200px;
+  z-index: 10;
+  border-radius: 8px;
+  width: 200px;
+  border: ${(props) => props.theme.border};
+  background-color: ${(props) => props.theme.inputBoxBackground};
+  box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.1);
+  overflow: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  ::-webkit-scrollbar {
+    display: none;
   }
-  @media screen and (max-width:600px){
-    width: 100%;
+  margin-top: 4px;
+
+  &.Login {
+    width: 384px;
+    border-radius: 12px;
+
+    :focus {
+      outline: none;
+    }
+    @media screen and (max-width: 600px) {
+      width: 100%;
     }
 
-  @media screen and (max-width:375px){
-  width: 100%;
+    @media screen and (max-width: 375px) {
+      width: 100%;
     }
-}
+  }
 `;
-
 
 export const ModalRegisterBtn = styled.span`
   color: #9f9f9f;
@@ -282,78 +282,77 @@ export const ModalRegisterBtn = styled.span`
 `;
 
 export const PostBody = styled.div`
-background-color: ${(props) => props.theme.divBackGroundColor};
-border: transparent;
-padding: 24px;
-border-radius:16px;
-box-shadow: ${(props)=> props.theme.boxShadow};
+  background-color: ${(props) => props.theme.divBackGroundColor};
+  border: transparent;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: ${(props) => props.theme.boxShadow};
 `;
 
 export const MypagePostBox = styled.div`
-display: flex;
-flex-direction: column;
-gap: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 `;
 
 export const Modal = styled.div`
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    left: 50%;
-    margin-top: 100px;
-    transform: translate(-50%, 0%);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 50%;
+  margin-top: 100px;
+  transform: translate(-50%, 0%);
 
-    border-radius: 8px;
-    background: ${(props)=>props.theme.divBackGroundColor};
-    box-shadow: rgb(0 0 0 / 9%) 0px 2px 12px 0px;
-    padding: 30px;
+  border-radius: 8px;
+  background: ${(props) => props.theme.divBackGroundColor};
+  box-shadow: rgb(0 0 0 / 9%) 0px 2px 12px 0px;
+  padding: 30px;
 
-    @media screen and (max-width:600px){
-        width: 100%;
-        height: 100%;
-        padding: 24px;
-        margin-top: 0px;
-        border-radius: 0px;
-    }
-
-    @media screen and (max-width:375px){
+  @media screen and (max-width: 600px) {
+    width: 100%;
+    height: 100%;
     padding: 24px;
-    }
+    margin-top: 0px;
+    border-radius: 0px;
+  }
 
+  @media screen and (max-width: 375px) {
+    padding: 24px;
+  }
 `;
 
 export const ModalBackground = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-color: rgba(0,0,0,0.3);
-    z-index: 90;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 90;
 `;
 
 export const ModalCloseButton = styled(X)`
-display: relative;
-margin-left: auto;
-width: 20px;
-height: 20px;
-cursor: pointer;
-fill: ${(props)=>props.theme.keyColor};
+  display: relative;
+  margin-left: auto;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  fill: ${(props) => props.theme.keyColor};
 
-@media screen and (max-width:600px){
-    }
+  @media screen and (max-width: 600px) {
+  }
 
-    @media screen and (max-width:375px){
-      position: absolute;
-   right: 24px;
-    }
+  @media screen and (max-width: 375px) {
+    position: absolute;
+    right: 24px;
+  }
 `;
 
 export const TabBody = styled.div`
-background-color: ${(props) => props.theme.backgroundColor};
-display: grid;
-grid-template-columns: repeat(4,1fr);
-text-align: center;
-margin: 24px auto;
-gap: 16px;
+  background-color: ${(props) => props.theme.backgroundColor};
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  text-align: center;
+  margin: 24px auto;
+  gap: 16px;
 `;

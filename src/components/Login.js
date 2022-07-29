@@ -138,7 +138,14 @@ const IMG = styled.img`
 
 export const Wrap = styled.div`
   width: 384px;
+  max-height: 550px;
   margin: 24px 72px 8px;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 
   @media screen and (max-width: 600px) {
     width: 100%;
@@ -181,14 +188,12 @@ export const InputContent = styled.div`
 
   p .error {
     color: ${(props) => props.theme.errorColor};
-
   }
 
   /* p .success {
     color: #00b894;
   } */
 `;
-
 
 export const LoginBtn = styled(Btn)`
   font: inherit;
