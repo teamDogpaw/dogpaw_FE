@@ -38,7 +38,7 @@ const SocialModal = () => {
       setNickMessage("3글자 이상, 10글자 미만으로 입력해주세요.");
       setIsNick(false);
     } else {
-      setNickMessage("알맞게 작성되었습니다 :)");
+      setNickMessage("알맞게 작성되었습니다.");
       setIsNick(true);
     }
   }, []);
