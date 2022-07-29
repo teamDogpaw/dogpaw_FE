@@ -55,6 +55,7 @@ const Detail = () => {
   };
 
   const openModal = () => {
+    console.log("mm")
     setModalOpen(true);
   };
   const closeModal = () => {
@@ -106,9 +107,9 @@ const Detail = () => {
                   <Edit />
                   <span>게시글 수정</span>
                 </ModifyBtn>
-                <DeleteBtn >
+                <DeleteBtn onClick={openModal}>
                   <Remove/>
-                  <span onClick={openModal}>게시글 삭제</span>
+                  <span>게시글 삭제</span>
                 </DeleteBtn>
               </>
             )}
