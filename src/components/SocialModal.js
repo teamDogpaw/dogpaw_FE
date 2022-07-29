@@ -2,7 +2,14 @@ import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { nickCheck } from "../shared/userOauth";
 import instance from "../shared/axios";
-import { InputContent, InputWrap, LoginBtn, LoginInput, Title, Wrap } from "./Login";
+import {
+  InputContent,
+  InputWrap,
+  LoginBtn,
+  LoginInput,
+  Title,
+  Wrap,
+} from "./Login";
 import { Btn } from "../styles/style";
 import StackSelector from "./StackSeletor";
 import axios from "axios";
@@ -10,7 +17,6 @@ import { userApis } from "../api/user";
 const baseURL = process.env.REACT_APP_BASE_URL;
 
 const SocialModal = () => {
-  
   //닉네임, 스택
   const [nickName, setNickName] = useState("");
   const [stack, setStack] = useState([]);
@@ -44,7 +50,7 @@ const SocialModal = () => {
         let nickCheck = userApis.nickCheck;
         const response = await nickCheck(nickData);
         if (response.status === 200) {
-          setNickMessage("중복되지 않은 닉네임입니다.");
+          setNickMessage("사용 가능한 닉네임입니다.");
           setIsNick(true);
         }
       } catch (err) {
@@ -103,8 +109,7 @@ const SocialModal = () => {
         <span>회원가입</span>
       </Title>
       <InputWrap>
-
-      <InputContent>
+        <InputContent>
           닉네임
           <NicknameWrap>
             <LoginInput
@@ -131,8 +136,7 @@ const SocialModal = () => {
             )}
           </p>
         </InputContent>
-    
-        
+
         <InputContent>
           기술 스택
           <StackSelector setRegisterData={setStack} />
@@ -164,8 +168,6 @@ export const SocialBtn = styled(Btn)`
     background-color: ${(props) => (props.disabled ? "#E1E1E1" : "#FF891C")};
     cursor: ${(props) => (props.disabled ? "default" : "pointer")};
   }
-  
 `;
-
 
 export default SocialModal;
