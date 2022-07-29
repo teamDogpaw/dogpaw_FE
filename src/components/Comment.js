@@ -43,10 +43,10 @@ const Comment = ({ data }) => {
   const modifyCommentClick = async (commentId) => {
     if(comment_ref.current.value === ""){
       openModiModal();
-      
       return;
     }
     const commentData = { id, commentId, content: comment_ref.current.value }
+    setIsEdit(false);
     await editComment(commentData);
     queryClient.invalidateQueries("commentList");
   };
