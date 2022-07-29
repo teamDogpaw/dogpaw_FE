@@ -10,7 +10,9 @@ import { userApis } from "../api/user";
 const baseURL = process.env.REACT_APP_BASE_URL;
 
 const SocialModal = () => {
-  
+
+  const isRegister = true;
+
   //닉네임, 스택
   const [nickName, setNickName] = useState("");
   const [stack, setStack] = useState([]);
@@ -135,7 +137,7 @@ const SocialModal = () => {
         
         <InputContent>
           기술 스택
-          <StackSelector setRegisterData={setStack} />
+          <StackSelector setRegisterData={setStack} isRegister={isRegister}/>
         </InputContent>
         <SocialBtn
           type="submit"

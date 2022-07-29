@@ -57,14 +57,11 @@ const MyPage = () => {
   const formData = new FormData();
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("id");
+
   const tabList = [
     { id: 1, name: "관심 프로젝트", content: <Bookmark currentTab={1} /> },
     { id: 2, name: "참여한 프로젝트", content: <JoinProject currentTab={2} /> },
-    {
-      id: 3,
-      name: "신청한 프로젝트",
-      content: <ApplyProject currentTab={3} />,
-    },
+    { id: 3, name: "신청한 프로젝트", content: <ApplyProject currentTab={3} />},
     { id: 4, name: "내가 쓴 프로젝트", content: <MyProject currentTab={4} /> },
   ];
 
@@ -189,9 +186,9 @@ const MyPage = () => {
         {isEdit ? (
           <ProfileWrap>
             {imagePreview === null ? (
-              <Profilepic src={profilepic} />
+             <Profilepic > <img src={profilepic} alt="profileImage" /> </Profilepic>
             ) : (
-              <Profilepic src={imagePreview} />
+              <Profilepic> <img src={imagePreview} alt="profileImage" /> </Profilepic> 
             )}
             <form>
               <File>
@@ -221,7 +218,6 @@ const MyPage = () => {
             </form>
             <BtnWrap>
               <Button3 onClick={exitBtnOpen}>회원 정보 삭제</Button3>
-
               <Button2 onClick={imageReSet}>기본 이미지로 변경</Button2>
             </BtnWrap>
 
@@ -230,9 +226,9 @@ const MyPage = () => {
         ) : (
           <ProfileWrap>
             {userInfo?.profileImg === null ? (
-              <Profilepic src={profilepic} />
+              <Profilepic > <img src={profilepic} alt="profileImage" /> </Profilepic>
             ) : (
-              <Profilepic src={myData?.profileImg} />
+              <Profilepic> <img src={myData?.profileImg} alt="profileImage" /> </Profilepic> 
             )}
             <Profile>
               <h4>{myData?.nickname}</h4>
@@ -305,6 +301,22 @@ const MyPage = () => {
     </WholeBody>
   );
 };
+
+export const WholeBody = styled.div`
+overflow-x: hidden;
+  max-width: 996px;
+  margin: 0px auto 200px auto;
+  @media screen and (max-width: 996px) {
+    margin: 24px 40px 100px;
+  }
+  @media screen and (max-width: 600px) {
+    margin: 0px;
+    width: 100%;
+    margin: auto;
+  }
+  position: relative;
+`;
+
 const MyOption = styled(Option)`
   padding-top: 10px;
   padding-bottom: 10px;
@@ -363,14 +375,27 @@ const Leftarrow = styled(Arrow)`
   stroke: ${(props) => props.theme.toggleFontColor};
 `;
 
-export const Profilepic = styled.img`
-  width: 160px;
-  height: 160px;
+export const Profilepic = styled.div`
+ width: 160px;
+height: 160px;
   border-radius: 80px;
+  overflow: hidden;
+text-align: center;
+  /* position: relative; */
+  
+  img{
+    align-self: center;
+   display: block;
+   margin: auto;
+    width: 100%;
+  height: 100%;
+  object-fit: cover;
 
-  @media screen and (max-width: 600px) {
-    width: 72px;
-    height: 72px;
+  }
+
+  @media screen and (max-width: 650px) {
+    max-width: 72px;
+    max-height: 72px;
     border-radius: 36px;
   }
 `;
@@ -400,19 +425,7 @@ const File = styled.div`
     display: none;
   }
 `;
-export const WholeBody = styled.div`
-  max-width: 996px;
-  margin: 0px auto 200px auto;
-  @media screen and (max-width: 996px) {
-    margin: 24px 40px 100px;
-  }
-  @media screen and (max-width: 600px) {
-    margin: 0px;
-    width: 100%;
-    margin: auto;
-  }
-  position: relative;
-`;
+
 
 export const Tab = styled.div`
   line-height: 48px;
@@ -434,10 +447,7 @@ export const ProfileWrap = styled.div`
   position: relative;
 
   @media screen and (max-width: 600px) {
-    width: 100%;
-    margin-top: 20px;
-    font-size: 0.875rem;
-    padding-bottom: 60px;
+  
   }
 `;
 
@@ -458,12 +468,14 @@ const ModalBtn = styled(Btn)`
 `;
 
 export const Profile = styled.div`
-  margin-left: 50px;
-  //width: 100px;
+display: flex;
+flex-direction: column;
+ gap: 5px;
+ margin-left: 5%;
 
   p {
     color: #777777;
-    margin-top: 8px;
+    margin-top: 5px;
   }
 
   input {
@@ -473,6 +485,10 @@ export const Profile = styled.div`
     border: ${(props) => props.theme.border};
     border-radius: 8px;
     background-color: ${(props) => props.theme.inputBoxBackground};
+    :focus{
+      outline: none;
+    }
+    font-size: 1rem;
   }
 
   details {
@@ -490,13 +506,16 @@ const MySelectArrow = styled(SelectArrow)`
   width: 12px;
   height: 12px;
   text-align: right;
-
   cursor: pointer;
 `;
 
 export const Stacks = styled.div`
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
+  max-width: 400px;
+  @media screen and (max-width: 700px) {
+    max-width: 300px;
+  }
 `;
 
 const Button = styled(Btn)`
