@@ -45,7 +45,6 @@ const StackSelector = ({
         if (details) {
             details.open = false;
         }
-    }
   };
 
     const removeStack = (selectedStack) => {
@@ -56,8 +55,7 @@ const StackSelector = ({
         }  else if (isRegister) {
             setRegisterData(newStacks)
         }
-    }
-
+  };
 
     return (
         <div>
