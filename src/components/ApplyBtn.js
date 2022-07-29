@@ -200,18 +200,24 @@ export const Content = styled.div`
   flex-direction: column;
   align-items: center;
   margin: auto;
-  width: 350px;
+  width: 360px;
   line-height: 3;
-  //border:${props => props.theme.border};
+  //border:${(props) => props.theme.border};
+  div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
   button {
     width: 100px;
-    margin-right: 15px;
+    margin-right: 10px;
   }
-  
-  @media screen and (max-width:500){
-    margin:0;
-    width:100px;
+
+  @media screen and (max-width: 500) {
+    margin: 0;
+    width: 100px;
   }
 `;
+
 
 export default ApplyBtn;

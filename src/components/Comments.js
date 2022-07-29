@@ -4,14 +4,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { useGetCommentList, usePostComment } from "../hook/useCommentData";
 import { Btn } from "../styles/style";
+import AlertModal from "./AlertModal";
+import { Content } from "./ApplyBtn";
 import Comment from "./Comment";
 import ModalOpen from "./Modal_prev";
 import ReplyComment from "./ReplyComment";
 
 const Comments = () => {
-  const navigate = useNavigate();
   const params = useParams();
   const comment_ref = useRef("");
+  const [modalOpen, setModalOpen] = useState(false);
   const [btnState, setBtnState] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const id = params.postId;
@@ -30,6 +32,7 @@ const Comments = () => {
 
   const addCommentClick = async () => {
     if(comment_ref.current.value === ""){
+      openModal();
       return;
     }
     const commentData = { id, content: comment_ref.current.value };
@@ -57,6 +60,15 @@ const Comments = () => {
       viewModal();
     }
   }
+
+  const openModal = () => {
+    setModalOpen(true);
+    document.body.style.overflow = "hidden";
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+    document.body.style.overflow = 'auto';
+  };
 
   return (
     <Wrap>
@@ -95,6 +107,16 @@ const Comments = () => {
           </>
         ))}
       </div>
+
+      <AlertModal open={modalOpen}>
+        <Content>
+          <h4>내용을 입력해주세요!</h4>
+          <div>
+            <Btn onClick={closeModal}> 확인 </Btn>
+          </div>
+        </Content>
+      </AlertModal>
+
       {isModalOpen && <ModalOpen viewModal={viewModal}/>}
     </Wrap>
   );
