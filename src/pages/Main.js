@@ -510,7 +510,7 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background-color:white;
+background-color:${props => props.theme.deadlineColor};
 border-radius: 16px;
 opacity:0.8;
 `;
