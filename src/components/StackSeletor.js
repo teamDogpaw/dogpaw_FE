@@ -57,7 +57,7 @@ const StackSelector = ({
             setRegisterData(newStacks)
         }
     }
-  };
+
 
     return (
         <div>
