@@ -5,8 +5,13 @@ import Register from "./Register";
 
 import { Btn } from "../styles/style";
 import { login } from "../shared/userOauth";
+import { useSetRecoilState } from "recoil";
+import { modalContentAtom } from "../atom/atom";
 
-const Login = ({ setModalContent }) => {
+const Login = () => {
+  const setModalContent = useSetRecoilState(modalContentAtom);
+
+
   //아이디, 비밀번호
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,6 +23,7 @@ const Login = ({ setModalContent }) => {
   // 유효성 검사
   const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
+
 
   // 아이디
   const onChangeId = useCallback((e) => {
@@ -83,7 +89,7 @@ const Login = ({ setModalContent }) => {
             )}
           </p>
         </InputContent>
-        <InputContent>
+        <InputContent >
           비밀번호
           <LoginInput
             onChange={onChangePassword}
@@ -121,7 +127,7 @@ const Login = ({ setModalContent }) => {
         아직 계정이 없으신가요?
         <span
           onClick={() => {
-            setModalContent(<Register setModalContent={setModalContent} />);
+            setModalContent(<Register />);
           }}
         >
           회원가입

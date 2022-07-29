@@ -216,7 +216,7 @@ const MyPage = () => {
                 />
                 <p>{userInfo.username}</p>
 
-                <StackSelector data={myData} setMyData={setMyData} />
+                <StackSelector data={myData} setSelectedData={setMyData} />
               </Profile>
             </form>
             <BtnWrap>

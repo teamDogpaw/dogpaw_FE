@@ -12,16 +12,16 @@ import Login, {
 } from "./Login";
 import { Btn, LineBtn } from "../styles/style";
 import { userApis } from "../api/user";
-import ErrPage from "./ErrPage";
 import ModalOpen from "./Modal_prev";
+import { useSetRecoilState } from "recoil";
+import { modalContentAtom } from "../atom/atom";
 
 
-const Register = ({ setModalContent }) => {
-
-
-
-  //const setOnModal = useSetRecoilState(modalChange);
+const Register = () => {
+  const setModalContent = useSetRecoilState(modalContentAtom);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const isRegister = true;
   const viewModal = () => {
     setIsModalOpen((prev) => !prev);
   };
@@ -63,7 +63,6 @@ const Register = ({ setModalContent }) => {
       try {
         let signUp = userApis.signUp;
         const response = await signUp(data);
-        //console.log(response)
         if (response.status === 200) {
           setModalContent(<Login setModalContent={setModalContent} />);
         }
@@ -224,7 +223,7 @@ const Register = ({ setModalContent }) => {
             </InputContent>
             <InputContent>
               기술 스택
-              <StackSelector setRegisterData={setStack} />
+              <StackSelector setRegisterData={setStack} isRegister={isRegister} />
             </InputContent>
             <LineBtn onClick={() => setIsNextPage(false)}>뒤로가기</LineBtn>
             <LoginBtn
@@ -349,7 +348,7 @@ const Register = ({ setModalContent }) => {
         {isMobile ? null : (
           <InputContent>
             기술 스택
-            <StackSelector setRegisterData={setStack} />
+            <StackSelector setRegisterData={setStack} isRegister={isRegister}/>
           </InputContent>
         )}
 
