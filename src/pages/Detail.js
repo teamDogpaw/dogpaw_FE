@@ -326,6 +326,7 @@ const ContentWrap = styled.div`
 
 const Title = styled.div`
   display: flex;
+  
   p:first-child {
     width: 120px;
   }
@@ -333,8 +334,12 @@ const Title = styled.div`
 
 const Stack = styled.div`
   display: flex;
-  max-width: 700px;
+  flex-wrap:wrap;
+  row-gap:10px;
+  width:100%;
+  //max-width: 750px;
   align-items: center;
+
  
 
   span {
@@ -348,6 +353,8 @@ const Stack = styled.div`
     color: ${(props) => props.theme.stackColor};
   }
   @media screen and (max-width: 770px) {
+    row-gap:0px;
+    flex-wrap:nowrap;
     max-width: 220px;
     overflow-x: auto;
     white-space: nowrap;
