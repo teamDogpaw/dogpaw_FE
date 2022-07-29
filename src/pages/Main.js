@@ -18,20 +18,22 @@ import person from "../styles/icon/global/profile.svg";
 import help from "../styles/icon/main/help.svg";
 import BookmarkRank from "../components/BookmarkRank";
 import StackFilter from "../components/StackFilter";
+import { usePostBookmark } from "../hook/useUserData";
+import { useQueryClient } from "react-query";
 
 const Main = () => {
   const [mainSelectedStack, setMainSelectedStack] = useState([]);
   const [filterList, setFilterList] = useState([]);
   const navigate = useNavigate();
   const user = useRecoilValue(UserInfoAtom);
-  const [mark, setMark] = useState(false);
   const [toggle, setToggle] = useState(true);
   const [isTuto, setIsTuto] = useState(false);
   const { ref, inView } = useInView();
   const [isFilter, setIsFilter] = useState(false);
-
+  const isLogin = localStorage.getItem("token");
   const userMe = user?.nickname;
-
+  const queryClient = useQueryClient();
+  const { mutateAsync: bookmark } = usePostBookmark();
   const { data, status, fetchNextPage, isFetchingNextPage } =
     useGetKeepPostList();
 
@@ -80,13 +82,15 @@ const Main = () => {
   // }
   // //console.log(filterList)
 
-  const bookMark = () => {
-    if (mark === false) {
-      setMark(true);
-    } else {
-      setMark(false);
-    }
+  const bookMark = (e) => {
+    e.stopPropagation()
   };
+
+  const bookMarkBtn = async (id) =>{
+    await bookmark(id)
+    queryClient.invalidateQueries("postList");
+  }
+
   const clickedToggle = () => {
     setToggle((prev) => !prev);
   };
@@ -102,14 +106,13 @@ const Main = () => {
 
   return (
     <Wrap>
-
-      <Help >
-          <Tuto onClick={openTuto}>
-            {isTuto && <Tutoral />}
-            <img src={help} alt="" />
-          </Tuto>
-          <span onClick={openTuto}>이용가이드</span>
-        </Help>
+      <Help>
+        <Tuto onClick={openTuto}>
+          {isTuto && <Tutoral />}
+          <img src={help} alt="" />
+        </Tuto>
+        <span onClick={openTuto}>이용가이드</span>
+      </Help>
 
       <Carousel />
       <Award>
@@ -163,7 +166,9 @@ const Main = () => {
                             <li key={idx}>#{lang}</li>
                           ))}
                         </ul>
-                        <p style={{ color: "#ffb673",marginTop:"5px" }}>#{post.online}</p>
+                        <p style={{ color: "#ffb673", marginTop: "5px" }}>
+                          #{post.online}
+                        </p>
                       </Hashtag>
                       <Info>
                         <div>
@@ -188,13 +193,15 @@ const Main = () => {
                           />
                           <p>{post.nickname}</p>
                         </User>
-                        {userMe === post.nickname ? (
-                          ""
-                        ) : post.bookMarkStatus ? (
-                          <BookmarkFill onClick={bookMark} />
-                        ) : (
-                          <BookmarkIcon onClick={bookMark} />
-                        )}
+                        <Mark onClick={bookMark}>
+                        {isLogin &&
+                            userMe !== post.nickname &&
+                            (post.bookMarkStatus ? (
+                              <BookmarkFill onClick={()=>bookMarkBtn(post.postId)} />
+                            ) : (
+                              <BookmarkIcon onClick={()=>bookMarkBtn(post.postId)} />
+                            ))}
+                        </Mark>
                       </Footer>
                       {post.deadline === true && <Deadline>모집마감</Deadline>}
                     </Article>
@@ -248,13 +255,15 @@ const Main = () => {
                           />
                           <p>{post.nickname}</p>
                         </User>
-                        {userMe === post.nickname ? (
-                          ""
-                        ) : post.bookMarkStatus ? (
-                          <BookmarkFill onClick={bookMark} />
-                        ) : (
-                          <BookmarkIcon onClick={bookMark} />
-                        )}
+                        <Mark onClick={bookMark}>
+                          {isLogin &&
+                            userMe !== post.nickname &&
+                            (post.bookMarkStatus ? (
+                              <BookmarkFill onClick={()=>bookMarkBtn(post.postId)} />
+                            ) : (
+                              <BookmarkIcon onClick={()=>bookMarkBtn(post.postId)} />
+                            ))}
+                        </Mark>
                       </Footer>
                       {post.deadline === true && <Deadline>모집마감</Deadline>}
                     </Article>
@@ -301,21 +310,18 @@ const Wrap = styled.div`
   @media screen and (max-width: 1200px) {
     margin: 0px 30px 100px 30px;
   }
-
- 
-
 `;
 
 const Help = styled.div`
   ${displyStyle}
   justify-content: flex-end;
   margin-bottom: 10px;
- 
+
   span {
     font-weight: 500;
     color: #ffb673;
     margin-left: 5px;
-    cursor:pointer;
+    cursor: pointer;
   }
 
   @media screen and (max-width: 500px) {
@@ -348,7 +354,6 @@ const Move = keyframes`
 const Tuto = styled.div`
   animation: ${Move} 1s ease-in-out;
   cursor: pointer;
-  
 `;
 
 const Award = styled.div`
@@ -374,14 +379,11 @@ const ToggleBtn = styled.div`
   border: 2px solid #ffb673;
   cursor: pointer;
   background-color: ${(props) => props.theme.divBackGroundColor};
-
 `;
 
 const Toggle = styled.div`
-
   ${displyStyle}
   justify-content:space-around;
-
 
   & p:first-child {
     margin-left: 3px;
@@ -486,14 +488,14 @@ export const Hashtag = styled.div`
   width: 85%;
   position: absolute;
   bottom: 100px;
-  
+
   li {
     margin-right: 5px;
     color: #ffb673;
   }
 
-  p{
-    margin-top:5px;
+  p {
+    margin-top: 5px;
   }
 
   ${ellipsisText}
@@ -556,4 +558,7 @@ export const Date = styled.p`
   justify-content: flex-end;
 `;
 
+const Mark = styled.div`
+ 
+`;
 export default Main;

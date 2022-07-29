@@ -32,9 +32,9 @@ const Detail = () => {
   const { mutateAsync: deletePost } = useDeletePost();
   const { mutateAsync: bookmark } = usePostBookmark();
 
-  useEffect(()=>{
-    queryClient.invalidateQueries("detailPost");
-  },[userStatus])
+  // useEffect(()=>{
+  //   queryClient.invalidateQueries("detailPost");
+  // },[userStatus])
 
 
   if (isLoadingPost) {
@@ -332,15 +332,17 @@ const Title = styled.div`
   p:first-child {
     width: 120px;
   }
+
+ 
 `;
 
 const Stack = styled.div`
   display: flex;
   flex-wrap:wrap;
   row-gap:10px;
-  width:100%;
-  //max-width: 750px;
+  max-width: 750px;
   align-items: center;
+ 
 
  
 
