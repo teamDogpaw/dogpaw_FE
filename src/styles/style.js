@@ -298,11 +298,11 @@ gap: 24px;
 export const Modal = styled.div`
     display: flex;
     flex-direction: column;
-    position: fixed;
-    left: 50%;
-    margin-top: 100px;
-    transform: translate(-50%, 0%);
 
+
+
+
+    
     border-radius: 8px;
     background: ${(props)=>props.theme.divBackGroundColor};
     box-shadow: rgb(0 0 0 / 9%) 0px 2px 12px 0px;
@@ -323,13 +323,24 @@ export const Modal = styled.div`
 `;
 
 export const ModalBackground = styled.div`
+    min-height: 100vh;
     position: fixed;
+    display: flex;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
     background-color: rgba(0,0,0,0.3);
     z-index: 90;
+    
+    -webkit-box-pack: center;
+    -moz-box-pack: center; 
+    -ms-flex-pack: center; 
+    justify-content: center;
+    -webkit-box-align: center; 
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
 `;
 
 export const ModalCloseButton = styled(X)`
