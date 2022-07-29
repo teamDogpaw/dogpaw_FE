@@ -387,7 +387,7 @@ const Register = () => {
         계정이 있으셨나요?
         <span
           onClick={() => {
-            setModalContent(<Login setModalContent={setModalContent} />);
+            setModalContent(<Login />);
           }}
         >
           로그인
