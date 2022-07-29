@@ -53,6 +53,7 @@ const Header = () => {
   }, []);
 
   const details = detailsRef.current;
+
   if (details) {
     details.open = false;
   }
