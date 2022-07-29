@@ -226,7 +226,10 @@ const Register = () => {
             </InputContent>
             <InputContent>
               기술 스택
-              <StackSelector setRegisterData={setStack} isRegister={isRegister} />
+              <StackSelector
+                setRegisterData={setStack}
+                isRegister={isRegister}
+              />
             </InputContent>
             <LineBtn onClick={() => setIsNextPage(false)}>뒤로가기</LineBtn>
             <LoginBtn
@@ -351,7 +354,7 @@ const Register = () => {
         {isMobile ? null : (
           <InputContent>
             기술 스택
-            <StackSelector setRegisterData={setStack} isRegister={isRegister}/>
+            <StackSelector setRegisterData={setStack} isRegister={isRegister} />
           </InputContent>
         )}
 
