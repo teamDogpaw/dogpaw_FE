@@ -24,12 +24,12 @@ const UserPage = () => {
     const tabList = [
        {id: 1,
           name: "참여한 프로젝트",
-          content: <OtherJoinProjects currentTab={1} data={otherUser.data.acceptedPost}/>,
+          content: <OtherJoinProjects currentTab={1} data={otherUser?.data.acceptedPost}/>,
         },
         {
           id: 2,
           name: "작성한 프로젝트",
-          content: <OtherProjects currentTab={2} data={otherUser.data.myPost} />,
+          content: <OtherProjects currentTab={2} data={otherUser?.data.myPost} />,
         },
       ];
 
