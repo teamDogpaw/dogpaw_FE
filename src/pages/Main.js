@@ -265,7 +265,7 @@ const Main = () => {
                             ))}
                         </div>
                       </Footer>
-                      {post.deadline === true && <Deadline>모집마감</Deadline>}
+                      {post.deadline === true && <><DeadlineWrap/><Deadline>모집마감</Deadline></>}
                     </Article>
                   </>
                 );
@@ -469,6 +469,8 @@ const Article = styled.li`
   }
 `;
 
+
+
 export const Content = styled.div`
   margin: 20px 0;
 
@@ -502,6 +504,17 @@ export const Hashtag = styled.div`
   -webkit-line-clamp: 1;
 `;
 
+export const DeadlineWrap = styled.div`
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background-color:white;
+border-radius: 16px;
+opacity:0.8;
+`;
+
 export const Deadline = styled.div`
   position: absolute;
   top: 50%;
@@ -509,8 +522,10 @@ export const Deadline = styled.div`
   padding: 16px;
   transform: translate(-50%, -50%);
   color: white;
-  background-color: black;
+  font-weight:bold;
+  background-color: #4E4E4E;
   border-radius: 6px;
+
 `;
 
 export const Footer = styled.div`

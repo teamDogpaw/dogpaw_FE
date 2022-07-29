@@ -2,8 +2,8 @@ import { useRecoilValue } from "recoil";
 import { DarkThemeAtom } from "../atom/theme";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useMatch, useSearchParams } from "react-router-dom";
-import styled, { css, keyframes } from "styled-components";
+import { Link, useSearchParams } from "react-router-dom";
+import styled, { css } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { newAlertListAtom, UserInfoAtom } from "../atom/atom";
 import ModalOpen from "./Modal_prev";
@@ -19,11 +19,10 @@ import newBell from "../styles/icon/header/newBell.svg";
 import {ReactComponent as GiftIcon} from "../styles/icon/header/gift.svg";
 import {ReactComponent as Arrow} from "../styles/icon/header/arrow.svg";
 
+
 const Header = () => {
   const newAlert = useRecoilValue(newAlertListAtom);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const isRead = useRecoilValue(newAlertListAtom);
-  // console.log(isRead)
   const navigate = useNavigate();
   const isDark = useRecoilValue(DarkThemeAtom);
   const userInfo = useRecoilValue(UserInfoAtom);
@@ -127,6 +126,7 @@ const Header = () => {
                     </AlertList>
                   </Message>
                 </Details>
+
                 <Details ref={detailsRef}>
                   <Summary>
                     <Profile src={userInfo?.profileImg || person} alt="" />
@@ -328,6 +328,7 @@ const StyledLink = styled(Link)`
 `;
 
 const Option = styled.li`
+cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: center;
