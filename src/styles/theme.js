@@ -21,6 +21,7 @@ export const darkTheme = {
     modifyBtnBorder:"1px solid #E2E2E2",
     successColor:"#7bed9f",
     scrollBackgroundColor:"#292929",
+    deadlineColor:"#777777"
 }
 
 export const lightTheme = {
@@ -46,5 +47,6 @@ export const lightTheme = {
     modifyBtnBorder:"1px solid #777777",
     successColor:"#2ed573",
     scrollBackgroundColor:"#fff",
+    deadlineColor:"#fff"
 }
 

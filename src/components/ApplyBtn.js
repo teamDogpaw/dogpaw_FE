@@ -21,24 +21,16 @@ const ApplyBtn = ({ myPostData }) => {
   const { mutateAsync: apply } = usePostApply();
   const { mutateAsync: deadlinePost } = usePostDeadline();
 
-  let debounce = null;
-
+//디바운싱 삭제 (서버 구매함)
   const applyBtn = async () => {
-
-    if (debounce){
-      clearTimeout(debounce);
-
-    }
-    debounce = setTimeout(async () => {
-      if (userStatus === "applicant") {
+   if (userStatus === "applicant") {
         await apply(id);
         setModalOpen(false);
       } else {
         await apply(id);
         openApplyModal();
       }
-    }, 1000)
-    // queryClient.invalidateQueries("detailPost");
+    queryClient.invalidateQueries("detailPost");
   };
 
   const deadlineBtn = async () => {

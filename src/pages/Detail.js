@@ -11,9 +11,11 @@ import paw from "../styles/icon/detail/paw.svg";
 import {ReactComponent as Edit} from "../styles/icon/detail/edit.svg";
 import {ReactComponent as Remove} from "../styles/icon/detail/remove.svg";
 import { usePostBookmark } from "../hook/useUserData";
-import ApplyBtn from "../components/ApplyBtn";
+import ApplyBtn, { Content } from "../components/ApplyBtn";
 import Loading from "../shared/Loading";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import AlertModal from "../components/AlertModal";
+import { Btn, GrayLineBtn } from "../styles/style";
 
 
 const Detail = () => {
@@ -21,6 +23,7 @@ const Detail = () => {
   const params = useParams();
   const id = params.postId;
   const isLogin = localStorage.getItem("token");
+  const [modalOpen, setModalOpen] = useState(false);
  
   const { data: postList, isLoading: isLoadingPost } = useGetPost(id);
   //console.log(postList?.data);
@@ -32,10 +35,10 @@ const Detail = () => {
   const { mutateAsync: deletePost } = useDeletePost();
   const { mutateAsync: bookmark } = usePostBookmark();
 
+
   // useEffect(()=>{
   //   queryClient.invalidateQueries("detailPost");
   // },[userStatus])
-
 
   if (isLoadingPost) {
     return <Loading />;
@@ -46,12 +49,17 @@ const Detail = () => {
     navigate("/");
   };
 
-
   const bookMark = async () => {
     await bookmark(id);
     queryClient.invalidateQueries("detailPost");
   };
 
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
   return (
     <>
       <Wrap>
@@ -98,9 +106,9 @@ const Detail = () => {
                   <Edit />
                   <span>게시글 수정</span>
                 </ModifyBtn>
-                <DeleteBtn onClick={deletePostClick}>
+                <DeleteBtn >
                   <Remove/>
-                  <span>게시글 삭제</span>
+                  <span onClick={openModal}>게시글 삭제</span>
                 </DeleteBtn>
               </>
             )}
@@ -150,6 +158,16 @@ const Detail = () => {
           </Paw>
         </Article>
         <Comments />
+
+        <AlertModal open={modalOpen}>
+        <Content>
+          <h4>게시글을 삭제하시겠습니까?</h4>
+          <div>
+            <GrayLineBtn onClick={closeModal}> 닫기 </GrayLineBtn>
+            <Btn onClick={deletePostClick}> 삭제 </Btn>
+          </div>
+        </Content>
+      </AlertModal>
       </Wrap>
     </>
   );
