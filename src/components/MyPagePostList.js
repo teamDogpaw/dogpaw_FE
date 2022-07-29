@@ -1,4 +1,4 @@
-import { Btn, LineBtn, ListProfilePic, ListStack, ListTitle, PostBody } from "../styles/style"
+import { Btn, GrayLineBtn, LineBtn, ListProfilePic, ListStack, ListTitle, PostBody } from "../styles/style"
 import { useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/atom";
 import { useMatch, useNavigate } from "react-router-dom";
@@ -8,6 +8,9 @@ import { ReactComponent as CommentCnt } from "../styles/icon/post/commentCnt.svg
 import { ReactComponent as BookmarkCnt } from "../styles/icon/post/bookmarkCnt.svg"
 import UserBookmark from "./UserBookmark";
 import { usePostApply } from "../hook/useApplyMutation";
+import AlertModal from "./AlertModal";
+import { Content } from "./ApplyBtn";
+import { useState } from "react";
 
 const MyPagePostList = ({
     data,
@@ -16,7 +19,7 @@ const MyPagePostList = ({
 }) => {
 
     const isMypage = useMatch("/mypage")
-
+    const [modalOpen, setModalOpen] = useState(false);
     //console.log(currentTab)
     const navigate = useNavigate()
     const { mutate: postApply } = usePostApply()
@@ -24,6 +27,14 @@ const MyPagePostList = ({
     // const cancelApply = () => {
     //     if(confirm('지원을 취소하시겠어요?'))
     // };
+
+    const openModal = () => {
+        setModalOpen(true);
+      };
+      const closeModal = () => {
+        setModalOpen(false);
+      };
+
     return (
         <>
             <PostBody key={data.postId} >
@@ -71,7 +82,7 @@ const MyPagePostList = ({
 
                 </ListBottom>
                 {currentTab === 3 ?
-                    <MyPageBtn onClick={() => postApply(data.postId)} >지원 취소하기</MyPageBtn>
+                    <MyPageBtn onClick={openModal} >지원 취소하기</MyPageBtn>
                     : null}
 
                 {isMypage !== null && currentTab === 2  || currentTab === 4  ?
@@ -95,6 +106,15 @@ const MyPagePostList = ({
             </PostBody>
 
 
+            <AlertModal open={modalOpen}>
+        <Content>
+          <h4>프로젝트 지원을 취소하시겠습니까?</h4>
+          <div>
+            <GrayLineBtn onClick={closeModal}> 닫기 </GrayLineBtn>
+            <Btn onClick={() => postApply(data.postId)}> 지원취소 </Btn>
+          </div>
+        </Content>
+      </AlertModal>
 
 
         </>

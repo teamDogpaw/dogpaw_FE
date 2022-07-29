@@ -254,6 +254,7 @@ const Contain = styled.div`
 `;
 
 const User = styled.div`
+background-color:gold;
   display: flex;
   align-items: center;
   text-align: center;

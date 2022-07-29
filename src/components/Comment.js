@@ -13,12 +13,15 @@ import {
   usePostReply,
 } from "../hook/useCommentData";
 import DropDown from "./DropDown";
-import { Btn } from "../styles/style";
+import { Btn, GrayLineBtn } from "../styles/style";
+import AlertModal from "./AlertModal";
+import { Content } from "./ApplyBtn";
 
 const Comment = ({ data }) => {
   //대댓글 드롭다운 열기/닫기
   const [dropdownVisibility, setDropdownVisibility] = useState(false);
-
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modiModalOpen, setModiModalOpen] = useState(false);
   const params = useParams();
   const id = params.postId;
   const replyId = data.commentId;
@@ -38,8 +41,12 @@ const Comment = ({ data }) => {
   const { mutateAsync: removeComment } = useRemoveComment();
 
   const modifyCommentClick = async (commentId) => {
-    const commentData = { id, commentId, content: comment_ref.current.value };
-    setIsEdit(false);
+    if(comment_ref.current.value === ""){
+      openModiModal();
+      
+      return;
+    }
+    const commentData = { id, commentId, content: comment_ref.current.value }
     await editComment(commentData);
     queryClient.invalidateQueries("commentList");
   };
@@ -61,6 +68,7 @@ const Comment = ({ data }) => {
 
   const addReplyClick = async () => {
     if(replyRef.current.value === ""){
+      openModiModal();
       return;
     }
     const replyData = { replyId, content: replyRef.current.value };
@@ -69,27 +77,42 @@ const Comment = ({ data }) => {
     queryClient.invalidateQueries("commentList");
   };
 
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const openModiModal = () => {
+    setModiModalOpen(true);
+  };
+  const closeModiModal = () => {
+    setModiModalOpen(false);
+  };
+
   return (
     <div>
       <User>
         <Img src={data.profileImg || person} alt="사진" />
         <p>{data.nickname}</p>
       </User>
-      <Content>
+      <Contents>
         {isEdit ? (
           <input type="text" defaultValue={data.content} ref={comment_ref} />
         ) : (
           <p>{data.content}</p>
         )}
-        <CommentDate>{data.modifiedAt.substring(0, 10)}         </CommentDate>
-      </Content>
+        <CommentDate>{data.modifiedAt.substring(0, 10)} </CommentDate>
+      </Contents>
       <ReplyBtn onClick={(e) => setDropdownVisibility(!dropdownVisibility)}>
-            {dropdownVisibility ? "닫기" : "답글 쓰기"}
-          </ReplyBtn>
+        {dropdownVisibility ? "닫기" : "답글 쓰기"}
+      </ReplyBtn>
       <CommentBtnBox>
         {loginUser === writeUser && (
           <>
             {isEdit ? (
+              <>
               <UpdateBtn
                 onClick={() => {
                   modifyCommentClick(data.commentId);
@@ -97,16 +120,15 @@ const Comment = ({ data }) => {
               >
                 등록
               </UpdateBtn>
+              <DeleteBtn onClick={() => setIsEdit(false)}>취소</DeleteBtn>
+              </>
             ) : (
+              <>
               <ModiBtn onClick={() => setIsEdit(true)}>수정</ModiBtn>
+              <DeleteBtn onClick={openModal}>삭제</DeleteBtn>
+              </>
             )}
-            <DeleteBtn
-              onClick={() => {
-                deleteCommentClick(data.commentId);
-              }}
-            >
-              삭제
-            </DeleteBtn>
+            
           </>
         )}
       </CommentBtnBox>
@@ -130,6 +152,27 @@ const Comment = ({ data }) => {
           </ul>
         </DropDown>
       </div>
+
+      <AlertModal open={modalOpen}>
+        <Content>
+          <h4>댓글을 삭제하시겠습니까?</h4>
+          <div>
+            <GrayLineBtn onClick={closeModal}> 취소 </GrayLineBtn>
+            <Btn onClick={() => { deleteCommentClick(data.commentId)}}>
+              삭제
+            </Btn>
+          </div>
+        </Content>
+      </AlertModal>
+
+      <AlertModal open={modiModalOpen}>
+        <Content>
+          <h4>내용을 입력해주세요!</h4>
+          <div>
+            <Btn onClick={closeModiModal}> 확인 </Btn>
+          </div>
+        </Content>
+      </AlertModal>
     </div>
   );
 };
@@ -157,7 +200,7 @@ margin-top: 10px;
 margin-bottom: 20px;
 `;
 
-const Content = styled.div`
+const Contents = styled.div`
   position: relative;
   margin-top: 10px;
   line-height: 2;
@@ -189,7 +232,7 @@ font-size: 0.875rem;
 
 `; 
 
-const ModiBtn = styled.button`
+export const ModiBtn = styled.button`
   background-color: ${(props) => props.theme.backgroundColor};
   border: 1px solid #777777;
   border-radius: 8px;
@@ -202,12 +245,12 @@ const ModiBtn = styled.button`
   cursor: pointer;
 `;
 
-const DeleteBtn = styled(ModiBtn)`
+export const DeleteBtn = styled(ModiBtn)`
   border-color: #ff0000;
   color: #ff0000;
 `;
 
-const UpdateBtn = styled(ModiBtn)`
+export const UpdateBtn = styled(ModiBtn)`
   color: ${(props) => props.theme.textColor};
 `;
 
