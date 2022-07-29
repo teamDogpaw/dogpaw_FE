@@ -35,10 +35,10 @@ const Detail = () => {
   const { mutateAsync: deletePost } = useDeletePost();
   const { mutateAsync: bookmark } = usePostBookmark();
 
+
   // useEffect(()=>{
   //   queryClient.invalidateQueries("detailPost");
   // },[userStatus])
-
 
   if (isLoadingPost) {
     return <Loading />;

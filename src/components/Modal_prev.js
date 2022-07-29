@@ -4,29 +4,33 @@ import { ReactComponent as X } from "../styles/icon/modal/close.svg";
 import { Modal, ModalBackground, ModalCloseButton } from "../styles/style";
 import SocialModal from "./SocialModal";
 import styled from "styled-components";
+import { useRecoilState } from "recoil";
+import { modalContentAtom } from "../atom/atom";
 
-const ModalOpen = ({ viewModal, kakaoNick,setNeedLogin,needLogin }) => {
-  const [modalContent, setModalContent] = useState();
+const ModalOpen = ({ viewModal, kakaoNick }) => {
+  const [modalContent, setModalContent] = useRecoilState(modalContentAtom);
   let intFrameHeight = window.innerHeight;
 
   useEffect(() => {
-    if (!kakaoNick) {
-      setModalContent(<Login setModalContent={setModalContent} />);
-      document.body.style.cssText = `
-      position: fixed; 
-      top: -${window.scrollY}px;
-      overflow-y: scroll;
-      width: 100%;`;
-    } else if (kakaoNick) {
+    setModalContent(<Login />);
+    document.body.style.cssText = `
+    position: fixed; 
+    top: -${window.scrollY}px;
+    overflow-y: scroll;
+    width: 100%;`;
+
+    if (kakaoNick) {
       setModalContent(<SocialModal />);
     }
+
     const scrollY = document.body.style.top;
     window.scrollTo(0, parseInt(scrollY || "0") * -1);
+
     return () => {
       document.body.style.cssText = "";
       window.scrollTo(0, parseInt(scrollY || "0") * -1);
     };
-  }, [intFrameHeight]);
+  }, []);
 
   return (
     <ModalBackground>

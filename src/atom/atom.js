@@ -6,8 +6,8 @@ export const UserInfoAtom = atom({
   default: []
 });
 
-export const modalChange = atom({
-  key: "modalChange",
+export const modalContentAtom = atom({
+  key: "modalContentAtom",
   default: <Login />,
 });
 
