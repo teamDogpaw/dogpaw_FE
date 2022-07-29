@@ -193,7 +193,7 @@ const Main = () => {
                           />
                           <p>{post.nickname}</p>
                         </User>
-                        <Mark onClick={bookMark}>
+                        <div onClick={bookMark}>
                         {isLogin &&
                             userMe !== post.nickname &&
                             (post.bookMarkStatus ? (
@@ -201,7 +201,7 @@ const Main = () => {
                             ) : (
                               <BookmarkIcon onClick={()=>bookMarkBtn(post.postId)} />
                             ))}
-                        </Mark>
+                        </div>
                       </Footer>
                       {post.deadline === true && <Deadline>모집마감</Deadline>}
                     </Article>
@@ -255,7 +255,7 @@ const Main = () => {
                           />
                           <p>{post.nickname}</p>
                         </User>
-                        <Mark onClick={bookMark}>
+                        <div onClick={bookMark}>
                           {isLogin &&
                             userMe !== post.nickname &&
                             (post.bookMarkStatus ? (
@@ -263,7 +263,7 @@ const Main = () => {
                             ) : (
                               <BookmarkIcon onClick={()=>bookMarkBtn(post.postId)} />
                             ))}
-                        </Mark>
+                        </div>
                       </Footer>
                       {post.deadline === true && <Deadline>모집마감</Deadline>}
                     </Article>
@@ -558,7 +558,4 @@ export const Date = styled.p`
   justify-content: flex-end;
 `;
 
-const Mark = styled.div`
- 
-`;
 export default Main;

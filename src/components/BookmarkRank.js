@@ -12,20 +12,29 @@ import person from "../styles/icon/global/profile.svg";
 import { Bookmark, Comment, Content, Date, Deadline, Footer, Hashtag, Info, User } from "../pages/Main";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useQueryClient } from "react-query";
+import { usePostBookmark } from "../hook/useUserData";
+import { useRecoilValue } from "recoil";
+import { UserInfoAtom } from "../atom/atom";
 
 const BookmarkRank = () => {
     const navigate = useNavigate();
-    const [mark, setMark] = useState(false);
-    const { data: rankList } = useGetBookmarkRank();
+    const user = useRecoilValue(UserInfoAtom);
     ////console.log(rankList)
+    const isLogin = localStorage.getItem("token");
+    const userMe = user?.nickname;
+    const queryClient = useQueryClient();
+    const { data: rankList } = useGetBookmarkRank();
+    const { mutateAsync: bookmark } = usePostBookmark();
 
-    const bookMark = () => {
-        if (mark === false) {
-          setMark(true);
-        } else {
-          setMark(false);
-        }
-      };
+    const bookMark = (e) => {
+      e.stopPropagation()
+    };
+  
+    const bookMarkBtn = async (id) =>{
+      await bookmark(id)
+      queryClient.invalidateQueries("bookmarkRank");
+    }
   
     return (
         <ArticleWrap2>
@@ -78,11 +87,15 @@ const BookmarkRank = () => {
                   <img src={list.profileImg || person} alt="profileImg" />
                   <p>{list.nickname}</p>
                 </User>
-                {list.bookMarkStatus ? (
-                  <BookmarkFill onClick={bookMark} />
-                ) : (
-                  <BookmarkIcon onClick={bookMark} />
-                )}
+                <div onClick={bookMark}>
+                          {isLogin &&
+                            userMe !== list.nickname &&
+                            (list.bookMarkStatus ? (
+                              <BookmarkFill onClick={()=>bookMarkBtn(list.postId)} />
+                            ) : (
+                              <BookmarkIcon onClick={()=>bookMarkBtn(list.postId)} />
+                            ))}
+                        </div>
               </Footer>
               {list.deadline === true && <Deadline>모집마감</Deadline>}
             </Article2>
