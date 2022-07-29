@@ -9,7 +9,7 @@ import gold from "../styles/icon/main/medal0.svg";
 import silver from "../styles/icon/main/medal1.svg";
 import bronze from "../styles/icon/main/medal2.svg";
 import person from "../styles/icon/global/profile.svg";
-import { Bookmark, Comment, Content, Date, Deadline, Footer, Hashtag, Info, User } from "../pages/Main";
+import { Bookmark, Comment, Content, Date, Deadline, DeadlineWrap, Footer, Hashtag, Info, User } from "../pages/Main";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useQueryClient } from "react-query";
@@ -97,7 +97,7 @@ const BookmarkRank = () => {
                             ))}
                         </div>
               </Footer>
-              {list.deadline === true && <Deadline>모집마감</Deadline>}
+              {list.deadline === true && <><DeadlineWrap/><Deadline>모집마감</Deadline></>}
             </Article2>
           );
         })} 

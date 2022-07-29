@@ -56,19 +56,10 @@ const Sse = () => {
   
     if (token) {
       setNewAlert(allList);
-      //console.log(allList);
-      //setUnread(unreadList);
     }
   }, [token, allList, setNewAlert]);
 
   const messageDelete = async (id) => {
-    // const { data } = await removeAlert(id)
-    // if(data === true) {
-    //   queryClient.invalidateQueries("alertList");
-    // } else {
-    //   queryClient.invalidateQueries("alertList");
-    // }
-    //console.log(data)
     await removeAlert(id);
     queryClient.invalidateQueries("alertList");
   };
@@ -88,6 +79,7 @@ const Sse = () => {
 
 
   return (
+    <>
     <div>
       {newAlert?.length === 0 ? (
         <p>아직 알림이 없어요!</p>
@@ -116,6 +108,7 @@ const Sse = () => {
                     }}
                   >
                     <RemoveIcon />
+                   
                   </span>
                 </ListWrap>
               </ul>
@@ -124,6 +117,7 @@ const Sse = () => {
         </>
       )}
     </div>
+    </>
   );
 };
 
@@ -140,6 +134,7 @@ const ListWrap = styled.div`
 `;
 
 const List = styled.li`
+cursor: pointer;
   position: relative;
   color: ${(props) => props.theme.textColor};
   overflow: hidden;
