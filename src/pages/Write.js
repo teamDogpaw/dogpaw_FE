@@ -10,6 +10,7 @@ import { ReactComponent as Arrow } from "../styles/icon/detail/backArrow.svg";
 import AlertModal from "../components/AlertModal";
 import { Content } from "../components/ApplyBtn";
 import { ModalContent } from "./Mypage";
+import { useQueryClient } from "react-query";
 
 const Write = () => {
    const location = useLocation()
@@ -27,6 +28,7 @@ const Write = () => {
    const processdetailsRef = useRef(null);
    const perioddetailsRef = useRef(null);
    const capacitydetailsRef = useRef(null);
+   const queryClient = useQueryClient();
 
    const [startDate, setStartDate] = useState(new Date());
    const [selectedData, setSelectedData] = useState({
@@ -56,6 +58,7 @@ const Write = () => {
       } else {
          try {
             await postProject(selectedData);
+            queryClient.invalidateQueries("postList");
             navigate("/");
          } catch (error) {
             console.log(error);

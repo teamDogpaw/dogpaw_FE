@@ -85,11 +85,11 @@ const Detail = () => {
           <User>
             <h3>{postList?.data.title}</h3>
             <div
-              // onClick={() => {
-              //   userStatus === "author"
-              //     ? navigate(`/mypage`)
-              //     : navigate(`/mypage/${author}`);
-              // }}
+              onClick={() => {
+                userStatus === "author"
+                  ? navigate(`/mypage`)
+                  : navigate(`/mypage/${author}`);
+              }}
             >
               <img src={postList?.data.profileImg || person} alt="profile" />
               <p>{author}</p>
@@ -226,7 +226,7 @@ const User = styled.div`
     flex-direction: column;
     align-items: center;
     margin-top:15px;
-
+    cursor: pointer;
     
     p {
       padding-top: 5px;

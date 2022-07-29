@@ -1,8 +1,8 @@
 import { useQuery } from "react-query";
 import { othersApi } from "../api/others";
 
-export function useGetOtherData(nickname){
+export function useGetOtherData(othernickname){
     return useQuery("otherData", ()=>{
-        return othersApi.getOthersPage(nickname)
+        return othersApi.getOthersPage(othernickname)
     })
 }
