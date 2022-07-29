@@ -20,7 +20,7 @@ export const login = (props) => {
           localStorage.setItem("token", accessToken);
           localStorage.setItem("retoken", refreshToken);
           localStorage.setItem("id", id);
-          window.location.replace("/");
+          window.location.reload();
         }
       })
       .catch((err) => {
