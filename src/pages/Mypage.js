@@ -31,6 +31,7 @@ import { withDraw } from "../shared/userOauth";
 import { SelectArrow } from "../components/WriteSelect";
 import AlertModal from "../components/AlertModal";
 import { Content } from "../components/ApplyBtn";
+import { useQueryClient } from "react-query";
 
 const MyPage = () => {
   const userInfo = useRecoilValue(UserInfoAtom);
@@ -43,6 +44,8 @@ const MyPage = () => {
     nickname: userInfo?.nickname,
     stacks: userInfo?.stacks,
   });
+  const queryClient = useQueryClient();
+
   const [modalOpen, setModalOpen] = useState(false);
   const [windowSize, setWindowSize] = useState({
     width: undefined,
@@ -51,7 +54,8 @@ const MyPage = () => {
   const detailsRef = useRef(null);
   const details = detailsRef.current;
   const navigate = useNavigate();
-
+const [nickCheck, setNickCheck] = useState("");
+const [nickMessage, setNickMessage] = useState("");
   const imageRef = useRef();
   const [exitModalOpen, setExitModalOpen] = useState(false);
   const formData = new FormData();
@@ -108,11 +112,22 @@ const MyPage = () => {
 
     formData.append("body", blob);
 
-    await profileEdit(formData);
-
-    setIsEdit(false);
-    navigate("/mypage");
+   try {
+    const response = await profileEdit(formData);
+      setIsEdit(false);
+      queryClient.invalidateQueries("userinfo");
+      setNickCheck(true);
+  } catch(error){
+    if(error.response.status === 400){
+      console.log(error.response.status)
+      setNickCheck(false);
+      setNickMessage("중복된 닉네임입니다");
+      console.log(nickCheck)
+    }
+  }   
   };
+
+
 
   const { mutateAsync: profileEdit } = useMyProfileEdit();
   const { mutateAsync: imageReSet } = useMyProfileReset();
@@ -138,7 +153,15 @@ const MyPage = () => {
 
   const editNickname = (e) => {
     const newNickname = e.target.value;
+    console.log(newNickname)
     setMyData((prev) => ({ ...prev, nickname: newNickname }));
+    if(newNickname.length < 3 || newNickname.length > 8) {
+      setNickCheck(false);
+      setNickMessage("3글자 이상, 10글자 미만으로 입력해주세요.")
+    } else {
+      setNickCheck(true);
+      setNickMessage("알맞게 작성 되었습니다.")
+    }
   };
 
   const exitBtnOpen = () => {
@@ -148,6 +171,7 @@ const MyPage = () => {
   const exitBtnClose = () => {
     setExitModalOpen(false);
   };
+
   if (userInfo === undefined && !token) {
     return (
       <AlertModal open={modalOpen}>
@@ -211,8 +235,11 @@ const MyPage = () => {
                   defaultValue={userInfo?.nickname}
                   onChange={(event) => editNickname(event)}
                 />
+                {myData?.nickname.length > 0 ? 
+                <AlertMessage className={nickCheck ? "success" : "error"}>{nickMessage}</AlertMessage> 
+                : null}
                 <p>{userInfo.username}</p>
-
+         
                 <StackSelector data={myData} setSelectedData={setMyData} />
               </Profile>
             </form>
@@ -221,7 +248,7 @@ const MyPage = () => {
               <Button2 onClick={imageReSet}>기본 이미지로 변경</Button2>
             </BtnWrap>
 
-            <Button onClick={EditMyData}>편집 완료</Button>
+            <Button type="submit" onClick={EditMyData} disabled={!(nickCheck)} >편집 완료</Button>
           </ProfileWrap>
         ) : (
           <ProfileWrap>
@@ -231,10 +258,10 @@ const MyPage = () => {
               <Profilepic> <img src={myData?.profileImg} alt="profileImage" /> </Profilepic> 
             )}
             <Profile>
-              <h4>{myData?.nickname}</h4>
-              <p>{myData?.username}</p>
+              <h4>{userInfo?.nickname}</h4>
+              <p>{userInfo?.username}</p>
               <Stacks>
-                {myData?.stacks?.map((mystack, index) => {
+                {userInfo?.stacks?.map((mystack, index) => {
                   return (
                     <MyStack key={index} style={{ marginTop: "10px" }}>
                       #{mystack}
@@ -342,6 +369,15 @@ const TabBox = styled.summary`
   }
 `;
 
+const AlertMessage = styled.span`
+font-size: 0.75rem;
+color: ${(props) => props.theme.keyColor};
+
+&.error{
+  color:${(props) => props.theme.errorColor};
+}
+`;
+
 const BtnWrap = styled.div`
   top: 0;
   margin-left: auto;
@@ -349,6 +385,7 @@ const BtnWrap = styled.div`
   flex-direction: column;
   text-align: right;
   gap: 10px;
+
   span {
     color: ${(props) => props.theme.errorColor};
     font-size: 0.875rem;
@@ -481,7 +518,7 @@ flex-direction: column;
   input {
     width: 200px;
     height: 37px;
-    padding: 5px 10px;
+    padding: 5px;
     border: ${(props) => props.theme.border};
     border-radius: 8px;
     background-color: ${(props) => props.theme.inputBoxBackground};
@@ -522,6 +559,12 @@ const Button = styled(Btn)`
   position: absolute;
   right: 0;
   bottom: 0;
+  background-color: ${(props) =>
+    props.disabled ? "#E1E1E1" : props.theme.keyColor};
+  :hover {
+    background-color: ${(props) => (props.disabled ? "#E1E1E1" : "#FF891C")};
+    cursor: ${(props) => (props.disabled ? "default" : "pointer")};
+  }
   @media screen and (max-width: 600px) {
     width: 100%;
   }
