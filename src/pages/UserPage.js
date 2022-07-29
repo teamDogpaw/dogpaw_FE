@@ -11,26 +11,27 @@ import { useGetOtherData } from "../hook/usdOtherData";
 import { useParams } from "react-router-dom";
 import OtherProjects from "../components/OtherProjects";
 import { EmptyBody, EmptyImg } from "../components/ApplyList";
+import OtherJoinProjects from "./otherJoinProject";
 
 
 const UserPage = () => {
     const params = useParams();
     const othernickname = params.userNickname
-    const {data:othersPage, isLoading:isLoadingOtherPage} = useGetOtherData(othernickname)
+    // const otherUserNickname = encodeURI(encodeURIComponent(othernickname));
+    const {data:otherUser, isLoading:isLoadingOtherPage} = useGetOtherData(othernickname)
     const [currentTab, setTab] = useState(1);
-    
+    console.log(otherUser)
     const tabList = [
        {id: 1,
           name: "참여한 프로젝트",
-          content: <JoinProject currentTab={1} />,
+          content: <OtherJoinProjects currentTab={1} data={otherUser.data.acceptedPost}/>,
         },
         {
           id: 2,
           name: "작성한 프로젝트",
-          content: <OtherProjects currentTab={2} />,
+          content: <OtherProjects currentTab={2} data={otherUser.data.myPost} />,
         },
       ];
-      const userInfo = useRecoilValue(UserInfoAtom);
 
       if(isLoadingOtherPage){
         return(
@@ -44,19 +45,19 @@ const UserPage = () => {
      <PostBody>
 
           <ProfileWrap>
-            {userInfo?.profileImg === null ? (
-              <Profilepic src={profilepic} />
-            ) : (
-              <Profilepic src={userInfo?.profileImg} />
+            {otherUser?.data.userInfo.profileImg === null ? (
+              <Profilepic > <img src={profilepic} alt="profileImage" /> </Profilepic>
+              ) : (
+                <Profilepic> <img src={otherUser?.data.userInfo.profileImg} alt="profileImage" /> </Profilepic> 
             )}
             <Profile>
-              <h4>{userInfo?.nickname}</h4>
-              <p>{userInfo?.username}</p>
+              <h4>{otherUser?.data.userInfo?.nickname}</h4>
+              <p>{otherUser?.data.userInfo?.username}</p>
               <Stacks>
-                {userInfo?.stacks?.map((mystack, index) => {
+                {otherUser?.data.userInfo?.stacks?.map((stack, index) => {
                   return (
                     <MyStack key={index} style={{ marginTop: "10px" }}>
-                      #{mystack}
+                      #{stack}
                     </MyStack>
                   );
                 })}
@@ -83,7 +84,7 @@ const UserPage = () => {
           );
         })}
       </UserTabBody>
-      <div>{tabList[currentTab - 1].content}</div>
+      <div>{tabList[currentTab-1]?.content}</div>
      </WholeBody>
 
     </>)
