@@ -1,5 +1,5 @@
 import { MyStack, SelectBoxOpen, SelectBox, Option } from "../styles/style";
-import { ReactComponent as Delete } from "../styles/icon/global/stackDelete.svg"
+import { ReactComponent as Delete } from "../styles/icon/global/stackDelete.svg";
 import { useEffect, useRef, useState } from "react";
 import { useMatch } from "react-router-dom";
 import { Stacks } from "../utils/enums";
@@ -14,7 +14,6 @@ const StackSelector = ({
     isRegister
 }) => {
 
-
     const ALL_STACK = Object.values(Stacks)
 
     let [stack, setStack] = useState([])
@@ -28,7 +27,8 @@ const StackSelector = ({
         }
     }, [isEdit])
 
-    const stackdetailsRef = useRef(null);
+  const stackdetailsRef = useRef(null);
+
 
     const addStack = (newStack) => {
         if (!stack.includes(newStack)) {
@@ -45,7 +45,7 @@ const StackSelector = ({
         if (details) {
             details.open = false;
         }
-    }
+  };
 
     const removeStack = (selectedStack) => {
         const newStacks = stack.filter((stack) => stack !== selectedStack)
@@ -55,7 +55,7 @@ const StackSelector = ({
         }  else if (isRegister) {
             setRegisterData(newStacks)
         }
-    }
+  };
 
     return (
         <div>
@@ -87,12 +87,13 @@ const StackSelector = ({
         </div>
     )
 }
+
 export const StackWrap = styled.div`
-display: flex;
-flex-direction: row;
-margin: 20px 0px 10px;
-flex-wrap:wrap;
-gap: 10px;
+  display: flex;
+  flex-direction: row;
+  margin: 20px 0px 10px;
+  flex-wrap: wrap;
+  gap: 10px;
 `;
 
 export default StackSelector;

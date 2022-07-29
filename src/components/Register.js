@@ -16,9 +16,9 @@ import ModalOpen from "./Modal_prev";
 import { useSetRecoilState } from "recoil";
 import { modalContentAtom } from "../atom/atom";
 
-
 const Register = () => {
   const setModalContent = useSetRecoilState(modalContentAtom);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const isRegister = true;
@@ -73,8 +73,8 @@ const Register = () => {
       }
     }, 500);
   };
+
   //닉네임 중복 확인
-  
   const nickCheck = (data) => {
     if (debounce) {
       clearTimeout(debounce);
@@ -84,7 +84,7 @@ const Register = () => {
         let nickCheck = userApis.nickCheck;
         const response = await nickCheck(data);
         if (response.status === 200) {
-          setNickMessage("중복되지 않은 닉네임입니다.");
+          setNickMessage("사용 가능한 닉네임입니다.");
           setIsNick(true);
         }
       } catch (err) {
@@ -110,7 +110,7 @@ const Register = () => {
       setEmailMessage("이메일 형식을 다시 한번 확인해 주세요.");
       setIsEmail(false);
     } else {
-      setEmailMessage("알맞게 작성되었습니다 :)");
+      setEmailMessage("알맞게 작성되었습니다.");
       setIsEmail(true);
     }
   }, []);
@@ -121,19 +121,21 @@ const Register = () => {
       setNickMessage("3글자 이상, 10글자 미만으로 입력해주세요.");
       setIsNick(false);
     } else {
-      setNickMessage("알맞게 작성되었습니다 :)");
+      setNickMessage("알맞게 작성되었습니다.");
       setIsNick(true);
     }
   }, []);
 
   // 비밀번호
   const onChangePassword = useCallback((e) => {
-    const passwordRegex = /^[ㄱ-ㅎ가-힣0-9a-zA-Z@$!%#?&]{3,10}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z]).{8,15}$/;
     const passwordCurrent = e.target.value;
     setPassword(passwordCurrent);
 
     if (!passwordRegex.test(passwordCurrent)) {
-      setPasswordMessage("3글자 이상, 10글자 미만으로 입력해주세요. ");
+      setPasswordMessage(
+        "8글자 이상, 16글자 미만으로 대문자 포함해 입력해주세요. "
+      );
       setIsPassword(false);
     } else {
       setPasswordMessage("알맞게 작성되었습니다 :)");
@@ -165,6 +167,7 @@ const Register = () => {
     password: password,
     username: email,
     stacks: stack,
+    passwordConfirm,
   };
 
   useEffect(() => {
@@ -182,8 +185,8 @@ const Register = () => {
       setIsMobile(false);
       setIsNextPage(false);
     }
-    return () => window.removeEventListener('resize', handleResize)
-  }, [windowSize.width, windowSize.height])
+    return () => window.removeEventListener("resize", handleResize);
+  }, [windowSize.width, windowSize.height]);
 
   if (isNextPage) {
     return (
@@ -215,7 +218,7 @@ const Register = () => {
               </NicknameWrap>
               <p>
                 {nickName.length > 0 && (
-                  <span className={isNick ? "success" : "error"}>
+                  <span className={`message ${isNick ? "success" : "error"}`}>
                     {nickMessage}
                   </span>
                 )}
@@ -337,7 +340,7 @@ const Register = () => {
           <p>
             {passwordConfirm.length > 0 && (
               <span
-                className={`message${isPasswordConfirm ? "success" : "error"}`}
+                className={`message ${isPasswordConfirm ? "success" : "error"}`}
               >
                 {passwordConfirmMessage}
               </span>
@@ -364,6 +367,7 @@ const Register = () => {
                 isPassword &&
                 isPasswordConfirm &&
                 nickName &&
+                nickMessage.length === 14 &&
                 email &&
                 password &&
                 passwordConfirm &&

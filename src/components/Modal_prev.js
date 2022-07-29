@@ -9,6 +9,7 @@ import { modalContentAtom } from "../atom/atom";
 
 const ModalOpen = ({ viewModal, kakaoNick }) => {
   const [modalContent, setModalContent] = useRecoilState(modalContentAtom);
+
   let intFrameHeight = window.innerHeight;
 
   useEffect(() => {
@@ -35,9 +36,7 @@ const ModalOpen = ({ viewModal, kakaoNick }) => {
   return (
     <ModalBackground>
       <Modal className={intFrameHeight < 812 ? "smallHeight" : null}>
-        {kakaoNick ? (
-          null
-        ) : (
+        {kakaoNick ? null : (
           <ModalCloseButton onClick={viewModal}>
             <X />
           </ModalCloseButton>
