@@ -36,6 +36,7 @@ const ReplyComment = (props) => {
       return;
     }
     const replyData = { content: replyRef.current.value, replyId, id };
+    setIsEdit(false);
     await editReply(replyData);
     queryClient.invalidateQueries("commentList");
   };
