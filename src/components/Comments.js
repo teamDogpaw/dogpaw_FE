@@ -29,6 +29,9 @@ const Comments = () => {
   };
 
   const addCommentClick = async () => {
+    if(comment_ref.current.value === ""){
+      return;
+    }
     const commentData = { id, content: comment_ref.current.value };
     await addComment(commentData);
     comment_ref.current.value = "";

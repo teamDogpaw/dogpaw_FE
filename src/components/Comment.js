@@ -60,6 +60,9 @@ const Comment = ({ data }) => {
   };
 
   const addReplyClick = async () => {
+    if(replyRef.current.value === ""){
+      return;
+    }
     const replyData = { replyId, content: replyRef.current.value };
     await addReply(replyData);
     replyRef.current.value = "";
