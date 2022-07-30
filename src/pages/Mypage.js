@@ -350,7 +350,6 @@ const MyPage = () => {
 };
 
 export const WholeBody = styled.div`
-  overflow: hidden;
   max-width: 996px;
   margin: 0px auto 200px auto;
   @media screen and (max-width: 996px) {
