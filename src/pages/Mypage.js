@@ -45,15 +45,10 @@ const MyPage = () => {
   const detailsRef = useRef(null);
   const details = detailsRef.current;
 
-  const navigate = useNavigate();
-
 const [nickCheck, setNickCheck] = useState(true);
 const [nickMessage, setNickMessage] = useState("");
 
   const imageRef = useRef();
-
-  const [nickCheck, setNickCheck] = useState(true);
-  const [nickMessage, setNickMessage] = useState("");
 
   const [exitModalOpen, setExitModalOpen] = useState(false);
   const formData = new FormData();
