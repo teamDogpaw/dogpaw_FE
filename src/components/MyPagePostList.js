@@ -17,7 +17,7 @@ const MyPagePostList = ({
     viewApplyModal,
     currentTab
 }) => {
-console.log(data)
+//console.log(data)
     const isMypage = useMatch("/mypage")
     const [modalOpen, setModalOpen] = useState(false);
     //console.log(currentTab)

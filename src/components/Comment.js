@@ -16,12 +16,14 @@ import DropDown from "./DropDown";
 import { Btn, GrayLineBtn } from "../styles/style";
 import AlertModal from "./AlertModal";
 import { Content } from "./ApplyBtn";
+import ModalOpen from "./Modal_prev";
 
 const Comment = ({ data }) => {
   //대댓글 드롭다운 열기/닫기
   const [dropdownVisibility, setDropdownVisibility] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [modiModalOpen, setModiModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const params = useParams();
   const id = params.postId;
   const replyId = data.commentId;
@@ -67,7 +69,7 @@ const Comment = ({ data }) => {
   };
 
   const addReplyClick = async () => {
-    if(replyRef.current.value === ""){
+    if(isLogin && replyRef.current.value === ""){
       openModiModal();
       return;
     }
@@ -91,6 +93,18 @@ const Comment = ({ data }) => {
     setModiModalOpen(false);
   };
 
+
+  const viewModal = () => {
+    setIsModalOpen((prev) => !prev);
+  };
+
+  const userChk = () =>{
+    const isLogin = localStorage.getItem("token");
+    if(!isLogin){
+      viewModal();
+    }
+  }
+
   return (
     <div>
       <User>
@@ -113,22 +127,21 @@ const Comment = ({ data }) => {
           <>
             {isEdit ? (
               <>
-              <UpdateBtn
-                onClick={() => {
-                  modifyCommentClick(data.commentId);
-                }}
-              >
-                등록
-              </UpdateBtn>
-              <DeleteBtn onClick={() => setIsEdit(false)}>취소</DeleteBtn>
+                <UpdateBtn
+                  onClick={() => {
+                    modifyCommentClick(data.commentId);
+                  }}
+                >
+                  등록
+                </UpdateBtn>
+                <DeleteBtn onClick={() => setIsEdit(false)}>취소</DeleteBtn>
               </>
             ) : (
               <>
-              <ModiBtn onClick={() => setIsEdit(true)}>수정</ModiBtn>
-              <DeleteBtn onClick={openModal}>삭제</DeleteBtn>
+                <ModiBtn onClick={() => setIsEdit(true)}>수정</ModiBtn>
+                <DeleteBtn onClick={openModal}>삭제</DeleteBtn>
               </>
             )}
-            
           </>
         )}
       </CommentBtnBox>
@@ -145,7 +158,14 @@ const Comment = ({ data }) => {
                     ref={replyRef}
                     onKeyPress={onCheckEnter}
                   />
-                  <Button onClick={addReplyClick}>등록하기</Button>
+                  <Button
+                    onClick={() => {
+                      userChk();
+                      addReplyClick();
+                    }}
+                  >
+                    등록하기
+                  </Button>
                 </CommentBox>
               </Wrap>
             </li>
@@ -158,7 +178,11 @@ const Comment = ({ data }) => {
           <h4>댓글을 삭제하시겠습니까?</h4>
           <div>
             <GrayLineBtn onClick={closeModal}> 취소 </GrayLineBtn>
-            <Btn onClick={() => { deleteCommentClick(data.commentId)}}>
+            <Btn
+              onClick={() => {
+                deleteCommentClick(data.commentId);
+              }}
+            >
               삭제
             </Btn>
           </div>
@@ -173,6 +197,7 @@ const Comment = ({ data }) => {
           </div>
         </Content>
       </AlertModal>
+      {isModalOpen && <ModalOpen viewModal={viewModal} />}
     </div>
   );
 };

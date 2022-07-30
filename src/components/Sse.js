@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
 import {
   useDeleteAlert,
@@ -12,23 +12,26 @@ import styled from "styled-components";
 import { ReactComponent as Remove } from "../styles/icon/detail/remove.svg";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { alertListAtom, newAlertListAtom } from "../atom/atom";
+import {ReactComponent as Bell } from "../styles/icon/header/bell.svg";
+import {ReactComponent as NewBell} from "../styles/icon/header/newBell.svg";
 
 const Sse = () => {
+  const [alertOpen, setAlertOpen] = useState(false);
   const token = localStorage.getItem("token")
   const EventSource = EventSourcePolyfill || NativeEventSource;
   const setAlert = useSetRecoilState(alertListAtom);
   const [newAlert, setNewAlert] = useRecoilState(newAlertListAtom);
-  //const [unread,setUnread] = useState(); // 보류
+  const [unread,setUnread] = useState(); // 보류
   const queryClient = useQueryClient();
   const { data: alertList } = useGetMessageAlert();
-  //const { data: alertUnreadList} = useGetUnreadAlert(); 보류
+  const { data: alertUnreadList} = useGetUnreadAlert();
   const { mutateAsync: removeAlert } = useDeleteAlert();
   const { mutateAsync: removeAllAlert } = useDeleteAlertAll();
   const { mutateAsync: readAlert } = usePostReadAlert();
 
   const allList = alertList?.data;
-  //const unreadList = alertUnreadList?.data.count;
-  //console.log(allList)
+  const unreadList = alertUnreadList?.data.count;
+  //console.log(unread)
 
   useEffect(() => {
 
@@ -47,7 +50,9 @@ const Sse = () => {
       });
 
       sse.addEventListener("error", (e) => {
-        ////console.log("에러", e);
+        if (e) {
+          sse.close();
+        }
       });
     }
   }, [token]);
@@ -56,8 +61,9 @@ const Sse = () => {
   
     if (token) {
       setNewAlert(allList);
+      setUnread(unreadList);
     }
-  }, [token, allList, setNewAlert]);
+  }, [allList,unreadList,setUnread]);
 
   const messageDelete = async (id) => {
     await removeAlert(id);
@@ -76,11 +82,21 @@ const Sse = () => {
     queryClient.invalidateQueries("alertList");
   };
 
+  const openAlert = () => {
+    console.log(alertOpen)
+    setAlertOpen((prev) => !prev);
+  };
+
+
 
 
   return (
     <>
     <div>
+    {/* <Wrap>
+    { unread === 0 ? <BellIcon onClick={openAlert}/> : <NewBell onClick={openAlert}/>}
+    { alertOpen && <AlertContent>
+      <h4>나의 알림</h4> */}
       {newAlert?.length === 0 ? (
         <p>아직 알림이 없어요!</p>
       ) : (
@@ -116,10 +132,41 @@ const Sse = () => {
           })}
         </>
       )}
+    {/* </AlertContent>}
+   
+    
+    </Wrap> */}
     </div>
     </>
   );
 };
+
+// const Wrap = styled.div`
+// position:relative;
+// cursor: pointer;
+// `;
+
+
+// const AlertContent =  styled.div`
+
+// border-radius:8px;
+// width:250px;
+// height:300px;
+// padding:16px;
+// position:absolute;
+// top:40px;
+// right:-30px;
+// border: ${(props) => props.theme.border};
+//   background-color: ${(props) => props.theme.inputBoxBackground};
+//   box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.1);
+
+// h4 {
+//     margin-bottom: 10px;
+//     display: flex;
+//     justify-content: flex-start;
+//   }
+
+// `;
 
 const ListWrap = styled.div`
   display: flex;
@@ -127,20 +174,31 @@ const ListWrap = styled.div`
   
   span {
     padding-left: 8px;
-
+    /* cursor: pointer; */
     
   }
+
+  /* padding-top:5px;
+overflow-y: auto;
+
+&::-webkit-scrollbar {
+  width: 0px;
+  height: 9px;
+} */
 
 `;
 
 const List = styled.li`
 cursor: pointer;
-  position: relative;
+/* padding-top:10px; */
+position:relative;
   color: ${(props) => props.theme.textColor};
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   opacity: ${(props) => (props.status ? "0.5" : "1")};
+
+
 `;
 
 const AllDelete = styled.div`
@@ -166,5 +224,9 @@ const AllDelete = styled.div`
 const RemoveIcon = styled(Remove)`
   stroke: ${(props) => props.theme.removeBtnColor};
 `;
+
+// const BellIcon = styled(Bell)`
+// stroke:black;
+// `;
 
 export default Sse;

@@ -117,8 +117,8 @@ const Register = () => {
 
   const onChangeId = useCallback((e) => {
     setNickName(e.target.value);
-    if (e.target.value.length < 3 || e.target.value.length > 10) {
-      setNickMessage("3글자 이상, 10글자 미만으로 입력해주세요.");
+    if (e.target.value.length < 3 || e.target.value.length > 8) {
+      setNickMessage("3글자 이상, 8글자 아래로 정해주세요.");
       setIsNick(false);
     } else {
       setNickMessage("알맞게 작성되었습니다.");

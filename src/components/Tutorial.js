@@ -75,7 +75,7 @@ const Wrap = styled.div`
   right: 0;
   left: 0;
   z-index: 99;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.7);
 
 
   p {
@@ -99,7 +99,7 @@ display:flex;
 align-items:center;
   position: absolute;
   right: 190px;
-  top: 8%;
+  top: 90px;
   stroke: ${(props) => props.theme.textColor};
   p {
     color:  ${(props) => props.theme.textColor}
@@ -108,14 +108,14 @@ align-items:center;
 const Alert = styled.div`
   position: absolute;
   right: 100px;
-  top: 8%;
+  top: 90px;
   stroke: ${(props) => props.theme.textColor};
 `;
 
 const ArrowPost = styled.div`
   position: absolute;
   right: 220px;
-  top: 8%;
+  top: 100px;
 
   p {
     position: absolute;
@@ -127,7 +127,7 @@ const ArrowPost = styled.div`
 const ArrowAlert = styled.div`
   position: absolute;
   right: -10px;
-  top: 9%;
+  top: 120px;
 
   /* p {
   position:absolute;

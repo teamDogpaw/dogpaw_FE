@@ -1,7 +1,9 @@
 import { useRef, useState } from "react";
 import { useQueryClient } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import styled, { css } from "styled-components";
+import { UserInfoAtom } from "../atom/atom";
 import { useGetCommentList, usePostComment } from "../hook/useCommentData";
 import { Btn } from "../styles/style";
 import AlertModal from "./AlertModal";
@@ -12,6 +14,7 @@ import ReplyComment from "./ReplyComment";
 
 const Comments = () => {
   const params = useParams();
+  const isLogin = useRecoilValue(UserInfoAtom);
   const comment_ref = useRef("");
   const [modalOpen, setModalOpen] = useState(false);
   const [btnState, setBtnState] = useState(false);
@@ -31,7 +34,7 @@ const Comments = () => {
   };
 
   const addCommentClick = async () => {
-    if(comment_ref.current.value === ""){
+    if(isLogin && comment_ref.current.value === ""){
       openModal();
       return;
     }
@@ -49,6 +52,8 @@ const Comments = () => {
       setBtnState(false);
     }
   };
+
+  
 
   const viewModal = () => {
     setIsModalOpen((prev) => !prev);

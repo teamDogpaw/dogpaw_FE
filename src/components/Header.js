@@ -108,6 +108,7 @@ const Header = () => {
                   <Write />
                   게시글 작성{" "}
                 </StyledLink>
+                {/* <Sse/> */}
                 <Details>
                   <MessageList>
                     {newAlert?.length === 0 ? (
@@ -126,7 +127,6 @@ const Header = () => {
                     </AlertList>
                   </Message>
                 </Details>
-
                 <Details ref={detailsRef}>
                   <Summary>
                     <Profile src={userInfo?.profileImg || person} alt="" />
