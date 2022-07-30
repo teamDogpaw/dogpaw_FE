@@ -37,19 +37,6 @@ const Main = () => {
   const { data, status, fetchNextPage, isFetchingNextPage } =
     useGetKeepPostList();
 
-  /*   useEffect(() => {
-    let token = new URL(window.location.href).searchParams.get("token");
-    //console.log(token);
-    localStorage.setItem("token", token);
-    localStorage.setItem
-    // window.alert(
-    //   "사이트 이용 원활을 위해 마이페이지에서 추가 정보를 기입하세요.:)"
-    // );
-    if (token) {
-      window.location.replace("/");
-    }
-  }, []); */
-
   useEffect(() => {
     if (inView) fetchNextPage();
   }, [fetchNextPage, inView, filterList]);
@@ -302,6 +289,7 @@ const Wrap = styled.div`
   }
   h1 {
     font-size: 1.563rem;
+    line-height: 1.2;
   }
   p {
     font-size: 0.938rem;

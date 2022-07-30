@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
 import {
   useDeleteAlert,
@@ -10,31 +10,30 @@ import {
 import { useQueryClient } from "react-query";
 import styled from "styled-components";
 import { ReactComponent as Remove } from "../styles/icon/detail/remove.svg";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { alertListAtom, newAlertListAtom } from "../atom/atom";
-import {ReactComponent as Bell } from "../styles/icon/header/bell.svg";
-import {ReactComponent as NewBell} from "../styles/icon/header/newBell.svg";
+import { useSetRecoilState } from "recoil";
+import { alertListAtom } from "../atom/atom";
+import { ReactComponent as Bell } from "../styles/icon/header/bell.svg";
+import { ReactComponent as NewBell } from "../styles/icon/header/newBell.svg";
 
 const Sse = () => {
-  const [alertOpen, setAlertOpen] = useState(false);
-  const token = localStorage.getItem("token")
+  const ref = useRef(null);
+  const token = localStorage.getItem("token");
   const EventSource = EventSourcePolyfill || NativeEventSource;
-  const setAlert = useSetRecoilState(alertListAtom);
-  const [newAlert, setNewAlert] = useRecoilState(newAlertListAtom);
-  const [unread,setUnread] = useState(); // 보류
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [newAlert, setNewAlert] = useState([]);
+  const [unread, setUnread] = useState(0);
   const queryClient = useQueryClient();
   const { data: alertList } = useGetMessageAlert();
-  const { data: alertUnreadList} = useGetUnreadAlert();
+  const { data: alertUnreadList } = useGetUnreadAlert();
   const { mutateAsync: removeAlert } = useDeleteAlert();
   const { mutateAsync: removeAllAlert } = useDeleteAlertAll();
   const { mutateAsync: readAlert } = usePostReadAlert();
 
   const allList = alertList?.data;
   const unreadList = alertUnreadList?.data.count;
-  //console.log(unread)
+  //console.log(unreadList)
 
   useEffect(() => {
-
     if (token) {
       const sse = new EventSource("https://dogfaw.dasole.shop/subscribe", {
         headers: {
@@ -44,8 +43,7 @@ const Sse = () => {
 
       sse.addEventListener("message", (e) => {
         if (e.type === "message" && e.data.startsWith("{")) {
-          setAlert((prev) => [JSON.parse(e.data)]);
-          queryClient.invalidateQueries("alertList");
+          setNewAlert((prev) => [JSON.parse(e.data)]);
         }
       });
 
@@ -58,12 +56,30 @@ const Sse = () => {
   }, [token]);
 
   useEffect(() => {
-  
     if (token) {
       setNewAlert(allList);
       setUnread(unreadList);
+      queryClient.invalidateQueries("unreadList");
     }
-  }, [allList,unreadList,setUnread]);
+  }, [allList, unreadList]);
+
+  const openAlert = () => {
+    setAlertOpen((prev) => !prev);
+  };
+
+  const clickOutSide = (e) => {
+    //console.log(ref.current.contains(e.target))
+    if (alertOpen && !ref.current.contains(e.target)) {
+      setAlertOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (alertOpen) document.addEventListener("mousedown", clickOutSide);
+    return () => {
+      document.removeEventListener("mousedown", clickOutSide);
+    };
+  });
 
   const messageDelete = async (id) => {
     await removeAlert(id);
@@ -75,130 +91,121 @@ const Sse = () => {
     queryClient.invalidateQueries("alertList");
   };
 
-  const messageRead = async (id, url, status) => {
+  const messageRead = async (id, url) => {
     window.location.href = url;
     //console.log(id, url, status);
     await readAlert(id);
     queryClient.invalidateQueries("alertList");
   };
 
-  const openAlert = () => {
-    console.log(alertOpen)
-    setAlertOpen((prev) => !prev);
-  };
-
-
-
-
   return (
     <>
-    <div>
-    {/* <Wrap>
-    { unread === 0 ? <BellIcon onClick={openAlert}/> : <NewBell onClick={openAlert}/>}
-    { alertOpen && <AlertContent>
-      <h4>나의 알림</h4> */}
-      {newAlert?.length === 0 ? (
-        <p>아직 알림이 없어요!</p>
-      ) : (
-        <>
-          <AllDelete onClick={messageAllDelete}>
-            <RemoveIcon />
-            <span>전체삭제</span>
-          </AllDelete>
+      <Wrap ref={ref}>
+        {unread === 0 ? (
+          <BellIcon onClick={openAlert} />
+        ) : (
+          <NewBell onClick={openAlert} />
+        )}
 
-          {newAlert?.map((list) => {
-            return (
-              <ul key={list.id}>
-                <ListWrap>
-                  <List
-                    status={list.status}
-                    onClick={() => {
-                      messageRead(list.id, list.url, list.status);
-                    }}
-                  >
-                    {list.notificationContent}
-                  </List>
-                  <span
-                    onClick={() => {
-                      messageDelete(list.id);
-                    }}
-                  >
-                    <RemoveIcon />
-                   
-                  </span>
-                </ListWrap>
-              </ul>
-            );
-          })}
-        </>
-      )}
-    {/* </AlertContent>}
-   
-    
-    </Wrap> */}
-    </div>
+        {alertOpen && (
+          <AlertContent>
+            <h4>나의 알림</h4>
+            {newAlert?.length === 0 ? (
+              <p>아직 알림이 없어요!</p>
+            ) : (
+              <>
+                <AllDelete onClick={messageAllDelete}>
+                  <RemoveIcon />
+                  <span>전체삭제</span>
+                </AllDelete>
+
+                {newAlert?.map((list) => {
+                  return (
+                    <ul key={list.id}>
+                      <ListWrap>
+                        <List
+                          status={list.status}
+                          onClick={() => {
+                            messageRead(list.id, list.url, list.status);
+                          }}
+                        >
+                          {list.notificationContent}
+                        </List>
+                        <span
+                          onClick={() => {
+                            messageDelete(list.id);
+                          }}
+                        >
+                          <RemoveIcon />
+                        </span>
+                      </ListWrap>
+                    </ul>
+                  );
+                })}
+              </>
+            )}
+          </AlertContent>
+        )}
+      </Wrap>
     </>
   );
 };
 
-// const Wrap = styled.div`
-// position:relative;
-// cursor: pointer;
-// `;
+const Wrap = styled.div`
+  position: relative;
+  cursor: pointer;
+`;
 
+const AlertContent = styled.div`
+  border-radius: 8px;
+  width: 260px;
+  height: 280px;
+  padding: 16px;
+  position: absolute;
+  top: 35px;
+  right: -30px;
+  border: ${(props) => props.theme.border};
+  background-color: ${(props) => props.theme.inputBoxBackground};
+  box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.1);
 
-// const AlertContent =  styled.div`
+  h4 {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: flex-start;
+  }
 
-// border-radius:8px;
-// width:250px;
-// height:300px;
-// padding:16px;
-// position:absolute;
-// top:40px;
-// right:-30px;
-// border: ${(props) => props.theme.border};
-//   background-color: ${(props) => props.theme.inputBoxBackground};
-//   box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.1);
+  p {
+    padding: 10px 0;
+  }
 
-// h4 {
-//     margin-bottom: 10px;
-//     display: flex;
-//     justify-content: flex-start;
-//   }
+  overflow-y: auto;
 
-// `;
+  &::-webkit-scrollbar {
+    width: 0px;
+    height: 9px;
+  }
+`;
 
 const ListWrap = styled.div`
   display: flex;
   align-items: center;
-  
+  padding-top: 8px;
+
   span {
     padding-left: 8px;
-    /* cursor: pointer; */
-    
+    cursor: pointer;
   }
-
-  /* padding-top:5px;
-overflow-y: auto;
-
-&::-webkit-scrollbar {
-  width: 0px;
-  height: 9px;
-} */
-
 `;
 
 const List = styled.li`
-cursor: pointer;
-/* padding-top:10px; */
-position:relative;
+  cursor: pointer;
+  padding-top: 10px;
+  //position:relative;
   color: ${(props) => props.theme.textColor};
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   opacity: ${(props) => (props.status ? "0.5" : "1")};
-
-
 `;
 
 const AllDelete = styled.div`
@@ -225,8 +232,8 @@ const RemoveIcon = styled(Remove)`
   stroke: ${(props) => props.theme.removeBtnColor};
 `;
 
-// const BellIcon = styled(Bell)`
-// stroke:black;
-// `;
+const BellIcon = styled(Bell)`
+  stroke: ${(props) => props.theme.headerTextColor};
+`;
 
 export default Sse;

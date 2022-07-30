@@ -14,19 +14,15 @@ import logodark from "../styles/logo/logoDark.svg";
 import person from "../styles/icon/global/profile.svg";
 import arrowdown from "../styles/icon/global/arrowDown.svg";
 import { ReactComponent as Write } from "../styles/icon/detail/edit.svg";
-import { ReactComponent as Bell } from "../styles/icon/header/bell.svg";
-import newBell from "../styles/icon/header/newBell.svg";
-import {ReactComponent as GiftIcon} from "../styles/icon/header/gift.svg";
-import {ReactComponent as Arrow} from "../styles/icon/header/arrow.svg";
-
+import { ReactComponent as GiftIcon } from "../styles/icon/header/gift.svg";
+import { ReactComponent as Arrow } from "../styles/icon/header/arrow.svg";
 
 const Header = () => {
-  const newAlert = useRecoilValue(newAlertListAtom);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const detailsRef = useRef(null);
   const navigate = useNavigate();
   const isDark = useRecoilValue(DarkThemeAtom);
   const userInfo = useRecoilValue(UserInfoAtom);
-  const detailsRef = useRef(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const isLogin = localStorage.getItem("token");
 
   let [searchParams, setSearchParams] = useSearchParams();
@@ -72,13 +68,15 @@ const Header = () => {
   return (
     <>
       <Gift>
-      <a href="https://docs.google.com/forms/d/1LIU4LaYTaw1UWRPkThKzrF-jJ_1y3U_oj7OwVDOYjII/viewform?edit_requested=true" target="_black">
-        <div>
-          <GiftIcon/>
-          개발바닥에 대한 피드백 작성하시고
-          상품 받아가세요! ~7/30까지
-          <Arrow/>
-        </div>
+        <a
+          href="https://docs.google.com/forms/d/1LIU4LaYTaw1UWRPkThKzrF-jJ_1y3U_oj7OwVDOYjII/viewform?edit_requested=true"
+          target="_black"
+        >
+          <div>
+            <GiftIcon />
+            개발바닥에 대한 피드백 작성하시고 상품 받아가세요! ~7/30까지
+            <Arrow />
+          </div>
         </a>
       </Gift>
       {isModalOpen ? (
@@ -108,25 +106,7 @@ const Header = () => {
                   <Write />
                   게시글 작성{" "}
                 </StyledLink>
-                {/* <Sse/> */}
-                <Details>
-                  <MessageList>
-                    {newAlert?.length === 0 ? (
-                      <Bell />
-                    ) : (
-                      <img src={newBell} alt="" />
-                    )}
-                  </MessageList>
-                  <Message>
-                    <div>
-                      <h4>나의 알림</h4>
-                    </div>
-
-                    <AlertList>
-                      <Sse />
-                    </AlertList>
-                  </Message>
-                </Details>
+                <Message />
                 <Details ref={detailsRef}>
                   <Summary>
                     <Profile src={userInfo?.profileImg || person} alt="" />
@@ -162,53 +142,52 @@ const summaryStyle = css`
 `;
 
 const Gift = styled.div`
-cursor: pointer;
-background-color:${props =>props.theme.keyColor};
-width: 100%;
-height: 60px;
-position:fixed;
-top:0;
-z-index:40;
-display:flex;
-justify-content:center ;
-align-items:center;
+  cursor: pointer;
+  background-color: ${(props) => props.theme.keyColor};
+  width: 100%;
+  height: 60px;
+  position: fixed;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-a{
-  text-decoration:none;
-}
-
-div {
-  gap:5px;
-  display:flex;
-  align-items:center;
-  font-weight: bold;
-  color:${props => props.theme.textColor_btn};
-
-  svg{
-    fill:${props => props.theme.textColor_btn};
+  a {
+    text-decoration: none;
   }
 
- @media screen and (max-width:786px){
-  width:360px;
-  justify-content:space-between;
-  text-align:center;
-  //background-color:gold;
-  
- }
-}
+  div {
+    gap: 5px;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    color: ${(props) => props.theme.textColor_btn};
+
+    svg {
+      fill: ${(props) => props.theme.textColor_btn};
+    }
+
+    @media screen and (max-width: 786px) {
+      width: 360px;
+      justify-content: space-between;
+      text-align: center;
+    }
+  }
 `;
 
 const Wrap = styled.header`
   background-color: ${(props) => props.theme.backgroundColor};
-  box-shadow: ${(props)=>props.theme.boxShadow};
+  box-shadow: ${(props) => props.theme.boxShadow};
   width: 100%;
   height: 80px;
   margin-bottom: 10px;
   display: flex;
+  justify-content: center;
   align-items: center;
   position: fixed;
   z-index: 30;
-  margin-top:60px;
+  margin-top: 60px;
 
   p {
     font-size: 1rem;
@@ -239,7 +218,7 @@ const ContentWrap = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: auto;
+  margin: 0 40px;
 
   @media (max-width: 770px) {
     margin: 0px 20px;
@@ -254,7 +233,6 @@ const Contain = styled.div`
 `;
 
 const User = styled.div`
-
   display: flex;
   align-items: center;
   text-align: center;
@@ -329,7 +307,7 @@ const StyledLink = styled(Link)`
 `;
 
 const Option = styled.li`
-cursor: pointer;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -344,7 +322,7 @@ const Option2 = styled(Option)`
   }
 `;
 
-const Message = styled.ul`
+const Message = styled(Sse)`
   ${summaryStyle}
   right:0;
   width: 350px;
@@ -359,7 +337,7 @@ const Message = styled.ul`
 
   li {
     padding: 14px 0;
-    padding-right:5px;
+    padding-right: 5px;
   }
 
   @media screen and (max-width: 786px) {
@@ -371,27 +349,5 @@ const Message = styled.ul`
     }
   }
 `;
-const AlertList = styled.li`
-  height: 300px;
 
-  padding-top:5px;
-  overflow-y: auto;
-
-  &::-webkit-scrollbar {
-    width: 0px;
-    height: 9px;
-  }
-  /* &::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    border: ${props => props.theme.border};
-    background: ${props => props.theme.scrollBackgroundColor};
-  } */
-
-  @media screen and (max-width:786px) {
-    height:220px;
-  }
-`;
-const MessageList = styled.summary`
-  stroke: ${(props) => props.theme.headerTextColor};
-`;
 export default Header;
