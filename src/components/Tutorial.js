@@ -75,7 +75,7 @@ const Wrap = styled.div`
   right: 0;
   left: 0;
   z-index: 99;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.7);
 
 
   p {
