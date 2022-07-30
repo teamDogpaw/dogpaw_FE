@@ -330,7 +330,6 @@ const [nickMessage, setNickMessage] = useState("");
 };
 
 export const WholeBody = styled.div`
-overflow-x: hidden;
   max-width: 996px;
   margin: 0px auto 200px auto;
   @media screen and (max-width: 996px) {
