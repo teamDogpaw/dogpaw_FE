@@ -54,7 +54,7 @@ const MyPage = () => {
   const detailsRef = useRef(null);
   const details = detailsRef.current;
   const navigate = useNavigate();
-const [nickCheck, setNickCheck] = useState("");
+const [nickCheck, setNickCheck] = useState(true);
 const [nickMessage, setNickMessage] = useState("");
   const imageRef = useRef();
   const [exitModalOpen, setExitModalOpen] = useState(false);
@@ -131,6 +131,15 @@ const [nickMessage, setNickMessage] = useState("");
 
   const { mutateAsync: profileEdit } = useMyProfileEdit();
   const { mutateAsync: imageReSet } = useMyProfileReset();
+
+  const imageResetBtn = () => {
+    imageReSet()
+    setImagePreview(null)
+    setMyData((prev)=>({...prev,profileImg:null}));
+    queryClient.invalidateQueries("userInfo");
+   
+
+  }
 
   const encodeFileToBase64 = (img) => {
     //console.log(img);
@@ -209,12 +218,12 @@ const [nickMessage, setNickMessage] = useState("");
       <PostBody>
         {isEdit ? (
           <ProfileWrap>
+   <ProfilePicWrap>
             {imagePreview === null ? (
              <Profilepic > <img src={profilepic} alt="profileImage" /> </Profilepic>
             ) : (
               <Profilepic> <img src={imagePreview} alt="profileImage" /> </Profilepic> 
             )}
-            <form>
               <File>
                 <label htmlFor="profile">
                   <div>
@@ -229,6 +238,9 @@ const [nickMessage, setNickMessage] = useState("");
                   onChange={(event) => editImg(event)}
                 />
               </File>
+        
+              </ProfilePicWrap>
+         
 
               <Profile>
                 <input
@@ -242,10 +254,10 @@ const [nickMessage, setNickMessage] = useState("");
          
                 <StackSelector data={myData} setSelectedData={setMyData} />
               </Profile>
-            </form>
+          
             <BtnWrap>
-              <Button3 onClick={exitBtnOpen}>회원 정보 삭제</Button3>
-              <Button2 onClick={imageReSet}>기본 이미지로 변경</Button2>
+              <Button3 onClick={exitBtnOpen}>회원 탈퇴</Button3>
+              <Button2 onClick={imageResetBtn}>기본 이미지로 변경</Button2>
             </BtnWrap>
 
             <Button type="submit" onClick={EditMyData} disabled={!(nickCheck)} >편집 완료</Button>
@@ -394,7 +406,6 @@ const BtnWrap = styled.div`
 const MySelectBoxOpen = styled(SelectBoxOpen)`
   position: absolute;
   min-width: 375px;
-
   margin-left: 15px;
   border: transparent;
 `;
@@ -436,21 +447,25 @@ text-align: center;
   }
 `;
 const File = styled.div`
+
   div {
     position: absolute;
-    bottom: 10px;
-    left: 115px;
+    bottom: 0px;
+    left: 120px;
+    box-shadow: ${(props)=>props.theme.boxShadow};
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background-color: ${(props) => props.theme.keyColor};
 
-    @media screen and (max-width: 600px) {
-      left: 45px;
-      top: 95px;
+    @media screen and (max-width: 650px) {
+      bottom: -10px;
+    left: 45px;
+    width: 35px;
+    height: 35px;
     }
   }
 
@@ -479,6 +494,7 @@ export const Tab = styled.div`
 
 export const ProfileWrap = styled.div`
   display: flex;
+  flex-direction: row;
   align-items: center;
   position: relative;
 
@@ -501,6 +517,11 @@ export const ModalContent = styled.div`
 const ModalBtn = styled(Btn)`
   position: absolute;
   bottom: 10px;
+`;
+const ProfilePicWrap = styled.div`
+display: flex;
+
+position: relative;
 `;
 
 export const Profile = styled.div`
@@ -558,12 +579,8 @@ const Button = styled(Btn)`
   position: absolute;
   right: 0;
   bottom: 0;
-  background-color: ${(props) =>
-    props.disabled ? "#E1E1E1" : props.theme.keyColor};
-  :hover {
-    background-color: ${(props) => (props.disabled ? "#E1E1E1" : "#FF891C")};
-    cursor: ${(props) => (props.disabled ? "default" : "pointer")};
-  }
+  background-color: ${(props) => props.theme.keyColor};
+  
   @media screen and (max-width: 600px) {
     width: 100%;
   }
