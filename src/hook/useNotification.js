@@ -6,7 +6,7 @@ export function useGetMessageAlert() {
 }
 
 export function useGetUnreadAlert() {
-  return useQuery("alertList", informApis.notificationCnt);
+  return useQuery("unreadList", informApis.notificationCnt);
 }
 
 export function usePostReadAlert() {
