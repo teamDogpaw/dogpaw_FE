@@ -31,7 +31,7 @@ const ReplyComment = (props) => {
   const { mutateAsync: editReply } = useEditReply();
 
   const modifyReplyClick = async (replyId) => {
-    if(replyRef.current.value === ""){
+    if (replyRef.current.value === "") {
       openModiModal();
       return;
     }
@@ -100,11 +100,10 @@ const ReplyComment = (props) => {
                 </>
               ) : (
                 <>
-                <ModiBtn onClick={() => setIsEdit(true)}>수정</ModiBtn>
-                <DeleteBtn onClick={openModal}>삭제</DeleteBtn>
+                  <ModiBtn onClick={() => setIsEdit(true)}>수정</ModiBtn>
+                  <DeleteBtn onClick={openModal}>삭제</DeleteBtn>
                 </>
               )}
-              
             </>
           )}
         </CommentBtnBox>
@@ -112,7 +111,7 @@ const ReplyComment = (props) => {
 
       <AlertModal open={modalOpen}>
         <Content>
-          <h4>댓글을 삭제하시겠습니까?</h4>
+          <h4>대 댓글을 삭제하시겠습니까?</h4>
           <div>
             <GrayLineBtn onClick={closeModal}> 취소 </GrayLineBtn>
             <Btn
@@ -183,7 +182,5 @@ const CommentBtnBox = styled.div`
   display: flex;
   justify-content: flex-end;
 `;
-
-
 
 export default ReplyComment;
