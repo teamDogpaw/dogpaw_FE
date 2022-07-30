@@ -262,14 +262,7 @@ const [nickMessage, setNickMessage] = useState("");
                 </InputContent>
               </Profile>
 
-            <BtnWrap>
-              <Button3 onClick={exitBtnOpen}>회원 탈퇴</Button3>
-              <Button2 onClick={imageResetBtn}>기본 이미지로 변경</Button2>
-            </BtnWrap>
-
-            <Button type="submit" onClick={EditMyData} disabled={!nickCheck}>
-              편집 완료
-            </Button>
+           
           </ProfileWrap>
           <BtnWrap>
         
