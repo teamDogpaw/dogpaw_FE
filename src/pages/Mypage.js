@@ -32,6 +32,7 @@ import { SelectArrow } from "../components/WriteSelect";
 import AlertModal from "../components/AlertModal";
 import { Content } from "../components/ApplyBtn";
 import { useQueryClient } from "react-query";
+import { InputContent } from "../components/Login";
 
 const MyPage = () => {
   const userInfo = useRecoilValue(UserInfoAtom);
@@ -54,8 +55,8 @@ const MyPage = () => {
   const detailsRef = useRef(null);
   const details = detailsRef.current;
   const navigate = useNavigate();
-const [nickCheck, setNickCheck] = useState("");
-const [nickMessage, setNickMessage] = useState("");
+  const [nickCheck, setNickCheck] = useState("");
+  const [nickMessage, setNickMessage] = useState("");
   const imageRef = useRef();
   const [exitModalOpen, setExitModalOpen] = useState(false);
   const formData = new FormData();
@@ -65,7 +66,11 @@ const [nickMessage, setNickMessage] = useState("");
   const tabList = [
     { id: 1, name: "관심 프로젝트", content: <Bookmark currentTab={1} /> },
     { id: 2, name: "참여한 프로젝트", content: <JoinProject currentTab={2} /> },
-    { id: 3, name: "신청한 프로젝트", content: <ApplyProject currentTab={3} />},
+    {
+      id: 3,
+      name: "신청한 프로젝트",
+      content: <ApplyProject currentTab={3} />,
+    },
     { id: 4, name: "내가 쓴 프로젝트", content: <MyProject currentTab={4} /> },
   ];
 
@@ -112,22 +117,20 @@ const [nickMessage, setNickMessage] = useState("");
 
     formData.append("body", blob);
 
-   try {
-    const response = await profileEdit(formData);
+    try {
+      const response = await profileEdit(formData);
       setIsEdit(false);
       queryClient.invalidateQueries("userinfo");
       setNickCheck(true);
-  } catch(error){
-    if(error.response.status === 400){
-      console.log(error.response.status)
-      setNickCheck(false);
-      setNickMessage("중복된 닉네임입니다");
-      console.log(nickCheck)
+    } catch (error) {
+      if (error.response.status === 400) {
+        console.log(error.response.status);
+        setNickCheck(false);
+        setNickMessage("중복된 닉네임입니다");
+        console.log(nickCheck);
+      }
     }
-  }   
   };
-
-
 
   const { mutateAsync: profileEdit } = useMyProfileEdit();
   const { mutateAsync: imageReSet } = useMyProfileReset();
@@ -153,14 +156,14 @@ const [nickMessage, setNickMessage] = useState("");
 
   const editNickname = (e) => {
     const newNickname = e.target.value;
-    console.log(newNickname)
+    console.log(newNickname);
     setMyData((prev) => ({ ...prev, nickname: newNickname }));
-    if(newNickname.length < 3 || newNickname.length > 8) {
+    if (newNickname.length < 3 || newNickname.length > 8) {
       setNickCheck(false);
-      setNickMessage("3글자 이상, 10글자 미만으로 입력해주세요.")
+      setNickMessage("3글자 이상, 8글자 아래로 정해주세요.");
     } else {
       setNickCheck(true);
-      setNickMessage("알맞게 작성 되었습니다.")
+      setNickMessage("알맞게 작성 되었습니다.");
     }
   };
 
@@ -210,11 +213,17 @@ const [nickMessage, setNickMessage] = useState("");
         {isEdit ? (
           <ProfileWrap>
             {imagePreview === null ? (
-             <Profilepic > <img src={profilepic} alt="profileImage" /> </Profilepic>
+              <Profilepic>
+                {" "}
+                <img src={profilepic} alt="profileImage" />{" "}
+              </Profilepic>
             ) : (
-              <Profilepic> <img src={imagePreview} alt="profileImage" /> </Profilepic> 
+              <Profilepic>
+                {" "}
+                <img src={imagePreview} alt="profileImage" />{" "}
+              </Profilepic>
             )}
-            <form>
+            <ProfileForm>
               <File>
                 <label htmlFor="profile">
                   <div>
@@ -235,27 +244,38 @@ const [nickMessage, setNickMessage] = useState("");
                   defaultValue={userInfo?.nickname}
                   onChange={(event) => editNickname(event)}
                 />
-                {myData?.nickname.length > 0 ? 
-                <AlertMessage className={nickCheck ? "success" : "error"}>{nickMessage}</AlertMessage> 
-                : null}
+                {myData?.nickname.length > 0 ? (
+                  <AlertMessage className={nickCheck ? "success" : "error"}>
+                    {nickMessage}
+                  </AlertMessage>
+                ) : null}
                 <p>{userInfo.username}</p>
-         
-                <StackSelector data={myData} setSelectedData={setMyData} />
+                <InputContent>
+                  <StackSelector data={myData} setSelectedData={setMyData} />
+                </InputContent>
               </Profile>
-            </form>
+            </ProfileForm>
             <BtnWrap>
               <Button3 onClick={exitBtnOpen}>회원 정보 삭제</Button3>
               <Button2 onClick={imageReSet}>기본 이미지로 변경</Button2>
             </BtnWrap>
 
-            <Button type="submit" onClick={EditMyData} disabled={!(nickCheck)} >편집 완료</Button>
+            <Button type="submit" onClick={EditMyData} disabled={!nickCheck}>
+              편집 완료
+            </Button>
           </ProfileWrap>
         ) : (
           <ProfileWrap>
             {userInfo?.profileImg === null ? (
-              <Profilepic > <img src={profilepic} alt="profileImage" /> </Profilepic>
+              <Profilepic>
+                {" "}
+                <img src={profilepic} alt="profileImage" />{" "}
+              </Profilepic>
             ) : (
-              <Profilepic> <img src={myData?.profileImg} alt="profileImage" /> </Profilepic> 
+              <Profilepic>
+                {" "}
+                <img src={myData?.profileImg} alt="profileImage" />{" "}
+              </Profilepic>
             )}
             <Profile>
               <h4>{userInfo?.nickname}</h4>
@@ -330,7 +350,7 @@ const [nickMessage, setNickMessage] = useState("");
 };
 
 export const WholeBody = styled.div`
-overflow-x: hidden;
+  overflow: hidden;
   max-width: 996px;
   margin: 0px auto 200px auto;
   @media screen and (max-width: 996px) {
@@ -342,6 +362,17 @@ overflow-x: hidden;
     margin: auto;
   }
   position: relative;
+`;
+
+const ProfileForm = styled.div`
+  width: 600px;
+  height: 180px;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const MyOption = styled(Option)`
@@ -370,12 +401,12 @@ const TabBox = styled.summary`
 `;
 
 const AlertMessage = styled.span`
-font-size: 0.75rem;
-color: ${(props) => props.theme.keyColor};
+  font-size: 0.75rem;
+  color: ${(props) => props.theme.keyColor};
 
-&.error{
-  color:${(props) => props.theme.errorColor};
-}
+  &.error {
+    color: ${(props) => props.theme.errorColor};
+  }
 `;
 
 const BtnWrap = styled.div`
@@ -413,21 +444,20 @@ const Leftarrow = styled(Arrow)`
 `;
 
 export const Profilepic = styled.div`
- width: 160px;
-height: 160px;
+  width: 160px;
+  height: 160px;
   border-radius: 80px;
   overflow: hidden;
-text-align: center;
+  text-align: center;
   /* position: relative; */
-  
-  img{
-    align-self: center;
-   display: block;
-   margin: auto;
-    width: 100%;
-  height: 100%;
-  object-fit: cover;
 
+  img {
+    align-self: center;
+    display: block;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   @media screen and (max-width: 650px) {
@@ -463,7 +493,6 @@ const File = styled.div`
   }
 `;
 
-
 export const Tab = styled.div`
   line-height: 48px;
   color: ${(props) => props.theme.keyColor};
@@ -484,7 +513,6 @@ export const ProfileWrap = styled.div`
   position: relative;
 
   @media screen and (max-width: 600px) {
-  
   }
 `;
 
@@ -505,10 +533,10 @@ const ModalBtn = styled(Btn)`
 `;
 
 export const Profile = styled.div`
-display: flex;
-flex-direction: column;
- gap: 5px;
- margin-left: 5%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-left: 5%;
 
   p {
     color: #777777;
@@ -522,7 +550,7 @@ flex-direction: column;
     border: ${(props) => props.theme.border};
     border-radius: 8px;
     background-color: ${(props) => props.theme.inputBoxBackground};
-    :focus{
+    :focus {
       outline: none;
     }
     font-size: 1rem;
