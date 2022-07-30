@@ -19,6 +19,7 @@ const Sse = () => {
   const ref = useRef(null);
   const token = localStorage.getItem("token");
   const EventSource = EventSourcePolyfill || NativeEventSource;
+  //const setAlert = useSetRecoilState(alertListAtom);
   const [alertOpen, setAlertOpen] = useState(false);
   const [newAlert, setNewAlert] = useState([]);
   const [unread, setUnread] = useState(0);
@@ -43,7 +44,9 @@ const Sse = () => {
 
       sse.addEventListener("message", (e) => {
         if (e.type === "message" && e.data.startsWith("{")) {
-          setNewAlert((prev) => [JSON.parse(e.data)]);
+         setNewAlert((prev) => [JSON.parse(e.data)]);
+          
+          queryClient.invalidateQueries("alertList");
         }
       });
 
@@ -53,7 +56,7 @@ const Sse = () => {
         }
       });
     }
-  }, [token]);
+  }, [token,newAlert]);
 
   useEffect(() => {
     if (token) {
