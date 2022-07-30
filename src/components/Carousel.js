@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 const Carousel = () => {
   const settings = {
     arrows: false,
-    dots: false,
+    dots: true,
     infinite: true,
     speed: 1800,
     slidesToShow: 1,
@@ -81,20 +81,23 @@ const Wrap = styled.div`
     border-radius: 15px;
   }
 
-  /* .slick-dots {
+  .slick-dots  {
+    position:absolute;
+    bottom:10px;
+  }
+
+  .slick-dots {
     .slick-active {
       button::before {
         color: ${(props) => props.theme.keyColor};
-        position: absolute;
-        top: -40px;
+        
       }
     }
     button::before {
-      color: #eee;
-      position: absolute;
-      top: -40px;
+      color: #777777;
+    
     }
-  } */
+  }
  
 
 
