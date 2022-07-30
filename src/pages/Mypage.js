@@ -2,25 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import Bookmark from "../components/Bookmark";
 import MyProject from "../components/MyProject";
 import JoinProject from "../components/JoinProject";
-import { Navigate, useNavigate } from "react-router-dom";
-import {
-  Btn,
-  GrayLineBtn,
-  LineBtn,
-  MyStack,
-  Option,
-  PostBody,
-  SelectBox,
-  SelectBoxOpen,
-  TabBody,
-} from "../styles/style";
+import { useNavigate } from "react-router-dom";
+import { Btn,GrayLineBtn,LineBtn,MyStack,Option,PostBody,SelectBoxOpen,TabBody} from "../styles/style";
 import styled from "styled-components";
 import { ReactComponent as Arrow } from "../styles/icon/detail/backArrow.svg";
-
-import {
-  useMyProfileReset,
-  useMyProfileEdit,
-} from "../hook/useProfileMutation";
+import {useMyProfileReset,useMyProfileEdit } from "../hook/useProfileMutation";
 import { useRecoilValue } from "recoil";
 import { UserInfoAtom } from "../atom/atom";
 import profilepic from "../styles/icon/global/profile.svg";
@@ -38,25 +24,30 @@ const MyPage = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [currentTab, setTab] = useState(1);
   const [imagePreview, setImagePreview] = useState();
-  const [isMobile, setIsMobile] = useState();
-  const [myData, setMyData] = useState({
-    profileImg: userInfo?.profileImg,
-    nickname: userInfo?.nickname,
-    stacks: userInfo?.stacks,
-  });
-  const queryClient = useQueryClient();
 
+  const [isMobile, setIsMobile] = useState();
   const [modalOpen, setModalOpen] = useState(false);
   const [windowSize, setWindowSize] = useState({
     width: undefined,
     height: undefined,
   });
+
+  const [myData, setMyData] = useState({
+    profileImg: userInfo?.profileImg,
+    nickname: userInfo?.nickname,
+    stacks: userInfo?.stacks,
+  });
+
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  
   const detailsRef = useRef(null);
   const details = detailsRef.current;
-  const navigate = useNavigate();
-const [nickCheck, setNickCheck] = useState(true);
-const [nickMessage, setNickMessage] = useState("");
   const imageRef = useRef();
+
+  const [nickCheck, setNickCheck] = useState(true);
+  const [nickMessage, setNickMessage] = useState("");
+
   const [exitModalOpen, setExitModalOpen] = useState(false);
   const formData = new FormData();
   const token = localStorage.getItem("token");
@@ -217,6 +208,7 @@ const [nickMessage, setNickMessage] = useState("");
 
       <PostBody>
         {isEdit ? (
+          <>
           <ProfileWrap>
    <ProfilePicWrap>
             {imagePreview === null ? (
@@ -255,13 +247,17 @@ const [nickMessage, setNickMessage] = useState("");
                 <StackSelector data={myData} setSelectedData={setMyData} />
               </Profile>
           
-            <BtnWrap>
-              <Button3 onClick={exitBtnOpen}>회원 탈퇴</Button3>
-              <Button2 onClick={imageResetBtn}>기본 이미지로 변경</Button2>
-            </BtnWrap>
+            
 
-            <Button type="submit" onClick={EditMyData} disabled={!(nickCheck)} >편집 완료</Button>
+          
           </ProfileWrap>
+          <BtnWrap>
+        
+          <Button onClick={imageResetBtn}>기본 이미지로 변경</Button>
+          <Button type="submit" onClick={EditMyData} disabled={!(nickCheck)} >편집 완료</Button>
+          <Button3 onClick={exitBtnOpen}>회원 탈퇴</Button3>
+        </BtnWrap>
+        </>
         ) : (
           <ProfileWrap>
             {userInfo?.profileImg === null ? (
@@ -396,7 +392,7 @@ const BtnWrap = styled.div`
   flex-direction: column;
   text-align: right;
   gap: 10px;
-
+margin-top: 10px;
   span {
     color: ${(props) => props.theme.errorColor};
     font-size: 0.875rem;
@@ -576,12 +572,12 @@ export const Stacks = styled.div`
 `;
 
 const Button = styled(Btn)`
-  position: absolute;
-  right: 0;
-  bottom: 0;
   background-color: ${(props) => props.theme.keyColor};
-  
+  width: 200px;
+  margin-left: auto;
+
   @media screen and (max-width: 600px) {
+    position: relative;
     width: 100%;
   }
 `;
@@ -591,6 +587,7 @@ const Button2 = styled(Btn)`
 `;
 
 const Button3 = styled.div`
+margin-top: 20px;
   color: ${(props) => props.theme.errorColor};
   font-size: 0.875rem;
   cursor: pointer;
