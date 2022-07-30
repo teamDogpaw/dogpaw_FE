@@ -91,10 +91,12 @@ const Sse = () => {
 
 
   return (
-    <Wrap>
+    <>
+    <div>
+    {/* <Wrap>
     { unread === 0 ? <BellIcon onClick={openAlert}/> : <NewBell onClick={openAlert}/>}
     { alertOpen && <AlertContent>
-      <h4>나의 알림</h4>
+      <h4>나의 알림</h4> */}
       {newAlert?.length === 0 ? (
         <p>아직 알림이 없어요!</p>
       ) : (
@@ -130,39 +132,41 @@ const Sse = () => {
           })}
         </>
       )}
-    </AlertContent>}
+    {/* </AlertContent>}
    
     
-    </Wrap>
+    </Wrap> */}
+    </div>
+    </>
   );
 };
 
-const Wrap = styled.div`
-position:relative;
-cursor: pointer;
-`;
+// const Wrap = styled.div`
+// position:relative;
+// cursor: pointer;
+// `;
 
 
-const AlertContent =  styled.div`
+// const AlertContent =  styled.div`
 
-border-radius:8px;
-width:250px;
-height:300px;
-padding:16px;
-position:absolute;
-top:40px;
-right:-30px;
-border: ${(props) => props.theme.border};
-  background-color: ${(props) => props.theme.inputBoxBackground};
-  box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.1);
+// border-radius:8px;
+// width:250px;
+// height:300px;
+// padding:16px;
+// position:absolute;
+// top:40px;
+// right:-30px;
+// border: ${(props) => props.theme.border};
+//   background-color: ${(props) => props.theme.inputBoxBackground};
+//   box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.1);
 
-h4 {
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: flex-start;
-  }
+// h4 {
+//     margin-bottom: 10px;
+//     display: flex;
+//     justify-content: flex-start;
+//   }
 
-`;
+// `;
 
 const ListWrap = styled.div`
   display: flex;
@@ -170,23 +174,24 @@ const ListWrap = styled.div`
   
   span {
     padding-left: 8px;
-    cursor: pointer;
+    /* cursor: pointer; */
     
   }
 
-  padding-top:5px;
+  /* padding-top:5px;
 overflow-y: auto;
 
 &::-webkit-scrollbar {
   width: 0px;
   height: 9px;
-}
+} */
 
 `;
 
 const List = styled.li`
 cursor: pointer;
-padding-top:10px;
+/* padding-top:10px; */
+position:relative;
   color: ${(props) => props.theme.textColor};
   overflow: hidden;
   white-space: nowrap;
@@ -220,8 +225,8 @@ const RemoveIcon = styled(Remove)`
   stroke: ${(props) => props.theme.removeBtnColor};
 `;
 
-const BellIcon = styled(Bell)`
-stroke:black;
-`;
+// const BellIcon = styled(Bell)`
+// stroke:black;
+// `;
 
 export default Sse;

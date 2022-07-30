@@ -108,8 +108,8 @@ const Header = () => {
                   <Write />
                   게시글 작성{" "}
                 </StyledLink>
-                <Sse/>
-                {/* <Details>
+                {/* <Sse/> */}
+                <Details>
                   <MessageList>
                     {newAlert?.length === 0 ? (
                       <Bell />
@@ -126,7 +126,7 @@ const Header = () => {
                       <Sse />
                     </AlertList>
                   </Message>
-                </Details> */}
+                </Details>
                 <Details ref={detailsRef}>
                   <Summary>
                     <Profile src={userInfo?.profileImg || person} alt="" />
@@ -344,7 +344,7 @@ const Option2 = styled(Option)`
   }
 `;
 
-const Message = styled(Sse)`
+const Message = styled.ul`
   ${summaryStyle}
   right:0;
   width: 350px;
