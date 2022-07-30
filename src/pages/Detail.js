@@ -30,6 +30,7 @@ const Detail = () => {
 
   const author = postList?.data.nickname;
   const userStatus = postList?.data.userStatus;
+  //console.log(userStatus)
 
   const queryClient = useQueryClient();
   const { mutateAsync: deletePost } = useDeletePost();
@@ -97,7 +98,7 @@ const Detail = () => {
           </User>
 
           <Userbtn>
-            {userStatus === "author" && (
+            {(userStatus === "author" || userStatus === "master") && (
               <>
                 <ModifyBtn
                   onClick={() =>

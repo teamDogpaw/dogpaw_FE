@@ -10,13 +10,3 @@ export const modalContentAtom = atom({
   key: "modalContentAtom",
   default: <Login />,
 });
-
-export const alertListAtom = atom({
-  key: "alertList",
-  default: [],
-});
-
-export const newAlertListAtom = atom({
-  key: "newAlertList",
-  default: [],
-});
