@@ -55,9 +55,9 @@ const Detail = () => {
   };
 
   const openModal = () => {
-    console.log("mm")
     setModalOpen(true);
   };
+  
   const closeModal = () => {
     setModalOpen(false);
   };
