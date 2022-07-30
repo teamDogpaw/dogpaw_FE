@@ -4,11 +4,10 @@ import arrowDeadline from "../styles/icon/tutorial/arrowDeadline.svg";
 import arrowDetail from "../styles/icon/tutorial/arrowDetail.svg";
 import arrowMode from "../styles/icon/tutorial/arrowMode.svg";
 import arrowAlert from "../styles/icon/tutorial/arrowAlert.svg";
-import {ReactComponent as Pen} from "../styles/icon/detail/edit.svg";
-import {ReactComponent as  Bell} from "../styles/icon/header/bell.svg";
+import { ReactComponent as Pen } from "../styles/icon/detail/edit.svg";
+import { ReactComponent as Bell } from "../styles/icon/header/bell.svg";
 
 const Tutoral = () => {
-
   const isLogin = localStorage.getItem("token");
 
   return (
@@ -16,14 +15,19 @@ const Tutoral = () => {
       <Content>
         {!isLogin && (
           <>
-            {" "}
-            <Write>
-              <Pen />
-              <p>게시글 작성</p>
-            </Write>
-            <Alert>
-              <Bell />
-            </Alert>
+            <Info>
+              <p>로그인 시 이용 가능해요!</p>
+            </Info>
+
+            <IsLogin>
+              <Write>
+                <Pen />
+                <p>게시글 작성</p>
+              </Write>
+              <Alert>
+                <Bell />
+              </Alert>
+            </IsLogin>
           </>
         )}
 
@@ -75,16 +79,13 @@ const Wrap = styled.div`
   right: 0;
   left: 0;
   z-index: 99;
-  background-color: rgba(0, 0, 0, 0.7);
-
+  background-color: rgba(0, 0, 0, 0.65);
 
   p {
     color: #fff6c6;
     font-weight: 500;
     line-height: 24px;
   }
-
-  
 `;
 
 const Content = styled.div`
@@ -94,21 +95,40 @@ const Content = styled.div`
   margin: auto;
 `;
 
-const Write = styled.div`
-display:flex;
-align-items:center;
+const Info = styled.div`
+position:absolute;
+top:40px;
+right:110px;
+`;
+
+const IsLogin = styled.div`
   position: absolute;
+  top: 75px;
+  right: 100px;
+  border: 3px dotted #fff6c6;
+  border-radius: 8px;
+  padding: 10px;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const Write = styled.div`
+  display: flex;
+  align-items: center;
+  /* position: absolute;
   right: 190px;
-  top: 90px;
+  top: 90px; */
   stroke: ${(props) => props.theme.textColor};
   p {
-    color:  ${(props) => props.theme.textColor}
+    color: ${(props) => props.theme.textColor};
   }
 `;
 const Alert = styled.div`
-  position: absolute;
+  /* position: absolute;
   right: 100px;
-  top: 90px;
+  top: 90px; */
   stroke: ${(props) => props.theme.textColor};
 `;
 
