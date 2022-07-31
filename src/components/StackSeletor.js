@@ -7,86 +7,87 @@ import { SelectArrow } from "./WriteSelect";
 import styled from "styled-components";
 
 const StackSelector = ({
-    isEdit,
-    setSelectedData,
-    data,
-    setRegisterData,
-    isRegister
+  isEdit,
+  setSelectedData,
+  data,
+  setRegisterData,
+  isRegister,
 }) => {
+  const ALL_STACK = Object.values(Stacks);
 
-    const ALL_STACK = Object.values(Stacks)
+  let [stack, setStack] = useState([]);
+  const isMypage = useMatch(`/mypage`);
+  const isWrite = useMatch(`/write/*`);
 
-    let [stack, setStack] = useState([])
-    const isMypage = useMatch(`/mypage`);
-    const isWrite = useMatch(`/write/*`)
-
-
-    useEffect(() => {
-        if (isEdit === true || isMypage !== null) {
-            setStack(data.stacks)
-        }
-    }, [isEdit])
+  useEffect(() => {
+    if (isEdit === true || isMypage !== null) {
+      setStack(data.stacks);
+    }
+  }, [isEdit]);
 
   const stackdetailsRef = useRef(null);
 
-
-    const addStack = (newStack) => {
-        if (!stack.includes(newStack)) {
-            const newStackArray = stack.concat(newStack)
-            setStack(newStackArray)
-            if (isWrite !== null || isMypage !== null) {
-                setSelectedData((prev) => ({ ...prev, stacks: newStackArray }))
-            } else if (isRegister) {
-                setRegisterData(newStackArray)
-                
-            }
-        }
-        const details = stackdetailsRef.current;
-        if (details) {
-            details.open = false;
-        }
+  const addStack = (newStack) => {
+    if (!stack.includes(newStack)) {
+      const newStackArray = stack.concat(newStack);
+      setStack(newStackArray);
+      if (isWrite !== null || isMypage !== null) {
+        setSelectedData((prev) => ({ ...prev, stacks: newStackArray }));
+      } else if (isRegister) {
+        setRegisterData(newStackArray);
+      }
+    }
+    const details = stackdetailsRef.current;
+    if (details) {
+      details.open = false;
+    }
   };
 
-    const removeStack = (selectedStack) => {
-        const newStacks = stack.filter((stack) => stack !== selectedStack)
-        setStack(newStacks)
-        if (isWrite !== null || isMypage !== null) {
-            setSelectedData((prev) => ({ ...prev, stacks: newStacks }))
-        }  else if (isRegister) {
-            setRegisterData(newStacks)
-        }
+  const removeStack = (selectedStack) => {
+    const newStacks = stack.filter((stack) => stack !== selectedStack);
+    setStack(newStacks);
+    if (isWrite !== null || isMypage !== null) {
+      setSelectedData((prev) => ({ ...prev, stacks: newStacks }));
+    } else if (isRegister) {
+      setRegisterData(newStacks);
+    }
   };
 
-    return (
-        <div>
-            <details ref={stackdetailsRef}>
-                <SelectBox className={isRegister ? "Login" : null}> 스택을 선택해주세요.<SelectArrow /></SelectBox>
-                <SelectBoxOpen className={isRegister ? "Login" : null}>
-                    {ALL_STACK.map((oneStack, index) => {
-                        return (
-                            <Option className={stack.includes(oneStack) ? "selected" : null} key={index}
-                                onClick={() => addStack(oneStack)}>
-                                {oneStack}</Option>
-                        )
-                    })}
-                </SelectBoxOpen>
-            </details>
-            <StackWrap >
-                {stack.map((oneStack, index) => {
-                    return (
-                        <MyStack 
-                            key={index}
-                            onClick={() => removeStack(oneStack)}
-                        >
-                            #{oneStack}
-                            <Delete />
-                        </MyStack>
-                    )
-                })}
-            </StackWrap>
-        </div>
-    )
-}
+  return (
+    <div>
+      <details ref={stackdetailsRef}>
+        <SelectBox className={isRegister ? "Login" : null}>
+          {" "}
+          스택을 선택해주세요.
+          <SelectArrow />
+        </SelectBox>
+        <SelectBoxOpen className={isRegister ? "Login" : null}>
+          {ALL_STACK.map((oneStack, index) => {
+            return (
+              <Option
+                className={stack.includes(oneStack) ? "selected" : null}
+                key={index}
+                onClick={() => addStack(oneStack)}
+              >
+                {oneStack}
+              </Option>
+            );
+          })}
+        </SelectBoxOpen>
+      </details>
+      <StackWrap>
+        {stack.map((oneStack, index) => {
+          return (
+            <MyStack key={index} onClick={() => removeStack(oneStack)}>
+              #{oneStack}
+              <Delete />
+            </MyStack>
+          );
+        })}
+      </StackWrap>
+    </div>
+  );
+};
 
 export const StackWrap = styled.div`
   display: flex;
