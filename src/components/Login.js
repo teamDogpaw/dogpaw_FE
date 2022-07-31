@@ -11,7 +11,6 @@ import { modalContentAtom } from "../atom/atom";
 const Login = () => {
   const setModalContent = useSetRecoilState(modalContentAtom);
 
-
   //아이디, 비밀번호
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,7 +22,6 @@ const Login = () => {
   // 유효성 검사
   const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
-
 
   // 아이디
   const onChangeId = useCallback((e) => {
@@ -43,12 +41,12 @@ const Login = () => {
 
   // 비밀번호
   const onChangePassword = useCallback((e) => {
-    const passwordRegex = /^[ㄱ-ㅎ가-힣0-9a-zA-Z@$!%#?&]{3,10}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z]).{8,15}$/;
     const passwordCurrent = e.target.value;
     setPassword(passwordCurrent);
 
     if (!passwordRegex.test(passwordCurrent)) {
-      setPasswordMessage("3글자 이상, 10글자 미만으로 입력해주세요. ");
+      setPasswordMessage("비밀번호 형식을 다시 한번 확인해 주세요.");
       setIsPassword(false);
     } else {
       setPasswordMessage("알맞게 작성되었습니다 :)");
@@ -89,7 +87,7 @@ const Login = () => {
             )}
           </p>
         </InputContent>
-        <InputContent >
+        <InputContent>
           비밀번호
           <LoginInput
             onChange={onChangePassword}
@@ -97,6 +95,7 @@ const Login = () => {
             typeTitle="password"
             type="password"
             placeholder="비밀번호를 입력해주세요."
+            maxLength="16"
           />
           <p>
             {password.length > 0 && (
@@ -144,7 +143,7 @@ const IMG = styled.img`
 
 export const Wrap = styled.div`
   width: 384px;
-  max-height: 550px;
+  max-height: 760px;
   margin: 24px 72px 8px;
   overflow-y: scroll;
   -ms-overflow-style: none;
@@ -187,6 +186,15 @@ export const InputContent = styled.div`
   flex-direction: column;
   gap: 8px;
   width: 100%;
+
+  div {
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  }
   span {
     font-size: 0.875rem;
     color: ${(props) => props.theme.keyColor};

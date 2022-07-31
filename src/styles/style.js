@@ -244,7 +244,6 @@ export const SelectBoxOpen = styled.ul`
   z-index: 10;
   border-radius: 8px;
   width: 200px;
-  position: absolute;
   border: ${(props) => props.theme.border};
   background-color: ${(props) => props.theme.inputBoxBackground};
   box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.1);
@@ -297,20 +296,20 @@ export const MypagePostBox = styled.div`
 `;
 
 export const Modal = styled.div`
-    display: flex;
-    flex-direction: column;
-    border-radius: 8px;
-    background: ${(props)=>props.theme.divBackGroundColor};
-    box-shadow: rgb(0 0 0 / 9%) 0px 2px 12px 0px;
-    padding: 30px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  background: ${(props) => props.theme.divBackGroundColor};
+  box-shadow: rgb(0 0 0 / 9%) 0px 2px 12px 0px;
+  padding: 30px;
 
-    @media screen and (max-width:600px){
-        width: 100%;
-        height: 100%;
-        padding: 24px;
-        margin-top: 0px;
-        border-radius: 0px;
-    }
+  @media screen and (max-width: 600px) {
+    width: 100%;
+    height: 100%;
+    padding: 24px;
+    margin-top: 0px;
+    border-radius: 0px;
+  }
 
   @media screen and (max-width: 600px) {
     width: 100%;
@@ -326,23 +325,23 @@ export const Modal = styled.div`
 `;
 
 export const ModalBackground = styled.div`
-    min-height: 100vh;
-    position: fixed;
-    display: flex;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-color: rgba(0,0,0,0.3);
-    z-index: 90;
-    -webkit-box-pack: center;
-    -moz-box-pack: center; 
-    -ms-flex-pack: center; 
-    justify-content: center;
-    -webkit-box-align: center; 
-    -moz-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
+  min-height: 100vh;
+  position: fixed;
+  display: flex;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 90;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
 `;
 
 export const ModalCloseButton = styled(X)`
