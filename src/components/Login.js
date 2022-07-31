@@ -7,10 +7,15 @@ import { Btn } from "../styles/style";
 import { login } from "../shared/userOauth";
 import { useSetRecoilState } from "recoil";
 import { modalContentAtom } from "../atom/atom";
+import { userApis } from "../api/user";
+import Loading from "../shared/Loading";
+import AlertModal from "../components/AlertModal";
 
 const Login = () => {
   const setModalContent = useSetRecoilState(modalContentAtom);
-
+  const [alertModalOpen, setAlertModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  let debounce = null;
 
   //아이디, 비밀번호
   const [email, setEmail] = useState("");
@@ -63,8 +68,42 @@ const Login = () => {
 
   const KakaoURL = process.env.REACT_APP_SOCIAL_URL;
 
+
+const login =  (data) => {
+  if (debounce) {
+    clearTimeout(debounce);
+  }
+  debounce = setTimeout(async () => {
+    try{
+      const response = await userApis.login(data)
+      console.log(response)
+
+      if(response.status === 200){
+        const accessToken = response.data.data.token.accessToken;
+        const refreshToken = response.data.data.token.refreshToken;
+        const id = response.data.data.userId;
+        if (accessToken !== null) {
+          localStorage.setItem("token", accessToken);
+          localStorage.setItem("retoken", refreshToken);
+          localStorage.setItem("id", id);
+          window.location.reload();
+      }
+      
+    }
+    if(response.status === 400) {
+      console.log(alertModalOpen)
+      setAlertModalOpen(true);
+      setErrorMessage(response.data.errorMessage)
+    }
+  } catch (err){
+      console.log(err)
+    }
+  }, 100);
+};
+
   return (
     <Wrap>
+      <AlertModal open={alertModalOpen} message={errorMessage} setAlertModalOpen={setAlertModalOpen}/>
       <Title>
         LOGIN
         <span> 로그인</span>

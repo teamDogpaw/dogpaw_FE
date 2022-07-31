@@ -25,12 +25,14 @@ const ApplyBtn = ({ myPostData }) => {
   const applyBtn = async () => {
    if (userStatus === "applicant") {
         await apply(id);
-        setModalOpen(false);
-      } else {
+        setModalOpen(true);
+        queryClient.invalidateQueries("detailPost");
+      } 
+      if (userStatus === "MEMBER") {
         await apply(id);
-        openApplyModal();
+        console.log('dhodkseho')
       }
-    queryClient.invalidateQueries("detailPost");
+   
   };
 
   const deadlineBtn = async () => {
@@ -49,13 +51,16 @@ const ApplyBtn = ({ myPostData }) => {
     setModalOpen(false);
   };
 
-  const openApplyModal = () => {
+  const openApplyModal = () =>{
     setApplyModal(true);
+    applyBtn()
   }
 
   const closeApplyModal = () => {
     setApplyModal(false);
+queryClient.invalidateQueries("detailPost");
   }
+
 
   return (
     <Wrap>
@@ -84,10 +89,10 @@ const ApplyBtn = ({ myPostData }) => {
           <Alert>
             <p>{applierCnt}명이 지원했어요!</p>
           </Alert>
-        )}
+        )} 
         {deadline === false ? (
           userStatus === "MEMBER" ? (
-            <Button onClick={applyBtn}>프로젝트 지원하기</Button>
+            <Button onClick={openApplyModal}>프로젝트 지원하기</Button>
           ) : userStatus === "applicant" ? (
             <Button onClick={openModal}>지원 취소하기</Button>
           ) : (
@@ -99,24 +104,18 @@ const ApplyBtn = ({ myPostData }) => {
           )
         )}
       </div>
-      <AlertModal open={modalOpen}>
-        <Content>
-          <h4>프로젝트 지원을 취소하시겠습니까?</h4>
-          <div>
-            <GrayLineBtn onClick={closeModal}> 닫기 </GrayLineBtn>
-            <Btn onClick={applyBtn}> 지원취소 </Btn>
-          </div>
-        </Content>
-      </AlertModal>
+      <AlertModal 
+      open={modalOpen} 
+      setAlertModalOpen={closeModal} 
+      message={"프로젝트 지원을 취소하시겠습니까?"} 
+      action={applyBtn} 
+      actionMessage={"지원취소"}/>
 
-      <AlertModal open={applyModal}>
-        <Content>
-          <h4>프로젝트 지원 완료!</h4>
-          <div>
-            <Btn onClick={closeApplyModal}> 확인 </Btn>
-          </div>
-        </Content>
-      </AlertModal>
+      <AlertModal 
+      open={applyModal} 
+      setAlertModalOpen={closeApplyModal} 
+      message={"프로젝트 지원 완료!"} />
+
       {viewApply && (
         <ViewApply viewApplyModal={viewApplyModal} myPostData={myPostData} />
       )}
@@ -210,7 +209,7 @@ export const Content = styled.div`
   }
   button {
     width: 100px;
-    margin-right: 10px;
+    
   }
 
   @media screen and (max-width: 500) {

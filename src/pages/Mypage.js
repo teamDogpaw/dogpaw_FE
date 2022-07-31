@@ -67,13 +67,17 @@ const [nickMessage, setNickMessage] = useState("");
   ];
 
   useEffect(() => {
-    setMyData(userInfo);
-    setImagePreview(userInfo.profileImg);
-    //console.log(userInfo);
-    //console.log(myData);
+    console.log(userInfo);
+    console.log(myData);
+
+  
+
 
     if (userInfo === undefined && !token) {
       setModalOpen(true);
+    } else {
+      setMyData(userInfo);
+      setImagePreview(userInfo.profileImg);
     }
 
     //widthHandler
@@ -176,31 +180,27 @@ const [nickMessage, setNickMessage] = useState("");
     setExitModalOpen(false);
   };
 
+  const needLoginUser = () =>{
+    navigate("/", { state: "needLogin" })
+  }
+
   if (userInfo === undefined && !token) {
     return (
-      <AlertModal open={modalOpen}>
-        <ModalContent>
-          <h4>⚠️ 로그인이 필요한 서비스입니다</h4>
-          <Btn onClick={() => navigate("/", { state: "needLogin" })}>
-            {" "}
-            메인으로 가기{" "}
-          </Btn>
-        </ModalContent>
-      </AlertModal>
+      <AlertModal open={modalOpen} 
+      setAlertModalOpen={needLoginUser}
+      message={"⚠️ 로그인이 필요한 서비스입니다"}
+      />
     );
   }
 
   return (
     <WholeBody>
-      <AlertModal open={exitModalOpen}>
-        <Content>
-          <h4>개발바닥에서 탈퇴하시겠습니까?</h4>
-          <div style={{ display: "flex" }}>
-            <GrayLineBtn onClick={exitBtnClose}> 취소 </GrayLineBtn>
-            <LineBtn onClick={withDraw}>회원 탈퇴하기</LineBtn>
-          </div>
-        </Content>
-      </AlertModal>
+      <AlertModal 
+      open={exitModalOpen} 
+      setAlertModalOpen={setExitModalOpen} 
+      message={"개발바닥에서 탈퇴하시겠습니까?"} 
+      action={withDraw} 
+      actionMessage={"회원탈퇴하기"}/>
 
       {isMobile ? (
         <Leftarrow

@@ -146,6 +146,25 @@ export const LineBtn = styled.button`
 export const GrayLineBtn = styled(LineBtn)`
   border: 1px solid #777777;
   color: #777777;
+  :hover {
+    border: 1px solid transparent;
+    background-color: ${(props) => props.theme.textColor_sub};
+    color: white;
+  }
+  :active {
+    border: 1px solid transparent;
+    background-color: ${(props) => props.theme.textColor_sub};
+    color: white;
+  }
+`;
+
+export const ModalBtn = styled(LineBtn)`
+border: transparent;
+background-color: ${(props) => props.theme.keyColor};
+color:${(props) => props.theme.textColor_btn};
+:hover{
+  background-color: #ff891c;
+}
 `;
 
 export const ListProfilePic = styled.img`

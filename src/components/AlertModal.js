@@ -1,13 +1,35 @@
 import styled, { css, keyframes } from "styled-components";
+import { Btn, GrayLineBtn, ModalBtn } from "../styles/style";
+import { Content } from "./ApplyBtn";
 
-const AlertModal = (props) => {
+const AlertModal = ({open, message, setAlertModalOpen, actionMessage, action}) => {
   ////console.log(props)
-  const { open } = props;
+  // const { open } = props;
+  // console.log(props)
   return (
     <Wrap open={open}>
       {open && (
         <Section>
-          <main>{props.children}</main>
+          <Content>
+          {message}
+          <div style={{ marginTop:"10px", display:"flex", gap:"10px"}}>
+            {!actionMessage ? 
+            <ModalBtn onClick={()=>setAlertModalOpen(false)}>
+            확인 
+            </ModalBtn> : 
+            <>
+            <GrayLineBtn onClick={()=>setAlertModalOpen(false)}>취소</GrayLineBtn>
+            <ModalBtn onClick={action}>
+              {actionMessage}
+              </ModalBtn>
+            </>
+            
+
+            
+              }
+          
+          </div>
+          </Content>
         </Section>
       )}
     </Wrap>
@@ -53,7 +75,7 @@ const ModalBgShow = keyframes`
 
 `;
 
-const Section = styled.section`
+export const Section = styled.section`
   height:200px;
   margin: 0 auto;
   display:flex;
