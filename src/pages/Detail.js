@@ -13,7 +13,7 @@ import {ReactComponent as Remove} from "../styles/icon/detail/remove.svg";
 import { usePostBookmark } from "../hook/useUserData";
 import ApplyBtn, { Content } from "../components/ApplyBtn";
 import Loading from "../shared/Loading";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AlertModal from "../components/AlertModal";
 import { Btn, GrayLineBtn } from "../styles/style";
 
@@ -25,8 +25,7 @@ const Detail = () => {
   const isLogin = localStorage.getItem("token");
   const [modalOpen, setModalOpen] = useState(false);
  
-  const { data: postList, isLoading: isLoadingPost } = useGetPost(id);
-  //console.log(postList?.data);
+  const { data: postList, isLoading: isLoadingPost , isFetching:isFetchingPost } = useGetPost(id);
 
   const author = postList?.data.nickname;
   const userStatus = postList?.data.userStatus;
@@ -34,15 +33,6 @@ const Detail = () => {
   const queryClient = useQueryClient();
   const { mutateAsync: deletePost } = useDeletePost();
   const { mutateAsync: bookmark } = usePostBookmark();
-
-
-  // useEffect(()=>{
-  //   queryClient.invalidateQueries("detailPost");
-  // },[userStatus])
-
-  if (isLoadingPost) {
-    return <Loading />;
-  }
 
   const deletePostClick = async () => {
     await deletePost(id);
@@ -61,6 +51,11 @@ const Detail = () => {
   const closeModal = () => {
     setModalOpen(false);
   };
+
+  if(isLoadingPost || isFetchingPost){
+    return <Loading />
+  }
+  
   return (
     <>
       <Wrap>
