@@ -95,13 +95,13 @@ const Header = () => {
               <Img src={logolight} alt="" />
             )}
           </div>
-          <User>
+          <>
             {!isLogin ? (
               <Contain>
                 <span onClick={viewModal}>로그인 </span>
               </Contain>
             ) : (
-              <>
+              <User>
                 <StyledLink to="/write">
                   <Write />
                   게시글 작성{" "}
@@ -124,9 +124,9 @@ const Header = () => {
                     </Option>
                   </Select>
                 </Details>
-              </>
+              </User>
             )}
-          </User>
+          </>
         </ContentWrap>
       </Wrap>
     </>
@@ -228,7 +228,7 @@ const ContentWrap = styled.div`
 const Contain = styled.div`
   display: flex;
   justify-content: flex-end;
-  width: 100%;
+  //width: 100%;
   cursor: pointer;
 `;
 
