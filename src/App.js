@@ -19,10 +19,10 @@ function App() {
   const token = localStorage.getItem("token");
   const [user, setUser] = useRecoilState(UserInfoAtom);
 
-  console = {};
-  console.log = function(){};
-  console.warn = function(){};
-  console.error = function(){};
+console = {};
+ console.log = function(){};
+ console.warn = function(){};
+ console.error = function(){};
  
   const GetUserInfo = async () => {
     if (token) {

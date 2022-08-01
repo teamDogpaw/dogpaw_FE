@@ -53,6 +53,9 @@ instance.interceptors.response.use(
     if (response.status === 504 ){
       return (window.location.replace("/connectfail"))
     }
+    if (response.status === 400){
+      return response
+    }
     /* if (response.status === 403) {
       localStorage.removeItem("token");
       localStorage.removeItem("retoken");

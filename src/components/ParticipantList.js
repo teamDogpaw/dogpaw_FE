@@ -73,7 +73,7 @@ const ParticipantList = ({ myPostId, currentTab, setViewApply }) => {
       {participantList.data.map((team) => {
         return (
           <ApplyListContent>
-            <Sections>
+            {/* <Sections> */}
               <User>
                 {team.profileImg === null ? (
                   <ListProfilePic src={profilepic} />
@@ -89,7 +89,7 @@ const ParticipantList = ({ myPostId, currentTab, setViewApply }) => {
                   return <Stack key={index}>#{stack}</Stack>;
                 })}
               </Stacks>
-            </Sections>
+            {/* </Sections> */}
             <Out>
               {currentTab === 2 ? null : (
                 <p
@@ -119,9 +119,9 @@ const ParticipantList = ({ myPostId, currentTab, setViewApply }) => {
   );
 };
 
-const Sections = styled(Section)`
-  width: 100%;
-`;
+// const Sections = styled(Section)`
+//   width: 100%;
+// `;
 const LeaveTeam = styled.div`
 color:${(props)=>props.theme.errorColor};
 font-size: 0.875rem;

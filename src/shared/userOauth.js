@@ -3,32 +3,48 @@ import instance from "./axios";
 let debounce = null;
 
 // 로그인
-export const login = (props) => {
+export const login =  (props) => {
   if (debounce) {
     clearTimeout(debounce);
   }
 
-  debounce = setTimeout(() => {
-    instance
-      .post("/user/login", props)
-      .then((res) => {
-        //console.log(res);
-        const accessToken = res.data.data.token.accessToken;
-        const refreshToken = res.data.data.token.refreshToken;
-        const id = res.data.data.userId;
+  debounce = setTimeout(async () => {
+    try{
+      const response = await instance.post("/user/login", props);
+      console.log(response)
+      if(response.status === 200){
+        const accessToken = response.data.data.token.accessToken;
+        const refreshToken = response.data.data.token.refreshToken;
+        const id = response.data.data.userId;
         if (accessToken !== null) {
           localStorage.setItem("token", accessToken);
           localStorage.setItem("retoken", refreshToken);
           localStorage.setItem("id", id);
           window.location.reload();
-        }
-      })
-      .catch((err) => {
-        //console.log(err);
-        window.alert(
-          "이메일 혹은 비밀번호를 잘못 입력하셨거나 등록되지 않은 이메일 입니다."
-        );
-      });
+      }
+      if(response === 400) {
+      }
+    }
+  } catch (err){
+      console.log(err)
+    }
+    // instance
+    //   .post("/user/login", props)
+    //   .then((res) => {
+    //     //console.log(res);
+    //     const accessToken = res.data.data.token.accessToken;
+    //     const refreshToken = res.data.data.token.refreshToken;
+    //     const id = res.data.data.userId;
+    //     if (accessToken !== null) {
+    //       localStorage.setItem("token", accessToken);
+    //       localStorage.setItem("retoken", refreshToken);
+    //       localStorage.setItem("id", id);
+    //       window.location.reload();
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err)
+    //   });
   }, 500);
 };
 

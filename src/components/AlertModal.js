@@ -1,13 +1,34 @@
-import styled, { css, keyframes } from "styled-components";
+import styled, { css, keyframes } from 'styled-components';
+import { Btn, GrayLineBtn, ModalBtn } from '../styles/style';
+import { Content } from './ApplyBtn';
 
-const AlertModal = (props) => {
+const AlertModal = ({
+  open,
+  message,
+  setAlertModalOpen,
+  actionMessage,
+  action,
+}) => {
   ////console.log(props)
-  const { open } = props;
+  // const { open } = props;
+  // console.log(props)
   return (
     <Wrap open={open}>
       {open && (
         <Section>
-          <main>{props.children}</main>
+          <Content>
+            {message}
+            <div style={{ marginTop: '10px', display: 'flex', gap: '10px' }}>
+              {!actionMessage ? (
+                <ModalBtn onClick={setAlertModalOpen}>확인</ModalBtn>
+              ) : (
+                <>
+                  <GrayLineBtn onClick={setAlertModalOpen}>취소</GrayLineBtn>
+                  <ModalBtn onClick={action}>{actionMessage}</ModalBtn>
+                </>
+              )}
+            </div>
+          </Content>
         </Section>
       )}
     </Wrap>
@@ -15,7 +36,6 @@ const AlertModal = (props) => {
 };
 
 const Wrap = styled.div`
-
   ${(props) =>
     props.open &&
     css`
@@ -27,8 +47,8 @@ const Wrap = styled.div`
       z-index: 99;
       background-color: rgba(0, 0, 0, 0.3);
       display: flex;
-      align-items: center;''
-      animation: ${ModalBgShow} 0.3s;
+      align-items: center;
+      ''animation: ${ModalBgShow} 0.3s;
     `}
 `;
 
@@ -53,15 +73,15 @@ const ModalBgShow = keyframes`
 
 `;
 
-const Section = styled.section`
-  height:200px;
+export const Section = styled.section`
+  height: 200px;
   margin: 0 auto;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 15px;
-  border:${props => props.theme.border};
-  background-color: ${(props)=>props.theme.backgroundColor};
+  border: ${(props) => props.theme.border};
+  background-color: ${(props) => props.theme.backgroundColor};
   animation: ${ModalShow} 0.3s;
   overflow: hidden;
 `;
