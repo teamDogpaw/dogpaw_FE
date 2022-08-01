@@ -1,16 +1,16 @@
-import React, { useRef, useState } from "react";
-import { useQueryClient } from "react-query";
-import { useRecoilValue } from "recoil";
-import { UserInfoAtom } from "../atom/atom";
-import person from "../styles/images/person.png";
-import styled from "styled-components";
-import arrow from "../styles/icon/detail/replyarrow.svg";
-import { useEditReply, useRemoveReply } from "../hook/useCommentData";
-import { postApis } from "../api/post";
-import { CommentDate, DeleteBtn, ModiBtn, UpdateBtn } from "./Comment";
-import AlertModal from "./AlertModal";
-import { Btn, GrayLineBtn } from "../styles/style";
-import { Content } from "./ApplyBtn";
+import React, { useRef, useState } from 'react';
+import { useQueryClient } from 'react-query';
+import { useRecoilValue } from 'recoil';
+import { UserInfoAtom } from '../atom/atom';
+import person from '../styles/images/person.png';
+import styled from 'styled-components';
+import arrow from '../styles/icon/detail/replyarrow.svg';
+import { useEditReply, useRemoveReply } from '../hook/useCommentData';
+import { postApis } from '../api/post';
+import { CommentDate, DeleteBtn, ModiBtn, UpdateBtn } from './Comment';
+import AlertModal from './AlertModal';
+import { Btn, GrayLineBtn } from '../styles/style';
+import { Content } from './ApplyBtn';
 
 const ReplyComment = (props) => {
   const [isEdit, setIsEdit] = useState(false);
@@ -22,32 +22,33 @@ const ReplyComment = (props) => {
   const writeUser = props.data.nickname;
 
   const id = props.commentId;
-
-  const replyRef = useRef("");
+  const replyId = props.data.commentReplyId;
+  console.log(replyId);
+  const replyRef = useRef('');
 
   const queryClient = useQueryClient();
 
   // 대 댓글 수정
   const { mutateAsync: editReply } = useEditReply();
 
-  const modifyReplyClick = async (replyId) => {
-    if (replyRef.current.value === "") {
+  const modifyReplyClick = async () => {
+    if (replyRef.current.value === '') {
       openModiModal();
       return;
     }
     const replyData = { content: replyRef.current.value, replyId, id };
     setIsEdit(false);
     await editReply(replyData);
-    queryClient.invalidateQueries("commentList");
+    queryClient.invalidateQueries('commentList');
   };
 
   // 대 댓글 삭제
   const { mutateAsync: removeReply } = useRemoveReply();
 
-  const deleteReplyClick = async (replyId) => {
+  const deleteReplyClick = async () => {
     const replyData = { replyId, id };
     await removeReply(replyData);
-    queryClient.invalidateQueries("commentList");
+    queryClient.invalidateQueries('commentList');
   };
 
   const openModal = () => {
@@ -67,7 +68,7 @@ const ReplyComment = (props) => {
   return (
     <Contain>
       <Arr src={arrow} alt="사진" />
-      <div style={{ marginLeft: "32px" }}>
+      <div style={{ marginLeft: '32px' }}>
         <User>
           <Img src={props.data.profileImg || person} alt="사진" />
           <p>{props.data.nickname}</p>
@@ -109,30 +110,19 @@ const ReplyComment = (props) => {
         </CommentBtnBox>
       </div>
 
-      <AlertModal open={modalOpen}>
-        <Content>
-          <h4>대 댓글을 삭제하시겠습니까?</h4>
-          <div>
-            <GrayLineBtn onClick={closeModal}> 취소 </GrayLineBtn>
-            <Btn
-              onClick={() => {
-                deleteReplyClick(props.data.id);
-              }}
-            >
-              삭제
-            </Btn>
-          </div>
-        </Content>
-      </AlertModal>
+      <AlertModal
+        open={modalOpen}
+        message={'대댓글을 삭제하시겠습니까?'}
+        setAlertModalOpen={closeModal}
+        action={deleteReplyClick}
+        actionMessage={'삭제'}
+      />
 
-      <AlertModal open={modiModalOpen}>
-        <Content>
-          <h4>내용을 입력해주세요!</h4>
-          <div>
-            <Btn onClick={closeModiModal}> 확인 </Btn>
-          </div>
-        </Content>
-      </AlertModal>
+      <AlertModal
+        open={modiModalOpen}
+        setAlertModalOpen={closeModiModal}
+        message={'내용을 입력해주세요!'}
+      />
     </Contain>
   );
 };
