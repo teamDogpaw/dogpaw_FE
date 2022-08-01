@@ -257,6 +257,7 @@ const ProjectTextarea = styled.textarea`
 `;
 
 const Leftarrow = styled(Arrow)`
+ cursor:pointer;
   position: absolute;
   top: 25px;
   left: 30px;

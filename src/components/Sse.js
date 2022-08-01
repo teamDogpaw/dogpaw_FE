@@ -35,7 +35,6 @@ const Sse = () => {
 
   useEffect(() => {
     if (token) {
-      console.log("1번")
       const sse = new EventSource("https://dogfaw.dasole.shop/subscribe", {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -61,7 +60,6 @@ const Sse = () => {
 
   useEffect(() => {
     if (token) {
-      console.log("2번")
       setNewAlert(allList);
       setUnread(unreadList);
       
@@ -83,7 +81,6 @@ const Sse = () => {
   
 
   useEffect(() => {
-    console.log("3번")
     if (alertOpen) document.addEventListener("mousedown", clickOutSide);
     return () => {
       document.removeEventListener("mousedown", clickOutSide);
