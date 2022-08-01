@@ -1,31 +1,34 @@
-import { useQueryClient } from "react-query";
-import { useNavigate, useParams } from "react-router-dom";
-import Comments from "../components/Comments";
-import { useDeletePost, useGetPost } from "../hook/usePostData";
-import styled from "styled-components";
-import { ReactComponent as BookmarkIcon } from "../styles/icon/post/bookmark.svg";
-import { ReactComponent as BookmarkFill } from "../styles/icon/post/bookmarkFill.svg";
-import { ReactComponent as Arrow } from "../styles/icon/detail/backArrow.svg";
-import person from "../styles/icon/global/profile.svg";
-import paw from "../styles/icon/detail/paw.svg";
-import {ReactComponent as Edit} from "../styles/icon/detail/edit.svg";
-import {ReactComponent as Remove} from "../styles/icon/detail/remove.svg";
-import { usePostBookmark } from "../hook/useUserData";
-import ApplyBtn, { Content } from "../components/ApplyBtn";
-import Loading from "../shared/Loading";
-import { useState } from "react";
-import AlertModal from "../components/AlertModal";
-import { Btn, GrayLineBtn } from "../styles/style";
-
+import { useQueryClient } from 'react-query';
+import { useNavigate, useParams } from 'react-router-dom';
+import Comments from '../components/Comments';
+import { useDeletePost, useGetPost } from '../hook/usePostData';
+import styled from 'styled-components';
+import { ReactComponent as BookmarkIcon } from '../styles/icon/post/bookmark.svg';
+import { ReactComponent as BookmarkFill } from '../styles/icon/post/bookmarkFill.svg';
+import { ReactComponent as Arrow } from '../styles/icon/detail/backArrow.svg';
+import person from '../styles/icon/global/profile.svg';
+import paw from '../styles/icon/detail/paw.svg';
+import { ReactComponent as Edit } from '../styles/icon/detail/edit.svg';
+import { ReactComponent as Remove } from '../styles/icon/detail/remove.svg';
+import { usePostBookmark } from '../hook/useUserData';
+import ApplyBtn, { Content } from '../components/ApplyBtn';
+import Loading from '../shared/Loading';
+import { useState } from 'react';
+import AlertModal from '../components/AlertModal';
+import { Btn, GrayLineBtn } from '../styles/style';
 
 const Detail = () => {
   const navigate = useNavigate();
   const params = useParams();
   const id = params.postId;
-  const isLogin = localStorage.getItem("token");
+  const isLogin = localStorage.getItem('token');
   const [modalOpen, setModalOpen] = useState(false);
- 
-  const { data: postList, isLoading: isLoadingPost , isFetching:isFetchingPost } = useGetPost(id);
+
+  const {
+    data: postList,
+    isLoading: isLoadingPost,
+    isFetching: isFetchingPost,
+  } = useGetPost(id);
 
   const author = postList?.data.nickname;
   const userStatus = postList?.data.userStatus;
@@ -37,26 +40,26 @@ const Detail = () => {
 
   const deletePostClick = async () => {
     await deletePost(id);
-    navigate("/");
+    navigate('/');
   };
 
   const bookMark = async () => {
     await bookmark(id);
-    queryClient.invalidateQueries("detailPost");
+    queryClient.invalidateQueries('detailPost');
   };
 
   const openModal = () => {
     setModalOpen(true);
   };
-  
+
   const closeModal = () => {
     setModalOpen(false);
   };
 
-  if(isLoadingPost || isFetchingPost){
-    return <Loading />
+  if (isLoadingPost || isFetchingPost) {
+    return <Loading />;
   }
-  
+
   return (
     <>
       <Wrap>
@@ -68,21 +71,20 @@ const Detail = () => {
               }}
             />
             <div>
-              {isLogin && 
-                  userStatus !== "author" &&
-                  (postList?.data.bookMarkStatus ? (
-                    <BookmarkFill onClick={bookMark} />
-                  ) : (
-                    <BookmarkIcon onClick={bookMark} />
-                  ))
-              }
+              {isLogin &&
+                userStatus !== 'author' &&
+                (postList?.data.bookMarkStatus ? (
+                  <BookmarkFill onClick={bookMark} />
+                ) : (
+                  <BookmarkIcon onClick={bookMark} />
+                ))}
             </div>
           </LinkBtn>
           <User>
             <h3>{postList?.data.title}</h3>
             <div
               onClick={() => {
-                userStatus === "author"
+                userStatus === 'author'
                   ? navigate(`/mypage`)
                   : navigate(`/mypage/${author}`);
               }}
@@ -93,7 +95,7 @@ const Detail = () => {
           </User>
 
           <Userbtn>
-            {(userStatus === "author" || userStatus === "master") && (
+            {(userStatus === 'author' || userStatus === 'master') && (
               <>
                 <ModifyBtn
                   onClick={() =>
@@ -104,7 +106,7 @@ const Detail = () => {
                   <span>게시글 수정</span>
                 </ModifyBtn>
                 <DeleteBtn onClick={openModal}>
-                  <Remove/>
+                  <Remove />
                   <span>게시글 삭제</span>
                 </DeleteBtn>
               </>
@@ -156,15 +158,13 @@ const Detail = () => {
         </Article>
         <Comments />
 
-        <AlertModal open={modalOpen}>
-        <Content>
-          <h4>게시글을 삭제하시겠습니까?</h4>
-          <div>
-            <GrayLineBtn onClick={closeModal}> 닫기 </GrayLineBtn>
-            <Btn onClick={deletePostClick}> 삭제 </Btn>
-          </div>
-        </Content>
-      </AlertModal>
+        <AlertModal
+          open={modalOpen}
+          message={'게시글을 삭제하시겠습니까?'}
+          setAlertModalOpen={closeModal}
+          action={deletePostClick}
+          actionMessage={'삭제'}
+        />
       </Wrap>
     </>
   );
@@ -182,7 +182,7 @@ const Wrap = styled.div`
     font-size: 1rem;
   }
   hr {
-    border: ${(props)=>props.theme.border};
+    border: ${(props) => props.theme.border};
   }
   span {
     font-weight: 500;
@@ -216,14 +216,13 @@ const User = styled.div`
   justify-content: center;
   line-height: 30px;
 
-
   div {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top:15px;
+    margin-top: 15px;
     cursor: pointer;
-    
+
     p {
       padding-top: 5px;
     }
@@ -231,7 +230,6 @@ const User = styled.div`
 
   h3 {
     padding-bottom: 15px;
-
   }
 
   img {
@@ -242,12 +240,8 @@ const User = styled.div`
 
   @media screen and (max-width: 786px) {
     h3 {
-      padding:0 10px;
-      
+      padding: 0 10px;
     }
-   
-
-    
   }
 `;
 const ArrowBtn = styled(Arrow)`
@@ -271,24 +265,24 @@ const Userbtn = styled.div`
   }
 
   @media screen and (max-width: 786px) {
-    top:130px;
+    top: 130px;
   }
 `;
 
 const ModifyBtn = styled.button`
   background-color: ${(props) => props.theme.divBackGroundColor};
-  padding:0 10px 0 5px;
+  padding: 0 10px 0 5px;
   height: 32px;
   border: ${(props) => props.theme.modifyBtnBorder};
   border-radius: 8px;
   display: flex;
   align-items: center;
   cursor: pointer;
-  stroke: ${props => props.theme.headerTextColor};
+  stroke: ${(props) => props.theme.headerTextColor};
 
   span {
     color: ${(props) => props.theme.headerTextColor};
-    padding-left:5px;
+    padding-left: 5px;
   }
 
   @media screen and (max-width: 770px) {
@@ -304,22 +298,21 @@ const ModifyBtn = styled.button`
 `;
 
 export const DeleteBtn = styled(ModifyBtn)`
-  border: ${props => props.theme.alertBorder};
+  border: ${(props) => props.theme.alertBorder};
   margin-left: 10px;
-  stroke: ${props => props.theme.removeBtnColor};
+  stroke: ${(props) => props.theme.removeBtnColor};
 
   span {
-    color: ${props => props.theme.removeBtnColor};
-    
+    color: ${(props) => props.theme.removeBtnColor};
   }
 `;
 
 const LinkBtn = styled.div`
   display: flex;
-  svg{
+  svg {
     cursor: pointer;
   }
-  
+
   justify-content: space-between;
   //padding-bottom: 10px;
   @media screen and(max-width:768) {
@@ -343,23 +336,18 @@ const ContentWrap = styled.div`
 
 const Title = styled.div`
   display: flex;
-  
+
   p:first-child {
     width: 120px;
   }
-
- 
 `;
 
 const Stack = styled.div`
   display: flex;
-  flex-wrap:wrap;
-  row-gap:10px;
+  flex-wrap: wrap;
+  row-gap: 10px;
   max-width: 750px;
   align-items: center;
- 
-
- 
 
   span {
     background-color: ${(props) => props.theme.stackBackground};
@@ -372,8 +360,8 @@ const Stack = styled.div`
     color: ${(props) => props.theme.stackColor};
   }
   @media screen and (max-width: 770px) {
-    row-gap:0px;
-    flex-wrap:nowrap;
+    row-gap: 0px;
+    flex-wrap: nowrap;
     max-width: 220px;
     overflow-x: auto;
     white-space: nowrap;

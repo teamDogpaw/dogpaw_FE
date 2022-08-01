@@ -1,24 +1,36 @@
-import React, { useEffect, useRef, useState } from "react";
-import Bookmark from "../components/Bookmark";
-import MyProject from "../components/MyProject";
-import JoinProject from "../components/JoinProject";
-import { useNavigate } from "react-router-dom";
-import { Btn,GrayLineBtn,LineBtn,MyStack,Option,PostBody,SelectBoxOpen,TabBody} from "../styles/style";
-import styled from "styled-components";
-import { ReactComponent as Arrow } from "../styles/icon/detail/backArrow.svg";
-import {useMyProfileReset,useMyProfileEdit } from "../hook/useProfileMutation";
-import { useRecoilValue } from "recoil";
-import { UserInfoAtom } from "../atom/atom";
-import profilepic from "../styles/icon/global/profile.svg";
-import ApplyProject from "../components/ApplyProject";
-import pen from "../styles/icon/myPage/pen.svg";
-import StackSelector from "../components/StackSeletor";
-import { withDraw } from "../shared/userOauth";
-import { SelectArrow } from "../components/WriteSelect";
-import AlertModal from "../components/AlertModal";
-import { Content } from "../components/ApplyBtn";
-import { useQueryClient } from "react-query";
-import { InputContent } from "../components/Login";
+import React, { useEffect, useRef, useState } from 'react';
+import Bookmark from '../components/Bookmark';
+import MyProject from '../components/MyProject';
+import JoinProject from '../components/JoinProject';
+import { useNavigate } from 'react-router-dom';
+import {
+  Btn,
+  GrayLineBtn,
+  LineBtn,
+  MyStack,
+  Option,
+  PostBody,
+  SelectBoxOpen,
+  TabBody,
+} from '../styles/style';
+import styled from 'styled-components';
+import { ReactComponent as Arrow } from '../styles/icon/detail/backArrow.svg';
+import {
+  useMyProfileReset,
+  useMyProfileEdit,
+} from '../hook/useProfileMutation';
+import { useRecoilValue } from 'recoil';
+import { UserInfoAtom } from '../atom/atom';
+import profilepic from '../styles/icon/global/profile.svg';
+import ApplyProject from '../components/ApplyProject';
+import pen from '../styles/icon/myPage/pen.svg';
+import StackSelector from '../components/StackSeletor';
+import { withDraw } from '../shared/userOauth';
+import { SelectArrow } from '../components/WriteSelect';
+import AlertModal from '../components/AlertModal';
+import { Content } from '../components/ApplyBtn';
+import { useQueryClient } from 'react-query';
+import { InputContent } from '../components/Login';
 
 const MyPage = () => {
   const userInfo = useRecoilValue(UserInfoAtom);
@@ -41,39 +53,40 @@ const MyPage = () => {
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  
+
   const detailsRef = useRef(null);
   const details = detailsRef.current;
 
-const [nickCheck, setNickCheck] = useState(true);
-const [nickMessage, setNickMessage] = useState("");
+  const [nickCheck, setNickCheck] = useState(true);
+  const [nickMessage, setNickMessage] = useState('');
 
   const imageRef = useRef();
 
   const [exitModalOpen, setExitModalOpen] = useState(false);
   const formData = new FormData();
-  const token = localStorage.getItem("token");
-  const userId = localStorage.getItem("id");
+  const token = localStorage.getItem('token');
+  const userId = localStorage.getItem('id');
 
   const tabList = [
-    { id: 1, name: "관심 프로젝트", content: <Bookmark currentTab={1} /> },
-    { id: 2, name: "참여한 프로젝트", content: <JoinProject currentTab={2} /> },
+    { id: 1, name: '관심 프로젝트', content: <Bookmark currentTab={1} /> },
+    { id: 2, name: '참여한 프로젝트', content: <JoinProject currentTab={2} /> },
     {
       id: 3,
-      name: "신청한 프로젝트",
+      name: '신청한 프로젝트',
       content: <ApplyProject currentTab={3} />,
     },
-    { id: 4, name: "내가 쓴 프로젝트", content: <MyProject currentTab={4} /> },
+    { id: 4, name: '내가 쓴 프로젝트', content: <MyProject currentTab={4} /> },
   ];
 
   useEffect(() => {
-    setMyData(userInfo);
-    setImagePreview(userInfo.profileImg);
-    //console.log(userInfo);
-    //console.log(myData);
+    console.log(userInfo);
+    console.log(myData);
 
     if (userInfo === undefined && !token) {
       setModalOpen(true);
+    } else {
+      setMyData(userInfo);
+      setImagePreview(userInfo.profileImg);
     }
 
     //widthHandler
@@ -83,42 +96,42 @@ const [nickMessage, setNickMessage] = useState("");
         height: window.innerHeight,
       });
     }
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
     handleResize();
     if (windowSize.width < 600) {
       setIsMobile(true);
     } else if (windowSize.width >= 600) {
       setIsMobile(false);
     }
-    return () => window.removeEventListener("resize", handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, [windowSize.width, userInfo]);
 
   const EditMyData = async () => {
     const image = myData.profileImg;
     if (image === null) {
-    } else if (typeof image === "string") {
+    } else if (typeof image === 'string') {
     } else if (image !== null) {
-      formData.append("image", image);
+      formData.append('image', image);
     }
     const data = {
       stacks: myData.stacks,
       nickname: myData.nickname,
     };
     const formdata = JSON.stringify(data);
-    const blob = new Blob([formdata], { type: "application/json" });
+    const blob = new Blob([formdata], { type: 'application/json' });
 
-    formData.append("body", blob);
+    formData.append('body', blob);
 
     try {
       const response = await profileEdit(formData);
       setIsEdit(false);
-      queryClient.invalidateQueries("userinfo");
+      queryClient.invalidateQueries('userinfo');
       setNickCheck(true);
     } catch (error) {
       if (error.response.status === 400) {
         console.log(error.response.status);
         setNickCheck(false);
-        setNickMessage("중복된 닉네임입니다");
+        setNickMessage('중복된 닉네임입니다');
         console.log(nickCheck);
       }
     }
@@ -128,13 +141,11 @@ const [nickMessage, setNickMessage] = useState("");
   const { mutateAsync: imageReSet } = useMyProfileReset();
 
   const imageResetBtn = () => {
-    imageReSet()
-    setImagePreview(null)
-    setMyData((prev)=>({...prev,profileImg:null}));
-    queryClient.invalidateQueries("userInfo");
-   
-
-  }
+    imageReSet();
+    setImagePreview(null);
+    setMyData((prev) => ({ ...prev, profileImg: null }));
+    queryClient.invalidateQueries('userInfo');
+  };
 
   const encodeFileToBase64 = (img) => {
     //console.log(img);
@@ -161,10 +172,10 @@ const [nickMessage, setNickMessage] = useState("");
     setMyData((prev) => ({ ...prev, nickname: newNickname }));
     if (newNickname.length < 3 || newNickname.length > 8) {
       setNickCheck(false);
-      setNickMessage("3글자 이상, 8글자 아래로 정해주세요.");
+      setNickMessage('3글자 이상, 8글자 아래로 정해주세요.');
     } else {
       setNickCheck(true);
-      setNickMessage("알맞게 작성 되었습니다.");
+      setNickMessage('알맞게 작성 되었습니다.');
     }
   };
 
@@ -176,31 +187,29 @@ const [nickMessage, setNickMessage] = useState("");
     setExitModalOpen(false);
   };
 
+  const needLoginUser = () => {
+    navigate('/', { state: 'needLogin' });
+  };
+
   if (userInfo === undefined && !token) {
     return (
-      <AlertModal open={modalOpen}>
-        <ModalContent>
-          <h4>⚠️ 로그인이 필요한 서비스입니다</h4>
-          <Btn onClick={() => navigate("/", { state: "needLogin" })}>
-            {" "}
-            메인으로 가기{" "}
-          </Btn>
-        </ModalContent>
-      </AlertModal>
+      <AlertModal
+        open={modalOpen}
+        setAlertModalOpen={needLoginUser}
+        message={'⚠️ 로그인이 필요한 서비스입니다'}
+      />
     );
   }
 
   return (
     <WholeBody>
-      <AlertModal open={exitModalOpen}>
-        <Content>
-          <h4>개발바닥에서 탈퇴하시겠습니까?</h4>
-          <div style={{ display: "flex" }}>
-            <GrayLineBtn onClick={exitBtnClose}> 취소 </GrayLineBtn>
-            <LineBtn onClick={withDraw}>회원 탈퇴하기</LineBtn>
-          </div>
-        </Content>
-      </AlertModal>
+      <AlertModal
+        open={exitModalOpen}
+        setAlertModalOpen={exitBtnClose}
+        message={'개발바닥에서 탈퇴하시겠습니까?'}
+        action={withDraw}
+        actionMessage={'회원탈퇴하기'}
+      />
 
       {isMobile ? (
         <Leftarrow
@@ -213,38 +222,35 @@ const [nickMessage, setNickMessage] = useState("");
       <PostBody>
         {isEdit ? (
           <>
-          <ProfileWrap>
-   <ProfilePicWrap>
-            {imagePreview === null ? (
-              <Profilepic>
-                {" "}
-                <img src={profilepic} alt="profileImage" />{" "}
-              </Profilepic>
-            ) : (
-              <Profilepic>
-                {" "}
-                <img src={imagePreview} alt="profileImage" />{" "}
-              </Profilepic>
-            )}
+            <ProfileWrap>
+              <ProfilePicWrap>
+                {imagePreview === null ? (
+                  <Profilepic>
+                    {' '}
+                    <img src={profilepic} alt="profileImage" />{' '}
+                  </Profilepic>
+                ) : (
+                  <Profilepic>
+                    {' '}
+                    <img src={imagePreview} alt="profileImage" />{' '}
+                  </Profilepic>
+                )}
 
-    
-              <File>
-                <label htmlFor="profile">
-                  <div>
-                    <img src={pen} alt="" />
-                  </div>
-                </label>
-                <input
-                  id="profile"
-                  type="file"
-                  ref={imageRef}
-                  accept="image/*"
-                  onChange={(event) => editImg(event)}
-                />
-              </File>
-        
+                <File>
+                  <label htmlFor="profile">
+                    <div>
+                      <img src={pen} alt="" />
+                    </div>
+                  </label>
+                  <input
+                    id="profile"
+                    type="file"
+                    ref={imageRef}
+                    accept="image/*"
+                    onChange={(event) => editImg(event)}
+                  />
+                </File>
               </ProfilePicWrap>
-         
 
               <Profile>
                 <input
@@ -252,7 +258,7 @@ const [nickMessage, setNickMessage] = useState("");
                   onChange={(event) => editNickname(event)}
                 />
                 {myData?.nickname.length > 0 ? (
-                  <AlertMessage className={nickCheck ? "success" : "error"}>
+                  <AlertMessage className={nickCheck ? 'success' : 'error'}>
                     {nickMessage}
                   </AlertMessage>
                 ) : null}
@@ -261,27 +267,26 @@ const [nickMessage, setNickMessage] = useState("");
                   <StackSelector data={myData} setSelectedData={setMyData} />
                 </InputContent>
               </Profile>
-
-           
-          </ProfileWrap>
-          <BtnWrap>
-        
-          <Button onClick={imageResetBtn}>기본 이미지로 변경</Button>
-          <Button type="submit" onClick={EditMyData} disabled={!(nickCheck)} >편집 완료</Button>
-          <Button3 onClick={exitBtnOpen}>회원 탈퇴</Button3>
-        </BtnWrap>
-        </>
+            </ProfileWrap>
+            <BtnWrap>
+              <Button onClick={imageResetBtn}>기본 이미지로 변경</Button>
+              <Button type="submit" onClick={EditMyData} disabled={!nickCheck}>
+                편집 완료
+              </Button>
+              <Button3 onClick={exitBtnOpen}>회원 탈퇴</Button3>
+            </BtnWrap>
+          </>
         ) : (
           <ProfileWrap>
             {userInfo?.profileImg === null ? (
               <Profilepic>
-                {" "}
-                <img src={profilepic} alt="profileImage" />{" "}
+                {' '}
+                <img src={profilepic} alt="profileImage" />{' '}
               </Profilepic>
             ) : (
               <Profilepic>
-                {" "}
-                <img src={myData?.profileImg} alt="profileImage" />{" "}
+                {' '}
+                <img src={myData?.profileImg} alt="profileImage" />{' '}
               </Profilepic>
             )}
             <Profile>
@@ -290,7 +295,7 @@ const [nickMessage, setNickMessage] = useState("");
               <Stacks>
                 {userInfo?.stacks?.map((mystack, index) => {
                   return (
-                    <MyStack key={index} style={{ marginTop: "10px" }}>
+                    <MyStack key={index} style={{ marginTop: '10px' }}>
                       #{mystack}
                     </MyStack>
                   );
@@ -321,14 +326,14 @@ const [nickMessage, setNickMessage] = useState("");
                       }
                     }}
                     key={tab.id}
-                    className={currentTab === tab.id ? "focused" : null}
+                    className={currentTab === tab.id ? 'focused' : null}
                   >
                     {tab.name}
                   </MyOption>
                 );
               })}
             </MySelectBoxOpen>
-          </details>{" "}
+          </details>{' '}
           <MyPageHr />
         </>
       ) : (
@@ -341,7 +346,7 @@ const [nickMessage, setNickMessage] = useState("");
                     setTab(tab.id);
                   }}
                   key={tab.id}
-                  className={currentTab === tab.id ? "focused" : null}
+                  className={currentTab === tab.id ? 'focused' : null}
                 >
                   {tab.name}
                 </Tab>
@@ -422,7 +427,7 @@ const BtnWrap = styled.div`
   flex-direction: column;
   text-align: right;
   gap: 10px;
-margin-top: 10px;
+  margin-top: 10px;
   span {
     color: ${(props) => props.theme.errorColor};
     font-size: 0.875rem;
@@ -472,12 +477,11 @@ export const Profilepic = styled.div`
   }
 `;
 const File = styled.div`
-
   div {
     position: absolute;
     bottom: 0px;
     left: 120px;
-    box-shadow: ${(props)=>props.theme.boxShadow};
+    box-shadow: ${(props) => props.theme.boxShadow};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -488,16 +492,16 @@ const File = styled.div`
 
     @media screen and (max-width: 650px) {
       bottom: -10px;
-    left: 45px;
-    width: 35px;
-    height: 35px;
+      left: 45px;
+      width: 35px;
+      height: 35px;
     }
   }
 
   label {
     cursor: pointer;
   }
-  input[type="file"] {
+  input[type='file'] {
     display: none;
   }
 `;
@@ -542,9 +546,9 @@ const ModalBtn = styled(Btn)`
   bottom: 10px;
 `;
 const ProfilePicWrap = styled.div`
-display: flex;
+  display: flex;
 
-position: relative;
+  position: relative;
 `;
 
 export const Profile = styled.div`
@@ -614,7 +618,7 @@ const Button2 = styled(Btn)`
 `;
 
 const Button3 = styled.div`
-margin-top: 20px;
+  margin-top: 20px;
   color: ${(props) => props.theme.errorColor};
   font-size: 0.875rem;
   cursor: pointer;
