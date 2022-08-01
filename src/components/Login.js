@@ -1,34 +1,33 @@
-import React, { useState, useCallback } from "react";
-import styled from "styled-components";
-import kakaoBTN from "../styles/icon/login/kakaoLogin.svg";
-import Register from "./Register";
+import React, { useState, useCallback } from 'react';
+import styled from 'styled-components';
+import kakaoBTN from '../styles/icon/login/kakaoLogin.svg';
+import Register from './Register';
 
-import { Btn } from "../styles/style";
-import { login } from "../shared/userOauth";
-import { useSetRecoilState } from "recoil";
-import { modalContentAtom } from "../atom/atom";
-import { userApis } from "../api/user";
-import Loading from "../shared/Loading";
-import AlertModal from "../components/AlertModal";
+import { Btn } from '../styles/style';
+import { login } from '../shared/userOauth';
+import { useSetRecoilState } from 'recoil';
+import { modalContentAtom } from '../atom/atom';
+import { userApis } from '../api/user';
+import Loading from '../shared/Loading';
+import AlertModal from '../components/AlertModal';
 
 const Login = () => {
   const setModalContent = useSetRecoilState(modalContentAtom);
   const [alertModalOpen, setAlertModalOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
   let debounce = null;
 
   //아이디, 비밀번호
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   //오류메시지 상태저장
-  const [emailMessage, setEmailMessage] = useState("");
-  const [passwordMessage, setPasswordMessage] = useState("");
+  const [emailMessage, setEmailMessage] = useState('');
+  const [passwordMessage, setPasswordMessage] = useState('');
 
   // 유효성 검사
   const [isEmail, setIsEmail] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
-
 
   // 아이디
   const onChangeId = useCallback((e) => {
@@ -38,10 +37,10 @@ const Login = () => {
     setEmail(emailCurrent);
 
     if (!emailRegex.test(emailCurrent)) {
-      setEmailMessage("이메일 형식을 다시 한번 확인해 주세요.");
+      setEmailMessage('이메일 형식을 다시 한번 확인해 주세요.');
       setIsEmail(false);
     } else {
-      setEmailMessage("알맞게 작성되었습니다 :)");
+      setEmailMessage('알맞게 작성되었습니다 :)');
       setIsEmail(true);
     }
   }, []);
@@ -53,10 +52,10 @@ const Login = () => {
     setPassword(passwordCurrent);
 
     if (!passwordRegex.test(passwordCurrent)) {
-      setPasswordMessage("3글자 이상, 10글자 미만으로 입력해주세요. ");
+      setPasswordMessage('3글자 이상, 10글자 미만으로 입력해주세요. ');
       setIsPassword(false);
     } else {
-      setPasswordMessage("알맞게 작성되었습니다 :)");
+      setPasswordMessage('알맞게 작성되었습니다 :)');
       setIsPassword(true);
     }
   }, []);
@@ -68,42 +67,48 @@ const Login = () => {
 
   const KakaoURL = process.env.REACT_APP_SOCIAL_URL;
 
+  const closeModal = () => {
+    setAlertModalOpen(false);
+  };
 
-const login =  (data) => {
-  if (debounce) {
-    clearTimeout(debounce);
-  }
-  debounce = setTimeout(async () => {
-    try{
-      const response = await userApis.login(data)
-      console.log(response)
+  const login = (data) => {
+    if (debounce) {
+      clearTimeout(debounce);
+    }
+    debounce = setTimeout(async () => {
+      try {
+        const response = await userApis.login(data);
+        console.log(response);
 
-      if(response.status === 200){
-        const accessToken = response.data.data.token.accessToken;
-        const refreshToken = response.data.data.token.refreshToken;
-        const id = response.data.data.userId;
-        if (accessToken !== null) {
-          localStorage.setItem("token", accessToken);
-          localStorage.setItem("retoken", refreshToken);
-          localStorage.setItem("id", id);
-          window.location.reload();
+        if (response.status === 200) {
+          const accessToken = response.data.data.token.accessToken;
+          const refreshToken = response.data.data.token.refreshToken;
+          const id = response.data.data.userId;
+          if (accessToken !== null) {
+            localStorage.setItem('token', accessToken);
+            localStorage.setItem('retoken', refreshToken);
+            localStorage.setItem('id', id);
+            window.location.reload();
+          }
+        }
+        if (response.status === 400) {
+          console.log(alertModalOpen);
+          setAlertModalOpen(true);
+          setErrorMessage(response.data.errorMessage);
+        }
+      } catch (err) {
+        console.log(err);
       }
-      
-    }
-    if(response.status === 400) {
-      console.log(alertModalOpen)
-      setAlertModalOpen(true);
-      setErrorMessage(response.data.errorMessage)
-    }
-  } catch (err){
-      console.log(err)
-    }
-  }, 100);
-};
+    }, 100);
+  };
 
   return (
     <Wrap>
-      <AlertModal open={alertModalOpen} message={errorMessage} setAlertModalOpen={setAlertModalOpen}/>
+      <AlertModal
+        open={alertModalOpen}
+        message={errorMessage}
+        setAlertModalOpen={closeModal}
+      />
       <Title>
         LOGIN
         <span> 로그인</span>
@@ -120,15 +125,15 @@ const login =  (data) => {
             onChange={onChangeId}
             placeholder="이메일을 입력해주세요."
           />
-          <p className={isEmail ? "success" : "error"}>
+          <p className={isEmail ? 'success' : 'error'}>
             {email.length > 0 && (
-              <span className={`message ${isEmail ? "success" : "error"}`}>
+              <span className={`message ${isEmail ? 'success' : 'error'}`}>
                 {emailMessage}
               </span>
             )}
           </p>
         </InputContent>
-        <InputContent >
+        <InputContent>
           비밀번호
           <LoginInput
             onChange={onChangePassword}
@@ -139,7 +144,7 @@ const login =  (data) => {
           />
           <p>
             {password.length > 0 && (
-              <span className={`message ${isPassword ? "success" : "error"}`}>
+              <span className={`message ${isPassword ? 'success' : 'error'}`}>
                 {passwordMessage}
               </span>
             )}
@@ -244,10 +249,10 @@ export const LoginBtn = styled(Btn)`
   font: inherit;
   color: ${(props) => props.theme.textColor_btn};
   background-color: ${(props) =>
-    props.disabled ? "#E1E1E1" : props.theme.keyColor};
+    props.disabled ? '#E1E1E1' : props.theme.keyColor};
   :hover {
-    background-color: ${(props) => (props.disabled ? "#E1E1E1" : "#FF891C")};
-    cursor: ${(props) => (props.disabled ? "default" : "pointer")};
+    background-color: ${(props) => (props.disabled ? '#E1E1E1' : '#FF891C')};
+    cursor: ${(props) => (props.disabled ? 'default' : 'pointer')};
   }
 `;
 

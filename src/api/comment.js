@@ -1,4 +1,4 @@
-import instance from "../shared/axios";
+import instance from '../shared/axios';
 
 export const commentApis = {
   getCommentList: async (id) => await instance.get(`api/posts/${id}/comments`),
@@ -9,16 +9,16 @@ export const commentApis = {
   editComment: async (commentData) =>
     await instance.put(
       `api/posts/${commentData.id}/comments/${commentData.commentId}`,
-      commentData
+      commentData,
     ),
 
   removeComment: async (commentData) =>
     await instance.delete(
-      `api/posts/${commentData.id}/comments/${commentData.commentId}`
+      `api/posts/${commentData.id}/comments/${commentData.commentId}`,
     ),
 
   postReply: async (replyData) =>
-    await instance.post(`api/comments/${replyData.replyId}/commentReply`, {
+    await instance.post(`api/comments/${replyData.commentId}/commentReply`, {
       content: replyData.content,
     }),
 

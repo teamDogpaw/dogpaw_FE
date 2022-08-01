@@ -1,17 +1,17 @@
-import { useState } from "react";
-import { Btn, GrayLineBtn, LineBtn } from "../styles/style";
-import styled, { css, keyframes } from "styled-components";
-import { useQueryClient } from "react-query";
-import { usePostApply } from "../hook/useApplyMutation";
-import ViewApply from "../components/ViewApply";
-import AlertModal from "../components/AlertModal";
-import { usePostDeadline } from "../hook/usePostData";
+import { useState } from 'react';
+import { Btn, GrayLineBtn, LineBtn } from '../styles/style';
+import styled, { css, keyframes } from 'styled-components';
+import { useQueryClient } from 'react-query';
+import { usePostApply } from '../hook/useApplyMutation';
+import ViewApply from '../components/ViewApply';
+import AlertModal from '../components/AlertModal';
+import { usePostDeadline } from '../hook/usePostData';
 
 const ApplyBtn = ({ myPostData }) => {
   const [isHover, setIsHover] = useState(false);
   const [viewApply, setViewApply] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [applyModal,setApplyModal] = useState(false);
+  const [applyModal, setApplyModal] = useState(false);
   const userStatus = myPostData.userStatus;
   const id = myPostData.postId;
   const applierCnt = myPostData.applierCnt;
@@ -21,23 +21,22 @@ const ApplyBtn = ({ myPostData }) => {
   const { mutateAsync: apply } = usePostApply();
   const { mutateAsync: deadlinePost } = usePostDeadline();
 
-//디바운싱 삭제 (서버 구매함)
+  //디바운싱 삭제 (서버 구매함)
   const applyBtn = async () => {
-   if (userStatus === "applicant") {
-        await apply(id);
-        setModalOpen(true);
-        queryClient.invalidateQueries("detailPost");
-      } 
-      if (userStatus === "MEMBER") {
-        await apply(id);
-        console.log('dhodkseho')
-      }
-   
+    if (userStatus === 'applicant') {
+      await apply(id);
+      setModalOpen(true);
+      queryClient.invalidateQueries('detailPost');
+    }
+    if (userStatus === 'MEMBER') {
+      await apply(id);
+      console.log('dhodkseho');
+    }
   };
 
   const deadlineBtn = async () => {
     await deadlinePost(id);
-    queryClient.invalidateQueries("detailPost");
+    queryClient.invalidateQueries('detailPost');
   };
 
   function viewApplyModal(id) {
@@ -51,20 +50,19 @@ const ApplyBtn = ({ myPostData }) => {
     setModalOpen(false);
   };
 
-  const openApplyModal = () =>{
+  const openApplyModal = () => {
     setApplyModal(true);
-    applyBtn()
-  }
+    applyBtn();
+  };
 
   const closeApplyModal = () => {
     setApplyModal(false);
-queryClient.invalidateQueries("detailPost");
-  }
-
+    queryClient.invalidateQueries('detailPost');
+  };
 
   return (
     <Wrap>
-      {userStatus === "author" && (
+      {userStatus === 'author' && (
         <>
           <Button2
             onClick={() => {
@@ -89,32 +87,34 @@ queryClient.invalidateQueries("detailPost");
           <Alert>
             <p>{applierCnt}명이 지원했어요!</p>
           </Alert>
-        )} 
+        )}
         {deadline === false ? (
-          userStatus === "MEMBER" ? (
+          userStatus === 'MEMBER' ? (
             <Button onClick={openApplyModal}>프로젝트 지원하기</Button>
-          ) : userStatus === "applicant" ? (
+          ) : userStatus === 'applicant' ? (
             <Button onClick={openModal}>지원 취소하기</Button>
           ) : (
-            userStatus === "participant" && <Button> 참여 완료</Button>
+            userStatus === 'participant' && <Button> 참여 완료</Button>
           )
         ) : (
-          userStatus !== "author" && (
+          userStatus !== 'author' && (
             <Button3 disabled={true}>모집 마감</Button3>
           )
         )}
       </div>
-      <AlertModal 
-      open={modalOpen} 
-      setAlertModalOpen={closeModal} 
-      message={"프로젝트 지원을 취소하시겠습니까?"} 
-      action={applyBtn} 
-      actionMessage={"지원취소"}/>
+      <AlertModal
+        open={modalOpen}
+        setAlertModalOpen={closeModal}
+        message={'프로젝트 지원을 취소하시겠습니까?'}
+        action={applyBtn}
+        actionMessage={'지원취소'}
+      />
 
-      <AlertModal 
-      open={applyModal} 
-      setAlertModalOpen={closeApplyModal} 
-      message={"프로젝트 지원 완료!"} />
+      <AlertModal
+        open={applyModal}
+        setAlertModalOpen={closeApplyModal}
+        message={'프로젝트 지원 완료!'}
+      />
 
       {viewApply && (
         <ViewApply viewApplyModal={viewApplyModal} myPostData={myPostData} />
@@ -133,10 +133,10 @@ const style = css`
   justify-content: center;
   position: absolute;
 
-  @media screen and (max-width:770px) {
-    font-size:0.938rem;
-    width:150px;
-    padding:14px 20px;
+  @media screen and (max-width: 770px) {
+    font-size: 0.938rem;
+    width: 150px;
+    padding: 14px 20px;
   }
 `;
 
@@ -161,8 +161,8 @@ const Alert = styled.div`
   bottom: 20%;
   animation: ${alertAni} 0.2s linear;
 
-  @media screen and (max-width:770px){
-  display:none;
+  @media screen and (max-width: 770px) {
+    display: none;
   }
 `;
 
@@ -171,8 +171,8 @@ const Button = styled(Btn)`
   right: 0px;
   bottom: 0px;
 
-  @media screen and (max-width:770px){
-    bottom :-70px;
+  @media screen and (max-width: 770px) {
+    bottom: -70px;
     //right:-30px;
   }
 `;
@@ -181,10 +181,9 @@ const Button2 = styled(LineBtn)`
   right: 200px;
   bottom: 0px;
 
-  @media screen and (max-width:770px){
-    bottom :-70px;
-    right:165px;
-    
+  @media screen and (max-width: 770px) {
+    bottom: -70px;
+    right: 165px;
   }
 `;
 
@@ -209,7 +208,6 @@ export const Content = styled.div`
   }
   button {
     width: 100px;
-    
   }
 
   @media screen and (max-width: 500) {
@@ -217,6 +215,5 @@ export const Content = styled.div`
     width: 100px;
   }
 `;
-
 
 export default ApplyBtn;

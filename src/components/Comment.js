@@ -1,22 +1,22 @@
-import { useRef, useState } from "react";
-import { useQueryClient } from "react-query";
+import { useRef, useState } from 'react';
+import { useQueryClient } from 'react-query';
 
-import { useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { UserInfoAtom } from "../atom/atom";
+import { useParams } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { UserInfoAtom } from '../atom/atom';
 
-import styled from "styled-components";
-import person from "../styles/images/person.png";
+import styled from 'styled-components';
+import person from '../styles/images/person.png';
 import {
   useEditComment,
   useRemoveComment,
   usePostReply,
-} from "../hook/useCommentData";
-import DropDown from "./DropDown";
-import { Btn, GrayLineBtn } from "../styles/style";
-import AlertModal from "./AlertModal";
-import { Content } from "./ApplyBtn";
-import ModalOpen from "./Modal_prev";
+} from '../hook/useCommentData';
+import DropDown from './DropDown';
+import { Btn, GrayLineBtn } from '../styles/style';
+import AlertModal from './AlertModal';
+import { Content } from './ApplyBtn';
+import ModalOpen from './Modal_prev';
 
 const Comment = ({ data }) => {
   //대댓글 드롭다운 열기/닫기
@@ -26,10 +26,10 @@ const Comment = ({ data }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const params = useParams();
   const id = params.postId;
-  const replyId = data.commentId;
+  const commentId = data.commentId;
 
-  const comment_ref = useRef("");
-  const replyRef = useRef("");
+  const comment_ref = useRef('');
+  const replyRef = useRef('');
   const [isEdit, setIsEdit] = useState(false);
 
   const isLogin = useRecoilValue(UserInfoAtom);
@@ -37,47 +37,47 @@ const Comment = ({ data }) => {
   const loginUser = isLogin?.nickname;
   const writeUser = data.nickname;
   ////console.log(writeUser, "글쓴이");
-  console.log(data)
+  console.log(data);
 
   const queryClient = useQueryClient();
   const { mutateAsync: editComment } = useEditComment();
   const { mutateAsync: removeComment } = useRemoveComment();
 
   const modifyCommentClick = async (commentId) => {
-    if(comment_ref.current.value === ""){
+    if (comment_ref.current.value === '') {
       openModiModal();
       return;
     }
-    const commentData = { id, commentId, content: comment_ref.current.value }
+    const commentData = { id, commentId, content: comment_ref.current.value };
     setIsEdit(false);
     await editComment(commentData);
-    queryClient.invalidateQueries("commentList");
+    queryClient.invalidateQueries('commentList');
   };
 
-  const deleteCommentClick = async (commentId) => {
+  const deleteCommentClick = async () => {
     const commentData = { commentId, id };
     await removeComment(commentData);
-    queryClient.invalidateQueries("commentList");
+    queryClient.invalidateQueries('commentList');
   };
 
-  // 대 댓글 작성
+  // 대댓글 작성
   const { mutateAsync: addReply } = usePostReply();
 
   const onCheckEnter = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       addReplyClick();
     }
   };
 
   const addReplyClick = async () => {
-    if(isLogin && replyRef.current.value === ""){
+    if (isLogin && replyRef.current.value === '') {
       openModiModal();
       return;
     }
-    const replyData = { replyId, content: replyRef.current.value };
+    const replyData = { commentId, content: replyRef.current.value };
     await addReply(replyData);
-    replyRef.current.value = "";
-    queryClient.invalidateQueries("commentList");
+    replyRef.current.value = '';
+    queryClient.invalidateQueries('commentList');
   };
 
   const openModal = () => {
@@ -94,17 +94,16 @@ const Comment = ({ data }) => {
     setModiModalOpen(false);
   };
 
-
   const viewModal = () => {
     setIsModalOpen((prev) => !prev);
   };
 
-  const userChk = () =>{
-    const isLogin = localStorage.getItem("token");
-    if(!isLogin){
+  const userChk = () => {
+    const isLogin = localStorage.getItem('token');
+    if (!isLogin) {
       viewModal();
     }
-  }
+  };
 
   return (
     <div>
@@ -121,7 +120,7 @@ const Comment = ({ data }) => {
         <CommentDate>{data.modifiedAt.substring(0, 10)} </CommentDate>
       </Contents>
       <ReplyBtn onClick={(e) => setDropdownVisibility(!dropdownVisibility)}>
-        {dropdownVisibility ? "닫기" : "답글 쓰기"}
+        {dropdownVisibility ? '닫기' : '답글 쓰기'}
       </ReplyBtn>
       <CommentBtnBox>
         {loginUser === writeUser && (
@@ -174,30 +173,20 @@ const Comment = ({ data }) => {
         </DropDown>
       </div>
 
-      <AlertModal open={modalOpen}>
-        <Content>
-          <h4>댓글을 삭제하시겠습니까?</h4>
-          <div>
-            <GrayLineBtn onClick={closeModal}> 취소 </GrayLineBtn>
-            <Btn
-              onClick={() => {
-                deleteCommentClick(data.commentId);
-              }}
-            >
-              삭제
-            </Btn>
-          </div>
-        </Content>
-      </AlertModal>
+      <AlertModal
+        open={modalOpen}
+        message={'댓글을 삭제하시겠습니까?'}
+        setAlertModalOpen={closeModal}
+        action={deleteCommentClick}
+        actionMessage={'삭제'}
+      />
 
-      <AlertModal open={modiModalOpen}>
-        <Content>
-          <h4>내용을 입력해주세요!</h4>
-          <div>
-            <Btn onClick={closeModiModal}> 확인 </Btn>
-          </div>
-        </Content>
-      </AlertModal>
+      <AlertModal
+        open={modiModalOpen}
+        message={'내용을 입력해주세요!'}
+        setAlertModalOpen={closeModiModal}
+      />
+
       {isModalOpen && <ModalOpen viewModal={viewModal} />}
     </div>
   );
@@ -220,10 +209,10 @@ const Img = styled.img`
   margin-right: 10px;
 `;
 
-const ReplyBtn =  styled(Btn)`
-margin-left: auto;
-margin-top: 10px;
-margin-bottom: 20px;
+const ReplyBtn = styled(Btn)`
+  margin-left: auto;
+  margin-top: 10px;
+  margin-bottom: 20px;
 `;
 
 const Contents = styled.div`
@@ -249,14 +238,12 @@ const Date = styled.span`
 const CommentBtnBox = styled.div`
   display: flex;
   justify-content: flex-end;
-  
 `;
 
 export const CommentDate = styled.span`
-color:${(props)=>props.theme.textColor_sub};
-font-size: 0.875rem;
-
-`; 
+  color: ${(props) => props.theme.textColor_sub};
+  font-size: 0.875rem;
+`;
 
 export const ModiBtn = styled.button`
   background-color: ${(props) => props.theme.backgroundColor};
@@ -265,7 +252,7 @@ export const ModiBtn = styled.button`
   padding: 4px 12px;
   width: 69px;
   height: 32px;
-  font-size:0.75rem;
+  font-size: 0.75rem;
   font-weight: 400;
   margin-left: 10px;
   cursor: pointer;
