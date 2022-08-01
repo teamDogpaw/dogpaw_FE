@@ -22,7 +22,7 @@ const WithdrawModal = (props) => {
                   });
                 }}
               >
-                탈퇴시키기
+                확인
               </Btn>
             </div>
           </Content>
@@ -70,6 +70,8 @@ const ModalBgShow = keyframes`
   }
 
 `;
+
+
 
 const Section = styled.section`
   height: 200px;

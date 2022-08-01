@@ -196,11 +196,16 @@ const Button3 = styled.button`
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content:center;
   align-items: center;
   margin: auto;
-  width: 360px;
+  width: 450px;
   line-height: 3;
   //border:${(props) => props.theme.border};
+
+  h4 {
+    word-wrap:break-word;
+  }
   div {
     width: 100%;
     display: flex;
@@ -210,9 +215,12 @@ export const Content = styled.div`
     width: 100px;
   }
 
-  @media screen and (max-width: 500) {
-    margin: 0;
-    width: 100px;
+  @media screen and (max-width: 786px) {
+   width:350px;
+   
+   h4 {
+    font-size:18px;
+   }
   }
 `;
 

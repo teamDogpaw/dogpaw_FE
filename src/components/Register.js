@@ -89,7 +89,7 @@ const Register = () => {
         }
       } catch (err) {
         if (err.response.status === 400) {
-          setNickMessage("중복된 닉네임입니다.");
+          setNickMessage("닉네임이 존재합니다.");
           setIsNick(false);
         } else {
           setNickMessage("연결이 고르지 않습니다.");
@@ -102,7 +102,7 @@ const Register = () => {
   // 이메일
   const onChangeEmail = useCallback((e) => {
     const emailRegex =
-      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+      /^[0-9a-zA-Z]([-_|.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_|.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
     const emailCurrent = e.target.value;
     setEmail(emailCurrent);
 
@@ -115,6 +115,7 @@ const Register = () => {
     }
   }, []);
 
+  // 닉네임
   const onChangeId = useCallback((e) => {
     setNickName(e.target.value);
     if (e.target.value.length < 3 || e.target.value.length > 8) {
@@ -128,17 +129,15 @@ const Register = () => {
 
   // 비밀번호
   const onChangePassword = useCallback((e) => {
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z]).{8,15}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,15}$/;
     const passwordCurrent = e.target.value;
     setPassword(passwordCurrent);
 
     if (!passwordRegex.test(passwordCurrent)) {
-      setPasswordMessage(
-        "8글자 이상, 16글자 미만으로 대문자 포함해 입력해주세요. "
-      );
+      setPasswordMessage("영 대소문자와 숫자를 포함해 입력해주세요.");
       setIsPassword(false);
     } else {
-      setPasswordMessage("알맞게 작성되었습니다 :)");
+      setPasswordMessage("알맞게 작성되었습니다.");
       setIsPassword(true);
     }
   }, []);
@@ -150,14 +149,16 @@ const Register = () => {
       setPasswordConfirm(passwordConfirmCurrent);
 
       if (password === passwordConfirmCurrent) {
-        setPasswordConfirmMessage("비밀번호를 똑같이 입력했어요 :)");
-        setIsPasswordConfirm(true);
+        if (passwordConfirm.length < 16) {
+          setPasswordConfirmMessage("동일한 비밀번호를 입력했어요.");
+          setIsPasswordConfirm(true);
+        }
       } else {
         setPasswordConfirmMessage("비밀번호를 다시 한번 확인해 주세요.");
         setIsPasswordConfirm(false);
       }
     },
-    [password]
+    [password, passwordConfirm.length]
   );
 
   const nickData = { nickname: nickName };
@@ -206,9 +207,10 @@ const Register = () => {
                   typeName="id"
                   onChange={onChangeId}
                   placeholder="닉네임을 입력해주세요."
+                  maxLength="8"
                 />
                 <Btn
-                  disabled={nickName.length < 3 || nickName.length > 10}
+                  disabled={nickName.length < 3 || nickName.length > 8}
                   onClick={() => {
                     nickCheck(nickData);
                   }}
@@ -294,9 +296,10 @@ const Register = () => {
                 typeName="id"
                 onChange={onChangeId}
                 placeholder="닉네임을 입력해주세요."
+                maxLength="8"
               />
               <LoginBtn
-                disabled={nickName.length < 3 || nickName.length > 10}
+                disabled={nickName.length < 3 || nickName.length > 8}
                 onClick={() => {
                   nickCheck(nickData);
                 }}
@@ -321,7 +324,8 @@ const Register = () => {
             title="비밀번호"
             typeTitle="password"
             type="password"
-            placeholder="비밀번호를 입력해주세요."
+            placeholder="8글자 이상, 16글자 미만으로 비밀번호를 입력해주세요."
+            maxLength="16"
           />
           <p>
             {password.length > 0 && (
@@ -339,6 +343,7 @@ const Register = () => {
             typeTitle="passwordConfirm"
             type="password"
             placeholder="비밀번호를 다시 한번 입력해주세요."
+            maxLength="16"
           />
           <p>
             {passwordConfirm.length > 0 && (
@@ -368,7 +373,7 @@ const Register = () => {
                 isNick &&
                 isEmail &&
                 isPassword &&
-                isPasswordConfirm &&
+                isPasswordConfirm === isPassword &&
                 nickName &&
                 nickMessage.length === 14 &&
                 email &&

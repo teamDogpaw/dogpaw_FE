@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
 import {
   useDeleteAlert,
@@ -10,8 +10,6 @@ import {
 import { useQueryClient } from "react-query";
 import styled from "styled-components";
 import { ReactComponent as Remove } from "../styles/icon/detail/remove.svg";
-import { useSetRecoilState } from "recoil";
-import { alertListAtom } from "../atom/atom";
 import { ReactComponent as Bell } from "../styles/icon/header/bell.svg";
 import { ReactComponent as NewBell } from "../styles/icon/header/newBell.svg";
 
@@ -22,7 +20,7 @@ const Sse = () => {
   //const setAlert = useSetRecoilState(alertListAtom);
   const [alertOpen, setAlertOpen] = useState(false);
   const [newAlert, setNewAlert] = useState([]);
-  const [unread, setUnread] = useState(0);
+  const [unread, setUnread] = useState();
   const queryClient = useQueryClient();
   const { data: alertList } = useGetMessageAlert();
   const { data: alertUnreadList } = useGetUnreadAlert();
@@ -32,10 +30,12 @@ const Sse = () => {
 
   const allList = alertList?.data;
   const unreadList = alertUnreadList?.data.count;
+  
   //console.log(unreadList)
 
   useEffect(() => {
     if (token) {
+      console.log("1번")
       const sse = new EventSource("https://dogfaw.dasole.shop/subscribe", {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -56,14 +56,18 @@ const Sse = () => {
         }
       });
     }
-  }, [token,newAlert]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   useEffect(() => {
     if (token) {
+      console.log("2번")
       setNewAlert(allList);
       setUnread(unreadList);
+      
       queryClient.invalidateQueries("unreadList");
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allList, unreadList]);
 
   const openAlert = () => {
@@ -76,13 +80,16 @@ const Sse = () => {
       setAlertOpen(false);
     }
   };
+  
 
   useEffect(() => {
+    console.log("3번")
     if (alertOpen) document.addEventListener("mousedown", clickOutSide);
     return () => {
       document.removeEventListener("mousedown", clickOutSide);
     };
-  });
+  },[alertOpen]);
+
 
   const messageDelete = async (id) => {
     await removeAlert(id);
@@ -100,6 +107,10 @@ const Sse = () => {
     await readAlert(id);
     queryClient.invalidateQueries("alertList");
   };
+
+  if (unread === undefined){
+    return null;
+  }
 
   return (
     <>

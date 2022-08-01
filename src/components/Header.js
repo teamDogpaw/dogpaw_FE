@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { newAlertListAtom, UserInfoAtom } from "../atom/atom";
+import { UserInfoAtom } from "../atom/atom";
 import ModalOpen from "./Modal_prev";
 import Sse from "./Sse";
 
@@ -28,6 +28,7 @@ const Header = () => {
   let [searchParams, setSearchParams] = useSearchParams();
   const isKakao = searchParams.get("nickname");
   const kakaoNick = localStorage.getItem("socialNick");
+
   useEffect(() => {
     if (isKakao) {
       const token = searchParams.get("token");
@@ -47,6 +48,7 @@ const Header = () => {
     }
   }, []);
 
+
   const details = detailsRef.current;
 
   if (details) {
@@ -64,6 +66,10 @@ const Header = () => {
     localStorage.removeItem("socialNick");
     window.location.replace("/");
   };
+
+  if(userInfo !== undefined &&  userInfo.profileImg === undefined){
+    return null;
+  }
 
   return (
     <>
@@ -95,16 +101,16 @@ const Header = () => {
               <Img src={logolight} alt="" />
             )}
           </div>
-          <User>
+          <>
             {!isLogin ? (
               <Contain>
                 <span onClick={viewModal}>로그인 </span>
               </Contain>
             ) : (
-              <>
+              <User>
                 <StyledLink to="/write">
                   <Write />
-                  게시글 작성{" "}
+                  게시글 작성
                 </StyledLink>
                 <Message />
                 <Details ref={detailsRef}>
@@ -124,9 +130,9 @@ const Header = () => {
                     </Option>
                   </Select>
                 </Details>
-              </>
+              </User>
             )}
-          </User>
+          </>
         </ContentWrap>
       </Wrap>
     </>
@@ -228,7 +234,7 @@ const ContentWrap = styled.div`
 const Contain = styled.div`
   display: flex;
   justify-content: flex-end;
-  width: 100%;
+  //width: 100%;
   cursor: pointer;
 `;
 
