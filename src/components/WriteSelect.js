@@ -320,7 +320,7 @@ padding: 8px 12px;
 
 export const Detail = styled.details`
 height: 40px;
-
+cursor: pointer;
 `;
 
 export const SelectArrow = styled(CapacityArrowDown)`

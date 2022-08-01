@@ -26,8 +26,8 @@ const UserBookmark = ({
         return (
             <>
                 {(isMyBookmark) ?
-                    <BookmarkFill style={{ marginLeft: "auto" }} onClick={bookmark} />
-                    : <BookmarkIcon style={{ marginLeft: "auto" }} onClick={bookmark} />
+                    <BookmarkFill style={{ marginLeft: "auto",cursor:"pointer" }} onClick={bookmark} />
+                    : <BookmarkIcon style={{ marginLeft: "auto",cursor:"pointer" }} onClick={bookmark} />
                 }
             </>
         )
@@ -40,9 +40,9 @@ const UserBookmark = ({
   return (
     <>
       {bookmarkStatus ? (
-        <BookmarkFill style={{ marginLeft: "auto" }} onClick={bookmark} />
+        <BookmarkFill style={{ marginLeft: "auto",cursor:"pointer" }} onClick={bookmark} />
       ) : (
-        <BookmarkIcon style={{ marginLeft: "auto" }} onClick={bookmark} />
+        <BookmarkIcon style={{ marginLeft: "auto",cursor:"pointer" }} onClick={bookmark} />
       )}
     </>
   );

@@ -164,6 +164,7 @@ export const ListProfilePic = styled.img`
 export const ListTitle = styled.span`
   font-size: 1.25rem;
   font-weight: bold;
+  cursor:pointer;
 `;
 
 export const ListStack = styled.span`
@@ -180,6 +181,7 @@ export const MyStack = styled.div`
   align-items: center;
   display: flex;
   gap: 5px;
+  cursor: pointer;
 
   &.selected {
     background-color: blue;
@@ -219,6 +221,7 @@ export const SelectBox = styled.summary`
   background-color: ${(props) => props.theme.inputBoxBackground};
   list-style: none;
   position: relative;
+  cursor: pointer;
 
   ::-webkit-details-marker {
     display: none;
@@ -300,6 +303,7 @@ export const MypagePostBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
+  
 `;
 
 export const Modal = styled.div`
