@@ -26,7 +26,7 @@ const Login = () => {
   // 아이디
   const onChangeId = useCallback((e) => {
     const emailRegex =
-      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+      /^[0-9a-zA-Z]([-_|.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_|.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
     const emailCurrent = e.target.value;
     setEmail(emailCurrent);
 
@@ -41,12 +41,12 @@ const Login = () => {
 
   // 비밀번호
   const onChangePassword = useCallback((e) => {
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z]).{8,15}$/;
+    const passwordRegex = /^[A-Za-z0-9]{3,16}$/;
     const passwordCurrent = e.target.value;
     setPassword(passwordCurrent);
 
     if (!passwordRegex.test(passwordCurrent)) {
-      setPasswordMessage("비밀번호 형식을 다시 한번 확인해 주세요.");
+      setPasswordMessage("비밀번호 형식을 확인하고 작성해 주세요.");
       setIsPassword(false);
     } else {
       setPasswordMessage("알맞게 작성되었습니다 :)");
@@ -57,6 +57,14 @@ const Login = () => {
   const data = {
     username: email,
     password,
+  };
+
+  const onKeyPress = (e) => {
+    if (isEmail && isPassword) {
+      if (e.key === "Enter") {
+        login(data);
+      }
+    }
   };
 
   const KakaoURL = process.env.REACT_APP_SOCIAL_URL;
@@ -73,10 +81,11 @@ const Login = () => {
           이메일
           <LoginInput
             autocomplete="email"
-            text="ID"
+            text="Email"
             type="email"
             typeName="id"
             onChange={onChangeId}
+            onKeyPress={onKeyPress}
             placeholder="이메일을 입력해주세요."
           />
           <p className={isEmail ? "success" : "error"}>
@@ -91,6 +100,7 @@ const Login = () => {
           비밀번호
           <LoginInput
             onChange={onChangePassword}
+            onKeyPress={onKeyPress}
             title="비밀번호"
             typeTitle="password"
             type="password"

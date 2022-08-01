@@ -150,7 +150,7 @@ const Register = () => {
 
       if (password === passwordConfirmCurrent) {
         if (passwordConfirm.length < 16) {
-          setPasswordConfirmMessage("비밀번호를 똑같이 입력했어요.");
+          setPasswordConfirmMessage("동일한 비밀번호를 입력했어요.");
           setIsPasswordConfirm(true);
         }
       } else {
@@ -373,7 +373,7 @@ const Register = () => {
                 isNick &&
                 isEmail &&
                 isPassword &&
-                isPasswordConfirm &&
+                isPasswordConfirm === isPassword &&
                 nickName &&
                 nickMessage.length === 14 &&
                 email &&
