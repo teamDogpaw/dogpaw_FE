@@ -39,6 +39,13 @@ body {
   font-size: 16px;
   font-family: 'Noto Sans CJK KR';
 
+  
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+&::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+
   //드래그 방지
   -webkit-user-select:none;
   -moz-user-select:none;
