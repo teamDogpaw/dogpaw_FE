@@ -13,7 +13,7 @@ import { ReactComponent as Remove } from '../styles/icon/detail/remove.svg';
 import { usePostBookmark } from '../hook/useUserData';
 import ApplyBtn, { Content } from '../components/ApplyBtn';
 import Loading from '../shared/Loading';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AlertModal from '../components/AlertModal';
 import { Btn, GrayLineBtn } from '../styles/style';
 
@@ -56,7 +56,13 @@ const Detail = () => {
     setModalOpen(false);
   };
 
-  if (isLoadingPost || isFetchingPost) {
+  useEffect(() => {
+    if (isFetchingPost) {
+      <Loading />;
+    }
+  }, [isFetchingPost]);
+
+  if (isLoadingPost) {
     return <Loading />;
   }
 

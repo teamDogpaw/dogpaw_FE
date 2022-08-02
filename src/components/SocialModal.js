@@ -1,7 +1,7 @@
-import React, { useState, useCallback } from "react";
-import styled from "styled-components";
-import { nickCheck } from "../shared/userOauth";
-import instance from "../shared/axios";
+import React, { useState, useCallback } from 'react';
+import styled from 'styled-components';
+import { nickCheck } from '../shared/userOauth';
+import instance from '../shared/axios';
 import {
   InputContent,
   InputWrap,
@@ -9,24 +9,22 @@ import {
   LoginInput,
   Title,
   Wrap,
-} from "./Login";
-import { Btn } from "../styles/style";
-import StackSelector from "./StackSeletor";
-import axios from "axios";
-import { userApis } from "../api/user";
+} from './Login';
+import { Btn } from '../styles/style';
+import StackSelector from './StackSeletor';
+import axios from 'axios';
+import { userApis } from '../api/user';
 const baseURL = process.env.REACT_APP_BASE_URL;
 
 const SocialModal = () => {
-
-
   const isRegister = true;
 
   //닉네임, 스택
-  const [nickName, setNickName] = useState("");
+  const [nickName, setNickName] = useState('');
   const [stack, setStack] = useState([]);
 
   //오류메시지 상태저장
-  const [nickMessage, setNickMessage] = useState("");
+  const [nickMessage, setNickMessage] = useState('');
 
   // 유효성 검사
   const [isNick, setIsNick] = useState(false);
@@ -35,10 +33,10 @@ const SocialModal = () => {
   const onChangeId = useCallback((e) => {
     setNickName(e.target.value);
     if (e.target.value.length < 3 || e.target.value.length > 10) {
-      setNickMessage("3글자 이상, 10글자 미만으로 입력해주세요.");
+      setNickMessage('3글자 이상, 10글자 미만으로 입력해주세요.');
       setIsNick(false);
     } else {
-      setNickMessage("알맞게 작성되었습니다.");
+      setNickMessage('알맞게 작성되었습니다.');
       setIsNick(true);
     }
   }, []);
@@ -53,23 +51,23 @@ const SocialModal = () => {
       try {
         let nickCheck = userApis.nickCheck;
         const response = await nickCheck(nickData);
+        console.log(response);
         if (response.status === 200) {
-          setNickMessage("사용 가능한 닉네임입니다.");
+          setNickMessage(response.data.msg);
           setIsNick(true);
         }
-      } catch (err) {
-        if (err.response.status === 400) {
-          setNickMessage("중복된 닉네임입니다.");
-          setIsNick(false);
-        } else {
-          setNickMessage("연결이 고르지 않습니다.");
+        if (response.status === 400) {
+          setNickMessage(response.data.errorMessage);
           setIsNick(false);
         }
+      } catch (err) {
+        setNickMessage('연결이 고르지 않습니다.');
+        setIsNick(false);
       }
-    }, 500);
+    }, 100);
   };
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
 
   const onSubmit = async () => {
     //console.log(nickName);
@@ -86,19 +84,10 @@ const SocialModal = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
-      //console.log(response);
-      // .then((res) => {
-      // window.alert("추가 정보를 기입해 주세요. :)");
-      // const accessToken = res.data.data.token.accessToken;
-      // const refreshToken = res.data.data.token.refreshToken;
-      // if (e) {
-      // localStorage.setItem("token", accessToken);
-      // localStorage.setItem("retoken", refreshToken);
-      // window.alert("로그인 성공 :)");
-      localStorage.removeItem("socialNick");
-      window.location.replace("/");
+      localStorage.removeItem('socialNick');
+      window.location.replace('/');
     } catch (err) {
       //console.log(err);
     }
@@ -134,7 +123,7 @@ const SocialModal = () => {
           </NicknameWrap>
           <p>
             {nickName.length > 0 && (
-              <span className={`message ${isNick ? "success" : "error"}`}>
+              <span className={`message ${isNick ? 'success' : 'error'}`}>
                 {nickMessage}
               </span>
             )}
@@ -143,7 +132,7 @@ const SocialModal = () => {
 
         <InputContent>
           기술 스택
-          <StackSelector setRegisterData={setStack} isRegister={isRegister}/>
+          <StackSelector setRegisterData={setStack} isRegister={isRegister} />
         </InputContent>
         <SocialBtn
           type="submit"
@@ -167,10 +156,10 @@ export const SocialBtn = styled(Btn)`
   margin-bottom: 45px;
   width: 100%;
   background-color: ${(props) =>
-    props.disabled ? "#E1E1E1" : props.theme.keyColor};
+    props.disabled ? '#E1E1E1' : props.theme.keyColor};
   :hover {
-    background-color: ${(props) => (props.disabled ? "#E1E1E1" : "#FF891C")};
-    cursor: ${(props) => (props.disabled ? "default" : "pointer")};
+    background-color: ${(props) => (props.disabled ? '#E1E1E1' : '#FF891C')};
+    cursor: ${(props) => (props.disabled ? 'default' : 'pointer')};
   }
 `;
 

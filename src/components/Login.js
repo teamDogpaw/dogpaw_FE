@@ -18,7 +18,6 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
   let debounce = null;
 
-
   //아이디, 비밀번호
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -54,7 +53,7 @@ const Login = () => {
     setPassword(passwordCurrent);
 
     if (!passwordRegex.test(passwordCurrent)) {
-      setPasswordMessage("비밀번호 형식을 확인하고 작성해 주세요.");
+      setPasswordMessage('비밀번호 형식을 확인하고 작성해 주세요.');
       setIsPassword(false);
     } else {
       setPasswordMessage('알맞게 작성되었습니다 :)');
@@ -69,7 +68,7 @@ const Login = () => {
 
   const onKeyPress = (e) => {
     if (isEmail && isPassword) {
-      if (e.key === "Enter") {
+      if (e.key === 'Enter') {
         login(data);
       }
     }
