@@ -13,7 +13,7 @@ import { ReactComponent as Remove } from '../styles/icon/detail/remove.svg';
 import { usePostBookmark } from '../hook/useUserData';
 import ApplyBtn from '../components/ApplyBtn';
 import Loading from '../shared/Loading';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AlertModal from '../components/AlertModal';
 
 const Detail = () => {
@@ -50,6 +50,7 @@ const Detail = () => {
   const closeModal = () => {
     setModalOpen(false);
   };
+
 
   if (isLoadingPost) {
     return <Loading />;
