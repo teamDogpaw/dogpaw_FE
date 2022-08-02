@@ -11,11 +11,10 @@ import paw from '../styles/icon/detail/paw.svg';
 import { ReactComponent as Edit } from '../styles/icon/detail/edit.svg';
 import { ReactComponent as Remove } from '../styles/icon/detail/remove.svg';
 import { usePostBookmark } from '../hook/useUserData';
-import ApplyBtn, { Content } from '../components/ApplyBtn';
+import ApplyBtn from '../components/ApplyBtn';
 import Loading from '../shared/Loading';
 import { useEffect, useState } from 'react';
 import AlertModal from '../components/AlertModal';
-import { Btn, GrayLineBtn } from '../styles/style';
 
 const Detail = () => {
   const navigate = useNavigate();
@@ -24,11 +23,7 @@ const Detail = () => {
   const isLogin = localStorage.getItem('token');
   const [modalOpen, setModalOpen] = useState(false);
 
-  const {
-    data: postList,
-    isLoading: isLoadingPost,
-    isFetching: isFetchingPost,
-  } = useGetPost(id);
+  const { data: postList, isLoading: isLoadingPost } = useGetPost(id);
 
   const author = postList?.data.nickname;
   const userStatus = postList?.data.userStatus;
@@ -56,11 +51,6 @@ const Detail = () => {
     setModalOpen(false);
   };
 
-  useEffect(() => {
-    if (isFetchingPost) {
-      <Loading />;
-    }
-  }, [isFetchingPost]);
 
   if (isLoadingPost) {
     return <Loading />;

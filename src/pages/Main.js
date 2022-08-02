@@ -1,25 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useInView } from "react-intersection-observer";
-import { useRecoilValue } from "recoil";
-import { UserInfoAtom } from "../atom/atom";
-import { useGetKeepPostList } from "../hook/usePostData";
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useInView } from 'react-intersection-observer';
+import { useRecoilValue } from 'recoil';
+import { UserInfoAtom } from '../atom/atom';
+import { useGetKeepPostList } from '../hook/usePostData';
+import BookmarkRank from '../components/BookmarkRank';
+import StackFilter from '../components/StackFilter';
+import { usePostBookmark } from '../hook/useUserData';
+import { useQueryClient } from 'react-query';
 
-import Tutoral from "../components/Tutorial";
-import Loading from "../shared/Loading";
-import Carousel from "../components/Carousel";
-import styled, { css, keyframes } from "styled-components";
-import { ReactComponent as CommentIcon } from "../styles/icon/post/commentCnt.svg";
-import { ReactComponent as BookmarkIcon } from "../styles/icon/post/bookmark.svg";
-import { ReactComponent as BookmarkFill } from "../styles/icon/post/bookmarkFill.svg";
-import award from "../styles/icon/main/award.svg";
-
-import person from "../styles/icon/global/profile.svg";
-import help from "../styles/icon/main/help.svg";
-import BookmarkRank from "../components/BookmarkRank";
-import StackFilter from "../components/StackFilter";
-import { usePostBookmark } from "../hook/useUserData";
-import { useQueryClient } from "react-query";
+import Tutoral from '../components/Tutorial';
+import Loading from '../shared/Loading';
+import Carousel from '../components/Carousel';
+import styled, { css, keyframes } from 'styled-components';
+import { ReactComponent as CommentIcon } from '../styles/icon/post/commentCnt.svg';
+import { ReactComponent as BookmarkIcon } from '../styles/icon/post/bookmark.svg';
+import { ReactComponent as BookmarkFill } from '../styles/icon/post/bookmarkFill.svg';
+import award from '../styles/icon/main/award.svg';
+import person from '../styles/icon/global/profile.svg';
+import help from '../styles/icon/main/help.svg';
 
 const Main = () => {
   const [mainSelectedStack, setMainSelectedStack] = useState([]);
@@ -30,8 +29,9 @@ const Main = () => {
   const [isTuto, setIsTuto] = useState(false);
   const { ref, inView } = useInView();
   const [isFilter, setIsFilter] = useState(false);
-  const isLogin = localStorage.getItem("token");
+  const isLogin = localStorage.getItem('token');
   const userMe = user?.nickname;
+
   const queryClient = useQueryClient();
   const { mutateAsync: bookmark } = usePostBookmark();
   const { data, status, fetchNextPage, isFetchingNextPage } =
@@ -40,10 +40,10 @@ const Main = () => {
   useEffect(() => {
     if (inView) fetchNextPage();
   }, [fetchNextPage, inView, filterList]);
-  if (status === "loading") {
+  if (status === 'loading') {
     return <Loading />;
   }
-  if (status === "error") {
+  if (status === 'error') {
     return null;
   }
   //console.log(data);
@@ -70,13 +70,13 @@ const Main = () => {
   // //console.log(filterList)
 
   const bookMark = (e) => {
-    e.stopPropagation()
+    e.stopPropagation();
   };
 
-  const bookMarkBtn = async (id) =>{
-    await bookmark(id)
-    queryClient.invalidateQueries("postList");
-  }
+  const bookMarkBtn = async (id) => {
+    await bookmark(id);
+    queryClient.invalidateQueries('postList');
+  };
 
   const clickedToggle = () => {
     setToggle((prev) => !prev);
@@ -85,9 +85,9 @@ const Main = () => {
   const openTuto = () => {
     setIsTuto((prev) => !prev);
     if (isTuto === false) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "scroll";
+      document.body.style.overflow = 'scroll';
     }
   };
 
@@ -114,7 +114,7 @@ const Main = () => {
             <p>모집중</p>
           </Toggle>
           <Circle toggle={toggle}>
-            <p>{toggle ? "모집중" : "ALL"}</p>
+            <p>{toggle ? '모집중' : 'ALL'}</p>
           </Circle>
         </ToggleBtn>
         {/* <button onClick={setFilter} style={{marginLeft:"auto"}}>
@@ -140,7 +140,7 @@ const Main = () => {
                     <Article
                       key={post.postId}
                       onClick={() => {
-                        navigate("/detail/" + post.postId);
+                        navigate('/detail/' + post.postId);
                       }}
                     >
                       <Content>
@@ -153,7 +153,7 @@ const Main = () => {
                             <li key={idx}>#{lang}</li>
                           ))}
                         </ul>
-                        <p style={{ color: "#ffb673", marginTop: "5px" }}>
+                        <p style={{ color: '#ffb673', marginTop: '5px' }}>
                           #{post.online}
                         </p>
                       </Hashtag>
@@ -165,69 +165,7 @@ const Main = () => {
                           </Comment>
                           <Bookmark>
                             <BookmarkIcon
-                              style={{ width: "10", height: "14" }}
-                            />
-                            <p>{post.bookmarkCnt}</p>
-                          </Bookmark>
-                        </div>
-                        <Date>시작예정일 {post.startAt}</Date>
-                      </Info>
-                      <Footer>
-                        <User>
-                          <img
-                            src={post.profileImg || person}
-                            alt="profileImg"
-                          />
-                          <p>{post.nickname}</p>
-                        </User>
-                        <div onClick={bookMark}>
-                        {isLogin &&
-                            userMe !== post.nickname &&
-                            (post.bookMarkStatus ? (
-                              <BookmarkFill onClick={()=>bookMarkBtn(post.postId)} />
-                            ) : (
-                              <BookmarkIcon onClick={()=>bookMarkBtn(post.postId)} />
-                            ))}
-                        </div>
-                      </Footer>
-                      {post.deadline === true && <Deadline>모집마감</Deadline>}
-                    </Article>
-                  </>
-                );
-              })}
-            </>
-          ) : (
-            <>
-              {list.map((post) => {
-                return (
-                  <>
-                    <Article
-                      key={post.postId}
-                      onClick={() => {
-                        navigate("/detail/" + post.postId);
-                      }}
-                    >
-                      <Content>
-                        <h1>{post.title}</h1>
-                        <p>{post.content}</p>
-                      </Content>
-                      <Hashtag>
-                        <ul>
-                          {post.stacks.map((lang, idx) => (
-                            <li key={idx}>#{lang}</li>
-                          ))}
-                        </ul>
-                        <p style={{ color: "#ffb673" }}>#{post.online}</p>
-                      </Hashtag>
-                      <Info>
-                        <div>
-                          <Comment>
-                            <CommentIcon />
-                            <p>{post.commentCnt}</p>
-                          </Comment>
-                          <Bookmark>
-                            <BookmarkIcon
-                              style={{ width: "10", height: "14" }}
+                              style={{ width: '10', height: '14' }}
                             />
                             <p>{post.bookmarkCnt}</p>
                           </Bookmark>
@@ -246,13 +184,88 @@ const Main = () => {
                           {isLogin &&
                             userMe !== post.nickname &&
                             (post.bookMarkStatus ? (
-                              <BookmarkFill onClick={()=>bookMarkBtn(post.postId)} />
+                              <BookmarkFill
+                                onClick={() => bookMarkBtn(post.postId)}
+                              />
                             ) : (
-                              <BookmarkIcon onClick={()=>bookMarkBtn(post.postId)} />
+                              <BookmarkIcon
+                                onClick={() => bookMarkBtn(post.postId)}
+                              />
                             ))}
                         </div>
                       </Footer>
-                      {post.deadline === true && <><DeadlineWrap/><Deadline>모집마감</Deadline></>}
+                      {post.deadline === true && <Deadline>모집마감</Deadline>}
+                    </Article>
+                  </>
+                );
+              })}
+            </>
+          ) : (
+            <>
+              {list.map((post) => {
+                return (
+                  <>
+                    <Article
+                      key={post.postId}
+                      onClick={() => {
+                        navigate('/detail/' + post.postId);
+                      }}
+                    >
+                      <Content>
+                        <h1>{post.title}</h1>
+                        <p>{post.content}</p>
+                      </Content>
+                      <Hashtag>
+                        <ul>
+                          {post.stacks.map((lang, idx) => (
+                            <li key={idx}>#{lang}</li>
+                          ))}
+                        </ul>
+                        <p style={{ color: '#ffb673' }}>#{post.online}</p>
+                      </Hashtag>
+                      <Info>
+                        <div>
+                          <Comment>
+                            <CommentIcon />
+                            <p>{post.commentCnt}</p>
+                          </Comment>
+                          <Bookmark>
+                            <BookmarkIcon
+                              style={{ width: '10', height: '14' }}
+                            />
+                            <p>{post.bookmarkCnt}</p>
+                          </Bookmark>
+                        </div>
+                        <Date>시작예정일 {post.startAt}</Date>
+                      </Info>
+                      <Footer>
+                        <User>
+                          <img
+                            src={post.profileImg || person}
+                            alt="profileImg"
+                          />
+                          <p>{post.nickname}</p>
+                        </User>
+                        <div onClick={bookMark}>
+                          {isLogin &&
+                            userMe !== post.nickname &&
+                            (post.bookMarkStatus ? (
+                              <BookmarkFill
+                                onClick={() => bookMarkBtn(post.postId)}
+                              />
+                            ) : (
+                              <BookmarkIcon
+                                onClick={() => bookMarkBtn(post.postId)}
+                              />
+                            ))}
+                        </div>
+                      </Footer>
+                      {post.deadline === true && (
+                        <>
+                          <DeadlineWrap />
+                          <Deadline>모집마감</Deadline>
+                        </>
+                      )}
                     </Article>
                   </>
                 );
@@ -457,8 +470,6 @@ const Article = styled.li`
   }
 `;
 
-
-
 export const Content = styled.div`
   margin: 20px 0;
 
@@ -493,14 +504,14 @@ export const Hashtag = styled.div`
 `;
 
 export const DeadlineWrap = styled.div`
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background-color:${props => props.theme.deadlineColor};
-border-radius: 16px;
-opacity:0.8;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: ${(props) => props.theme.deadlineColor};
+  border-radius: 16px;
+  opacity: 0.8;
 `;
 
 export const Deadline = styled.div`
@@ -510,10 +521,9 @@ export const Deadline = styled.div`
   padding: 16px;
   transform: translate(-50%, -50%);
   color: white;
-  font-weight:bold;
-  background-color: #4E4E4E;
+  font-weight: bold;
+  background-color: #4e4e4e;
   border-radius: 6px;
-
 `;
 
 export const Footer = styled.div`
