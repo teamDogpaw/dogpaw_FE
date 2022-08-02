@@ -396,6 +396,16 @@ const Register = () => {
               setIsNextPage(true);
               setIsSubmitOnce(true);
             }}
+            disabled={
+              !(
+                isEmail &&
+                isPassword &&
+                isPasswordConfirm === isPassword &&
+                email &&
+                password &&
+                passwordConfirm
+              )
+            }
           >
             다음
           </LoginBtn>
