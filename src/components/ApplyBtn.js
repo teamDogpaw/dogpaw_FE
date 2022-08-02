@@ -25,7 +25,7 @@ const ApplyBtn = ({ myPostData }) => {
   const applyBtn = async () => {
     if (userStatus === 'applicant') {
       await apply(id);
-      setModalOpen(true);
+      setModalOpen(false);
       queryClient.invalidateQueries('detailPost');
     }
     if (userStatus === 'MEMBER') {
@@ -196,7 +196,7 @@ const Button3 = styled.button`
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content:center;
+  justify-content: center;
   align-items: center;
   margin: auto;
   width: 450px;
@@ -204,7 +204,7 @@ export const Content = styled.div`
   //border:${(props) => props.theme.border};
 
   h4 {
-    word-wrap:break-word;
+    word-wrap: break-word;
   }
   div {
     width: 100%;
@@ -216,11 +216,11 @@ export const Content = styled.div`
   }
 
   @media screen and (max-width: 786px) {
-   width:350px;
-   
-   h4 {
-    font-size:18px;
-   }
+    width: 350px;
+
+    h4 {
+      font-size: 18px;
+    }
   }
 `;
 
