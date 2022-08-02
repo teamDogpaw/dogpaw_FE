@@ -109,7 +109,9 @@ export const MainBody = styled.div`
   margin: auto;
   border-radius: 16px;
   padding: 32px;
-
+  p {
+    float: right;
+  }
   @media screen and (max-width: 700px) {
     margin: 0px;
   }

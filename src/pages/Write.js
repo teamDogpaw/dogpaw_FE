@@ -171,7 +171,9 @@ const Write = () => {
             handleContent(event.target.value);
           }}
           defaultValue={isEdit ? selectedData.content : null}
+          maxLength="2500"
         />
+        <p>{selectedData.content.length}자 / 2500자</p>
       </MainBody>
 
       <Publish>
@@ -257,7 +259,7 @@ const ProjectTextarea = styled.textarea`
 `;
 
 const Leftarrow = styled(Arrow)`
- cursor:pointer;
+  cursor: pointer;
   position: absolute;
   top: 25px;
   left: 30px;
