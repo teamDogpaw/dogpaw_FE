@@ -57,6 +57,7 @@ const Register = () => {
   let debounce = null;
   const [errorMessage, setErrorMessage] = useState('');
   const [alertModalOpen, setAlertModalOpen] = useState(false);
+  const [isSubmitOnce, setIsSubmitOnce] = useState(false);
 
   //회원가입 성공 유무
   const register = async (data) => {
@@ -300,6 +301,7 @@ const Register = () => {
             typeName="email"
             onChange={onChangeEmail}
             placeholder="이메일을 입력해주세요."
+            defaultValue={isSubmitOnce ? email : null}
           />
           <p>
             {email.length > 0 && (
@@ -349,6 +351,7 @@ const Register = () => {
             type="password"
             placeholder="8글자 이상, 16글자 미만으로 비밀번호를 입력해주세요."
             maxLength="16"
+            defaultValue={isSubmitOnce ? password : null}
           />
           <p>
             {password.length > 0 && (
@@ -367,6 +370,7 @@ const Register = () => {
             type="password"
             placeholder="비밀번호를 다시 한번 입력해주세요."
             maxLength="16"
+            defaultValue={isSubmitOnce ? passwordConfirm : null}
           />
           <p>
             {passwordConfirm.length > 0 && (
@@ -387,7 +391,14 @@ const Register = () => {
         )}
 
         {isMobile ? (
-          <LoginBtn onClick={() => setIsNextPage(true)}>다음</LoginBtn>
+          <LoginBtn
+            onClick={() => {
+              setIsNextPage(true);
+              setIsSubmitOnce(true);
+            }}
+          >
+            다음
+          </LoginBtn>
         ) : (
           <LoginBtn
             type="submit"

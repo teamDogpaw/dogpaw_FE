@@ -1,5 +1,5 @@
-import styled, { createGlobalStyle } from "styled-components";
-import { ReactComponent as X } from "../styles/icon/modal/close.svg";
+import styled, { createGlobalStyle } from 'styled-components';
+import { ReactComponent as X } from '../styles/icon/modal/close.svg';
 
 //전역 스타일링
 export const GlobalStyle = createGlobalStyle`
@@ -166,12 +166,12 @@ export const GrayLineBtn = styled(LineBtn)`
 `;
 
 export const ModalBtn = styled(LineBtn)`
-border: transparent;
-background-color: ${(props) => props.theme.keyColor};
-color:${(props) => props.theme.textColor_btn};
-:hover{
-  background-color: #ff891c;
-}
+  border: transparent;
+  background-color: ${(props) => props.theme.keyColor};
+  color: ${(props) => props.theme.textColor_btn};
+  :hover {
+    background-color: #ff891c;
+  }
 `;
 
 export const ListProfilePic = styled.img`
@@ -183,7 +183,7 @@ export const ListProfilePic = styled.img`
 export const ListTitle = styled.span`
   font-size: 1.25rem;
   font-weight: bold;
-  cursor:pointer;
+  cursor: pointer;
 `;
 
 export const ListStack = styled.span`
@@ -266,9 +266,14 @@ export const SelectBox = styled.summary`
       width: 100%;
     }
   }
+
+  &.mypage {
+    margin: auto;
+  }
 `;
 
 export const SelectBoxOpen = styled.ul`
+  position: absolute;
   max-height: 200px;
   z-index: 10;
   border-radius: 8px;
@@ -313,7 +318,7 @@ export const ModalRegisterBtn = styled.span`
 export const PostBody = styled.div`
   background-color: ${(props) => props.theme.divBackGroundColor};
   border: transparent;
-  padding: 24px;
+  padding: 32px;
   border-radius: 16px;
   box-shadow: ${(props) => props.theme.boxShadow};
 `;
@@ -322,7 +327,6 @@ export const MypagePostBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
-  
 `;
 
 export const Modal = styled.div`

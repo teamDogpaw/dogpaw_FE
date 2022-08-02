@@ -1,10 +1,10 @@
-import { MyStack, SelectBoxOpen, SelectBox, Option } from "../styles/style";
-import { ReactComponent as Delete } from "../styles/icon/global/stackDelete.svg";
-import { useEffect, useRef, useState } from "react";
-import { useMatch } from "react-router-dom";
-import { Stacks } from "../utils/enums";
-import { SelectArrow } from "./WriteSelect";
-import styled from "styled-components";
+import { MyStack, SelectBoxOpen, SelectBox, Option } from '../styles/style';
+import { ReactComponent as Delete } from '../styles/icon/global/stackDelete.svg';
+import { useEffect, useRef, useState } from 'react';
+import { useMatch } from 'react-router-dom';
+import { Stacks } from '../utils/enums';
+import { SelectArrow } from './WriteSelect';
+import styled from 'styled-components';
 
 const StackSelector = ({
   isEdit,
@@ -56,16 +56,20 @@ const StackSelector = ({
   return (
     <div>
       <details ref={stackdetailsRef}>
-        <SelectBox className={isRegister ? "Login" : null}>
-          {" "}
+        <SelectBox
+          className={isRegister ? 'Login' : isMypage !== null ? 'mypage' : null}
+        >
+          {' '}
           스택을 선택해주세요.
           <SelectArrow />
         </SelectBox>
-        <SelectBoxOpen className={isRegister ? "Login" : null}>
+        <SelectBoxOpen
+          className={isRegister ? 'Login' : isMypage !== null ? 'mypage' : null}
+        >
           {ALL_STACK.map((oneStack, index) => {
             return (
               <Option
-                className={stack.includes(oneStack) ? "selected" : null}
+                className={stack.includes(oneStack) ? 'selected' : null}
                 key={index}
                 onClick={() => addStack(oneStack)}
               >
@@ -75,7 +79,7 @@ const StackSelector = ({
           })}
         </SelectBoxOpen>
       </details>
-      <StackWrap>
+      <StackWrap className={isMypage !== null ? 'mypage' : null}>
         {stack.map((oneStack, index) => {
           return (
             <MyStack key={index} onClick={() => removeStack(oneStack)}>
@@ -95,6 +99,11 @@ export const StackWrap = styled.div`
   margin: 20px 0px 10px;
   flex-wrap: wrap;
   gap: 10px;
+
+  &.mypage {
+    text-align: center;
+    justify-content: center;
+  }
 `;
 
 export default StackSelector;
