@@ -1,10 +1,10 @@
-import styled from "styled-components";
-import { GrayLineBtn, LineBtn, ListProfilePic, MyStack } from "../styles/style";
-import profilepic from "../styles/icon/global/profile.svg";
-import { useGetApplicantLists } from "../hook/useProjectData";
-import { useAcceptApply, useRejectApply } from "../hook/useProjectMutation";
-import { ReactComponent as Empty } from "../styles/icon/global/pawLoading.svg";
-import AlertModal from "../components/AlertModal";
+import styled from 'styled-components';
+import { GrayLineBtn, LineBtn, ListProfilePic, MyStack } from '../styles/style';
+import profilepic from '../styles/icon/global/profile.svg';
+import { useGetApplicantLists } from '../hook/useProjectData';
+import { useAcceptApply, useRejectApply } from '../hook/useProjectMutation';
+import { ReactComponent as Empty } from '../styles/icon/global/pawLoading.svg';
+import AlertModal from '../components/AlertModal';
 
 const ApplyList = ({ myPostId }) => {
   const { isLoading: isApplyListLoading, data: applyList } =
@@ -14,12 +14,12 @@ const ApplyList = ({ myPostId }) => {
 
   const reject = async (data) => {
     await rejectApply(data);
-    alert("거절이 완료되었습니다!");
+    alert('거절이 완료되었습니다!');
   };
 
   const accept = async (data) => {
     await acceptApply(data);
-    alert("수락이 완료되었습니다!");
+    alert('수락이 완료되었습니다!');
   };
 
   if (isApplyListLoading) {
@@ -45,21 +45,21 @@ const ApplyList = ({ myPostId }) => {
         return (
           <ApplyListContent>
             <Section>
-            <User>
-              {applier.profileImg === null ? (
-                <ListProfilePic src={profilepic} />
-              ) : (
-                <ListProfilePic src={applier.profileImg} />
-              )}
-              {applier.nickname}
-            </User>
-            {applier.username}
+              <User>
+                {applier.profileImg === null ? (
+                  <ListProfilePic src={profilepic} />
+                ) : (
+                  <ListProfilePic src={applier.profileImg} />
+                )}
+                {applier.nickname}
+              </User>
+              {applier.username}
 
-            <Stacks>
-              {applier.stacks?.map((stack, index) => {
-                return <Stack key={index}>#{stack}</Stack>;
-              })}
-            </Stacks>
+              <Stacks>
+                {applier.stacks?.map((stack, index) => {
+                  return <Stack key={index}>#{stack}</Stack>;
+                })}
+              </Stacks>
             </Section>
             <MyBtn>
               <LineBtn
@@ -84,7 +84,6 @@ const ApplyList = ({ myPostId }) => {
   );
 };
 
-
 export const ApplyListContent = styled.div`
   display: flex;
   justify-content: space-between;
@@ -94,8 +93,7 @@ export const ApplyListContent = styled.div`
   border-radius: 16px;
   margin-bottom: 16px;
   line-height: normal;
-  position:relative;
-
+  position: relative;
 
   img {
     margin-right: 5px;
@@ -105,29 +103,29 @@ export const ApplyListContent = styled.div`
 export const EmptyBody = styled.div`
   text-align: center;
   margin: auto;
-display: flex;
-flex-direction:column;
+  display: flex;
+  flex-direction: column;
 
-align-items: center;
-gap: 10px;
+  align-items: center;
+  gap: 10px;
   span {
-    font-family: "GongGothicBold";
+    font-family: 'GongGothicBold';
     color: ${(props) => props.theme.keyColor};
     font-size: 1.25rem;
     font-weight: bold;
 
-    @media screen and (max-width:600px){
+    @media screen and (max-width: 600px) {
       font-size: 1rem;
-  }
+    }
   }
 `;
 
 export const EmptyImg = styled(Empty)`
   width: 200px;
   height: 200px;
-  @media screen and (max-width:600px){
-   width:100px;
-   height:100px ;
+  @media screen and (max-width: 600px) {
+    width: 100px;
+    height: 100px;
   }
 `;
 
