@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Btn, GrayLineBtn, LineBtn } from '../styles/style';
+import { Btn, LineBtn } from '../styles/style';
 import styled, { css, keyframes } from 'styled-components';
 import { useQueryClient } from 'react-query';
 import { usePostApply } from '../hook/useApplyMutation';
