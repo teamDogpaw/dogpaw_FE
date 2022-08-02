@@ -67,7 +67,6 @@ const Register = () => {
       try {
         let signUp = userApis.signUp;
         const response = await signUp(data);
-        console.log(response);
         if (response.status === 200) {
           setModalContent(<Login setModalContent={setModalContent} />);
         }
@@ -94,7 +93,6 @@ const Register = () => {
       try {
         let nickCheck = userApis.nickCheck;
         const response = await nickCheck(data);
-        console.log(response);
         if (response.status === 200) {
           setNickMessage(response.data.msg);
           setIsNickCheck(true);
@@ -156,7 +154,7 @@ const Register = () => {
     }
   }, []);
 
-  // 비밀번호 확인 체크 함수
+  // 비밀번호 확인
   const onChangePasswordConfirm = useCallback(
     (e) => {
       const passwordConfirmCurrent = e.target.value;
@@ -205,78 +203,83 @@ const Register = () => {
 
   if (isNextPage) {
     return (
-      <Wrap>
-        <AlertModal
-          open={alertModalOpen}
-          message={errorMessage}
-          setAlertModalOpen={closeModal}
-        />
-        <Title>
-          REGISTER
-          <span> 회원가입</span>
-        </Title>
-        <InputWrap>
-          <InputContent>
-            닉네임
-            <NicknameWrap>
-              <LoginInput
-                text="ID"
-                type="text"
-                typeName="id"
-                onChange={onChangeId}
-                placeholder="닉네임을 입력해주세요."
-                maxLength="8"
-              />
-              <Btn
-                disabled={nickName.length < 3 || nickName.length > 8}
-                onClick={() => {
-                  nickCheck(nickData);
-                }}
-              >
-                중복확인
-              </Btn>
-            </NicknameWrap>
-            <p>
-              {nickName.length > 0 && (
-                <span
-                  className={`message ${
-                    isNick || isNickCheck ? 'success' : 'error'
-                  }`}
+      <>
+        <Wrap>
+          <AlertModal
+            open={alertModalOpen}
+            message={errorMessage}
+            setAlertModalOpen={closeModal}
+          />
+          <Title>
+            REGISTER
+            <span> 회원가입</span>
+          </Title>
+          <InputWrap>
+            <InputContent>
+              닉네임
+              <NicknameWrap>
+                <LoginInput
+                  text="ID"
+                  type="text"
+                  typeName="id"
+                  onChange={onChangeId}
+                  placeholder="닉네임을 입력해주세요."
+                  maxLength="8"
+                />
+                <Btn
+                  disabled={nickName.length < 3 || nickName.length > 8}
+                  onClick={() => {
+                    nickCheck(nickData);
+                  }}
                 >
-                  {nickMessage}
-                </span>
-              )}
-            </p>
-          </InputContent>
-          <InputContent>
-            기술 스택
-            <StackSelector setRegisterData={setStack} isRegister={isRegister} />
-          </InputContent>
-          <LineBtn onClick={() => setIsNextPage(false)}>뒤로가기</LineBtn>
-          <LoginBtn
-            type="submit"
-            disabled={
-              !(
-                isNick &&
-                isEmail &&
-                isPassword &&
-                isPasswordConfirm &&
-                nickName &&
-                email &&
-                password &&
-                passwordConfirm &&
-                stack.length > 0
-              )
-            }
-            onClick={() => {
-              register(data);
-            }}
-          >
-            회원가입하기
-          </LoginBtn>
-          {isModalOpen ? <ModalOpen viewModal={viewModal} /> : null}
-        </InputWrap>
-      </Wrap>
+                  중복확인
+                </Btn>
+              </NicknameWrap>
+              <p>
+                {nickName.length > 0 && (
+                  <span
+                    className={`message ${
+                      isNick || isNickCheck ? 'success' : 'error'
+                    }`}
+                  >
+                    {nickMessage}
+                  </span>
+                )}
+              </p>
+            </InputContent>
+            <InputContent>
+              기술 스택
+              <StackSelector
+                setRegisterData={setStack}
+                isRegister={isRegister}
+              />
+            </InputContent>
+            <LineBtn onClick={() => setIsNextPage(false)}>뒤로가기</LineBtn>
+            <LoginBtn
+              type="submit"
+              disabled={
+                !(
+                  isNick &&
+                  isEmail &&
+                  isPassword &&
+                  isPasswordConfirm &&
+                  nickName &&
+                  email &&
+                  password &&
+                  passwordConfirm &&
+                  stack.length > 0
+                )
+              }
+              onClick={() => {
+                register(data);
+              }}
+            >
+              회원가입하기
+            </LoginBtn>
+            {isModalOpen ? <ModalOpen viewModal={viewModal} /> : null}
+          </InputWrap>
+        </Wrap>
+      </>
     );
   }
 
@@ -396,7 +399,7 @@ const Register = () => {
                 isNick &&
                 isEmail &&
                 isPassword &&
-                isPasswordConfirm === isPassword &&
+                isPasswordConfirm &&
                 nickName &&
                 isNickCheck &&
                 email &&

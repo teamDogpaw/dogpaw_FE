@@ -1,5 +1,5 @@
-import styled, { createGlobalStyle } from "styled-components";
-import { ReactComponent as X } from "../styles/icon/modal/close.svg";
+import styled, { createGlobalStyle } from 'styled-components';
+import { ReactComponent as X } from '../styles/icon/modal/close.svg';
 
 //전역 스타일링
 export const GlobalStyle = createGlobalStyle`
@@ -109,7 +109,9 @@ export const MainBody = styled.div`
   margin: auto;
   border-radius: 16px;
   padding: 32px;
-
+  p {
+    float: right;
+  }
   @media screen and (max-width: 700px) {
     margin: 0px;
   }
@@ -166,12 +168,12 @@ export const GrayLineBtn = styled(LineBtn)`
 `;
 
 export const ModalBtn = styled(LineBtn)`
-border: transparent;
-background-color: ${(props) => props.theme.keyColor};
-color:${(props) => props.theme.textColor_btn};
-:hover{
-  background-color: #ff891c;
-}
+  border: transparent;
+  background-color: ${(props) => props.theme.keyColor};
+  color: ${(props) => props.theme.textColor_btn};
+  :hover {
+    background-color: #ff891c;
+  }
 `;
 
 export const ListProfilePic = styled.img`
@@ -183,7 +185,7 @@ export const ListProfilePic = styled.img`
 export const ListTitle = styled.span`
   font-size: 1.25rem;
   font-weight: bold;
-  cursor:pointer;
+  cursor: pointer;
 `;
 
 export const ListStack = styled.span`
@@ -322,7 +324,6 @@ export const MypagePostBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
-  
 `;
 
 export const Modal = styled.div`
