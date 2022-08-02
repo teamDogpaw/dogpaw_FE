@@ -1,21 +1,21 @@
-import { useEffect, useRef, useState } from "react";
-import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
+import { useEffect, useRef, useState } from 'react';
+import { EventSourcePolyfill, NativeEventSource } from 'event-source-polyfill';
 import {
   useDeleteAlert,
   useDeleteAlertAll,
   useGetMessageAlert,
   useGetUnreadAlert,
   usePostReadAlert,
-} from "../hook/useNotification";
-import { useQueryClient } from "react-query";
-import styled from "styled-components";
-import { ReactComponent as Remove } from "../styles/icon/detail/remove.svg";
-import { ReactComponent as Bell } from "../styles/icon/header/bell.svg";
-import { ReactComponent as NewBell } from "../styles/icon/header/newBell.svg";
+} from '../hook/useNotification';
+import { useQueryClient } from 'react-query';
+import styled from 'styled-components';
+import { ReactComponent as Remove } from '../styles/icon/detail/remove.svg';
+import { ReactComponent as Bell } from '../styles/icon/header/bell.svg';
+import { ReactComponent as NewBell } from '../styles/icon/header/newBell.svg';
 
 const Sse = () => {
   const ref = useRef(null);
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
   const EventSource = EventSourcePolyfill || NativeEventSource;
   //const setAlert = useSetRecoilState(alertListAtom);
   const [alertOpen, setAlertOpen] = useState(false);
@@ -30,42 +30,42 @@ const Sse = () => {
 
   const allList = alertList?.data;
   const unreadList = alertUnreadList?.data.count;
-  
+
   //console.log(unreadList)
 
   useEffect(() => {
     if (token) {
-      const sse = new EventSource("https://dogfaw.dasole.shop/subscribe", {
+      const sse = new EventSource('https://dogfaw.dasole.shop/subscribe', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      sse.addEventListener("message", (e) => {
-        if (e.type === "message" && e.data.startsWith("{")) {
-         setNewAlert((prev) => [JSON.parse(e.data)]);
-          
-          queryClient.invalidateQueries("alertList");
+      sse.addEventListener('message', (e) => {
+        if (e.type === 'message' && e.data.startsWith('{')) {
+          setNewAlert((prev) => [JSON.parse(e.data)]);
+
+          queryClient.invalidateQueries('alertList');
         }
       });
 
-      sse.addEventListener("error", (e) => {
+      sse.addEventListener('error', (e) => {
         if (e) {
           sse.close();
         }
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   useEffect(() => {
     if (token) {
       setNewAlert(allList);
       setUnread(unreadList);
-      
-      queryClient.invalidateQueries("unreadList");
+
+      queryClient.invalidateQueries('unreadList');
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allList, unreadList]);
 
   const openAlert = () => {
@@ -73,39 +73,37 @@ const Sse = () => {
   };
 
   const clickOutSide = (e) => {
-    //console.log(ref.current.contains(e.target))
+    console.log(alertOpen, !ref.current.contains(e.target));
     if (alertOpen && !ref.current.contains(e.target)) {
       setAlertOpen(false);
     }
   };
-  
 
   useEffect(() => {
-    if (alertOpen) document.addEventListener("mousedown", clickOutSide);
+    if (alertOpen) document.addEventListener('mousedown', clickOutSide);
     return () => {
-      document.removeEventListener("mousedown", clickOutSide);
+      document.removeEventListener('mousedown', clickOutSide);
     };
-  },[alertOpen]);
-
+  });
 
   const messageDelete = async (id) => {
     await removeAlert(id);
-    queryClient.invalidateQueries("alertList");
+    queryClient.invalidateQueries('alertList');
   };
 
   const messageAllDelete = async () => {
     await removeAllAlert();
-    queryClient.invalidateQueries("alertList");
+    queryClient.invalidateQueries('alertList');
   };
 
   const messageRead = async (id, url) => {
     window.location.href = url;
     //console.log(id, url, status);
     await readAlert(id);
-    queryClient.invalidateQueries("alertList");
+    queryClient.invalidateQueries('alertList');
   };
 
-  if (unread === undefined){
+  if (unread === undefined) {
     return null;
   }
 
@@ -216,7 +214,7 @@ const List = styled.li`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  opacity: ${(props) => (props.status ? "0.5" : "1")};
+  opacity: ${(props) => (props.status ? '0.5' : '1')};
 `;
 
 const AllDelete = styled.div`
