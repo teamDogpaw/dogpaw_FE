@@ -270,9 +270,9 @@ const MyPage = () => {
             </ProfileWrap>
             <BtnWrap>
               <Button onClick={imageResetBtn}>기본 이미지로 변경</Button>
-              <Button type="submit" onClick={EditMyData} disabled={!nickCheck}>
+              <EditBtn type="submit" onClick={EditMyData} disabled={!nickCheck}>
                 편집 완료
-              </Button>
+              </EditBtn>
               <Button3 onClick={exitBtnOpen}>회원 탈퇴</Button3>
             </BtnWrap>
           </>
@@ -302,8 +302,9 @@ const MyPage = () => {
                 })}
               </Stacks>
             </Profile>
-
-            <Button onClick={() => setIsEdit(true)}>프로필 편집</Button>
+            <BtnWrap>
+              <EditBtn onClick={() => setIsEdit(true)}>프로필 편집</EditBtn>
+            </BtnWrap>
           </ProfileWrap>
         )}
       </PostBody>
@@ -421,16 +422,13 @@ const AlertMessage = styled.span`
 `;
 
 const BtnWrap = styled.div`
-  top: 0;
-  margin-left: auto;
-  display: flex;
-  flex-direction: column;
-  text-align: right;
-  gap: 10px;
-  margin-top: 10px;
   span {
     color: ${(props) => props.theme.errorColor};
     font-size: 0.875rem;
+  }
+  @media screen and (max-width: 600px) {
+    width: 100%;
+    margin-top: 32px;
   }
 `;
 
@@ -459,7 +457,6 @@ export const Profilepic = styled.div`
   border-radius: 80px;
   overflow: hidden;
   text-align: center;
-  /* position: relative; */
 
   img {
     align-self: center;
@@ -470,9 +467,9 @@ export const Profilepic = styled.div`
     object-fit: cover;
   }
 
-  @media screen and (max-width: 650px) {
-    max-width: 72px;
-    max-height: 72px;
+  @media screen and (max-width: 750px) {
+    width: 72px;
+    height: 72px;
     border-radius: 36px;
   }
 `;
@@ -480,7 +477,7 @@ const File = styled.div`
   div {
     position: absolute;
     bottom: 0px;
-    left: 120px;
+    right: 0px;
     box-shadow: ${(props) => props.theme.boxShadow};
     display: flex;
     align-items: center;
@@ -527,6 +524,9 @@ export const ProfileWrap = styled.div`
   position: relative;
 
   @media screen and (max-width: 600px) {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
   }
 `;
 
@@ -599,6 +599,20 @@ export const Stacks = styled.div`
   max-width: 400px;
   @media screen and (max-width: 700px) {
     max-width: 300px;
+  }
+`;
+
+const EditBtn = styled(Btn)`
+  background-color: ${(props) => props.theme.keyColor};
+  padding: 8px 12px;
+  margin-left: auto;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+
+  @media screen and (max-width: 600px) {
+    position: relative;
+    width: 100%;
   }
 `;
 
