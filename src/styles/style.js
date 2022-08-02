@@ -345,6 +345,10 @@ export const Modal = styled.div`
     padding: 24px;
     margin-top: 0px;
     border-radius: 0px;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      width: 0px;
+    }
   }
 
   @media screen and (max-width: 600px) {
