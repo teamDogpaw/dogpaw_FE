@@ -84,7 +84,7 @@ const Comments = () => {
           onChange={onChange}
         />
 
-        <Button
+        <SendBTN
           onClick={() => {
             userChk();
             addCommentClick();
@@ -92,7 +92,7 @@ const Comments = () => {
           isActive={btnState}
         >
           등록하기
-        </Button>
+        </SendBTN>
       </CommentBox>
       <div>
         {commentList?.data.data.map((data) => (
@@ -146,7 +146,7 @@ const Input = styled.input`
   background-color: ${(props) => props.theme.backgroundColor};
 `;
 
-export const Button = styled(Btn)`
+export const SendBTN = styled(Btn)`
   background: #ffb673;
   width: 92px;
   height: 40px;

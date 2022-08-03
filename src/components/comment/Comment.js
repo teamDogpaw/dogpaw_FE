@@ -12,12 +12,12 @@ import {
 
 import styled from 'styled-components';
 import DropDown from '../DropDown';
-import { Btn, LineBtn } from '../../styles/style';
+import { LineBtn } from '../../styles/style';
 import AlertModal from '../common/AlertModal';
 import ModalOpen from '../common/Modal_prev';
 
 import person from '../../styles/images/person.png';
-import { Button } from './Comments';
+import { SendBTN } from './Comments';
 
 const Comment = ({ data }) => {
   const params = useParams();
@@ -157,14 +157,14 @@ const Comment = ({ data }) => {
                     ref={replyRef}
                     onKeyPress={onCheckEnter}
                   />
-                  <Button
+                  <SendBTN
                     onClick={() => {
                       userChk();
                       addReplyClick();
                     }}
                   >
                     등록하기
-                  </Button>
+                  </SendBTN>
                 </CommentBox>
               </Wrap>
             </li>
