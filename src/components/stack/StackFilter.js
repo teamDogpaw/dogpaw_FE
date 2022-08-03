@@ -15,11 +15,9 @@ const StackFilter = ({
 
   const changeStack = (newStack) => {
     setSelectedStack(newStack);
-    //console.log(selectedStack)
-    //console.log(newStack)
+
     if (!selectedStack.includes(newStack)) {
       const newStackFilterArray = selectedStack.concat(newStack);
-      //console.log(newStackFilterArray)
       setSelectedStack(newStackFilterArray);
       addFilter();
       return newStackFilterArray;
@@ -27,7 +25,6 @@ const StackFilter = ({
       const newStackFilterArray = selectedStack.filter(
         (stack) => stack !== newStack,
       );
-      //console.log(newStackFilterArray)
       setSelectedStack(newStackFilterArray);
       removeFilter();
     }
@@ -35,7 +32,6 @@ const StackFilter = ({
 
   const addFilter = async () => {
     selectedStack.map((stack) => {
-      //console.log(stack)
       return (newList = filterList.concat(
         list.filter((arr) => arr.stacks.includes(stack)),
       ));
@@ -45,7 +41,6 @@ const StackFilter = ({
 
   const removeFilter = async () => {
     selectedStack.map((stack) => {
-      //console.log(stack)
       return (newList = filterList.filter(
         (arr) => !arr.stacks.includes(stack),
       ));

@@ -21,7 +21,6 @@ const ApplyBtn = ({ myPostData }) => {
   const { mutateAsync: apply } = usePostApply();
   const { mutateAsync: deadlinePost } = usePostDeadline();
 
-  //디바운싱 삭제 (서버 구매함)
   const applyBtn = async () => {
     if (userStatus === 'applicant') {
       await apply(id);

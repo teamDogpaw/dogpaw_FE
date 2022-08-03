@@ -458,10 +458,4 @@ export const NicknameWrap = styled.div`
   gap: 12px;
 `;
 
-const Mobile = styled.div`
-  @media screen and (max-width: 600px) {
-    display: none;
-  }
-`;
-
 export default Register;

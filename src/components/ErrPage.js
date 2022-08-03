@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import subtitle from "../styles/icon/login/subtitle.svg";
-import Register from "./Register";
+import React from 'react';
+import styled from 'styled-components';
+import subtitle from '../styles/icon/login/subtitle.svg';
+import Register from './Register';
 
 const ErrPage = ({ setModalContent }) => {
   return (
@@ -20,7 +20,7 @@ const ErrPage = ({ setModalContent }) => {
           </p>
           <Button
             onClick={setModalContent(
-              <Register setModalContent={setModalContent} />
+              <Register setModalContent={setModalContent} />,
             )}
           >
             확인
@@ -42,7 +42,7 @@ const Overlay = styled.div`
 const ModalWrap = styled.div`
   width: 600px;
   height: fit-content;
-  border-radious: 15px;
+  border-radius: 15px;
   background: #fff;
   position: absolute;
   top: 50%;
@@ -80,7 +80,7 @@ const Button = styled.button`
   padding: 10px 20px;
   border: none;
   background: #ababab;
-  border-radious: 10px;
+  border-radius: 10px;
   color: white;
   font-style: italic;
   font-weight: 200;

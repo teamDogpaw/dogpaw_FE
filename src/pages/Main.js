@@ -162,6 +162,7 @@ const Main = () => {
     </Wrap>
   );
 };
+
 const ellipsisText = css`
   overflow: hidden;
   text-overflow: ellipsis;

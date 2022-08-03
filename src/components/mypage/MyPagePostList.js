@@ -22,17 +22,12 @@ const MyPagePostList = ({ data, viewApplyModal, currentTab }) => {
   //console.log(data)
   const [completeMessage, setCompleteMessage] = useState('');
   const [completeModal, setCompleteModal] = useState(false);
-  const queryClient = useQueryClient();
   const postId = data.postId;
   const isMypage = useMatch('/mypage');
   const [modalOpen, setModalOpen] = useState(false);
-  //console.log(currentTab)
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { mutateAsync: postApply } = usePostApply();
-
-  // const cancelApply = () => {
-  //     if(confirm('지원을 취소하시겠어요?'))
-  // };
 
   const applyBtn = async () => {
     try {
@@ -40,8 +35,6 @@ const MyPagePostList = ({ data, viewApplyModal, currentTab }) => {
       console.log(response);
       if (response.status === 200) {
         setModalOpen(false);
-        // setCompleteMessage(response.data.msg);
-        // setCompleteModal(true)
         queryClient.invalidateQueries('applyproject');
       }
     } catch (error) {
@@ -185,16 +178,3 @@ const MyPageBtn = styled(LineBtn)`
 `;
 
 export default MyPagePostList;
-
-//✅
-// const cancelApply = async (postId) => {
-//     alert('지원을 취소하시겠습니까?')
-//     try {
-//         return await instance.post(`/api/apply/${postId}`)
-//     } catch (error) {
-//         alert(error)
-//     }
-// }
-
-//✅
-// const { mutate } = useMutation(cancelApply)
