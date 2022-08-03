@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import Login from '../components/sign/Login';
+import Login from '../components/logModal/Login';
 
 export const UserInfoAtom = atom({
   key: 'UserInfo',

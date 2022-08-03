@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Login from '../sign/Login';
+import Login from '../logModal/Login';
 import { ReactComponent as X } from '../../styles/icon/modal/close.svg';
 import { Modal, ModalBackground, ModalCloseButton } from '../../styles/style';
 import SocialModal from './SocialModal';
