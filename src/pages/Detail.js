@@ -1,20 +1,21 @@
-import { useQueryClient } from 'react-query';
-import { useNavigate, useParams } from 'react-router-dom';
-import Comments from '../components/Comments';
 import { useDeletePost, useGetPost } from '../hook/usePostData';
-import styled from 'styled-components';
-import { ReactComponent as BookmarkIcon } from '../styles/icon/post/bookmark.svg';
-import { ReactComponent as BookmarkFill } from '../styles/icon/post/bookmarkFill.svg';
-import { ReactComponent as Arrow } from '../styles/icon/detail/backArrow.svg';
-import person from '../styles/icon/global/profile.svg';
-import paw from '../styles/icon/detail/paw.svg';
-import { ReactComponent as Edit } from '../styles/icon/detail/edit.svg';
-import { ReactComponent as Remove } from '../styles/icon/detail/remove.svg';
+import { useNavigate, useParams } from 'react-router-dom';
 import { usePostBookmark } from '../hook/useUserData';
+import { useQueryClient } from 'react-query';
+import { useState } from 'react';
+import AlertModal from '../components/AlertModal';
+import Comments from '../components/Comments';
 import ApplyBtn from '../components/ApplyBtn';
 import Loading from '../shared/Loading';
-import { useEffect, useState } from 'react';
-import AlertModal from '../components/AlertModal';
+import styled from 'styled-components';
+
+import { ReactComponent as BookmarkIcon } from '../styles/icon/post/bookmark.svg';
+import { ReactComponent as BookmarkFill } from '../styles/icon/post/bookmarkFill.svg';
+import { ReactComponent as Remove } from '../styles/icon/detail/remove.svg';
+import { ReactComponent as Arrow } from '../styles/icon/detail/backArrow.svg';
+import { ReactComponent as Edit } from '../styles/icon/detail/edit.svg';
+import person from '../styles/icon/global/profile.svg';
+import paw from '../styles/icon/detail/paw.svg';
 
 const Detail = () => {
   const navigate = useNavigate();
@@ -50,7 +51,6 @@ const Detail = () => {
   const closeModal = () => {
     setModalOpen(false);
   };
-
 
   if (isLoadingPost) {
     return <Loading />;
