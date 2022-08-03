@@ -7,7 +7,7 @@ import {
   ModalCloseButton,
   TabBody,
 } from '../../styles/style';
-import ApplyList from './ApplyList';
+import ApplyList, { EmptyBody, EmptyImg } from './ApplyList';
 import ParticipantList from '../ParticipantList';
 import { ReactComponent as X } from '../../styles/icon/modal/close.svg';
 import { useGetPost } from '../../hook/usePostData';
@@ -24,7 +24,11 @@ const ViewApply = ({
   const { data: myPostApply, isLoading: isLoadingPost } = useGetPost(postId);
 
   if (isLoadingPost) {
-    return <>loading..</>;
+    return (
+      <EmptyBody>
+        <EmptyImg />
+      </EmptyBody>
+    );
   }
   return (
     <ModalBackground>
