@@ -37,6 +37,7 @@ const Main = () => {
   useEffect(() => {
     if (inView) fetchNextPage();
   }, [fetchNextPage, inView]);
+
   if (status === 'loading') {
     return <Loading />;
   }

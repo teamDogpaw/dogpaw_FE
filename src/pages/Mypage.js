@@ -22,7 +22,6 @@ import { useRecoilValue } from 'recoil';
 import { UserInfoAtom } from '../atom/atom';
 import profilepic from '../styles/icon/global/profile.svg';
 import ApplyProject from '../components/mypage/ApplyProject';
-import pen from '../styles/icon/myPage/pen.svg';
 import StackSelector from '../components/stack/StackSeletor';
 import { withDraw } from '../shared/userOauth';
 import { SelectArrow } from '../components/WriteSelect';
@@ -63,7 +62,6 @@ const MyPage = () => {
   const [exitModalOpen, setExitModalOpen] = useState(false);
   const formData = new FormData();
   const token = localStorage.getItem('token');
-  const userId = localStorage.getItem('id');
 
   const tabList = [
     { id: 1, name: '관심 프로젝트', content: <Bookmark currentTab={1} /> },

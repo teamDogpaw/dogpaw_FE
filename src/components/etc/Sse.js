@@ -70,7 +70,6 @@ const Sse = () => {
   };
 
   const clickOutSide = (e) => {
-    console.log(alertOpen, !ref.current.contains(e.target));
     if (alertOpen && !ref.current.contains(e.target)) {
       setAlertOpen(false);
     }
@@ -194,7 +193,7 @@ const AlertContent = styled.div`
 const ListWrap = styled.div`
   display: flex;
   align-items: center;
-  padding-top: 8px;
+  padding-top: 10px;
 
   span {
     padding-left: 8px;
@@ -204,8 +203,6 @@ const ListWrap = styled.div`
 
 const List = styled.li`
   cursor: pointer;
-  padding-top: 10px;
-  //position:relative;
   color: ${(props) => props.theme.textColor};
   overflow: hidden;
   white-space: nowrap;
