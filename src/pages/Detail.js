@@ -235,9 +235,15 @@ const User = styled.div`
   }
 
   @media screen and (max-width: 786px) {
+    text-align: center;
+    word-break: keep-all;
+    line-height: 35px;
     h3 {
       padding: 0 10px;
     }
+  }
+  @media screen and (max-width: 375px) {
+    margin-top: 10px;
   }
 `;
 const ArrowBtn = styled(Arrow)`
