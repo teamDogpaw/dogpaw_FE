@@ -1,14 +1,13 @@
-import styled from "styled-components";
-import arrowPost from "../styles/icon/tutorial/arrowPost.svg";
-import arrowDeadline from "../styles/icon/tutorial/arrowDeadline.svg";
-import arrowDetail from "../styles/icon/tutorial/arrowDetail.svg";
-import arrowMode from "../styles/icon/tutorial/arrowMode.svg";
-import arrowAlert from "../styles/icon/tutorial/arrowAlert.svg";
-import { ReactComponent as Pen } from "../styles/icon/detail/edit.svg";
-import { ReactComponent as Bell } from "../styles/icon/header/bell.svg";
+import styled from 'styled-components';
+import arrowPost from '../../styles/icon/tutorial/arrowPost.svg';
+import arrowDeadline from '../../styles/icon/tutorial/arrowDeadline.svg';
+import arrowDetail from '../../styles/icon/tutorial/arrowDetail.svg';
+import arrowAlert from '../../styles/icon/tutorial/arrowAlert.svg';
+import { ReactComponent as Pen } from '../../styles/icon/detail/edit.svg';
+import { ReactComponent as Bell } from '../../styles/icon/header/bell.svg';
 
 const Tutoral = () => {
-  const isLogin = localStorage.getItem("token");
+  const isLogin = localStorage.getItem('token');
 
   return (
     <Wrap>
@@ -96,9 +95,9 @@ const Content = styled.div`
 `;
 
 const Info = styled.div`
-position:absolute;
-top:40px;
-right:110px;
+  position: absolute;
+  top: 40px;
+  right: 110px;
 `;
 
 const IsLogin = styled.div`

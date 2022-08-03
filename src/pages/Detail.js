@@ -1,6 +1,6 @@
 import { useQueryClient } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
-import Comments from '../components/Comments';
+import Comments from '../components/comment/Comments';
 import { useDeletePost, useGetPost } from '../hook/usePostData';
 import styled from 'styled-components';
 import { ReactComponent as BookmarkIcon } from '../styles/icon/post/bookmark.svg';
@@ -14,7 +14,7 @@ import { usePostBookmark } from '../hook/useUserData';
 import ApplyBtn from '../components/ApplyBtn';
 import Loading from '../shared/Loading';
 import { useEffect, useState } from 'react';
-import AlertModal from '../components/AlertModal';
+import AlertModal from '../components/common/AlertModal';
 
 const Detail = () => {
   const navigate = useNavigate();
@@ -50,7 +50,6 @@ const Detail = () => {
   const closeModal = () => {
     setModalOpen(false);
   };
-
 
   if (isLoadingPost) {
     return <Loading />;

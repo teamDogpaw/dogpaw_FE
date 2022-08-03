@@ -11,7 +11,7 @@ import { useQuery } from 'react-query';
 import instance from './shared/axios';
 import { UserInfoAtom } from './atom/atom';
 import Loading from './shared/Loading';
-import Toggle from './components/Toggle';
+import Toggle from './components/etc/Toggle';
 
 function App() {
   const isDark = useRecoilValue(DarkThemeAtom);

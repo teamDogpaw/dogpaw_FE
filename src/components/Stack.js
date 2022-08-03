@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import styled from "styled-components";
+import React, { useState } from 'react';
+import styled from 'styled-components';
 
 const Stack = () => {
   const [stack, setStack] = useState([]);
@@ -23,18 +23,18 @@ const Stack = () => {
         <details>
           <SelectBox>해당하는 기술 스텍을 선택해주세요. (중복 가능)</SelectBox>
           <SelectBoxOpen>
-            <Option onClick={() => addStack("Java")}>Java</Option>
-            <Option onClick={() => addStack("Javascript")}>Javascript</Option>
-            <Option onClick={() => addStack("TypeScript")}>TypeScript</Option>
-            <Option onClick={() => addStack("React")}>React</Option>
-            <Option onClick={() => addStack("Vue")}>Vue</Option>
+            <Option onClick={() => addStack('Java')}>Java</Option>
+            <Option onClick={() => addStack('Javascript')}>Javascript</Option>
+            <Option onClick={() => addStack('TypeScript')}>TypeScript</Option>
+            <Option onClick={() => addStack('React')}>React</Option>
+            <Option onClick={() => addStack('Vue')}>Vue</Option>
           </SelectBoxOpen>
         </details>
-        <div style={{ display: "flex", flexWrap: "wrap", marginTop: "10px" }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', marginTop: '10px' }}>
           {stack.map((stack, index) => {
             return (
               <MyStack>
-                #{stack}{" "}
+                #{stack}{' '}
                 <svg
                   onClick={() => removeStack(stack)}
                   width="20"
@@ -101,15 +101,6 @@ const SelectBox = styled.summary`
   color: #9f9f9f;
   list-style: none;
 `;
-/* line-height: 25px;
-  width: 200px;
-  height: 37px;
-  padding: 5px 10px;
-  border: ${(props) => props.theme.border};
-  border-radius: 8px;
-  font-size: 16px;
-  -webkit-appearance: none;
-  background-color: ${(props) => props.theme.inputBoxBackground}; */
 
 const SelectBoxOpen = styled.ul`
   z-index: 10;
@@ -120,7 +111,7 @@ const SelectBoxOpen = styled.ul`
   border: ${(props) => props.theme.border};
   background-color: ${(props) => props.theme.inputBoxBackground};
   box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.1);
-  overflow: scroll;
+  overflow-y: scroll;
   margin-top: 4px;
 `;
 const Option = styled.li`

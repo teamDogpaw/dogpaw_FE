@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Bookmark from '../components/Bookmark';
-import MyProject from '../components/MyProject';
-import JoinProject from '../components/JoinProject';
+import Bookmark from '../components/mypage/Bookmark';
+import MyProject from '../components/mypage/MyProject';
+import JoinProject from '../components/mypage/JoinProject';
 import { useNavigate } from 'react-router-dom';
 import {
   Btn,
-  GrayLineBtn,
   LineBtn,
   MyStack,
   Option,
@@ -22,15 +21,13 @@ import {
 import { useRecoilValue } from 'recoil';
 import { UserInfoAtom } from '../atom/atom';
 import profilepic from '../styles/icon/global/profile.svg';
-import ApplyProject from '../components/ApplyProject';
-import pen from '../styles/icon/myPage/pen.svg';
-import StackSelector from '../components/StackSeletor';
+import ApplyProject from '../components/mypage/ApplyProject';
+import StackSelector from '../components/stack/StackSeletor';
 import { withDraw } from '../shared/userOauth';
 import { SelectArrow } from '../components/WriteSelect';
-import AlertModal from '../components/AlertModal';
-import { Content } from '../components/ApplyBtn';
+import AlertModal from '../components/common/AlertModal';
 import { useQueryClient } from 'react-query';
-import { InputContent } from '../components/Login';
+import { InputContent } from '../components/logModal/Login';
 
 const MyPage = () => {
   const userInfo = useRecoilValue(UserInfoAtom);
@@ -379,7 +376,7 @@ export const WholeBody = styled.div`
   @media screen and (max-width: 996px) {
     margin: 24px 40px 100px;
   }
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 700px) {
     margin: 0px;
     width: 100%;
     margin: auto;
@@ -439,7 +436,7 @@ const BtnWrap = styled.div`
     color: ${(props) => props.theme.errorColor};
     font-size: 0.875rem;
   }
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 700px) {
     width: 100%;
   }
 `;
@@ -537,7 +534,7 @@ export const ProfileWrap = styled.div`
   align-items: center;
   position: relative;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 700px) {
     flex-direction: column;
     gap: 10px;
     text-align: center;
@@ -566,7 +563,7 @@ const ProfilePicWrap = styled.div`
   flex-direction: column;
   position: relative;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 700px) {
     gap: 12px;
   }
 `;
@@ -603,7 +600,7 @@ export const Profile = styled.div`
     margin: 5px 0;
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 700px) {
     margin-left: 0px;
     input {
       text-align: center;
@@ -625,8 +622,12 @@ export const Stacks = styled.div`
   display: flex;
   flex-wrap: wrap;
   max-width: 400px;
+
   @media screen and (max-width: 700px) {
-    max-width: 300px;
+    width: 300px;
+
+    justify-content: center;
+    text-align: center;
   }
 `;
 
@@ -638,7 +639,7 @@ const EditBtn = styled(Btn)`
   right: 0;
   bottom: 0;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 700px) {
     position: relative;
     width: 100%;
   }
@@ -649,7 +650,7 @@ const Button = styled(Btn)`
   width: 200px;
   margin-left: auto;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 700px) {
     position: relative;
     width: 100%;
   }

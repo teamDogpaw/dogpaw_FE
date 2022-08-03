@@ -1,10 +1,10 @@
-import { useRecoilState } from "recoil";
-import styled, { css } from "styled-components";
-import { DarkThemeAtom } from "../atom/theme";
-import arrowtopLight from "../styles/icon/toggle/arrowUpLight.svg";
-import arrowtop from "../styles/icon/toggle/scrollToTop.svg";
-import moon from "../styles/icon/toggle/moon.svg";
-import sun from "../styles/icon/toggle/sun.svg";
+import { useRecoilState } from 'recoil';
+import styled, { css } from 'styled-components';
+import { DarkThemeAtom } from '../../atom/theme';
+import arrowtopLight from '../../styles/icon/toggle/arrowUpLight.svg';
+import arrowtop from '../../styles/icon/toggle/scrollToTop.svg';
+import moon from '../../styles/icon/toggle/moon.svg';
+import sun from '../../styles/icon/toggle/sun.svg';
 
 const Toggle = () => {
   const [isDark, setIsDark] = useRecoilState(DarkThemeAtom);
@@ -12,24 +12,18 @@ const Toggle = () => {
   return (
     <Wrap>
       <ModeBtn onClick={() => setIsDark((prev) => !prev)} isDark={isDark}>
-        <Web>
-          {isDark ? (
-            <span>라이트 모드</span>
-          ) : (
-            <span>다크 모드</span>
-          )}
-        </Web>
+        <Web>{isDark ? <span>라이트 모드</span> : <span>다크 모드</span>}</Web>
         <Mobile>
-            <div>
-              <img src={moon} alt="" />
-              <img src={sun} alt="" />
-            </div>
+          <div>
+            <img src={moon} alt="" />
+            <img src={sun} alt="" />
+          </div>
         </Mobile>
         <ModeCircle isDark={isDark} />
       </ModeBtn>
       <TopBtn
         onClick={() => {
-          window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+          window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
         }}
       >
         {isDark ? (
@@ -76,7 +70,7 @@ const Mobile = styled.div`
 `;
 
 const ModeBtn = styled.div`
-cursor: pointer;
+  cursor: pointer;
   background-color: ${(props) => props.theme.toggleBtnColor};
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
   //width: 134px;
@@ -100,7 +94,7 @@ const ModeCircle = styled.div`
   display: flex;
   flex-direction: center;
   align-items: center;
-  background-color: ${(props) => (props.isDark ? "#FFB673" : "#777777")};
+  background-color: ${(props) => (props.isDark ? '#FFB673' : '#777777')};
   background-image: url(${(props) => (props.isDark ? `${sun}` : `${moon}`)});
   background-repeat: no-repeat;
   background-position: center;

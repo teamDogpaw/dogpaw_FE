@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
-import Login from "./Login";
-import { ReactComponent as X } from "../styles/icon/modal/close.svg";
-import { Modal, ModalBackground, ModalCloseButton } from "../styles/style";
-import SocialModal from "./SocialModal";
-import styled from "styled-components";
-import { useRecoilState } from "recoil";
-import { modalContentAtom } from "../atom/atom";
+import React, { useEffect } from 'react';
+import Login from '../logModal/Login';
+import { ReactComponent as X } from '../../styles/icon/modal/close.svg';
+import { Modal, ModalBackground, ModalCloseButton } from '../../styles/style';
+import SocialModal from './SocialModal';
+import { useRecoilState } from 'recoil';
+import { modalContentAtom } from '../../atom/atom';
 
 const ModalOpen = ({ viewModal, kakaoNick }) => {
   const [modalContent, setModalContent] = useRecoilState(modalContentAtom);
@@ -25,17 +24,17 @@ const ModalOpen = ({ viewModal, kakaoNick }) => {
     }
 
     const scrollY = document.body.style.top;
-    window.scrollTo(0, parseInt(scrollY || "0") * -1);
+    window.scrollTo(0, parseInt(scrollY || '0') * -1);
 
     return () => {
-      document.body.style.cssText = "";
-      window.scrollTo(0, parseInt(scrollY || "0") * -1);
+      document.body.style.cssText = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
     };
   }, []);
 
   return (
     <ModalBackground>
-      <Modal className={intFrameHeight < 812 ? "smallHeight" : null}>
+      <Modal className={intFrameHeight < 812 ? 'smallHeight' : null}>
         {kakaoNick ? null : (
           <ModalCloseButton onClick={viewModal}>
             <X />

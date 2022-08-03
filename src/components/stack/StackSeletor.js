@@ -1,9 +1,9 @@
-import { MyStack, SelectBoxOpen, SelectBox, Option } from '../styles/style';
-import { ReactComponent as Delete } from '../styles/icon/global/stackDelete.svg';
+import { MyStack, SelectBoxOpen, SelectBox, Option } from '../../styles/style';
+import { ReactComponent as Delete } from '../../styles/icon/global/stackDelete.svg';
 import { useEffect, useRef, useState } from 'react';
 import { useMatch } from 'react-router-dom';
-import { Stacks } from '../utils/enums';
-import { SelectArrow } from './WriteSelect';
+import { Stacks } from '../../utils/enums';
+import { SelectArrow } from '../WriteSelect';
 import styled from 'styled-components';
 
 const StackSelector = ({
@@ -55,7 +55,7 @@ const StackSelector = ({
 
   return (
     <div>
-      <details ref={stackdetailsRef}>
+      <details ref={stackdetailsRef} style={{ position: 'relative' }}>
         <SelectBox
           className={isRegister ? 'Login' : isMypage !== null ? 'mypage' : null}
         >
@@ -82,7 +82,11 @@ const StackSelector = ({
       <StackWrap className={isMypage !== null ? 'mypage' : null}>
         {stack.map((oneStack, index) => {
           return (
-            <MyStack key={index} onClick={() => removeStack(oneStack)}>
+            <MyStack
+              key={index}
+              onClick={() => removeStack(oneStack)}
+              className={isMypage !== null ? 'mypage' : null}
+            >
               #{oneStack}
               <Delete />
             </MyStack>
@@ -101,7 +105,8 @@ export const StackWrap = styled.div`
   gap: 10px;
 
   &.mypage {
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 700px) {
+      width: 400px;
       text-align: center;
       justify-content: center;
     }

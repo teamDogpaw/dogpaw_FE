@@ -1,38 +1,35 @@
 import { useGetParticipantsLists } from '../hook/useProjectData';
-import { Btn, GrayLineBtn, LineBtn, ListProfilePic } from '../styles/style';
+import { ApplyListContent, ListProfilePic } from '../styles/style';
 import {
-  ApplyListContent,
   EmptyBody,
   EmptyImg,
-  MyBtn,
   Section,
   Stack,
-  StackBody,
   Stacks,
   User,
-} from './ApplyList';
+} from './common/ApplyList';
 import profilepic from '../styles/icon/global/profile.svg';
 import { useExplusionMateMutation } from '../hook/useProjectMutation';
 import { useWithdrawPartici } from '../hook/useUserData';
 import styled from 'styled-components';
 import { useState } from 'react';
-import { Content } from './ApplyBtn';
-import WithdrawModal from './WithdrawalModal';
+import WithdrawModal from './common/WithdrawalModal';
+import EmptyPage from './emptyPage';
+import { useQueryClient } from 'react-query';
 
 const ParticipantList = ({ myPostId, currentTab, setViewApply }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [itemState, setItemState] = useState(null);
-
+  console.log(myPostId);
   const { isLoading: isParticipantListLoading, data: participantList } =
     useGetParticipantsLists(myPostId);
   const { mutate: ExplusionMate } = useExplusionMateMutation();
-  //console.log(participantList);
   const { mutateAsync: WithdrawPartici } = useWithdrawPartici();
-
+  const queryClient = useQueryClient();
   const explusionMate = (data) => {
-    ////console.log(data);
     ExplusionMate(data);
     setModalOpen(false);
+    queryClient.invalidateQueries('myproject');
   };
 
   const withDrawParticipate = () => {
@@ -65,44 +62,39 @@ const ParticipantList = ({ myPostId, currentTab, setViewApply }) => {
   return (
     <>
       {participantList.data.length === 0 ? (
-        <EmptyBody>
-          <EmptyImg />
-          <br />
-          <span> 아직 팀원이 없어요! </span>
-        </EmptyBody>
+        <EmptyPage message={'아직 팀원이 없어요!'} />
       ) : null}
       {participantList.data.map((team) => {
         return (
-          <ApplyListContents>
-            {/* <Sections> */}
-            <User>
-              {team.profileImg === null ? (
-                <ListProfilePic src={profilepic} />
-              ) : (
-                <ListProfilePic src={team.profileImg} />
-              )}
-              {team.nickname}
-              {/* <span> {team.username} </span> */}
-            </User>
-            {team.username}
-            <Stacks>
-              {team.stacks?.map((stack, index) => {
-                return <Stack key={index}>#{stack}</Stack>;
-              })}
-            </Stacks>
-            {/* </Sections> */}
-            <Out>
-              {currentTab === 2 ? null : (
-                <p
-                  onClick={() => {
-                    openModal(team);
-                  }}
-                >
-                  탈퇴시키기
-                </p>
-              )}
-            </Out>
-          </ApplyListContents>
+          <ParticiListContent>
+            <Section className="partici">
+              <User>
+                {team.profileImg === null ? (
+                  <ListProfilePic src={profilepic} />
+                ) : (
+                  <ListProfilePic src={team.profileImg} />
+                )}
+                {team.nickname}
+              </User>
+              {team.username}
+              <Stacks>
+                {team.stacks?.map((stack, index) => {
+                  return <Stack key={index}>#{stack}</Stack>;
+                })}
+              </Stacks>
+              <Out>
+                {currentTab === 2 ? null : (
+                  <p
+                    onClick={() => {
+                      openModal(team);
+                    }}
+                  >
+                    탈퇴시키기
+                  </p>
+                )}
+              </Out>
+            </Section>
+          </ParticiListContent>
         );
       })}
       {itemState && (
@@ -121,21 +113,7 @@ const ParticipantList = ({ myPostId, currentTab, setViewApply }) => {
   );
 };
 
-// const Sections = styled(Section)`
-//   width: 100%;
-// `;
-
-const ApplyListContents = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border: 1px solid #e2e2e2;
-  padding: 16px;
-  border-radius: 16px;
-  margin-bottom: 16px;
-  line-height: normal;
-  position: relative;
-
+const ParticiListContent = styled(ApplyListContent)`
   img {
     margin-right: 5px;
   }

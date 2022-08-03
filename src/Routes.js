@@ -1,23 +1,16 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from 'react-router-dom';
+import { lazy } from 'react';
+import UserPage from './pages/UserPage';
+import NotFoundPage from './pages/NotFound';
+import ConnectFailedPage from './pages/ConnectFailed';
 
-//import Detail from "./pages/Detail";
-// import Main from "./pages/Main";
-// import MyPage from "./pages/Mypage";
-// import Write from "./pages/Write";
-// import Login from "./components/Login"
-// import Register from "./components/Register"
-import { lazy } from "react";
-import UserPage from "./pages/UserPage";
-import NotFoundPage from "./pages/NotFound";
-import ConnectFailedPage from "./pages/ConnectFailed";
-
-const Detail = lazy(() => import("./pages/Detail"));
-const Main = lazy(() => import("./pages/Main"));
-const MyPage = lazy(() => import("./pages/Mypage"));
-const Write = lazy(() => import("./pages/Write"));
-const Login = lazy(() => import("./components/Login"));
-const Register = lazy(() => import("./components/Register"));
-const KakaoLoginRedirect = lazy(() => import("./shared/kakaoLoginRedirect"));
+const Detail = lazy(() => import('./pages/Detail'));
+const Main = lazy(() => import('./pages/Main'));
+const MyPage = lazy(() => import('./pages/Mypage'));
+const Write = lazy(() => import('./pages/Write'));
+const Login = lazy(() => import('./components/logModal/Login'));
+const Register = lazy(() => import('./components/logModal/Register'));
+const KakaoLoginRedirect = lazy(() => import('./shared/kakaoLoginRedirect'));
 
 const Router = () => {
   return (
@@ -27,10 +20,10 @@ const Router = () => {
       <Route path="/write" element={<Write />} />
       <Route path="/write/:id" element={<Write />} />
       <Route path="/mypage" element={<MyPage />} />
-      <Route path="/mypage/:userNickname" element={<UserPage />}/>
-      <Route path="/notfound" element={<NotFoundPage/>}/>
-      <Route path="/connectfail" element={<ConnectFailedPage/>}/>
-      <Route path="*" element={<NotFoundPage/>}/>
+      <Route path="/mypage/:userNickname" element={<UserPage />} />
+      <Route path="/notfound" element={<NotFoundPage />} />
+      <Route path="/connectfail" element={<ConnectFailedPage />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 };

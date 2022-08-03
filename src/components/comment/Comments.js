@@ -3,13 +3,12 @@ import { useQueryClient } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled, { css } from 'styled-components';
-import { UserInfoAtom } from '../atom/atom';
-import { useGetCommentList, usePostComment } from '../hook/useCommentData';
-import { Btn } from '../styles/style';
-import AlertModal from './AlertModal';
-import { Content } from './ApplyBtn';
+import { UserInfoAtom } from '../../atom/atom';
+import { useGetCommentList, usePostComment } from '../../hook/useCommentData';
+import { Btn } from '../../styles/style';
+import AlertModal from '../common/AlertModal';
 import Comment from './Comment';
-import ModalOpen from './Modal_prev';
+import ModalOpen from '../common/Modal_prev';
 import ReplyComment from './ReplyComment';
 
 const Comments = () => {

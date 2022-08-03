@@ -3,20 +3,19 @@ import { useQueryClient } from 'react-query';
 
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { UserInfoAtom } from '../atom/atom';
+import { UserInfoAtom } from '../../atom/atom';
 
 import styled from 'styled-components';
-import person from '../styles/images/person.png';
+import person from '../../styles/images/person.png';
 import {
   useEditComment,
   useRemoveComment,
   usePostReply,
-} from '../hook/useCommentData';
-import DropDown from './DropDown';
-import { Btn, GrayLineBtn } from '../styles/style';
-import AlertModal from './AlertModal';
-import { Content } from './ApplyBtn';
-import ModalOpen from './Modal_prev';
+} from '../../hook/useCommentData';
+import DropDown from '../DropDown';
+import { Btn } from '../../styles/style';
+import AlertModal from '../common/AlertModal';
+import ModalOpen from '../common/Modal_prev';
 
 const Comment = ({ data }) => {
   //대댓글 드롭다운 열기/닫기
@@ -39,7 +38,6 @@ const Comment = ({ data }) => {
   ////console.log(writeUser, "글쓴이");
 
   console.log(data);
-
 
   const queryClient = useQueryClient();
   const { mutateAsync: editComment } = useEditComment();

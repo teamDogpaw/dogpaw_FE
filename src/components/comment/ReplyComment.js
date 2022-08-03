@@ -1,16 +1,13 @@
 import React, { useRef, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { useRecoilValue } from 'recoil';
-import { UserInfoAtom } from '../atom/atom';
-import person from '../styles/images/person.png';
+import { UserInfoAtom } from '../../atom/atom';
+import person from '../../styles/images/person.png';
 import styled from 'styled-components';
-import arrow from '../styles/icon/detail/replyarrow.svg';
-import { useEditReply, useRemoveReply } from '../hook/useCommentData';
-import { postApis } from '../api/post';
+import arrow from '../../styles/icon/detail/replyarrow.svg';
+import { useEditReply, useRemoveReply } from '../../hook/useCommentData';
 import { CommentDate, DeleteBtn, ModiBtn, UpdateBtn } from './Comment';
-import AlertModal from './AlertModal';
-import { Btn, GrayLineBtn } from '../styles/style';
-import { Content } from './ApplyBtn';
+import AlertModal from '../common/AlertModal';
 
 const ReplyComment = (props) => {
   const [isEdit, setIsEdit] = useState(false);

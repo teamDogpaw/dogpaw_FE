@@ -4,14 +4,14 @@ import { useInView } from 'react-intersection-observer';
 import { useRecoilValue } from 'recoil';
 import { UserInfoAtom } from '../atom/atom';
 import { useGetKeepPostList } from '../hook/usePostData';
-import BookmarkRank from '../components/BookmarkRank';
-import StackFilter from '../components/StackFilter';
+import BookmarkRank from '../components/bookmark/BookmarkRank';
+import StackFilter from '../components/stack/StackFilter';
 import { usePostBookmark } from '../hook/useUserData';
 import { useQueryClient } from 'react-query';
 
-import Tutoral from '../components/Tutorial';
+import Tutoral from '../components/etc/Tutorial';
 import Loading from '../shared/Loading';
-import Carousel from '../components/Carousel';
+import Carousel from '../components/common/Carousel';
 import styled, { css, keyframes } from 'styled-components';
 import { ReactComponent as CommentIcon } from '../styles/icon/post/commentCnt.svg';
 import { ReactComponent as BookmarkIcon } from '../styles/icon/post/bookmark.svg';
