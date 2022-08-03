@@ -17,9 +17,6 @@ const ViewApply = ({
   currentTab,
   setViewApply,
 }) => {
-  //console.log(currentTab)
-  //console.log(myPostData)
-
   const [isApplyList, setIsApplyList] = useState(false);
 
   return (

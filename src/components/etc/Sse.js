@@ -17,7 +17,6 @@ const Sse = () => {
   const ref = useRef(null);
   const token = localStorage.getItem('token');
   const EventSource = EventSourcePolyfill || NativeEventSource;
-  //const setAlert = useSetRecoilState(alertListAtom);
   const [alertOpen, setAlertOpen] = useState(false);
   const [newAlert, setNewAlert] = useState([]);
   const [unread, setUnread] = useState();
@@ -30,8 +29,6 @@ const Sse = () => {
 
   const allList = alertList?.data;
   const unreadList = alertUnreadList?.data.count;
-
-  //console.log(unreadList)
 
   useEffect(() => {
     if (token) {
@@ -98,7 +95,6 @@ const Sse = () => {
 
   const messageRead = async (id, url) => {
     window.location.href = url;
-    //console.log(id, url, status);
     await readAlert(id);
     queryClient.invalidateQueries('alertList');
   };
@@ -135,7 +131,7 @@ const Sse = () => {
                         <List
                           status={list.status}
                           onClick={() => {
-                            messageRead(list.id, list.url, list.status);
+                            messageRead(list.id, list.url);
                           }}
                         >
                           {list.notificationContent}

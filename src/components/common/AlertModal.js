@@ -1,5 +1,5 @@
 import styled, { css, keyframes } from 'styled-components';
-import { Btn, GrayLineBtn, ModalBtn } from '../../styles/style';
+import { GrayLineBtn, ModalBtn } from '../../styles/style';
 import { Content } from '../ApplyBtn';
 
 const AlertModal = ({
@@ -9,9 +9,6 @@ const AlertModal = ({
   actionMessage,
   action,
 }) => {
-  ////console.log(props)
-  // const { open } = props;
-  // console.log(props)
   return (
     <Wrap open={open}>
       {open && (

@@ -17,26 +17,20 @@ import ModalOpen from '../common/Modal_prev';
 import person from '../../styles/images/person.png';
 
 const Comment = ({ data }) => {
-  //대댓글 드롭다운 열기/닫기
+  const params = useParams();
+  const id = params.postId;
+  const commentId = data.commentId;
+  const comment_ref = useRef('');
+  const replyRef = useRef('');
+  const isLogin = useRecoilValue(UserInfoAtom);
   const [dropdownVisibility, setDropdownVisibility] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [modiModalOpen, setModiModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const params = useParams();
-  const id = params.postId;
-  const commentId = data.commentId;
-
-  const comment_ref = useRef('');
-  const replyRef = useRef('');
   const [isEdit, setIsEdit] = useState(false);
-
-  const isLogin = useRecoilValue(UserInfoAtom);
 
   const loginUser = isLogin?.nickname;
   const writeUser = data.nickname;
-  ////console.log(writeUser, "글쓴이");
-
-  console.log(data);
 
   const queryClient = useQueryClient();
   const { mutateAsync: editComment } = useEditComment();
@@ -228,10 +222,6 @@ const Contents = styled.div`
   & p:last-child {
     color: #777777;
   }
-`;
-
-const Date = styled.span`
-  font-size: 0.875rem;
 `;
 
 const CommentBtnBox = styled.div`

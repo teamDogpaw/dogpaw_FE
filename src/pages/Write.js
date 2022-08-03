@@ -1,6 +1,6 @@
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
-import { MainBody, Btn, GrayLineBtn } from '../styles/style';
+import { MainBody, Btn } from '../styles/style';
 import styled from 'styled-components';
 import '../styles/style.css';
 import dayjs from 'dayjs';
@@ -8,12 +8,9 @@ import WriteSelect from '../components/WriteSelect';
 import { useEditProject, usePostProject } from '../hook/usePostMutation';
 import { ReactComponent as Arrow } from '../styles/icon/detail/backArrow.svg';
 import AlertModal from '../components/common/AlertModal';
-import { Content } from '../components/ApplyBtn';
-import { ModalContent } from './Mypage';
 import { useQueryClient } from 'react-query';
 
 const Write = () => {
-  const location = useLocation();
   const { state } = useLocation();
   const [isEdit, setIsEdit] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -126,7 +123,6 @@ const Write = () => {
         startAt: state.startAt,
       });
     }
-    //console.log(selectedData)
   }, [state]);
 
   if (token === null) {
@@ -177,7 +173,6 @@ const Write = () => {
       </MainBody>
 
       <Publish>
-        {/* <GrayLineBtn>전체 삭제</GrayLineBtn> */}
         {isEdit ? (
           <WriteBtn type="submit" onClick={editPost}>
             프로젝트 수정하기

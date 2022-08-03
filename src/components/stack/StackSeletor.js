@@ -59,7 +59,6 @@ const StackSelector = ({
         <SelectBox
           className={isRegister ? 'Login' : isMypage !== null ? 'mypage' : null}
         >
-          {' '}
           스택을 선택해주세요.
           <SelectArrow />
         </SelectBox>
