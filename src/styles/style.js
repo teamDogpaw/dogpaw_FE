@@ -148,6 +148,10 @@ export const LineBtn = styled.button`
   :active {
     background-color: #d26500;
   }
+
+  &.mypage {
+    font-size: 0.75rem;
+  }
 `;
 
 export const GrayLineBtn = styled(LineBtn)`
@@ -268,7 +272,9 @@ export const SelectBox = styled.summary`
   }
 
   &.mypage {
-    margin: auto;
+    @media screen and (max-width: 600px) {
+      margin: auto;
+    }
   }
 `;
 

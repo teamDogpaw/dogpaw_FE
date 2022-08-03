@@ -235,21 +235,26 @@ const MyPage = () => {
                     <img src={imagePreview} alt="profileImage" />{' '}
                   </Profilepic>
                 )}
-
-                <File>
-                  <label htmlFor="profile">
-                    <div>
+                <BtnWrap>
+                  <LineBtn className="mypage" onClick={imageResetBtn}>
+                    기본 이미지로
+                  </LineBtn>
+                  <File>
+                    <label htmlFor="profile">
+                      {/* <div>
                       <img src={pen} alt="" />
-                    </div>
-                  </label>
-                  <input
-                    id="profile"
-                    type="file"
-                    ref={imageRef}
-                    accept="image/*"
-                    onChange={(event) => editImg(event)}
-                  />
-                </File>
+                    </div> */}
+                      이미지 선택하기
+                    </label>
+                    <input
+                      id="profile"
+                      type="file"
+                      ref={imageRef}
+                      accept="image/*"
+                      onChange={(event) => editImg(event)}
+                    />
+                  </File>
+                </BtnWrap>
               </ProfilePicWrap>
 
               <Profile>
@@ -267,14 +272,20 @@ const MyPage = () => {
                   <StackSelector data={myData} setSelectedData={setMyData} />
                 </InputContent>
               </Profile>
+
+              <BtnWrap>
+                {/* <Button onClick={imageResetBtn}>기본 이미지로 변경</Button> */}
+
+                <ExitBtn onClick={exitBtnOpen}>회원 탈퇴</ExitBtn>
+                <EditBtn
+                  type="submit"
+                  onClick={EditMyData}
+                  disabled={!nickCheck}
+                >
+                  수정사항 저장
+                </EditBtn>
+              </BtnWrap>
             </ProfileWrap>
-            <BtnWrap>
-              <Button onClick={imageResetBtn}>기본 이미지로 변경</Button>
-              <EditBtn type="submit" onClick={EditMyData} disabled={!nickCheck}>
-                편집 완료
-              </EditBtn>
-              <Button3 onClick={exitBtnOpen}>회원 탈퇴</Button3>
-            </BtnWrap>
           </>
         ) : (
           <ProfileWrap>
@@ -422,13 +433,14 @@ const AlertMessage = styled.span`
 `;
 
 const BtnWrap = styled.div`
+  display: flex;
+  gap: 12px;
   span {
     color: ${(props) => props.theme.errorColor};
     font-size: 0.875rem;
   }
   @media screen and (max-width: 600px) {
     width: 100%;
-    margin-top: 32px;
   }
 `;
 
@@ -468,13 +480,13 @@ export const Profilepic = styled.div`
   }
 
   @media screen and (max-width: 750px) {
-    width: 72px;
-    height: 72px;
-    border-radius: 36px;
+    width: 88px;
+    height: 88px;
+    border-radius: 44px;
   }
 `;
-const File = styled.div`
-  div {
+const File = styled(Btn)`
+  /* div {
     position: absolute;
     bottom: 0px;
     right: 0px;
@@ -493,10 +505,12 @@ const File = styled.div`
       width: 35px;
       height: 35px;
     }
-  }
-
+  } */
+  padding: 8px 10px;
   label {
+    font-size: 0.75rem;
     cursor: pointer;
+    color: ${(props) => props.theme.textColor_btn};
   }
   input[type='file'] {
     display: none;
@@ -546,23 +560,28 @@ const ModalBtn = styled(Btn)`
   bottom: 10px;
 `;
 const ProfilePicWrap = styled.div`
+  gap: 18px;
+  align-items: center;
   display: flex;
-
+  flex-direction: column;
   position: relative;
+
+  @media screen and (max-width: 600px) {
+    gap: 12px;
+  }
 `;
 
 export const Profile = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  margin-left: 5%;
+  margin-left: 25px;
 
-  p {
-    color: #777777;
-    margin-top: 5px;
+  h4 {
+    margin-bottom: 15px;
   }
 
   input {
+    margin-bottom: 15px;
     width: 200px;
     height: 37px;
     padding: 5px;
@@ -575,12 +594,21 @@ export const Profile = styled.div`
     font-size: 1rem;
   }
 
+  p {
+    margin-bottom: 10px;
+    color: #777777;
+  }
+
   details {
     margin: 5px 0;
   }
 
   @media screen and (max-width: 600px) {
-    margin-left: 16px;
+    margin-left: 0px;
+    input {
+      text-align: center;
+      margin: 15px auto;
+    }
   }
 `;
 
@@ -631,11 +659,13 @@ const Button2 = styled(Btn)`
   margin-bottom: 30px;
 `;
 
-const Button3 = styled.div`
-  margin-top: 20px;
+const ExitBtn = styled.div`
   color: ${(props) => props.theme.errorColor};
   font-size: 0.875rem;
   cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
 `;
 
 export default MyPage;
