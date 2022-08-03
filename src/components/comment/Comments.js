@@ -147,7 +147,7 @@ const Input = styled.input`
 `;
 
 export const Button = styled(Btn)`
-  background: #ffb673;
+  background: ${(props) => props.theme.keyColor};
   width: 92px;
   height: 40px;
   font-weight: 700;
@@ -165,7 +165,7 @@ export const Button = styled(Btn)`
           background-color: #ff891c;
         `
       : css`
-          background-color: #ffb673;
+          background-color: ${(props) => props.theme.keyColor};
         `}
 `;
 

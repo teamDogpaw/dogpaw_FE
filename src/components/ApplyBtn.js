@@ -63,13 +63,13 @@ const ApplyBtn = ({ myPostData }) => {
     <Wrap>
       {userStatus === 'author' && (
         <>
-          <Button2
+          <ApplierChkBtn
             onClick={() => {
               viewApplyModal(id);
             }}
           >
             지원자 보기
-          </Button2>
+          </ApplierChkBtn>
           {deadline === false ? (
             <Button onClick={deadlineBtn}>프로젝트 마감하기</Button>
           ) : (
@@ -97,7 +97,7 @@ const ApplyBtn = ({ myPostData }) => {
           )
         ) : (
           userStatus !== 'author' && (
-            <Button3 disabled={true}>모집 마감</Button3>
+            <DeadlineBtn disabled={true}>모집 마감</DeadlineBtn>
           )
         )}
       </div>
@@ -173,7 +173,7 @@ const Button = styled(Btn)`
     //right:-30px;
   }
 `;
-const Button2 = styled(LineBtn)`
+const ApplierChkBtn = styled(LineBtn)`
   ${style}
   right: 200px;
   bottom: 0px;
@@ -184,7 +184,7 @@ const Button2 = styled(LineBtn)`
   }
 `;
 
-const Button3 = styled.button`
+const DeadlineBtn = styled.button`
   ${style}
   right: 0px;
   bottom: 0px;
