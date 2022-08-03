@@ -1,9 +1,9 @@
-import { MyStack, SelectBoxOpen, SelectBox, Option } from '../styles/style';
-import { ReactComponent as Delete } from '../styles/icon/global/stackDelete.svg';
+import { MyStack, SelectBoxOpen, SelectBox, Option } from '../../styles/style';
+import { ReactComponent as Delete } from '../../styles/icon/global/stackDelete.svg';
 import { useEffect, useRef, useState } from 'react';
 import { useMatch } from 'react-router-dom';
-import { Stacks } from '../utils/enums';
-import { SelectArrow } from './WriteSelect';
+import { Stacks } from '../../utils/enums';
+import { SelectArrow } from '../WriteSelect';
 import styled from 'styled-components';
 
 const StackSelector = ({

@@ -1,15 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
-import kakaoBTN from '../styles/icon/login/kakaoLogin.svg';
+import kakaoBTN from '../../styles/icon/login/kakaoLogin.svg';
 import Register from './Register';
 
-import { Btn } from '../styles/style';
-import { login } from '../shared/userOauth';
+import { Btn } from '../../styles/style';
 import { useSetRecoilState } from 'recoil';
-import { modalContentAtom } from '../atom/atom';
-import { userApis } from '../api/user';
-import Loading from '../shared/Loading';
-import AlertModal from '../components/AlertModal';
+import { modalContentAtom } from '../../atom/atom';
+import { userApis } from '../../api/user';
+import AlertModal from '../common/AlertModal';
 
 const Login = () => {
   const setModalContent = useSetRecoilState(modalContentAtom);

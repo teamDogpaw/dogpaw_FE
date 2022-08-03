@@ -1,5 +1,3 @@
-import MyProject from '../components/MyProject';
-import JoinProject from '../components/JoinProject';
 import { MyStack, PostBody, TabBody } from '../styles/style';
 import {
   Profile,
@@ -9,15 +7,14 @@ import {
   Tab,
   WholeBody,
 } from './Mypage';
-import { useRecoilValue } from 'recoil';
-import { UserInfoAtom } from '../atom/atom';
+
 import profilepic from '../styles/icon/global/profile.svg';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { useGetOtherData } from '../hook/usdOtherData';
 import { useParams } from 'react-router-dom';
-import OtherProjects from '../components/OtherProjects';
-import { EmptyBody, EmptyImg } from '../components/ApplyList';
+import OtherProjects from '../components/mypage/OtherProjects';
+import { EmptyBody, EmptyImg } from '../components/common/ApplyList';
 import OtherJoinProjects from './otherJoinProject';
 
 const UserPage = () => {

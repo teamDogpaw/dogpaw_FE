@@ -4,10 +4,10 @@ import 'slick-carousel/slick/slick-theme.css';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 
-import banner from '../styles/images/main_banner.png';
-import banner_gift from '../styles/images/main_banner02.png';
-import bannerMobile from '../styles/images/mobile/main_mo01.png';
-import bannerMobileGift from '../styles/images/mobile/main_mo02.png';
+import banner from '../../styles/images/main_banner.png';
+import banner_gift from '../../styles/images/main_banner02.png';
+import bannerMobile from '../../styles/images/mobile/main_mo01.png';
+import bannerMobileGift from '../../styles/images/mobile/main_mo02.png';
 
 const Carousel = () => {
   const settings = {

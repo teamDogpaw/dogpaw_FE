@@ -6,12 +6,12 @@ import {
   useGetMessageAlert,
   useGetUnreadAlert,
   usePostReadAlert,
-} from '../hook/useNotification';
+} from '../../hook/useNotification';
 import { useQueryClient } from 'react-query';
 import styled from 'styled-components';
-import { ReactComponent as Remove } from '../styles/icon/detail/remove.svg';
-import { ReactComponent as Bell } from '../styles/icon/header/bell.svg';
-import { ReactComponent as NewBell } from '../styles/icon/header/newBell.svg';
+import { ReactComponent as Remove } from '../../styles/icon/detail/remove.svg';
+import { ReactComponent as Bell } from '../../styles/icon/header/bell.svg';
+import { ReactComponent as NewBell } from '../../styles/icon/header/newBell.svg';
 
 const Sse = () => {
   const ref = useRef(null);

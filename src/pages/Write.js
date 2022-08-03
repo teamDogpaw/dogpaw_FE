@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 import WriteSelect from '../components/WriteSelect';
 import { useEditProject, usePostProject } from '../hook/usePostMutation';
 import { ReactComponent as Arrow } from '../styles/icon/detail/backArrow.svg';
-import AlertModal from '../components/AlertModal';
+import AlertModal from '../components/common/AlertModal';
 import { Content } from '../components/ApplyBtn';
 import { ModalContent } from './Mypage';
 import { useQueryClient } from 'react-query';

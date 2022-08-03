@@ -1,23 +1,20 @@
 import {
-  Btn,
-  GrayLineBtn,
   LineBtn,
   ListProfilePic,
   ListStack,
   ListTitle,
   PostBody,
-} from '../styles/style';
-import { useRecoilValue } from 'recoil';
-import { UserInfoAtom } from '../atom/atom';
+} from '../../styles/style';
+
 import { useMatch, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import DefaultProfile from '../styles/icon/global/profile.svg';
-import { ReactComponent as CommentCnt } from '../styles/icon/post/commentCnt.svg';
-import { ReactComponent as BookmarkCnt } from '../styles/icon/post/bookmarkCnt.svg';
+import DefaultProfile from '../../styles/icon/global/profile.svg';
+import { ReactComponent as CommentCnt } from '../../styles/icon/post/commentCnt.svg';
+import { ReactComponent as BookmarkCnt } from '../../styles/icon/post/bookmarkCnt.svg';
 import UserBookmark from './UserBookmark';
-import { usePostApply } from '../hook/useApplyMutation';
-import AlertModal from './AlertModal';
-import { Content } from './ApplyBtn';
+import { usePostApply } from '../../hook/useApplyMutation';
+import AlertModal from '../common/AlertModal';
+
 import { useState } from 'react';
 import { useQueryClient } from 'react-query';
 

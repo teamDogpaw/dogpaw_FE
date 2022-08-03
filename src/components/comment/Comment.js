@@ -2,19 +2,19 @@ import { useRef, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { UserInfoAtom } from '../atom/atom';
+import { UserInfoAtom } from '../../atom/atom';
 import {
   useEditComment,
   useRemoveComment,
   usePostReply,
-} from '../hook/useCommentData';
+} from '../../hook/useCommentData';
 import styled from 'styled-components';
-import DropDown from './DropDown';
-import { Btn } from '../styles/style';
-import AlertModal from './AlertModal';
-import ModalOpen from './Modal_prev';
+import DropDown from '../DropDown';
+import { Btn } from '../../styles/style';
+import AlertModal from '../common/AlertModal';
+import ModalOpen from '../common/Modal_prev';
 
-import person from '../styles/images/person.png';
+import person from '../../styles/images/person.png';
 
 const Comment = ({ data }) => {
   //대댓글 드롭다운 열기/닫기

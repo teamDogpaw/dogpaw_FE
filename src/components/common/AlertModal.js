@@ -1,6 +1,6 @@
 import styled, { css, keyframes } from 'styled-components';
-import { Btn, GrayLineBtn, ModalBtn } from '../styles/style';
-import { Content } from './ApplyBtn';
+import { Btn, GrayLineBtn, ModalBtn } from '../../styles/style';
+import { Content } from '../ApplyBtn';
 
 const AlertModal = ({
   open,

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import StackSelector from './StackSeletor';
+import StackSelector from '../stack/StackSeletor';
 import Login, {
   InputContent,
   InputWrap,
@@ -10,12 +10,12 @@ import Login, {
   Title,
   Wrap,
 } from './Login';
-import { Btn, LineBtn } from '../styles/style';
-import { userApis } from '../api/user';
-import ModalOpen from './Modal_prev';
+import { Btn, LineBtn } from '../../styles/style';
+import { userApis } from '../../api/user';
+import ModalOpen from '../common/Modal_prev';
 import { useSetRecoilState } from 'recoil';
-import { modalContentAtom } from '../atom/atom';
-import AlertModal from '../components/AlertModal';
+import { modalContentAtom } from '../../atom/atom';
+import AlertModal from '../common/AlertModal';
 
 const Register = () => {
   const setModalContent = useSetRecoilState(modalContentAtom);

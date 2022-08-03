@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { MypagePostBox } from '../styles/style';
-import { useGetMyParticipatePost } from '../hook/usePostListData';
+import { MypagePostBox } from '../../styles/style';
+import { useGetMyParticipatePost } from '../../hook/usePostListData';
 import MyPagePostList from './MyPagePostList';
-import ViewApply from './ViewApply';
-import { EmptyBody, EmptyImg } from './ApplyList';
+import ViewApply from '../common/ViewApply';
+import { EmptyBody, EmptyImg } from '../common/ApplyList';
 
 const JoinProject = ({ currentTab }) => {
   const { data: myParticipatePost, isLoading: isLoadingPartiPost } =

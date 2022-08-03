@@ -3,8 +3,8 @@ import { Btn, LineBtn } from '../styles/style';
 import styled, { css, keyframes } from 'styled-components';
 import { useQueryClient } from 'react-query';
 import { usePostApply } from '../hook/useApplyMutation';
-import ViewApply from '../components/ViewApply';
-import AlertModal from '../components/AlertModal';
+import ViewApply from './common/ViewApply';
+import AlertModal from './common/AlertModal';
 import { usePostDeadline } from '../hook/usePostData';
 
 const ApplyBtn = ({ myPostData }) => {

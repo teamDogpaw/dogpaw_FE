@@ -1,4 +1,4 @@
-import { useGetBookmarkRank } from '../hook/usePostData';
+import { useGetBookmarkRank } from '../../hook/usePostData';
 import styled from 'styled-components';
 import {
   Bookmark,
@@ -11,20 +11,20 @@ import {
   Hashtag,
   Info,
   User,
-} from '../pages/Main';
-import { usePostBookmark } from '../hook/useUserData';
+} from '../../pages/Main';
+import { usePostBookmark } from '../../hook/useUserData';
 import { useQueryClient } from 'react-query';
 import { useRecoilValue } from 'recoil';
-import { UserInfoAtom } from '../atom/atom';
+import { UserInfoAtom } from '../../atom/atom';
 import { useNavigate } from 'react-router-dom';
 
-import { ReactComponent as CommentIcon } from '../styles/icon/post/commentCnt.svg';
-import { ReactComponent as BookmarkIcon } from '../styles/icon/post/bookmark.svg';
-import { ReactComponent as BookmarkFill } from '../styles/icon/post/bookmarkFill.svg';
-import gold from '../styles/icon/main/medal0.svg';
-import silver from '../styles/icon/main/medal1.svg';
-import bronze from '../styles/icon/main/medal2.svg';
-import person from '../styles/icon/global/profile.svg';
+import { ReactComponent as CommentIcon } from '../../styles/icon/post/commentCnt.svg';
+import { ReactComponent as BookmarkIcon } from '../../styles/icon/post/bookmark.svg';
+import { ReactComponent as BookmarkFill } from '../../styles/icon/post/bookmarkFill.svg';
+import gold from '../../styles/icon/main/medal0.svg';
+import silver from '../../styles/icon/main/medal1.svg';
+import bronze from '../../styles/icon/main/medal2.svg';
+import person from '../../styles/icon/global/profile.svg';
 
 const BookmarkRank = () => {
   const navigate = useNavigate();
