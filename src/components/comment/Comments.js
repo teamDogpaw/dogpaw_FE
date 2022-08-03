@@ -146,7 +146,7 @@ const Input = styled.input`
   background-color: ${(props) => props.theme.backgroundColor};
 `;
 
-const Button = styled(Btn)`
+export const Button = styled(Btn)`
   background: #ffb673;
   width: 92px;
   height: 40px;

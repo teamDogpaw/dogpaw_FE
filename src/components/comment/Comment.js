@@ -10,11 +10,12 @@ import {
 } from '../../hook/useCommentData';
 import styled from 'styled-components';
 import DropDown from '../DropDown';
-import { Btn } from '../../styles/style';
+import { Btn, LineBtn } from '../../styles/style';
 import AlertModal from '../common/AlertModal';
 import ModalOpen from '../common/Modal_prev';
 
 import person from '../../styles/images/person.png';
+import { Button } from './Comments';
 
 const Comment = ({ data }) => {
   //대댓글 드롭다운 열기/닫기
@@ -118,7 +119,10 @@ const Comment = ({ data }) => {
         )}
         <CommentDate>{data.modifiedAt.substring(0, 10)} </CommentDate>
       </Contents>
-      <ReplyBtn onClick={(e) => setDropdownVisibility(!dropdownVisibility)}>
+      <ReplyBtn
+        onClick={(e) => setDropdownVisibility(!dropdownVisibility)}
+        dropdownVisibility={dropdownVisibility}
+      >
         {dropdownVisibility ? '닫기' : '답글 쓰기'}
       </ReplyBtn>
       <CommentBtnBox>
@@ -208,10 +212,17 @@ const Img = styled.img`
   margin-right: 10px;
 `;
 
-const ReplyBtn = styled(Btn)`
+const ReplyBtn = styled(LineBtn)`
+  background-color: ${(props) =>
+    props.dropdownVisibility ? null : props.theme.keyColor};
+  color: ${(props) =>
+    props.dropdownVisibility
+      ? props.theme.keyColor
+      : props.theme.textColor_btn};
+  font: inherit;
   margin-left: auto;
   margin-top: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 
 const Contents = styled.div`
@@ -277,7 +288,6 @@ const CommentBox = styled.div`
   flex-direction: column;
   position: relative;
   height: 140px;
-  margin-top: 20px;
 `;
 const Input = styled.input`
   width: 100%;
@@ -289,43 +299,4 @@ const Input = styled.input`
   background-color: ${(props) => props.theme.backgroundColor};
 `;
 
-const Button = styled.button`
-  background: #ffb673;
-  color: #fff;
-  width: 92px;
-  height: 40px;
-  font-weight: 700;
-  border-radius: 8px;
-  border: none;
-  padding: 8px 12px;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-
-  font-size: 0.938rem;
-
-  cursor: pointer;
-  :hover {
-    background-color: #ff891c;
-  }
-  :active {
-    background-color: #d26500;
-  }
-`;
-// const DropBTN = styled(Btn)`
-//   /* background: #ffb673;
-//   color: #fff;
-//   margin-left: 5px;
-//   width: 70px;
-//   height: 32px; */
-//   /* border-radius: 8px;
-//   border: none; */
-//   cursor: pointer;
-//   :hover {
-//     background-color: #ff891c;
-//   }
-//   :active {
-//     background-color: #d26500;
-//   }
-// `;
 export default Comment;
