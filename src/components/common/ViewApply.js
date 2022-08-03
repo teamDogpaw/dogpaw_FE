@@ -24,11 +24,7 @@ const ViewApply = ({
   const { data: myPostApply, isLoading: isLoadingPost } = useGetPost(postId);
 
   if (isLoadingPost) {
-    return (
-      <EmptyBody>
-        <EmptyImg />
-      </EmptyBody>
-    );
+    return null;
   }
   return (
     <ModalBackground>
