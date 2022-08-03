@@ -366,7 +366,7 @@ export const Modal = styled.div`
   }
 
   &.apply {
-    min-height: 700px;
+    min-height: 70vh;
   }
 `;
 

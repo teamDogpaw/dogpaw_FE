@@ -46,6 +46,7 @@ const ReplyComment = (props) => {
     const replyData = { replyId, id };
     await removeReply(replyData);
     queryClient.invalidateQueries('commentList');
+    closeModal();
   };
 
   const openModal = () => {

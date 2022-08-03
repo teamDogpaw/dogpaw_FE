@@ -102,6 +102,11 @@ const ModalContent = styled.div`
 `;
 
 export const ApplyProjectTitle = styled.h3`
+  max-width: 375px;
+  line-height: 40px;
+  margin-top: 5px;
+  word-break: keep-all;
+  word-wrap: break-word;
   @media screen and (max-width: 375px) {
     margin-top: 50px;
     line-height: 30px;
