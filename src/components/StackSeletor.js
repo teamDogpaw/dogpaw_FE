@@ -101,8 +101,10 @@ export const StackWrap = styled.div`
   gap: 10px;
 
   &.mypage {
-    text-align: center;
-    justify-content: center;
+    @media screen and (max-width: 600px) {
+      text-align: center;
+      justify-content: center;
+    }
   }
 `;
 
