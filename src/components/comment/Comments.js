@@ -148,6 +148,7 @@ const Input = styled.input`
   background-color: ${(props) => props.theme.backgroundColor};
 `;
 
+
 export const SendBTN = styled(Btn)`
   background: #ffb673;
   width: 92px;
@@ -167,7 +168,7 @@ export const SendBTN = styled(Btn)`
           background-color: #ff891c;
         `
       : css`
-          background-color: #ffb673;
+          background-color: ${(props) => props.theme.keyColor};
         `}
 `;
 
