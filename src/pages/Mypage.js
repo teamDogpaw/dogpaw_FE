@@ -28,7 +28,7 @@ import { withDraw } from '../shared/userOauth';
 import { SelectArrow } from '../components/WriteSelect';
 import AlertModal from '../components/common/AlertModal';
 import { useQueryClient } from 'react-query';
-import { InputContent } from '../components/sign/Login';
+import { InputContent } from '../components/logModal/Login';
 
 const MyPage = () => {
   const userInfo = useRecoilValue(UserInfoAtom);

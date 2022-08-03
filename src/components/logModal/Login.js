@@ -150,7 +150,7 @@ const Login = () => {
             typeTitle="password"
             type="password"
             placeholder="비밀번호를 입력해주세요."
-            maxLength="16"
+            maxLength="15"
           />
           <p>
             {password.length > 0 && (

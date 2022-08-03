@@ -8,7 +8,7 @@ import {
   LoginInput,
   Title,
   Wrap,
-} from '../sign/Login';
+} from '../logModal/Login';
 import { Btn } from '../../styles/style';
 import StackSelector from '../stack/StackSeletor';
 import axios from 'axios';

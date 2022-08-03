@@ -353,7 +353,7 @@ const Register = () => {
             typeTitle="password"
             type="password"
             placeholder="8글자 이상, 16글자 미만으로 비밀번호를 입력해주세요."
-            maxLength="16"
+            maxLength="15"
             defaultValue={isSubmitOnce ? password : null}
           />
           <p>
@@ -372,7 +372,7 @@ const Register = () => {
             typeTitle="passwordConfirm"
             type="password"
             placeholder="비밀번호를 다시 한번 입력해주세요."
-            maxLength="16"
+            maxLength="15"
             defaultValue={isSubmitOnce ? passwordConfirm : null}
           />
           <p>
