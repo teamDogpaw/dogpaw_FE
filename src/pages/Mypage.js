@@ -5,6 +5,7 @@ import JoinProject from '../components/mypage/JoinProject';
 import { useNavigate } from 'react-router-dom';
 import {
   Btn,
+  LineBtn,
   MyStack,
   Option,
   PostBody,
