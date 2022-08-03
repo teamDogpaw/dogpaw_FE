@@ -29,6 +29,7 @@ const Comment = ({ data }) => {
   const [modiModalOpen, setModiModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [btnState, setBtnState] = useState(false);
 
   const loginUser = isLogin?.nickname;
   const writeUser = data.nickname;
@@ -60,6 +61,7 @@ const Comment = ({ data }) => {
   const onCheckEnter = (e) => {
     if (e.key === 'Enter') {
       addReplyClick();
+      setBtnState(false);
     }
   };
 
@@ -96,6 +98,15 @@ const Comment = ({ data }) => {
     const isLogin = localStorage.getItem('token');
     if (!isLogin) {
       viewModal();
+    }
+  };
+
+  const onChange = (e) => {
+    const commentText = replyRef.current.value;
+    if (commentText.length > 0) {
+      setBtnState(true);
+    } else {
+      setBtnState(false);
     }
   };
 
@@ -151,15 +162,18 @@ const Comment = ({ data }) => {
                 <CommentBox>
                   <Input
                     type="text"
-                    placeholder="댓글을 남겨주세요"
+                    placeholder="답글을 남겨주세요"
                     ref={replyRef}
                     onKeyPress={onCheckEnter}
+                    onChange={onChange}
                   />
                   <SendBTN
                     onClick={() => {
                       userChk();
                       addReplyClick();
+                      setBtnState(false);
                     }}
+                    isActive={btnState}
                   >
                     등록하기
                   </SendBTN>

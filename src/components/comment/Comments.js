@@ -29,6 +29,7 @@ const Comments = () => {
   const onCheckEnter = (e) => {
     if (e.key === 'Enter') {
       addCommentClick();
+      setBtnState(false);
     }
   };
 
@@ -88,6 +89,7 @@ const Comments = () => {
           onClick={() => {
             userChk();
             addCommentClick();
+            setBtnState(false);
           }}
           isActive={btnState}
         >
