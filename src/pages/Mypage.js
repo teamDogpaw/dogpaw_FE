@@ -375,7 +375,7 @@ export const WholeBody = styled.div`
   @media screen and (max-width: 996px) {
     margin: 24px 40px 100px;
   }
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 700px) {
     margin: 0px;
     width: 100%;
     margin: auto;
@@ -435,7 +435,7 @@ const BtnWrap = styled.div`
     color: ${(props) => props.theme.errorColor};
     font-size: 0.875rem;
   }
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 700px) {
     width: 100%;
   }
 `;
@@ -533,7 +533,7 @@ export const ProfileWrap = styled.div`
   align-items: center;
   position: relative;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 700px) {
     flex-direction: column;
     gap: 10px;
     text-align: center;
@@ -562,7 +562,7 @@ const ProfilePicWrap = styled.div`
   flex-direction: column;
   position: relative;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 700px) {
     gap: 12px;
   }
 `;
@@ -599,7 +599,7 @@ export const Profile = styled.div`
     margin: 5px 0;
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 700px) {
     margin-left: 0px;
     input {
       text-align: center;
@@ -621,8 +621,12 @@ export const Stacks = styled.div`
   display: flex;
   flex-wrap: wrap;
   max-width: 400px;
+
   @media screen and (max-width: 700px) {
-    max-width: 300px;
+    width: 300px;
+
+    justify-content: center;
+    text-align: center;
   }
 `;
 
@@ -634,7 +638,7 @@ const EditBtn = styled(Btn)`
   right: 0;
   bottom: 0;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 700px) {
     position: relative;
     width: 100%;
   }
@@ -645,7 +649,7 @@ const Button = styled(Btn)`
   width: 200px;
   margin-left: auto;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 700px) {
     position: relative;
     width: 100%;
   }

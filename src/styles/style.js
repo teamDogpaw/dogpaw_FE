@@ -112,6 +112,7 @@ export const MainBody = styled.div`
   p {
     float: right;
   }
+
   @media screen and (max-width: 700px) {
     margin: 0px;
   }
@@ -274,7 +275,7 @@ export const SelectBox = styled.summary`
   }
 
   &.mypage {
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 700px) {
       margin: auto;
     }
   }
@@ -289,7 +290,7 @@ export const SelectBoxOpen = styled.ul`
   border: ${(props) => props.theme.border};
   background-color: ${(props) => props.theme.inputBoxBackground};
   box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.1);
-  overflow: scroll;
+  overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
   ::-webkit-scrollbar {
@@ -329,6 +330,9 @@ export const PostBody = styled.div`
   padding: 32px;
   border-radius: 16px;
   box-shadow: ${(props) => props.theme.boxShadow};
+  @media screen and (max-width: 600px) {
+    box-shadow: none;
+  }
 `;
 
 export const MypagePostBox = styled.div`
@@ -351,22 +355,18 @@ export const Modal = styled.div`
     padding: 24px;
     margin-top: 0px;
     border-radius: 0px;
-    overflow-y: auto;
+    /* overflow-y: auto;
     &::-webkit-scrollbar {
       width: 0px;
-    }
-  }
-
-  @media screen and (max-width: 600px) {
-    width: 100%;
-    height: 100%;
-    padding: 24px;
-    margin-top: 0px;
-    border-radius: 0px;
+    } */
   }
 
   @media screen and (max-width: 375px) {
     padding: 24px;
+  }
+
+  &.apply {
+    min-height: 700px;
   }
 `;
 
@@ -404,6 +404,7 @@ export const ModalCloseButton = styled(X)`
   @media screen and (max-width: 375px) {
     position: absolute;
     right: 24px;
+    top: 24px;
   }
 `;
 
@@ -414,4 +415,20 @@ export const TabBody = styled.div`
   text-align: center;
   margin: 24px auto;
   gap: 16px;
+`;
+
+export const ApplyListContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: ${(props) => props.theme.border};
+  padding: 16px;
+  border-radius: 16px;
+  margin-bottom: 16px;
+  line-height: normal;
+  position: relative;
+
+  img {
+    margin-right: 5px;
+  }
 `;

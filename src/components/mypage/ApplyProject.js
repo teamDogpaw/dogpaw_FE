@@ -2,6 +2,7 @@ import { MypagePostBox } from '../../styles/style';
 import MyPagePostList from './MyPagePostList';
 import { useGetMyApplyPost } from '../../hook/usePostListData';
 import { EmptyBody, EmptyImg } from '../common/ApplyList';
+import EmptyPage from '../emptyPage';
 
 const ApplyProject = ({ viewApplyModal, currentTab }) => {
   const { data: myApplyPost, isLoading: isLoadingApplyPost } =
@@ -15,12 +16,7 @@ const ApplyProject = ({ viewApplyModal, currentTab }) => {
     );
   }
   if (myApplyPost.data.length === 0) {
-    return (
-      <EmptyBody>
-        <EmptyImg />
-        <span>아직 신청한 프로젝트가 없습니다.</span>
-      </EmptyBody>
-    );
+    return <EmptyPage message={'아직 신청한 프로젝트가 없습니다!'} />;
   }
 
   return (

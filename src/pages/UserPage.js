@@ -7,7 +7,6 @@ import {
   Tab,
   WholeBody,
 } from './Mypage';
-
 import profilepic from '../styles/icon/global/profile.svg';
 import { useState } from 'react';
 import styled from 'styled-components';
@@ -15,7 +14,7 @@ import { useGetOtherData } from '../hook/usdOtherData';
 import { useParams } from 'react-router-dom';
 import OtherProjects from '../components/mypage/OtherProjects';
 import { EmptyBody, EmptyImg } from '../components/common/ApplyList';
-import OtherJoinProjects from './otherJoinProject';
+import OtherJoinProjects from './OtherJoinProject';
 
 const UserPage = () => {
   const params = useParams();

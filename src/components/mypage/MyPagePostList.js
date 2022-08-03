@@ -5,7 +5,6 @@ import {
   ListTitle,
   PostBody,
 } from '../../styles/style';
-
 import { useMatch, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import DefaultProfile from '../../styles/icon/global/profile.svg';
@@ -14,12 +13,10 @@ import { ReactComponent as BookmarkCnt } from '../../styles/icon/post/bookmarkCn
 import UserBookmark from './UserBookmark';
 import { usePostApply } from '../../hook/useApplyMutation';
 import AlertModal from '../common/AlertModal';
-
 import { useState } from 'react';
 import { useQueryClient } from 'react-query';
 
 const MyPagePostList = ({ data, viewApplyModal, currentTab }) => {
-  //console.log(data)
   const [completeMessage, setCompleteMessage] = useState('');
   const [completeModal, setCompleteModal] = useState(false);
   const postId = data.postId;
@@ -56,6 +53,19 @@ const MyPagePostList = ({ data, viewApplyModal, currentTab }) => {
   return (
     <>
       <PostBody key={data.postId}>
+        <AlertModal
+          open={modalOpen}
+          setAlertModalOpen={closeModal}
+          message={'프로젝트 지원을 취소하시겠습니까?'}
+          action={applyBtn}
+          actionMessage={'지원취소'}
+        />
+
+        <AlertModal
+          open={completeModal}
+          setAlertModalOpen={closeCompleteModal}
+          message={completeMessage}
+        />
         <HeadBody>
           {currentTab !== 4 ? (
             <>
@@ -103,42 +113,11 @@ const MyPagePostList = ({ data, viewApplyModal, currentTab }) => {
         ) : null}
 
         {(isMypage !== null && currentTab === 2) || currentTab === 4 ? (
-          <MyPageBtn
-            onClick={() =>
-              viewApplyModal({
-                postId: data.postId,
-                title: data.title,
-                deadline: data.deadline,
-              })
-            }
-          >
+          <MyPageBtn onClick={() => viewApplyModal(data.postId)}>
             팀원 목록 보기
           </MyPageBtn>
         ) : null}
-        {/* {currentTab === 4 ?
-                    <MyPageBtn
-                        onClick={() =>
-                            viewApplyModal({
-                                postId: data.postId,
-                                title: data.title,
-                                deadline: data.deadline
-                            })} >팀원 목록 보기</MyPageBtn>
-                    : null} */}
       </PostBody>
-
-      <AlertModal
-        open={modalOpen}
-        setAlertModalOpen={closeModal}
-        message={'프로젝트 지원을 취소하시겠습니까?'}
-        action={applyBtn}
-        actionMessage={'지원취소'}
-      />
-
-      <AlertModal
-        open={completeModal}
-        setAlertModalOpen={closeCompleteModal}
-        message={completeMessage}
-      />
     </>
   );
 };

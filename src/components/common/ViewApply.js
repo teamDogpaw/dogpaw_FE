@@ -10,22 +10,29 @@ import {
 import ApplyList from './ApplyList';
 import ParticipantList from '../ParticipantList';
 import { ReactComponent as X } from '../../styles/icon/modal/close.svg';
+import { useGetPost } from '../../hook/usePostData';
 
 const ViewApply = ({
   viewApplyModal,
   myPostData,
   currentTab,
+  postId,
   setViewApply,
 }) => {
   const [isApplyList, setIsApplyList] = useState(false);
 
+  const { data: myPostApply, isLoading: isLoadingPost } = useGetPost(postId);
+
+  if (isLoadingPost) {
+    return <>loading..</>;
+  }
   return (
     <ModalBackground>
-      <Modal>
+      <Modal className="apply">
         <ModalCloseButton onClick={viewApplyModal}>
           <X style={{ right: '0' }} />
         </ModalCloseButton>
-        <h3>{myPostData.title}</h3>
+        <ApplyProjectTitle>{myPostApply.data.title}</ApplyProjectTitle>
         {currentTab === 2 ? (
           <ModalTabBody className="participant">
             <Tab className="focused" onClick={() => setIsApplyList(false)}>
@@ -38,23 +45,24 @@ const ViewApply = ({
               className={isApplyList ? null : 'focused'}
               onClick={() => setIsApplyList(false)}
             >
-              팀원 목록 {myPostData.currentMember}
+              팀원 목록 {myPostApply.data.currentMember}/
+              {myPostApply.data.maxCapacity}
             </Tab>
             <Tab
               className={isApplyList ? 'focused' : null}
               onClick={() => setIsApplyList(true)}
             >
-              신청자 목록
+              신청자 목록 {myPostApply.data.applierCnt}
             </Tab>
           </ModalTabBody>
         )}
 
         <ModalContent>
           {isApplyList ? (
-            <ApplyList myPostId={myPostData.postId} />
+            <ApplyList myPostId={postId} />
           ) : (
             <ParticipantList
-              myPostId={myPostData.postId}
+              myPostId={postId}
               currentTab={currentTab}
               setViewApply={setViewApply}
             />
@@ -77,7 +85,6 @@ const ModalTabBody = styled(TabBody)`
 
 const ModalContent = styled.div`
   width: 384px;
-  margin: 24px;
 
   @media screen and (max-width: 600px) {
     width: 100%;
@@ -85,8 +92,20 @@ const ModalContent = styled.div`
   }
 
   @media screen and (max-width: 375px) {
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      width: 0px;
+    }
     width: 100%;
     margin: 0px auto;
+  }
+`;
+
+export const ApplyProjectTitle = styled.h3`
+  @media screen and (max-width: 375px) {
+    margin-top: 50px;
+    line-height: 30px;
+    word-break: keep-all;
   }
 `;
 export default ViewApply;

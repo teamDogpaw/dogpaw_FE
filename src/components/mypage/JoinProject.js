@@ -4,6 +4,7 @@ import { useGetMyParticipatePost } from '../../hook/usePostListData';
 import MyPagePostList from './MyPagePostList';
 import ViewApply from '../common/ViewApply';
 import { EmptyBody, EmptyImg } from '../common/ApplyList';
+import EmptyPage from '../emptyPage';
 
 const JoinProject = ({ currentTab }) => {
   const { data: myParticipatePost, isLoading: isLoadingPartiPost } =
@@ -34,12 +35,7 @@ const JoinProject = ({ currentTab }) => {
   }
 
   if (myParticipatePost.data.length === 0) {
-    return (
-      <EmptyBody>
-        <EmptyImg />
-        <span>아직 참여한 프로젝트가 없습니다.</span>
-      </EmptyBody>
-    );
+    return <EmptyPage message={'아직 참여한 프로젝트가 없습니다.'} />;
   }
 
   return (

@@ -7,9 +7,9 @@ import { UserInfoAtom } from '../../atom/atom';
 import { useGetCommentList, usePostComment } from '../../hook/useCommentData';
 import { Btn } from '../../styles/style';
 import AlertModal from '../common/AlertModal';
-import Comment from '../comment/Comment';
+import Comment from './Comment';
 import ModalOpen from '../common/Modal_prev';
-import ReplyComment from '../comment/ReplyComment';
+import ReplyComment from './ReplyComment';
 
 const Comments = () => {
   const params = useParams();

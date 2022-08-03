@@ -6,7 +6,7 @@ import person from '../../styles/images/person.png';
 import styled from 'styled-components';
 import arrow from '../../styles/icon/detail/replyarrow.svg';
 import { useEditReply, useRemoveReply } from '../../hook/useCommentData';
-import { CommentDate, DeleteBtn, ModiBtn, UpdateBtn } from '../comment/Comment';
+import { CommentDate, DeleteBtn, ModiBtn, UpdateBtn } from './Comment';
 import AlertModal from '../common/AlertModal';
 
 const ReplyComment = (props) => {

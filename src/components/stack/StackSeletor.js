@@ -55,7 +55,7 @@ const StackSelector = ({
 
   return (
     <div>
-      <details ref={stackdetailsRef}>
+      <details ref={stackdetailsRef} style={{ position: 'relative' }}>
         <SelectBox
           className={isRegister ? 'Login' : isMypage !== null ? 'mypage' : null}
         >
@@ -81,7 +81,11 @@ const StackSelector = ({
       <StackWrap className={isMypage !== null ? 'mypage' : null}>
         {stack.map((oneStack, index) => {
           return (
-            <MyStack key={index} onClick={() => removeStack(oneStack)}>
+            <MyStack
+              key={index}
+              onClick={() => removeStack(oneStack)}
+              className={isMypage !== null ? 'mypage' : null}
+            >
               #{oneStack}
               <Delete />
             </MyStack>
@@ -100,7 +104,8 @@ export const StackWrap = styled.div`
   gap: 10px;
 
   &.mypage {
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 700px) {
+      width: 400px;
       text-align: center;
       justify-content: center;
     }

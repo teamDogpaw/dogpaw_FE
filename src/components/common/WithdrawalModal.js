@@ -72,6 +72,7 @@ const ModalBgShow = keyframes`
 `;
 
 const Section = styled.section`
+  box-shadow: ${(props) => props.theme.boxShadow};
   height: 200px;
   margin: 0 auto;
   display: flex;

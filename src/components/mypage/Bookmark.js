@@ -2,6 +2,7 @@ import { MypagePostBox } from '../../styles/style';
 import { useGetMyBookmarkPost } from '../../hook/usePostListData';
 import MyPagePostList from './MyPagePostList';
 import { EmptyBody, EmptyImg } from '../common/ApplyList';
+import EmptyPage from '../emptyPage';
 
 const Bookmark = ({ viewApplyModal, currentTab }) => {
   const {
@@ -9,7 +10,6 @@ const Bookmark = ({ viewApplyModal, currentTab }) => {
     isLoading: isLoadingBMPost,
     isError: isErrorMyBM,
   } = useGetMyBookmarkPost();
-  //console.log(myBookmarkPost)
 
   if (isErrorMyBM) {
     return null;
@@ -24,12 +24,7 @@ const Bookmark = ({ viewApplyModal, currentTab }) => {
   }
 
   if (myBookmarkPost.data.length === 0) {
-    return (
-      <EmptyBody>
-        <EmptyImg />
-        <span>아직 북마크한 프로젝트가 없습니다.</span>
-      </EmptyBody>
-    );
+    return <EmptyPage message={'아직 북마크한 프로젝트가 없습니다!'} />;
   }
   return (
     <MypagePostBox>
