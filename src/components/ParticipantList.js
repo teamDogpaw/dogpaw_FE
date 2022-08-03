@@ -1,23 +1,13 @@
 import { useGetParticipantsLists } from '../hook/useProjectData';
-import { Btn, GrayLineBtn, LineBtn, ListProfilePic } from '../styles/style';
-import {
-  ApplyListContent,
-  EmptyBody,
-  EmptyImg,
-  MyBtn,
-  Section,
-  Stack,
-  StackBody,
-  Stacks,
-  User,
-} from './ApplyList';
+import { ListProfilePic } from '../styles/style';
+import { EmptyBody, EmptyImg, Stack, Stacks, User } from './common/ApplyList';
 import profilepic from '../styles/icon/global/profile.svg';
 import { useExplusionMateMutation } from '../hook/useProjectMutation';
 import { useWithdrawPartici } from '../hook/useUserData';
 import styled from 'styled-components';
 import { useState } from 'react';
-import { Content } from './ApplyBtn';
-import WithdrawModal from './WithdrawalModal';
+
+import WithdrawModal from './common/WithdrawalModal';
 
 const ParticipantList = ({ myPostId, currentTab, setViewApply }) => {
   const [modalOpen, setModalOpen] = useState(false);

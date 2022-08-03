@@ -1,6 +1,6 @@
-import styled, { css, keyframes } from "styled-components";
-import { Btn, GrayLineBtn } from "../styles/style";
-import { Content } from "./ApplyBtn";
+import styled, { css, keyframes } from 'styled-components';
+import { Btn, GrayLineBtn } from '../../styles/style';
+import { Content } from '../ApplyBtn';
 
 const WithdrawModal = (props) => {
   const { open, explusionMate, closeModal, team, myPostId } = props;
@@ -70,8 +70,6 @@ const ModalBgShow = keyframes`
   }
 
 `;
-
-
 
 const Section = styled.section`
   height: 200px;

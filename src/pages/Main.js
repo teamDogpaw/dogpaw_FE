@@ -4,14 +4,13 @@ import { useInView } from 'react-intersection-observer';
 import { useRecoilValue } from 'recoil';
 import { UserInfoAtom } from '../atom/atom';
 import { useGetKeepPostList } from '../hook/usePostData';
-import BookmarkRank from '../components/BookmarkRank';
-import StackFilter from '../components/StackFilter';
+import BookmarkRank from '../components/bookmark/BookmarkRank';
 import { usePostBookmark } from '../hook/useUserData';
 import { useQueryClient } from 'react-query';
 
-import Tutoral from '../components/Tutorial';
+import Tutoral from '../components/etc/Tutorial';
 import Loading from '../shared/Loading';
-import Carousel from '../components/Carousel';
+import Carousel from '../components/common/Carousel';
 import styled, { css, keyframes } from 'styled-components';
 import { ReactComponent as CommentIcon } from '../styles/icon/post/commentCnt.svg';
 import { ReactComponent as BookmarkIcon } from '../styles/icon/post/bookmark.svg';
@@ -21,14 +20,12 @@ import person from '../styles/icon/global/profile.svg';
 import help from '../styles/icon/main/help.svg';
 
 const Main = () => {
-  const [mainSelectedStack, setMainSelectedStack] = useState([]);
-  const [filterList, setFilterList] = useState([]);
   const navigate = useNavigate();
   const user = useRecoilValue(UserInfoAtom);
   const [toggle, setToggle] = useState(true);
   const [isTuto, setIsTuto] = useState(false);
   const { ref, inView } = useInView();
-  const [isFilter, setIsFilter] = useState(false);
+
   const isLogin = localStorage.getItem('token');
   const userMe = user?.nickname;
 
@@ -39,35 +36,19 @@ const Main = () => {
 
   useEffect(() => {
     if (inView) fetchNextPage();
-  }, [fetchNextPage, inView, filterList]);
+  }, [fetchNextPage, inView]);
   if (status === 'loading') {
     return <Loading />;
   }
   if (status === 'error') {
     return null;
   }
-  //console.log(data);
-
-  const setFilter = () => {
-    setIsFilter((prev) => !prev);
-  };
 
   const dataList = data?.pages.map((arr) => arr.postList);
   const postList = dataList.reduce((acc, cur) => acc.concat(cur));
-  var list = toggle
+  const list = toggle
     ? postList.filter((post) => post.deadline === false)
     : postList;
-
-  // const selectStackFilter = () => {
-  //   //console.log(selectedStack)
-  //   let newList = [];
-  //   selectedStack.map((stack)=>{
-  //     //console.log(stack)
-  //     return newList = filterList.concat(list.filter((arr) => arr.stacks.includes(stack)))
-  //   })
-  //   setFilterList(newList)
-  // }
-  // //console.log(filterList)
 
   const bookMark = (e) => {
     e.stopPropagation();
@@ -117,164 +98,67 @@ const Main = () => {
             <p>{toggle ? '모집중' : 'ALL'}</p>
           </Circle>
         </ToggleBtn>
-        {/* <button onClick={setFilter} style={{marginLeft:"auto"}}>
-        스택필터
-        </button> */}
       </ToggleWrap>
-      <>
-        {isFilter ? (
-          <StackFilter
-            setMainSelectedStack={setMainSelectedStack}
-            mainSelectedStack={mainSelectedStack}
-            filterList={filterList}
-            list={list}
-            setFilterList={setFilterList}
-          />
-        ) : null}
-        <ArticleWrap>
-          {filterList.length !== 0 ? (
-            <>
-              {filterList.map((post) => {
-                return (
-                  <>
-                    <Article
-                      key={post.postId}
-                      onClick={() => {
-                        navigate('/detail/' + post.postId);
-                      }}
-                    >
-                      <Content>
-                        <h1>{post.title}</h1>
-                        <p>{post.content}</p>
-                      </Content>
-                      <Hashtag>
-                        <ul>
-                          {post.stacks.map((lang, idx) => (
-                            <li key={idx}>#{lang}</li>
-                          ))}
-                        </ul>
-                        <p style={{ color: '#ffb673', marginTop: '5px' }}>
-                          #{post.online}
-                        </p>
-                      </Hashtag>
-                      <Info>
-                        <div>
-                          <Comment>
-                            <CommentIcon />
-                            <p>{post.commentCnt}</p>
-                          </Comment>
-                          <Bookmark>
-                            <BookmarkIcon
-                              style={{ width: '10', height: '14' }}
-                            />
-                            <p>{post.bookmarkCnt}</p>
-                          </Bookmark>
-                        </div>
-                        <Date>시작예정일 {post.startAt}</Date>
-                      </Info>
-                      <Footer>
-                        <User>
-                          <img
-                            src={post.profileImg || person}
-                            alt="profileImg"
-                          />
-                          <p>{post.nickname}</p>
-                        </User>
-                        <div onClick={bookMark}>
-                          {isLogin &&
-                            userMe !== post.nickname &&
-                            (post.bookMarkStatus ? (
-                              <BookmarkFill
-                                onClick={() => bookMarkBtn(post.postId)}
-                              />
-                            ) : (
-                              <BookmarkIcon
-                                onClick={() => bookMarkBtn(post.postId)}
-                              />
-                            ))}
-                        </div>
-                      </Footer>
-                      {post.deadline === true && <Deadline>모집마감</Deadline>}
-                    </Article>
-                  </>
-                );
-              })}
-            </>
-          ) : (
-            <>
-              {list.map((post) => {
-                return (
-                  <>
-                    <Article
-                      key={post.postId}
-                      onClick={() => {
-                        navigate('/detail/' + post.postId);
-                      }}
-                    >
-                      <Content>
-                        <h1>{post.title}</h1>
-                        <p>{post.content}</p>
-                      </Content>
-                      <Hashtag>
-                        <ul>
-                          {post.stacks.map((lang, idx) => (
-                            <li key={idx}>#{lang}</li>
-                          ))}
-                        </ul>
-                        <p style={{ color: '#ffb673' }}>#{post.online}</p>
-                      </Hashtag>
-                      <Info>
-                        <div>
-                          <Comment>
-                            <CommentIcon />
-                            <p>{post.commentCnt}</p>
-                          </Comment>
-                          <Bookmark>
-                            <BookmarkIcon
-                              style={{ width: '10', height: '14' }}
-                            />
-                            <p>{post.bookmarkCnt}</p>
-                          </Bookmark>
-                        </div>
-                        <Date>시작예정일 {post.startAt}</Date>
-                      </Info>
-                      <Footer>
-                        <User>
-                          <img
-                            src={post.profileImg || person}
-                            alt="profileImg"
-                          />
-                          <p>{post.nickname}</p>
-                        </User>
-                        <div onClick={bookMark}>
-                          {isLogin &&
-                            userMe !== post.nickname &&
-                            (post.bookMarkStatus ? (
-                              <BookmarkFill
-                                onClick={() => bookMarkBtn(post.postId)}
-                              />
-                            ) : (
-                              <BookmarkIcon
-                                onClick={() => bookMarkBtn(post.postId)}
-                              />
-                            ))}
-                        </div>
-                      </Footer>
-                      {post.deadline === true && (
-                        <>
-                          <DeadlineWrap />
-                          <Deadline>모집마감</Deadline>
-                        </>
-                      )}
-                    </Article>
-                  </>
-                );
-              })}
-            </>
-          )}
-        </ArticleWrap>
-        {isFetchingNextPage ? <Loading /> : <div ref={ref}></div>}
-      </>
+      <ArticleWrap>
+        {list.map((post) => {
+          return (
+            <Article
+              key={post.postId}
+              onClick={() => {
+                navigate('/detail/' + post.postId);
+              }}
+            >
+              <Content>
+                <h1>{post.title}</h1>
+                <p>{post.content}</p>
+              </Content>
+              <Hashtag>
+                <ul>
+                  {post.stacks.map((lang, idx) => (
+                    <li key={idx}>#{lang}</li>
+                  ))}
+                </ul>
+                <p style={{ color: '#ffb673' }}>#{post.online}</p>
+              </Hashtag>
+              <Info>
+                <div>
+                  <Comment>
+                    <CommentIcon />
+                    <p>{post.commentCnt}</p>
+                  </Comment>
+                  <Bookmark>
+                    <BookmarkIcon style={{ width: '10', height: '14' }} />
+                    <p>{post.bookmarkCnt}</p>
+                  </Bookmark>
+                </div>
+                <Date>시작예정일 {post.startAt}</Date>
+              </Info>
+              <Footer>
+                <User>
+                  <img src={post.profileImg || person} alt="profileImg" />
+                  <p>{post.nickname}</p>
+                </User>
+                <div onClick={bookMark}>
+                  {isLogin &&
+                    userMe !== post.nickname &&
+                    (post.bookMarkStatus ? (
+                      <BookmarkFill onClick={() => bookMarkBtn(post.postId)} />
+                    ) : (
+                      <BookmarkIcon onClick={() => bookMarkBtn(post.postId)} />
+                    ))}
+                </div>
+              </Footer>
+              {post.deadline === true && (
+                <>
+                  <DeadlineWrap />
+                  <Deadline>모집마감</Deadline>
+                </>
+              )}
+            </Article>
+          );
+        })}
+      </ArticleWrap>
+      {isFetchingNextPage ? <Loading /> : <div ref={ref}></div>}
     </Wrap>
   );
 };
@@ -375,7 +259,6 @@ const ToggleBtn = styled.div`
   ${displyStyle}
   position: relative;
   height: 45px;
-  //padding:2px 0;
   border-radius: 30px;
   border: 2px solid #ffb673;
   cursor: pointer;

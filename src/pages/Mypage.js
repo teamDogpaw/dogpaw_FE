@@ -1,12 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Bookmark from '../components/Bookmark';
-import MyProject from '../components/MyProject';
-import JoinProject from '../components/JoinProject';
+import Bookmark from '../components/mypage/Bookmark';
+import MyProject from '../components/mypage/MyProject';
+import JoinProject from '../components/mypage/JoinProject';
 import { useNavigate } from 'react-router-dom';
 import {
   Btn,
-  GrayLineBtn,
-  LineBtn,
   MyStack,
   Option,
   PostBody,
@@ -22,15 +20,14 @@ import {
 import { useRecoilValue } from 'recoil';
 import { UserInfoAtom } from '../atom/atom';
 import profilepic from '../styles/icon/global/profile.svg';
-import ApplyProject from '../components/ApplyProject';
+import ApplyProject from '../components/mypage/ApplyProject';
 import pen from '../styles/icon/myPage/pen.svg';
-import StackSelector from '../components/StackSeletor';
+import StackSelector from '../components/stack/StackSeletor';
 import { withDraw } from '../shared/userOauth';
 import { SelectArrow } from '../components/WriteSelect';
-import AlertModal from '../components/AlertModal';
-import { Content } from '../components/ApplyBtn';
+import AlertModal from '../components/common/AlertModal';
 import { useQueryClient } from 'react-query';
-import { InputContent } from '../components/Login';
+import { InputContent } from '../components/sign/Login';
 
 const MyPage = () => {
   const userInfo = useRecoilValue(UserInfoAtom);

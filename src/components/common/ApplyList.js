@@ -1,10 +1,14 @@
 import styled from 'styled-components';
-import { GrayLineBtn, LineBtn, ListProfilePic, MyStack } from '../styles/style';
-import profilepic from '../styles/icon/global/profile.svg';
-import { useGetApplicantLists } from '../hook/useProjectData';
-import { useAcceptApply, useRejectApply } from '../hook/useProjectMutation';
-import { ReactComponent as Empty } from '../styles/icon/global/pawLoading.svg';
-import AlertModal from '../components/AlertModal';
+import {
+  GrayLineBtn,
+  LineBtn,
+  ListProfilePic,
+  MyStack,
+} from '../../styles/style';
+import profilepic from '../../styles/icon/global/profile.svg';
+import { useGetApplicantLists } from '../../hook/useProjectData';
+import { useAcceptApply, useRejectApply } from '../../hook/useProjectMutation';
+import { ReactComponent as Empty } from '../../styles/icon/global/pawLoading.svg';
 
 const ApplyList = ({ myPostId }) => {
   const { isLoading: isApplyListLoading, data: applyList } =

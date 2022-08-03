@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
-import { nickCheck } from '../shared/userOauth';
-import instance from '../shared/axios';
+
 import {
   InputContent,
   InputWrap,
@@ -9,11 +8,12 @@ import {
   LoginInput,
   Title,
   Wrap,
-} from './Login';
-import { Btn } from '../styles/style';
-import StackSelector from './StackSeletor';
+} from '../sign/Login';
+import { Btn } from '../../styles/style';
+import StackSelector from '../stack/StackSeletor';
 import axios from 'axios';
-import { userApis } from '../api/user';
+import { userApis } from '../../api/user';
+
 const baseURL = process.env.REACT_APP_BASE_URL;
 
 const SocialModal = () => {

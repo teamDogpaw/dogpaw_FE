@@ -1,21 +1,21 @@
-import { useRecoilValue } from "recoil";
-import { DarkThemeAtom } from "../atom/theme";
+import { useRecoilValue } from 'recoil';
+import { DarkThemeAtom } from '../atom/theme';
 
-import React, { useEffect, useRef, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import styled, { css } from "styled-components";
-import { useNavigate } from "react-router-dom";
-import { UserInfoAtom } from "../atom/atom";
-import ModalOpen from "./Modal_prev";
-import Sse from "./Sse";
+import React, { useEffect, useRef, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import styled, { css } from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { UserInfoAtom } from '../atom/atom';
+import ModalOpen from './common/Modal_prev';
+import Sse from './etc/Sse';
 
-import logolight from "../styles/logo/logoLight.svg";
-import logodark from "../styles/logo/logoDark.svg";
-import person from "../styles/icon/global/profile.svg";
-import arrowdown from "../styles/icon/global/arrowDown.svg";
-import { ReactComponent as Write } from "../styles/icon/detail/edit.svg";
-import { ReactComponent as GiftIcon } from "../styles/icon/header/gift.svg";
-import { ReactComponent as Arrow } from "../styles/icon/header/arrow.svg";
+import logolight from '../styles/logo/logoLight.svg';
+import logodark from '../styles/logo/logoDark.svg';
+import person from '../styles/icon/global/profile.svg';
+import arrowdown from '../styles/icon/global/arrowDown.svg';
+import { ReactComponent as Write } from '../styles/icon/detail/edit.svg';
+import { ReactComponent as GiftIcon } from '../styles/icon/header/gift.svg';
+import { ReactComponent as Arrow } from '../styles/icon/header/arrow.svg';
 
 const Header = () => {
   const detailsRef = useRef(null);
@@ -23,31 +23,30 @@ const Header = () => {
   const isDark = useRecoilValue(DarkThemeAtom);
   const userInfo = useRecoilValue(UserInfoAtom);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const isLogin = localStorage.getItem("token");
+  const isLogin = localStorage.getItem('token');
 
   let [searchParams, setSearchParams] = useSearchParams();
-  const isKakao = searchParams.get("nickname");
-  const kakaoNick = localStorage.getItem("socialNick");
+  const isKakao = searchParams.get('nickname');
+  const kakaoNick = localStorage.getItem('socialNick');
 
   useEffect(() => {
     if (isKakao) {
-      const token = searchParams.get("token");
-      const retoken = searchParams.get("refreshtoken");
-      const userId = searchParams.get("userId");
-      localStorage.setItem("id", userId);
-      localStorage.setItem("token", token);
-      localStorage.setItem("retoken", retoken);
-      localStorage.setItem("socialNick", isKakao);
-      window.location.replace("/");
+      const token = searchParams.get('token');
+      const retoken = searchParams.get('refreshtoken');
+      const userId = searchParams.get('userId');
+      localStorage.setItem('id', userId);
+      localStorage.setItem('token', token);
+      localStorage.setItem('retoken', retoken);
+      localStorage.setItem('socialNick', isKakao);
+      window.location.replace('/');
     }
 
-    if (kakaoNick === "default") {
+    if (kakaoNick === 'default') {
       setIsModalOpen(true);
     } else {
       setIsModalOpen(false);
     }
   }, []);
-
 
   const details = detailsRef.current;
 
@@ -60,14 +59,14 @@ const Header = () => {
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("retoken");
-    localStorage.removeItem("id");
-    localStorage.removeItem("socialNick");
-    window.location.replace("/");
+    localStorage.removeItem('token');
+    localStorage.removeItem('retoken');
+    localStorage.removeItem('id');
+    localStorage.removeItem('socialNick');
+    window.location.replace('/');
   };
 
-  if(userInfo !== undefined &&  userInfo.profileImg === undefined){
+  if (userInfo !== undefined && userInfo.profileImg === undefined) {
     return null;
   }
 
@@ -92,7 +91,7 @@ const Header = () => {
         <ContentWrap>
           <div
             onClick={() => {
-              navigate("/");
+              navigate('/');
             }}
           >
             {isDark ? (
@@ -116,14 +115,14 @@ const Header = () => {
                 <Details ref={detailsRef}>
                   <Summary>
                     <Profile src={userInfo?.profileImg || person} alt="" />
-                    <img src={arrowdown} alt="" style={{ width: "15px" }} />
+                    <img src={arrowdown} alt="" style={{ width: '15px' }} />
                   </Summary>
                   <Select>
                     <Option2>
-                      <p onClick={() => navigate("/write")}>게시글 작성</p>
+                      <p onClick={() => navigate('/write')}>게시글 작성</p>
                     </Option2>
                     <Option>
-                      <p onClick={() => navigate("/mypage")}>마이페이지</p>
+                      <p onClick={() => navigate('/mypage')}>마이페이지</p>
                     </Option>
                     <Option>
                       <p onClick={logout}>로그아웃</p>

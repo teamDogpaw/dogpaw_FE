@@ -1,27 +1,24 @@
-import { EmptyBody, EmptyImg } from "../components/ApplyList";
-import MyPagePostList from "../components/MyPagePostList";
+import { EmptyBody, EmptyImg } from '../components/common/ApplyList';
+import MyPagePostList from '../components/mypage/MyPagePostList';
 
-const OtherJoinProjects = ({currentTab, data}) =>{
-    console.log(data)
+const OtherJoinProjects = ({ currentTab, data }) => {
+  console.log(data);
 
-    if(data.length === 0){
-        return (
-            <EmptyBody>
-            <EmptyImg />
-            <span>아직 참여한 프로젝트가 없습니다.
-      </span> 
-          </EmptyBody>
-        )
-    }
-
+  if (data.length === 0) {
     return (
-        <>
-         {data.map((post)=> {
-            return(
-                <MyPagePostList data={post}/>
-            )
-        })}
-        </>
-    )
-}
+      <EmptyBody>
+        <EmptyImg />
+        <span>아직 참여한 프로젝트가 없습니다.</span>
+      </EmptyBody>
+    );
+  }
+
+  return (
+    <>
+      {data.map((post) => {
+        return <MyPagePostList data={post} />;
+      })}
+    </>
+  );
+};
 export default OtherJoinProjects;

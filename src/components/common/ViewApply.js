@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { Tab } from '../pages/Mypage';
+import { Tab } from '../../pages/Mypage';
 import {
   Modal,
   ModalBackground,
   ModalCloseButton,
   TabBody,
-} from '../styles/style';
+} from '../../styles/style';
 import ApplyList from './ApplyList';
-import ParticipantList from './ParticipantList';
-import { ReactComponent as X } from '../styles/icon/modal/close.svg';
+import ParticipantList from '../ParticipantList';
+import { ReactComponent as X } from '../../styles/icon/modal/close.svg';
 
 const ViewApply = ({
   viewApplyModal,
