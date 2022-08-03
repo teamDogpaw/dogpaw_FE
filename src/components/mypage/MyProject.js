@@ -28,7 +28,6 @@ const MyProject = ({ currentTab }) => {
 
   function viewApplyModal(postId) {
     setViewApply((prev) => !prev);
-    // setMyPostData(data);
     setMyPostId(postId);
   }
   const queryClient = useQueryClient();

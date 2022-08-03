@@ -16,14 +16,11 @@ const JoinProject = ({ currentTab }) => {
     title: '',
     deadline: false,
   });
+  const [myPostId, setMyPostId] = useState(0);
 
-  function viewApplyModal(data) {
+  function viewApplyModal(postId) {
     setViewApply((prev) => !prev);
-    setMyPostData(() => ({
-      postId: data.postId,
-      title: data.title,
-      deadline: data.deadline,
-    }));
+    setMyPostId(postId);
   }
 
   if (isLoadingPartiPost) {
@@ -40,15 +37,15 @@ const JoinProject = ({ currentTab }) => {
 
   return (
     <>
-      {viewApply ? (
-        <ViewApply
-          viewApplyModal={viewApplyModal}
-          myPostData={myPostData}
-          currentTab={currentTab}
-          setViewApply={setViewApply}
-        />
-      ) : null}
       <MypagePostBox>
+        {viewApply ? (
+          <ViewApply
+            viewApplyModal={viewApplyModal}
+            currentTab={currentTab}
+            setViewApply={setViewApply}
+            postId={myPostId}
+          />
+        ) : null}
         {myParticipatePost?.data.map((content) => {
           return (
             <MyPagePostList
