@@ -356,12 +356,13 @@ const Article = styled.li`
 `;
 
 export const Content = styled.div`
-  margin: 20px 0;
+  margin: 5px 0;
 
   h1 {
     margin-bottom: 20px;
     ${ellipsisText}
     -webkit-line-clamp: 2;
+    line-height: 150%;
   }
 
   p {
