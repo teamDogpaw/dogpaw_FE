@@ -72,18 +72,6 @@ const Header = () => {
 
   return (
     <>
-      <Gift>
-        <a
-          href="https://docs.google.com/forms/d/1LIU4LaYTaw1UWRPkThKzrF-jJ_1y3U_oj7OwVDOYjII/viewform?edit_requested=true"
-          target="_black"
-        >
-          <div>
-            <GiftIcon />
-            개발바닥에 대한 피드백 작성하시고 상품 받아가세요! ~7/30까지
-            <Arrow />
-          </div>
-        </a>
-      </Gift>
       {isModalOpen ? (
         <ModalOpen viewModal={viewModal} kakaoNick={kakaoNick} />
       ) : null}
@@ -146,41 +134,6 @@ const summaryStyle = css`
   box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.1);
 `;
 
-const Gift = styled.div`
-  cursor: pointer;
-  background-color: ${(props) => props.theme.keyColor};
-  width: 100%;
-  height: 60px;
-  position: fixed;
-  top: 0;
-  z-index: 40;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  a {
-    text-decoration: none;
-  }
-
-  div {
-    gap: 5px;
-    display: flex;
-    align-items: center;
-    font-weight: bold;
-    color: ${(props) => props.theme.textColor_btn};
-
-    svg {
-      fill: ${(props) => props.theme.textColor_btn};
-    }
-
-    @media screen and (max-width: 786px) {
-      width: 360px;
-      justify-content: space-between;
-      text-align: center;
-    }
-  }
-`;
-
 const Wrap = styled.header`
   background-color: ${(props) => props.theme.backgroundColor};
   box-shadow: ${(props) => props.theme.boxShadow};
@@ -192,7 +145,7 @@ const Wrap = styled.header`
   align-items: center;
   position: fixed;
   z-index: 30;
-  margin-top: 60px;
+  //margin-top: 60px;
 
   p {
     font-size: 1rem;

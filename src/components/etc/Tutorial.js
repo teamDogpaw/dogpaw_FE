@@ -88,14 +88,14 @@ const Content = styled.div`
 
 const Info = styled.div`
   position: absolute;
-  top: 40px;
-  right: 110px;
+  top: 30px;
+  right: 300px;
 `;
 
 const IsLogin = styled.div`
   position: absolute;
-  top: 75px;
-  right: 100px;
+  top: 15px;
+  right: 90px;
   border: 3px dotted #fff6c6;
   border-radius: 8px;
   padding: 10px;
@@ -126,7 +126,7 @@ const Alert = styled.div`
 const ArrowPost = styled.div`
   position: absolute;
   right: 220px;
-  top: 100px;
+  top: 30px;
 
   p {
     position: absolute;
@@ -138,7 +138,7 @@ const ArrowPost = styled.div`
 const ArrowAlert = styled.div`
   position: absolute;
   right: -10px;
-  top: 120px;
+  top: 55px;
 `;
 
 const ArrowDeadline = styled.div`
