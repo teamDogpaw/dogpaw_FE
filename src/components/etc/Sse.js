@@ -48,7 +48,7 @@ const Sse = () => {
 
       sse.addEventListener('error', (e) => {
         if (e) {
-          sse.close();
+          console.log(e);
         }
       });
     }
@@ -193,7 +193,7 @@ const AlertContent = styled.div`
 const ListWrap = styled.div`
   display: flex;
   align-items: center;
-  padding-top: 10px;
+  padding-top: 8px;
 
   span {
     padding-left: 8px;
@@ -203,6 +203,8 @@ const ListWrap = styled.div`
 
 const List = styled.li`
   cursor: pointer;
+  padding-top: 10px;
+  //position:relative;
   color: ${(props) => props.theme.textColor};
   overflow: hidden;
   white-space: nowrap;

@@ -16,16 +16,19 @@ import { useState } from 'react';
 import WithdrawModal from './common/WithdrawalModal';
 import EmptyPage from './emptyPage';
 import { useQueryClient } from 'react-query';
+import AlertModal from './common/AlertModal';
 
 const ParticipantList = ({ myPostId, currentTab, setViewApply }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [itemState, setItemState] = useState(null);
-  console.log(myPostId);
+  const [withdrawMe, setWithdrawMe] = useState(false);
+
   const { isLoading: isParticipantListLoading, data: participantList } =
     useGetParticipantsLists(myPostId);
   const { mutate: ExplusionMate } = useExplusionMateMutation();
   const { mutateAsync: WithdrawPartici } = useWithdrawPartici();
   const queryClient = useQueryClient();
+
   const explusionMate = (data) => {
     ExplusionMate(data);
     setModalOpen(false);
@@ -33,12 +36,8 @@ const ParticipantList = ({ myPostId, currentTab, setViewApply }) => {
   };
 
   const withDrawParticipate = () => {
-    if (window.confirm('정말 탈퇴하시겠어요?')) {
-      WithdrawPartici(myPostId);
-      setViewApply(false);
-    } else {
-      return;
-    }
+    WithdrawPartici(myPostId);
+    setViewApply(false);
   };
 
   if (isParticipantListLoading) {
@@ -57,6 +56,13 @@ const ParticipantList = ({ myPostId, currentTab, setViewApply }) => {
   };
   const closeModal = () => {
     setModalOpen(false);
+  };
+
+  const openModalWithdrawMe = () => {
+    setWithdrawMe(true);
+  };
+  const closeModalWithdrawMe = () => {
+    setWithdrawMe(false);
   };
 
   return (
@@ -106,9 +112,17 @@ const ParticipantList = ({ myPostId, currentTab, setViewApply }) => {
           myPostId={myPostId}
         />
       )}
+
       {currentTab === 2 ? (
-        <LeaveTeam onClick={withDrawParticipate}>탈퇴하기</LeaveTeam>
+        <LeaveTeam onClick={openModalWithdrawMe}>탈퇴하기</LeaveTeam>
       ) : null}
+      <AlertModal
+        open={withdrawMe}
+        setAlertModalOpen={closeModalWithdrawMe}
+        message={'팀에서 탈퇴 하시겠습니까?'}
+        action={withDrawParticipate}
+        actionMessage={'탈퇴하기'}
+      />
     </>
   );
 };
