@@ -56,7 +56,7 @@ body {
     font-size: 14px;
   }
 
-  margin-top: 160px;
+  margin-top: 130px;
 }
 menu, ol, ul {
   list-style: none;

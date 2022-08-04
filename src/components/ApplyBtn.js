@@ -29,7 +29,6 @@ const ApplyBtn = ({ myPostData }) => {
     }
     if (userStatus === 'MEMBER') {
       await apply(id);
-      console.log('dhodkseho');
     }
   };
 
