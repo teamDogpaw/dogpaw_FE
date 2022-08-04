@@ -55,7 +55,7 @@ const StackSelector = ({
 
   return (
     <div>
-      <details ref={stackdetailsRef} style={{ position: 'relative' }}>
+      <details ref={stackdetailsRef}>
         <SelectBox
           className={isRegister ? 'Login' : isMypage !== null ? 'mypage' : null}
         >

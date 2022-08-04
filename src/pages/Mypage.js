@@ -236,12 +236,7 @@ const MyPage = () => {
                     기본 이미지로
                   </LineBtn>
                   <File>
-                    <label htmlFor="profile">
-                      {/* <div>
-                      <img src={pen} alt="" />
-                    </div> */}
-                      이미지 선택하기
-                    </label>
+                    <label htmlFor="profile">이미지 선택하기</label>
                     <input
                       id="profile"
                       type="file"
@@ -383,21 +378,10 @@ export const WholeBody = styled.div`
   position: relative;
 `;
 
-const ProfileForm = styled.div`
-  width: 600px;
-  height: 180px;
-  overflow-y: scroll;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  ::-webkit-scrollbar {
-    display: none;
-  }
-`;
-
 const MyOption = styled(Option)`
   padding-top: 10px;
   padding-bottom: 10px;
-
+  position: absolute;
   &.focused {
     display: none;
   }
@@ -482,26 +466,6 @@ export const Profilepic = styled.div`
   }
 `;
 const File = styled(Btn)`
-  /* div {
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
-    box-shadow: ${(props) => props.theme.boxShadow};
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: ${(props) => props.theme.keyColor};
-
-    @media screen and (max-width: 650px) {
-      bottom: -10px;
-      left: 45px;
-      width: 35px;
-      height: 35px;
-    }
-  } */
   padding: 8px 10px;
   label {
     font-size: 0.75rem;
@@ -551,10 +515,6 @@ export const ModalContent = styled.div`
   position: relative;
 `;
 
-const ModalBtn = styled(Btn)`
-  position: absolute;
-  bottom: 10px;
-`;
 const ProfilePicWrap = styled.div`
   gap: 18px;
   align-items: center;
@@ -642,21 +602,6 @@ const EditBtn = styled(Btn)`
     position: relative;
     width: 100%;
   }
-`;
-
-const Button = styled(Btn)`
-  background-color: ${(props) => props.theme.keyColor};
-  width: 200px;
-  margin-left: auto;
-
-  @media screen and (max-width: 700px) {
-    position: relative;
-    width: 100%;
-  }
-`;
-
-const Button2 = styled(Btn)`
-  margin-bottom: 30px;
 `;
 
 const ExitBtn = styled.div`
