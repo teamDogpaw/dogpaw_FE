@@ -1,6 +1,7 @@
 # 사이드 프로젝트 팀원 만나기, 개발바닥
 [🐾 개발바닥 바로가기 ➜](https://dogpaw.kr)
-![](https://velog.velcdn.com/images/sparrowscout/post/6181def0-211e-4079-a4cf-290f8317c133/image.png)
+![](https://velog.velcdn.com/images/sparrowscout/post/3613a838-ab67-47aa-8207-3e7d2433e224/image.png)
+
 
 개발바닥은 프로젝트 팀원을 모집하는 개발자 커뮤니티 사이트입니다.
 멋진 기획을 가지고 계시다면 개발바닥에서 열정 넘치는 팀원을,
