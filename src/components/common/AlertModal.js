@@ -15,7 +15,7 @@ const AlertModal = ({
         <Section>
           <Content>
             {message}
-            <div style={{ marginTop: '10px', display: 'flex', gap: '10px' }}>
+            <ActionBtn>
               {!actionMessage ? (
                 <ModalBtn onClick={setAlertModalOpen}>확인</ModalBtn>
               ) : (
@@ -24,7 +24,7 @@ const AlertModal = ({
                   <ModalBtn onClick={action}>{actionMessage}</ModalBtn>
                 </>
               )}
-            </div>
+            </ActionBtn>
           </Content>
         </Section>
       )}
@@ -81,5 +81,11 @@ export const Section = styled.section`
   background-color: ${(props) => props.theme.backgroundColor};
   animation: ${ModalShow} 0.3s;
   overflow: hidden;
+`;
+
+const ActionBtn = styled.div`
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
 `;
 export default AlertModal;
