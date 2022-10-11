@@ -389,10 +389,10 @@ const Article = styled.div`
     white-space: pre-wrap;
   }
 
-  -webkit-user-select: all;
-  -moz-user-select: all;
-  -ms-user-select: all;
-  user-select: all;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 `;
 
 const Paw = styled.div`
