@@ -59,99 +59,102 @@ const Detail = () => {
   return (
     <>
       <Wrap>
-        <ArticleTop>
-          <LinkBtn>
-            <ArrowBtn
-              onClick={() => {
-                navigate(-1);
-              }}
-            />
-            <div>
-              {isLogin &&
-                userStatus !== 'author' &&
-                (postList?.data.bookMarkStatus ? (
-                  <BookmarkFill onClick={bookMark} />
-                ) : (
-                  <BookmarkIcon onClick={bookMark} />
-                ))}
-            </div>
-          </LinkBtn>
-          <User>
-            <h3>{postList?.data.title}</h3>
-            <div
-              onClick={() => {
-                userStatus === 'author'
-                  ? navigate(`/mypage`)
-                  : navigate(`/mypage/${author}`);
-              }}
-            >
-              <img src={postList?.data.profileImg || person} alt="profile" />
-              <p>{author}</p>
-            </div>
-          </User>
-
-          <Userbtn>
-            {(userStatus === 'author' || userStatus === 'master') && (
-              <>
-                <ModifyBtn
-                  onClick={() =>
-                    navigate(`/write/${id}`, { state: postList.data })
-                  }
-                >
-                  <Edit />
-                  <span>게시글 수정</span>
-                </ModifyBtn>
-                <DeleteBtn onClick={openModal}>
-                  <Remove />
-                  <span>게시글 삭제</span>
-                </DeleteBtn>
-              </>
-            )}
-          </Userbtn>
-          <hr />
-          <ContentWrap>
-            <div>
-              <Title>
-                <p>진행방식</p>
-                <span> {postList?.data.onLine}</span>
-              </Title>
-              <Title>
-                <p>구인스택</p>
-
-                <Stack>
-                  {postList?.data.stacks?.map((lang, idx) => (
-                    <span key={idx}>#{lang}</span>
+        <Draggable>
+          <ArticleTop>
+            <LinkBtn>
+              <ArrowBtn
+                onClick={() => {
+                  navigate(-1);
+                }}
+              />
+              <div>
+                {isLogin &&
+                  userStatus !== 'author' &&
+                  (postList?.data.bookMarkStatus ? (
+                    <BookmarkFill onClick={bookMark} />
+                  ) : (
+                    <BookmarkIcon onClick={bookMark} />
                   ))}
-                </Stack>
-              </Title>
-              <Title>
-                <p>예상 진행 기간</p>
-                <span>{postList?.data.period}</span>
-              </Title>
-              <Title>
-                <p>시작 예정일</p>
-                <span> {postList?.data.startAt}</span>
-              </Title>
-              <Title>
-                <p>모집 인원</p>
-                <span>
-                  {postList?.data.currentMember} / {postList?.data.maxCapacity}
-                  명
-                </span>
-              </Title>
+              </div>
+            </LinkBtn>
+
+            <User>
+              <h3>{postList?.data.title}</h3>
+              <div
+                onClick={() => {
+                  userStatus === 'author'
+                    ? navigate(`/mypage`)
+                    : navigate(`/mypage/${author}`);
+                }}
+              >
+                <img src={postList?.data.profileImg || person} alt="profile" />
+                <p>{author}</p>
+              </div>
+            </User>
+
+            <Userbtn>
+              {(userStatus === 'author' || userStatus === 'master') && (
+                <>
+                  <ModifyBtn
+                    onClick={() =>
+                      navigate(`/write/${id}`, { state: postList.data })
+                    }
+                  >
+                    <Edit />
+                    <span>게시글 수정</span>
+                  </ModifyBtn>
+                  <DeleteBtn onClick={openModal}>
+                    <Remove />
+                    <span>게시글 삭제</span>
+                  </DeleteBtn>
+                </>
+              )}
+            </Userbtn>
+            <hr />
+            <ContentWrap>
+              <div>
+                <Title>
+                  <p>진행방식</p>
+                  <span> {postList?.data.onLine}</span>
+                </Title>
+                <Title>
+                  <p>구인스택</p>
+
+                  <Stack>
+                    {postList?.data.stacks?.map((lang, idx) => (
+                      <span key={idx}>#{lang}</span>
+                    ))}
+                  </Stack>
+                </Title>
+                <Title>
+                  <p>예상 진행 기간</p>
+                  <span>{postList?.data.period}</span>
+                </Title>
+                <Title>
+                  <p>시작 예정일</p>
+                  <span> {postList?.data.startAt}</span>
+                </Title>
+                <Title>
+                  <p>모집 인원</p>
+                  <span>
+                    {postList?.data.currentMember} /{' '}
+                    {postList?.data.maxCapacity}명
+                  </span>
+                </Title>
+              </div>
+              <ApplyBtn myPostData={postList?.data} />
+            </ContentWrap>
+          </ArticleTop>
+          <Article>
+            <div>
+              <h3>프로젝트 소개</h3>
             </div>
-            <ApplyBtn myPostData={postList?.data} />
-          </ContentWrap>
-        </ArticleTop>
-        <Article>
-          <div>
-            <h3>프로젝트 소개</h3>
-          </div>
-          <pre>{postList?.data.content}</pre>
-          <Paw>
-            <img src={paw} alt="" />
-          </Paw>
-        </Article>
+            <pre>{postList?.data.content}</pre>
+            <Paw>
+              <img src={paw} alt="" />
+            </Paw>
+          </Article>
+        </Draggable>
         <Comments />
 
         <AlertModal
@@ -165,6 +168,13 @@ const Detail = () => {
     </>
   );
 };
+
+const Draggable = styled.div`
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+`;
 
 const Wrap = styled.div`
   max-width: 996px;
@@ -388,11 +398,6 @@ const Article = styled.div`
   pre {
     white-space: pre-wrap;
   }
-
-  -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-  user-select: text;
 `;
 
 const Paw = styled.div`
