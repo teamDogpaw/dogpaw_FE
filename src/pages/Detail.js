@@ -76,9 +76,8 @@ const Detail = () => {
                 ))}
             </div>
           </LinkBtn>
-
-          <User>
-            <Draggable>
+          <Draggable>
+            <User>
               <h3>{postList?.data.title}</h3>
               <div
                 onClick={() => {
@@ -90,9 +89,8 @@ const Detail = () => {
                 <img src={postList?.data.profileImg || person} alt="profile" />
                 <p>{author}</p>
               </div>
-            </Draggable>
-          </User>
-
+            </User>
+          </Draggable>
           <Userbtn>
             {(userStatus === 'author' || userStatus === 'master') && (
               <>
