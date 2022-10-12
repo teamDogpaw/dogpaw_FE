@@ -59,26 +59,26 @@ const Detail = () => {
   return (
     <>
       <Wrap>
-        <Draggable>
-          <ArticleTop>
-            <LinkBtn>
-              <ArrowBtn
-                onClick={() => {
-                  navigate(-1);
-                }}
-              />
-              <div>
-                {isLogin &&
-                  userStatus !== 'author' &&
-                  (postList?.data.bookMarkStatus ? (
-                    <BookmarkFill onClick={bookMark} />
-                  ) : (
-                    <BookmarkIcon onClick={bookMark} />
-                  ))}
-              </div>
-            </LinkBtn>
+        <ArticleTop>
+          <LinkBtn>
+            <ArrowBtn
+              onClick={() => {
+                navigate(-1);
+              }}
+            />
+            <div>
+              {isLogin &&
+                userStatus !== 'author' &&
+                (postList?.data.bookMarkStatus ? (
+                  <BookmarkFill onClick={bookMark} />
+                ) : (
+                  <BookmarkIcon onClick={bookMark} />
+                ))}
+            </div>
+          </LinkBtn>
 
-            <User>
+          <User>
+            <Draggable>
               <h3>{postList?.data.title}</h3>
               <div
                 onClick={() => {
@@ -90,71 +90,75 @@ const Detail = () => {
                 <img src={postList?.data.profileImg || person} alt="profile" />
                 <p>{author}</p>
               </div>
-            </User>
+            </Draggable>
+          </User>
 
-            <Userbtn>
-              {(userStatus === 'author' || userStatus === 'master') && (
-                <>
-                  <ModifyBtn
-                    onClick={() =>
-                      navigate(`/write/${id}`, { state: postList.data })
-                    }
-                  >
-                    <Edit />
-                    <span>게시글 수정</span>
-                  </ModifyBtn>
-                  <DeleteBtn onClick={openModal}>
-                    <Remove />
-                    <span>게시글 삭제</span>
-                  </DeleteBtn>
-                </>
-              )}
-            </Userbtn>
-            <hr />
-            <ContentWrap>
-              <div>
-                <Title>
-                  <p>진행방식</p>
-                  <span> {postList?.data.onLine}</span>
-                </Title>
-                <Title>
-                  <p>구인스택</p>
-
-                  <Stack>
-                    {postList?.data.stacks?.map((lang, idx) => (
-                      <span key={idx}>#{lang}</span>
-                    ))}
-                  </Stack>
-                </Title>
-                <Title>
-                  <p>예상 진행 기간</p>
-                  <span>{postList?.data.period}</span>
-                </Title>
-                <Title>
-                  <p>시작 예정일</p>
-                  <span> {postList?.data.startAt}</span>
-                </Title>
-                <Title>
-                  <p>모집 인원</p>
-                  <span>
-                    {postList?.data.currentMember} /{' '}
-                    {postList?.data.maxCapacity}명
-                  </span>
-                </Title>
-              </div>
-              <ApplyBtn myPostData={postList?.data} />
-            </ContentWrap>
-          </ArticleTop>
-          <Article>
+          <Userbtn>
+            {(userStatus === 'author' || userStatus === 'master') && (
+              <>
+                <ModifyBtn
+                  onClick={() =>
+                    navigate(`/write/${id}`, { state: postList.data })
+                  }
+                >
+                  <Edit />
+                  <span>게시글 수정</span>
+                </ModifyBtn>
+                <DeleteBtn onClick={openModal}>
+                  <Remove />
+                  <span>게시글 삭제</span>
+                </DeleteBtn>
+              </>
+            )}
+          </Userbtn>
+          <hr />
+          <ContentWrap>
             <div>
-              <h3>프로젝트 소개</h3>
+              <Title>
+                <p>진행방식</p>
+                <span> {postList?.data.onLine}</span>
+              </Title>
+              <Title>
+                <p>구인스택</p>
+
+                <Stack>
+                  {postList?.data.stacks?.map((lang, idx) => (
+                    <span key={idx}>#{lang}</span>
+                  ))}
+                </Stack>
+              </Title>
+              <Title>
+                <p>예상 진행 기간</p>
+                <span>{postList?.data.period}</span>
+              </Title>
+              <Title>
+                <p>시작 예정일</p>
+                <span> {postList?.data.startAt}</span>
+              </Title>
+              <Title>
+                <p>모집 인원</p>
+                <span>
+                  {postList?.data.currentMember} / {postList?.data.maxCapacity}
+                  명
+                </span>
+              </Title>
             </div>
+            <ApplyBtn myPostData={postList?.data} />
+          </ContentWrap>
+        </ArticleTop>
+        <Article>
+          <div>
+            <h3>프로젝트 소개</h3>
+          </div>
+          <Draggable>
             <pre>{postList?.data.content}</pre>
-            <Paw>
-              <img src={paw} alt="" />
-            </Paw>
-          </Article>
-        </Draggable>
+          </Draggable>
+
+          <Paw>
+            <img src={paw} alt="" />
+          </Paw>
+        </Article>
+
         <Comments />
 
         <AlertModal
