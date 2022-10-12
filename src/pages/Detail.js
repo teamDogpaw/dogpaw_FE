@@ -76,7 +76,6 @@ const Detail = () => {
                 ))}
             </div>
           </LinkBtn>
-          <Draggable>
             <User>
               <h3>{postList?.data.title}</h3>
               <div
@@ -90,7 +89,6 @@ const Detail = () => {
                 <p>{author}</p>
               </div>
             </User>
-          </Draggable>
           <Userbtn>
             {(userStatus === 'author' || userStatus === 'master') && (
               <>
